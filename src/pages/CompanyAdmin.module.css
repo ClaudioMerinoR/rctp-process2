@@ -1,0 +1,366 @@
+/* ── Page header card ── */
+.pageHeaderCard {
+  background: var(--neutral-00);
+  border: 1px solid var(--neutral-50);
+  height: 64px;
+  display: flex;
+  align-items: center;
+  padding: 0 16px;
+  gap: 6px;
+}
+
+.pageHeaderTitle {
+  font-size: 20px;
+  font-weight: 500;
+  color: var(--text-normal);
+}
+
+.pageHeaderInfo {
+  font-size: 18px;
+  color: var(--neutral-500);
+  display: flex;
+  align-items: center;
+}
+
+/* ── Gaps ── */
+.sectionGap {
+  height: 8px;
+}
+
+.sectionGapInner {
+  height: 24px;
+}
+
+/* ── Two-column layout ── */
+.adminLayout {
+  display: flex;
+  align-items: flex-start;
+  gap: 16px;
+}
+
+/* ── Left sidebar nav ── */
+.adminNav {
+  width: 256px;
+  flex-shrink: 0;
+  background: var(--neutral-00);
+  border: 1px solid #dee1e0;
+  display: flex;
+  flex-direction: column;
+}
+
+.adminNavItem {
+  display: flex;
+  align-items: center;
+  height: 40px;
+  padding: 0 16px;
+  font-size: 16px;
+  color: var(--neutral-500);
+  background: none;
+  border: none;
+  border-bottom: 1px solid #dee1e0;
+  text-align: left;
+  cursor: pointer;
+  font-family: inherit;
+  transition: background 0.15s, color 0.15s;
+}
+
+.adminNavItem:last-child {
+  border-bottom: none;
+}
+
+.adminNavItem:hover:not(.adminNavItemActive) {
+  background: var(--neutral-25);
+  color: var(--text-normal);
+}
+
+.adminNavItemActive {
+  background: var(--primary-500);
+  color: var(--neutral-00);
+}
+
+/* ── Right content card ── */
+.adminContent {
+  flex: 1;
+  min-width: 0;
+  background: var(--neutral-00);
+  border: 1px solid rgba(0, 0, 0, 0.13);
+  border-top: 4px solid var(--primary-500);
+  box-shadow: 0 2px 4px rgba(0, 0, 0, 0.08);
+}
+
+/* ── Buttons ── */
+.btn {
+  display: inline-flex;
+  align-items: center;
+  gap: 4px;
+  height: 37px;
+  padding: 0 16px;
+  font-size: 12px;
+  font-weight: 500;
+  text-transform: uppercase;
+  letter-spacing: 0.5px;
+  border-radius: 4px;
+  cursor: pointer;
+  border: none;
+  font-family: inherit;
+  white-space: nowrap;
+  transition: background 0.15s, border-color 0.15s, color 0.15s;
+}
+
+.btnOutline {
+  background: var(--neutral-00);
+  border: 1px solid var(--neutral-500);
+  color: var(--neutral-500);
+}
+
+.btnOutline:hover {
+  border-color: var(--primary-500);
+  color: var(--primary-500);
+}
+
+.btnFilled {
+  background: var(--primary-500);
+  color: #fff;
+}
+
+.btnFilled:hover {
+  background: var(--primary-600);
+}
+
+/* ── Content header ── */
+.contentHeader {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  padding: 20px 20px 16px;
+}
+
+.contentTitle {
+  font-size: 20px;
+  font-weight: 500;
+  color: var(--text-normal);
+}
+
+.contentActions {
+  display: flex;
+  gap: 8px;
+}
+
+/* ── Divider ── */
+.contentDivider {
+  height: 1px;
+  background: var(--neutral-50);
+}
+
+/* ── Section ── */
+.contentSection {
+  padding: 20px 20px 0;
+}
+
+.contentSectionBottom {
+  padding-bottom: 28px;
+}
+
+.sectionHeading {
+  font-size: 16px;
+  font-weight: 500;
+  letter-spacing: 0.5px;
+  color: var(--text-normal);
+  margin-bottom: 4px;
+}
+
+.sectionDesc {
+  font-size: 14px;
+  color: var(--text-light-alt);
+  margin-bottom: 16px;
+}
+
+/* ── Slot grid ── */
+.slotGrid {
+  display: grid;
+  grid-template-columns: repeat(4, 1fr);
+  gap: 16px;
+}
+
+/* ── Slot cell ── */
+.slotCell {
+  position: relative;
+}
+
+/* ── Option label (edit mode only) ── */
+.slotOptionLabel {
+  font-size: 12px;
+  font-weight: 500;
+  color: var(--primary-500);
+  text-transform: uppercase;
+  letter-spacing: 0.5px;
+  line-height: 16px;
+  margin-bottom: 4px;
+  white-space: nowrap;
+}
+
+.slotOptionLabelReadonly {
+  color: var(--neutral-400);
+}
+
+/* ── Helper text for readonly slots (edit mode only) ── */
+.slotHelperText {
+  font-size: 11px;
+  color: var(--neutral-500);
+  font-style: italic;
+  line-height: 14px;
+  margin-top: 4px;
+}
+
+/* ── Input wrap ── */
+.inputWrap {
+  position: relative;
+}
+
+/* ── Combo input ── */
+.comboInput {
+  display: block;
+  width: 100%;
+  height: 32px;
+  padding: 0 9px;
+  border: 1px solid var(--neutral-200);
+  border-radius: 2px;
+  background: var(--neutral-25);
+  font-family: 'Roboto', sans-serif;
+  font-size: 14px;
+  color: var(--text-normal);
+  cursor: default;
+  outline: none;
+  -webkit-appearance: none;
+  appearance: none;
+  white-space: nowrap;
+  overflow: hidden;
+  text-overflow: ellipsis;
+}
+
+.comboInput::placeholder {
+  color: var(--neutral-400);
+  font-style: italic;
+}
+
+.comboInputEditing {
+  background: var(--neutral-00);
+  cursor: text;
+  padding-right: 28px;
+}
+
+.comboInputEditing:hover {
+  border-color: var(--primary-500);
+}
+
+.comboInputEditing:focus {
+  border-color: var(--primary-500);
+}
+
+/* ── Readonly slot in edit mode — keep greyed out ── */
+.slotReadonly .comboInput {
+  background: var(--neutral-25);
+  cursor: default;
+}
+
+/* ── Caret icon ── */
+.inputCaret {
+  position: absolute;
+  right: 5px;
+  top: 5px;
+  font-size: 22px;
+  color: var(--neutral-500);
+  cursor: pointer;
+  user-select: none;
+}
+
+/* ── Dropdown panel ── */
+.dropdownPanel {
+  position: absolute;
+  top: calc(100% + 2px);
+  left: 0;
+  min-width: 100%;
+  max-height: 220px;
+  overflow-y: auto;
+  background: var(--primary-08);
+  border-radius: 4px;
+  box-shadow: 0px 1px 2px rgba(0, 0, 0, 0.30), 0px 2px 6px rgba(0, 0, 0, 0.15);
+  z-index: 1000;
+  padding: 4px 0;
+}
+
+.dropdownPanel::-webkit-scrollbar {
+  width: 4px;
+}
+
+.dropdownPanel::-webkit-scrollbar-thumb {
+  background: rgba(0, 0, 0, 0.2);
+  border-radius: 100px;
+}
+
+/* ── Dropdown item ── */
+.dropdownItem {
+  background: var(--neutral-00);
+  padding: 8px 12px;
+  font-family: 'Roboto', sans-serif;
+  font-size: 13px;
+  font-weight: 400;
+  color: var(--text-normal);
+  letter-spacing: 0.4px;
+  line-height: 16px;
+  cursor: pointer;
+  white-space: nowrap;
+  overflow: hidden;
+  text-overflow: ellipsis;
+}
+
+.dropdownItem:hover {
+  background: #f0fbfe;
+}
+
+.dropdownItemSelected {
+  background: var(--neutral-25);
+  color: var(--text-light);
+}
+
+.dropdownItemEmpty {
+  color: var(--neutral-400);
+  font-style: italic;
+}
+
+.dropdownNoResults {
+  padding: 8px 12px;
+  font-size: 13px;
+  color: var(--neutral-400);
+  font-style: italic;
+  background: var(--neutral-00);
+}
+
+/* ── Alert toast ── */
+.pageAlert {
+  position: fixed;
+  top: 72px;
+  left: 0;
+  right: 0;
+  height: 40px;
+  display: flex;
+  align-items: center;
+  padding: 0 29px;
+  gap: 8px;
+  z-index: 500;
+}
+
+.pageAlertSuccess {
+  background: #5fe9a9;
+}
+
+.pageAlertIcon {
+  font-size: 20px;
+  color: var(--success-900);
+}
+
+.pageAlertText {
+  font-size: 14px;
+  font-weight: 500;
+  color: var(--success-900);
+}

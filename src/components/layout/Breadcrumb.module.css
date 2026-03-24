@@ -1,0 +1,13 @@
+.row {
+  display: flex;
+  align-items: center;
+  gap: 6px;
+  padding: 8px 0;
+  font-size: 13px;
+  text-transform: uppercase;
+  letter-spacing: 0.5px;
+}
+.homeLink, .link { color: var(--primary-500); display: flex; align-items: center; }
+.homeLink:hover, .link:hover { text-decoration: underline; }
+.sep { color: var(--text-light); font-size: 14px; text-transform: none; letter-spacing: 0; }
+.current { color: var(--text-light); }

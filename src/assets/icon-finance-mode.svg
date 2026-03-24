@@ -1,0 +1,10 @@
+<svg preserveAspectRatio="none" width="100%" height="100%" overflow="visible" style="display: block;" viewBox="0 0 13.3333 13.3333" fill="none" xmlns="http://www.w3.org/2000/svg">
+<g id="finance_mode">
+<mask id="mask0_5818_22830" style="mask-type:alpha" maskUnits="userSpaceOnUse" x="0" y="0" width="14" height="14">
+<rect id="Bounding box" width="13.3333" height="13.3333" fill="var(--fill-0, #D9D9D9)"/>
+</mask>
+<g mask="url(#mask0_5818_22830)">
+<path id="finance_mode_2" d="M4.4444 7.58331V3.33331H6.11107V7.58331L5.27774 6.80553L4.4444 7.58331ZM7.22218 8.41664V1.11108H8.88885V6.74997L7.22218 8.41664ZM1.66663 10.3333V5.55553H3.33329V8.66664L1.66663 10.3333ZM1.66663 11.6944L5.24996 8.11109L7.22218 9.80553L10.3333 6.69442H9.4444V5.58331H12.2222V8.36108H11.1111V7.4722L7.27774 11.3055L5.30551 9.61109L3.22218 11.6944H1.66663Z" fill="var(--fill-0, #1C1B1F)"/>
+</g>
+</g>
+</svg>

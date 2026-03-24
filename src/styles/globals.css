@@ -1,0 +1,48 @@
+@import url('https://fonts.googleapis.com/css2?family=Roboto:wght@400;500;600;700&display=swap');
+@import url('https://fonts.googleapis.com/icon?family=Material+Icons+Outlined');
+
+:root {
+  --primary-500: #02A3D5;
+  --primary-600: #0289B3;
+  --primary-700: #016F91;
+  --primary-08: #E8F9FE;
+  --primary-200: #7BCFE9;
+  --text-normal: #0C2A31;
+  --text-light: #516267;
+  --text-light-alt: #5A6E73;
+  --text-dark: #061619;
+  --neutral-00: #FFFFFF;
+  --neutral-25: #EFEFEF;
+  --neutral-50: #DFE3E7;
+  --neutral-100: #D6DBE0;
+  --neutral-200: #C4CCD2;
+  --neutral-300: #B1BCC5;
+  --neutral-400: #9DAAB3;
+  --neutral-500: #8D9CA9;
+  --neutral-900: #33383D;
+  --alert-500: #E34C53;
+  --alert-700: #9A3438;
+  --alert-50: #F7CDCF;
+  --success-500: #13DF81;
+  --success-700: #0D9858;
+  --success-900: #07502E;
+  --success-50: #BDF6DC;
+  --warning-500: #F0C043;
+  --warning-900: #564518;
+  --warning-50: #FBEDCA;
+}
+
+* { margin: 0; padding: 0; box-sizing: border-box; }
+html { overflow-y: scroll; }
+
+body {
+  font-family: 'Roboto', sans-serif;
+  background-color: var(--neutral-25);
+  color: var(--text-normal);
+  font-size: 14px;
+  -webkit-font-smoothing: antialiased;
+}
+
+a { text-decoration: none; }
+button { font-family: inherit; cursor: pointer; }
+input, select, textarea { font-family: inherit; }

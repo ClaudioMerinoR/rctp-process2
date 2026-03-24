@@ -1,0 +1,15 @@
+.badge {
+  display: inline-flex;
+  align-items: center;
+  gap: 4px;
+  padding: 3px 8px;
+  border-radius: 12px;
+  font-size: 11px;
+  font-weight: 600;
+  text-transform: uppercase;
+  letter-spacing: 0.4px;
+  white-space: nowrap;
+}
+.high   { background: var(--alert-50);   color: var(--alert-700); }
+.medium { background: var(--warning-50); color: var(--warning-900); }
+.low    { background: var(--success-50); color: var(--success-900); }
