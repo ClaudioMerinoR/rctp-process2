@@ -4,7 +4,7 @@ import PageLayout from '../components/layout/PageLayout';
 import Breadcrumb from '../components/layout/Breadcrumb';
 import integrityLogo from '../assets/integrity-check-logo.png';
 import iconInactiveOrder from '../assets/icon-inactive-order.svg';
-import styles from './TpProfile.module.css';
+import styles from './BruceWayneProfile.module.css';
 
 // ── Data ────────────────────────────────────────────────────────────────────
 
@@ -24,7 +24,7 @@ const OPEN_TASKS = [
 
 const SCREENING_ROWS = [
   {
-    name: 'Pied Piper Inc',
+    name: 'Bruce Wayne Batman',
     matches: [
       { bg: 'var(--success-500)', color: 'var(--text-normal)', val: '2' },
       { bg: 'var(--success-500)', color: 'var(--text-normal)', val: '1' },
@@ -38,17 +38,17 @@ const SCREENING_ROWS = [
     statusLabel: 'No Action Required',
     categories: [{ label: 'AM', bg: '#edd500', color: 'var(--neutral-900)' }],
     categoryIcon: 'check_circle_outline',
-    entityType: 'Entity',
+    entityType: 'Person',
   },
 ];
 
 const CONNECTED_ROWS = [
-  { name: 'Pied Piper Inc', connType: 'Subsidiary', idType: 'DUNS Number', idValue: '808241405', intRef: 'INT-0001', country: 'United States' },
+  { name: 'Bruce Wayne Batman', connType: 'Subsidiary', idType: 'DUNS Number', idValue: '\u2014', intRef: '\u2014', country: 'United States' },
 ];
 
 const SUGGESTED_ROWS = [
-  { name: 'Pied Piper Inc', connType: 'Subsidiary', idType: 'DUNS Number', idValue: '808241405', intRef: 'INT-0001', country: 'United States' },
-  { name: 'Initech Inc',    connType: 'Subsidiary', idType: 'DUNS Number', idValue: '808241405', intRef: 'INT-0002', country: 'United States' },
+  { name: 'Bruce Wayne Batman', connType: 'Subsidiary', idType: 'DUNS Number', idValue: '\u2014', intRef: '\u2014', country: 'United States' },
+  { name: 'Initech Inc',        connType: 'Subsidiary', idType: 'DUNS Number', idValue: '\u2014', intRef: 'INT-0002', country: 'United States' },
 ];
 
 // ── Helpers ─────────────────────────────────────────────────────────────────
@@ -61,7 +61,7 @@ function riskBadge(level) {
 
 // ── Component ────────────────────────────────────────────────────────────────
 
-export default function TpProfile({ embedded = false }) {
+export default function BruceWayneProfile({ embedded = false }) {
   const [activeTab, setActiveTab] = useState('overview');
 
   // Connections checkbox state
@@ -84,7 +84,7 @@ export default function TpProfile({ embedded = false }) {
     <>
       {!embedded && <Breadcrumb items={[
         { label: 'Third Parties', to: '/third-parties' },
-        { label: 'Pied Piper Inc' },
+        { label: 'Bruce Wayne Batman' },
       ]} />}
 
       {/* ── Top Strip ── */}
@@ -95,10 +95,10 @@ export default function TpProfile({ embedded = false }) {
           </Link>
           <div className={styles.tpTitleRow}>
             <div className={styles.tpNameGroup}>
-              <h1>Pied Piper Inc</h1>
+              <h1>Bruce Wayne Batman</h1>
               <span className={styles.tpVerified}>
                 <span className="material-icons-outlined">verified</span>
-                Entity Verified
+                Identity Verified
               </span>
             </div>
             <div className={styles.tpBadges}>
@@ -169,7 +169,7 @@ export default function TpProfile({ embedded = false }) {
           {/* Details Card */}
           <section className={`${styles.card} ${styles.detailsCard}`}>
             <div className={styles.cardHeader}>
-              <h2 className={styles.cardTitle}>Pied Piper Inc Details</h2>
+              <h2 className={styles.cardTitle}>Bruce Wayne Batman Details</h2>
               <div className={styles.cardHeaderRight}>
                 <div className={styles.statusInline}>
                   Third party STATUS:
@@ -199,23 +199,23 @@ export default function TpProfile({ embedded = false }) {
               {activeTab === 'overview' && (
                 <div className={styles.tabPanel}>
                   <div className={styles.fieldGrid}>
-                    <div><div className={styles.fieldLabel}>Legal name</div><div className={styles.fieldValue}>Pied Piper Inc</div></div>
-                    <div><div className={styles.fieldLabel}>Industry / Sector</div><div className={styles.fieldValue}>Technology</div></div>
+                    <div><div className={styles.fieldLabel}>First Name</div><div className={styles.fieldValue}>Bruce Wayne</div></div>
+                    <div><div className={styles.fieldLabel}>Last Name</div><div className={styles.fieldValue}>Batman</div></div>
                     <div><div className={styles.fieldLabel}>Third Party Owner</div><div className={styles.fieldValue}>Claudio Merino</div></div>
                     <div><div className={styles.fieldLabel}>Process Name</div><div className={styles.fieldValue}>Standard RCTP</div></div>
                     <div>
-                      <div className={styles.fieldLabel}>Country of Registration</div>
+                      <div className={styles.fieldLabel}>Country of Residence</div>
                       <div className={`${styles.fieldValue} ${styles.fieldValueFlag}`}>
                         <span style={{ fontSize: 20 }}>&#127482;&#127480;</span> United States
                       </div>
                     </div>
-                    <div><div className={styles.fieldLabel}>Third Party Contact Email</div><div className={styles.fieldValue}>contact@piedpiper.com</div></div>
-                    <div><div className={styles.fieldLabel}>Business Unit</div><div className={styles.fieldValue}>US</div></div>
+                    <div><div className={styles.fieldLabel}>Third Party Contact Email</div><div className={styles.fieldValue}>bruce.wayne@wayneenterprises.com</div></div>
+                    <div><div className={styles.fieldLabel}>Business Unit</div><div className={styles.fieldValue}>test</div></div>
                     <div><div className={styles.fieldLabel}>Screening &amp; Monitoring Policy</div><div className={styles.fieldValue}>Default Standard KYBP Policy</div></div>
-                    <div><div className={styles.fieldLabel}>Entity Type</div><div className={styles.fieldValue}>Entity</div></div>
-                    <div><div className={styles.fieldLabel}>Commercial Significance</div><div className={styles.fieldValue}>[Between 1 and 5%] / Significant / Not in top 10</div></div>
+                    <div><div className={styles.fieldLabel}>Entity Type</div><div className={styles.fieldValue}>Individual / Person</div></div>
+                    <div><div className={styles.fieldLabel}>Year of Birth</div><div className={styles.fieldValue}>1972</div></div>
                     <div><div className={styles.fieldLabel}>Expiry date</div><div className={styles.fieldValue}>Unknown</div></div>
-                    <div><div className={styles.fieldLabel}>Tags</div><div className={styles.fieldValue}>US</div></div>
+                    <div><div className={styles.fieldLabel}>Tags</div><div className={styles.fieldValue}>{'\u2014'}</div></div>
                   </div>
                 </div>
               )}
@@ -224,15 +224,15 @@ export default function TpProfile({ embedded = false }) {
               {activeTab === 'additional' && (
                 <div className={styles.tabPanel}>
                   <div className={styles.fieldGrid}>
-                    <div><div className={styles.fieldLabel}>Also Known As</div><div className={styles.fieldValue}>PP Inc</div></div>
-                    <div><div className={styles.fieldLabel}>Responsible Client Unit</div><div className={styles.fieldValue}>Procurement (Central, direct material)</div></div>
-                    <div><div className={styles.fieldLabel}>Company Number</div><div className={styles.fieldValue}>US-12345678</div></div>
-                    <div><div className={styles.fieldLabel}>Identification Type</div><div className={styles.fieldValue}>DUNS Number</div></div>
-                    <div><div className={styles.fieldLabel}>Address Details</div><div className={styles.fieldValue}>1033 US Highway 46 Ste 201, Clifton, NJ 07013</div></div>
-                    <div><div className={styles.fieldLabel}>All Relevant Client Units</div><div className={styles.fieldValue}>Business Unit 1, Business Unit 2</div></div>
-                    <div><div className={styles.fieldLabel}>Internal Reference or ID</div><div className={styles.fieldValue}>INT-0001</div></div>
-                    <div><div className={styles.fieldLabel}>Identification Value</div><div className={styles.fieldValue}>808241405</div></div>
-                    <div><div className={styles.fieldLabel}>Company Website</div><div className={styles.fieldValue}><a href="#" className={styles.fieldLink}>www.piedpiper.com</a></div></div>
+                    <div><div className={styles.fieldLabel}>Also Known As</div><div className={styles.fieldValue}>The Dark Knight</div></div>
+                    <div><div className={styles.fieldLabel}>Responsible Client Unit</div><div className={styles.fieldValue}>test</div></div>
+                    <div><div className={styles.fieldLabel}>National ID Number</div><div className={styles.fieldValue}>{'\u2014'}</div></div>
+                    <div><div className={styles.fieldLabel}>Identification Type</div><div className={styles.fieldValue}>Passport</div></div>
+                    <div><div className={styles.fieldLabel}>Address Details</div><div className={styles.fieldValue}>1007 Mountain Drive, Gotham City, NJ 07001</div></div>
+                    <div><div className={styles.fieldLabel}>All Relevant Client Units</div><div className={styles.fieldValue}>test</div></div>
+                    <div><div className={styles.fieldLabel}>Internal Reference or ID</div><div className={styles.fieldValue}>{'\u2014'}</div></div>
+                    <div><div className={styles.fieldLabel}>Identification Value</div><div className={styles.fieldValue}>{'\u2014'}</div></div>
+                    <div><div className={styles.fieldLabel}>Personal Website</div><div className={styles.fieldValue}><a href="#" className={styles.fieldLink}>www.wayneenterprises.com</a></div></div>
                   </div>
                 </div>
               )}
