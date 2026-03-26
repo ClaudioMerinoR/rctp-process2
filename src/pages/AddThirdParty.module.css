@@ -88,65 +88,62 @@
 .title { font-size: 20px; font-weight: 500; color: var(--text-normal); }
 .titleDivider { height: 1px; background: var(--neutral-50); margin: 16px -16px 0; }
 
-/* Accordion */
-.accordion { display: flex; flex-direction: column; gap: 8px; }
-.acItem {
+/* ── Flat layout sections ── */
+.section {
   background: var(--neutral-00);
+  border-radius: 4px;
+  box-shadow: 0 2px 4px rgba(0,0,0,0.08);
+  margin-top: 8px;
+  padding: 20px 20px 24px;
+}
+
+/* TP Name row: input + action buttons */
+.nameRow { display: flex; align-items: flex-start; gap: 16px; }
+.nameField { flex: 1; min-width: 0; }
+.nameActions { display: flex; gap: 8px; padding-top: 1px; flex-shrink: 0; }
+
+/* Animated inline sections (dup check, entity verification) */
+.inlineSectionWrap {
+  display: grid;
+  grid-template-rows: 0fr;
+  transition: grid-template-rows 0.3s ease;
+}
+.inlineSectionWrap.open { grid-template-rows: 1fr; }
+.inlineSectionInner {
+  overflow: hidden;
+  padding-top: 0;
+  transition: padding-top 0.3s ease;
+}
+.inlineSectionWrap.open .inlineSectionInner { padding-top: 20px; }
+
+.inlineSection {
   border: 1px solid var(--neutral-50);
   border-radius: 4px;
-  overflow: hidden;
-  transition: border-color 0.2s, box-shadow 0.2s;
+  padding: 16px 20px 20px;
+  background: var(--neutral-00);
 }
-.acItem.open {
-  border-color: var(--primary-200);
-  border-top: 3px solid var(--primary-500);
-  box-shadow: 0 4px 20px rgba(2,163,213,0.1);
+.inlineSectionHeader { display: flex; align-items: center; justify-content: space-between; margin-bottom: 16px; }
+.inlineSectionTitle { display: flex; align-items: center; gap: 8px; font-size: 15px; font-weight: 600; color: var(--text-normal); margin: 0; }
+.dupFooter { display: flex; justify-content: flex-end; gap: 8px; padding-top: 16px; border-top: 1px solid var(--neutral-50); margin-top: 16px; }
+
+/* ── Summary two-column layout ── */
+.summaryGrid { display: grid; grid-template-columns: 1fr 1fr; gap: 0 40px; margin-top: 16px; align-items: start; }
+.summaryCol { display: flex; flex-direction: column; gap: 20px; }
+
+/* Owner: toggle + dropdown side by side */
+.ownerInputRow { display: flex; align-items: center; gap: 8px; }
+.ownerInputRow .ownerToggle { margin-bottom: 0; flex-shrink: 0; }
+
+/* Form footer (cancel + create) */
+.formFooter {
+  display: flex; align-items: center; justify-content: flex-end; gap: 12px;
+  margin-top: 8px; padding: 16px 20px;
+  background: var(--neutral-00); border-radius: 4px;
+  box-shadow: 0 2px 4px rgba(0,0,0,0.08);
 }
-.acItem.completed:not(.open) { border-color: var(--neutral-200); }
-.acItem.locked { opacity: 0.5; pointer-events: none; }
-
-/* Skipped step state */
-.acItem.skipped .acBadge { background: var(--neutral-400) !important; }
-.acItem.skipped .acTitle { color: var(--neutral-500); }
-.acItem.skipped .acSummary { font-style: italic; }
-
-.acHeader {
-  width: 100%;
-  display: flex;
-  align-items: center;
-  gap: 14px;
-  padding: 14px 20px;
-  background: none;
-  border: none;
-  cursor: pointer;
-  text-align: left;
-  font-family: inherit;
-  transition: background 0.15s;
-}
-.acItem.open .acHeader:hover { background: var(--primary-08); }
-.acItem:not(.open) .acHeader:hover { background: var(--neutral-25); }
-
-.acBadge {
-  width: 36px; height: 36px; border-radius: 50%; flex-shrink: 0;
-  display: flex; align-items: center; justify-content: center;
-  background: var(--neutral-200); color: #fff;
-  font-size: 14px; font-weight: 700; transition: background 0.25s;
-}
-.acItem.open .acBadge { background: var(--primary-500); }
-.acItem.completed .acBadge { background: var(--success-500); }
-
-.acHeaderText { flex: 1; min-width: 0; }
-.acTitle { font-size: 15px; font-weight: 600; color: var(--text-normal); display: block; line-height: 1.3; }
-.acItem.open .acTitle { color: var(--primary-600); }
-.acSummary { font-size: 12px; color: var(--text-light); display: block; margin-top: 2px; white-space: nowrap; overflow: hidden; text-overflow: ellipsis; }
-.acChevron { font-size: 22px; color: var(--neutral-400); transition: transform 0.25s ease; flex-shrink: 0; }
-.rotated { transform: rotate(180deg); }
-
-.acBody { padding: 0 20px 20px; border-top: 1px solid var(--neutral-50); }
-.stepBody { padding-top: 20px; }
 
 /* Type cards */
-.sectionHeading { font-size: 11px; font-weight: 600; text-transform: uppercase; letter-spacing: 1px; color: var(--text-light); margin-bottom: 16px; padding-bottom: 10px; border-bottom: 1px solid var(--neutral-50); }
+.sectionHeading { font-size: 11px; font-weight: 600; text-transform: uppercase; letter-spacing: 1px; color: var(--text-light); margin-bottom: 16px; padding-bottom: 10px; border-bottom: 1px solid var(--neutral-50); display: flex; align-items: center; justify-content: space-between; }
 .typeCards { display: grid; grid-template-columns: 1fr 1fr 1fr; gap: 16px; margin-top: 12px; }
 .typeError .typeCard { border-color: var(--alert-500); }
 .typeCard {
@@ -278,6 +275,11 @@
 /* Onboarding section label */
 .obSectionLabel { font-size: 15px; font-weight: 700; color: var(--primary-500); padding: 20px 0 14px; letter-spacing: 0.3px; }
 
+/* Onboarding pre-fields (Notes + Language) */
+.obPreFields { display: grid; grid-template-columns: 1fr 1fr; gap: 16px 32px; margin-bottom: 16px; }
+.obPreField { display: flex; flex-direction: column; gap: 6px; }
+.obPreLabel { font-size: 12px; font-weight: 500; color: var(--primary-500); text-transform: uppercase; letter-spacing: 0.5px; }
+
 /* Onboarding blocks */
 .obBlocks { display: flex; flex-direction: column; }
 .obBlock { background: var(--neutral-00); border: 1px solid rgba(0,0,0,0.1); padding: 18px 24px 20px; margin-bottom: -1px; transition: background 0.12s; }
@@ -345,3 +347,22 @@
   transition: background 0.2s;
 }
 .cancelModalConfirm:hover { background: var(--primary-600); }
+
+/* ── Notes side panel ── */
+.notesPanel { position: fixed; top: 0; right: 0; width: 640px; max-width: 100vw; height: 100vh; background: var(--neutral-00); border-left: 1px solid var(--neutral-50); box-shadow: -4px 0 20px rgba(0,0,0,0.1); z-index: 1101; display: flex; flex-direction: column; }
+.notesPanelHeader { display: flex; align-items: center; justify-content: space-between; padding: 16px 20px; border-bottom: 3px solid var(--primary-500); flex-shrink: 0; }
+.notesPanelTitle { font-size: 14px; font-weight: 600; text-transform: uppercase; letter-spacing: 1.5px; color: var(--text-normal); }
+.notesPanelContent { flex: 1; overflow-y: auto; padding: 16px 20px; }
+.notesPanelFooter { border-top: 3px solid var(--primary-500); flex-shrink: 0; padding: 16px; }
+.notesToolbar { display: flex; gap: 4px; margin-bottom: 10px; }
+.notesToolbarBtn { width: 35px; height: 40px; border: 1px solid var(--neutral-200); background: var(--neutral-00); cursor: pointer; display: inline-flex; align-items: center; justify-content: center; color: var(--text-normal); font-size: 14px; font-weight: 700; font-family: inherit; border-radius: 0; }
+.notesToolbarBtn:hover { background: var(--neutral-25); }
+.notesTextarea { width: 100%; min-height: 100px; border: 1px solid var(--neutral-200); padding: 8px 10px; font-size: 14px; font-family: inherit; color: var(--text-normal); resize: vertical; outline: none; line-height: 1.5; border-radius: 0; }
+.notesTextarea:focus { border-color: var(--primary-500); }
+.notesTextarea::placeholder { color: var(--neutral-400); }
+.notesActions { display: flex; align-items: center; justify-content: flex-end; gap: 8px; margin-top: 10px; flex-wrap: wrap; }
+.noteItem { padding: 14px 0; border-bottom: 1px solid var(--neutral-50); }
+.noteItem:last-child { border-bottom: none; }
+.noteItemText { font-size: 13px; color: var(--text-light); line-height: 1.6; white-space: pre-wrap; }
+.noteItemMeta { font-size: 11px; color: var(--neutral-300); margin-top: 6px; text-transform: uppercase; letter-spacing: 0.5px; }
+.notesEmpty { font-size: 13px; color: var(--neutral-300); text-align: center; padding: 40px 0; }
