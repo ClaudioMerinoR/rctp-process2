@@ -1,93 +1,186 @@
 import { useState } from 'react';
-import { Link } from 'react-router-dom';
-import PageLayout from '../components/layout/PageLayout';
-import Breadcrumb from '../components/layout/Breadcrumb';
-import integrityLogo from '../assets/integrity-check-logo.png';
-import iconInactiveOrder from '../assets/icon-inactive-order.svg';
-import styles from './BruceWayneProfile.module.css';
+import { Link, useParams } from 'react-router-dom';
+import PageLayout from '../layout/PageLayout';
+import Breadcrumb from '../layout/Breadcrumb';
+import { profiles } from '../../data/profiles';
+import partnerIconIntegrity from '../../assets/partner-icon-integrity.png';
+import partnerIconUbo from '../../assets/partner-icon-ubo.png';
+import iconFlag from '../../assets/icon-flag.svg';
+import iconInactiveOrder from '../../assets/icon-inactive-order.svg';
+import iconFactCheck from '../../assets/icon-fact-check.svg';
+import iconFinanceMode from '../../assets/icon-finance-mode.svg';
+import iconFrame9 from '../../assets/icon-frame9.svg';
+import iconArmingCountdown from '../../assets/icon-arming-countdown.svg';
+import styles from './profile.module.css';
 
-// ── Data ────────────────────────────────────────────────────────────────────
-
-const RISK_CARDS = [
-  { title: 'Country',               level: 'low',  flags: 0, score: 0 },
-  { title: 'Bribery & Corruption',  level: 'low',  flags: 0, score: 0 },
-  { title: 'Environmental',         level: 'low',  flags: 0, score: 0 },
-  { title: 'Human Rights',          level: 'low',  flags: 0, score: 0 },
-  { title: 'General',               level: 'low',  flags: 0, score: 0 },
-  { title: 'Screening & Monitoring',level: 'low',  flags: 0, score: 0 },
-  { title: 'Cyber',                 level: 'low',  flags: 0, score: 0 },
-];
-
-const OPEN_TASKS = [
-  { type: 'Onboarding', icon: iconInactiveOrder, name: 'Onboarding', status: 'Not Started', owner: 'Claudio Merino', dateCreated: '28 Nov 2024', age: '1 Year' },
-];
-
-const SCREENING_ROWS = [
-  {
-    name: 'Bruce Wayne Batman',
-    matches: [
-      { bg: 'var(--success-500)', color: 'var(--text-normal)', val: '2' },
-      { bg: 'var(--success-500)', color: 'var(--text-normal)', val: '1' },
-      { bg: 'var(--text-light)',  color: '#fff',               val: '0' },
-      { bg: 'var(--neutral-200)', color: 'var(--text-normal)', val: '0' },
-      { bg: 'var(--warning-500)', color: 'var(--text-normal)', val: '0' },
-    ],
-    updated: '15 Jan 2025',
-    type: 'Primary Entity',
-    statusDot: 'var(--success-500)',
-    statusLabel: 'No Action Required',
-    categories: [{ label: 'AM', bg: '#edd500', color: 'var(--neutral-900)' }],
-    categoryIcon: 'check_circle_outline',
-    entityType: 'Person',
-  },
-];
-
-const CONNECTED_ROWS = [
-  { name: 'Bruce Wayne Batman', connType: 'Subsidiary', idType: 'DUNS Number', idValue: '\u2014', intRef: '\u2014', country: 'United States' },
-];
-
-const SUGGESTED_ROWS = [
-  { name: 'Bruce Wayne Batman', connType: 'Subsidiary', idType: 'DUNS Number', idValue: '\u2014', intRef: '\u2014', country: 'United States' },
-  { name: 'Initech Inc',        connType: 'Subsidiary', idType: 'DUNS Number', idValue: '\u2014', intRef: 'INT-0002', country: 'United States' },
-];
-
-// ── Helpers ─────────────────────────────────────────────────────────────────
+const TASK_ICONS = { iconFlag, iconInactiveOrder, iconFactCheck, iconFinanceMode, iconFrame9, iconArmingCountdown };
+const PARTNER_ICONS = { integrity: partnerIconIntegrity, ubo: partnerIconUbo };
 
 function riskBadge(level) {
-  if (level === 'high')   return { className: styles.badgeHigh,   icon: 'error_outline',      label: 'High'   };
-  if (level === 'medium') return { className: styles.badgeMedium, icon: 'error_outline',       label: 'Medium' };
-  return                         { className: styles.badgeLow,    icon: 'check_circle_outline', label: 'LOW'   };
+  if (level === 'high')   return { className: styles.badgeHigh,   icon: 'error_outline',       label: 'High'   };
+  if (level === 'medium') return { className: styles.badgeMedium, icon: 'error_outline',        label: 'Medium' };
+  return                         { className: styles.badgeLow,    icon: 'check_circle_outline', label: 'LOW'    };
 }
 
-// ── Component ────────────────────────────────────────────────────────────────
+function PartnerIcon({ partner, tooltip }) {
+  const img = PARTNER_ICONS[partner];
+  if (!img) return null;
+  const icon = (
+    <span className={styles.navPartnerIcon}>
+      <svg width="16" height="16" viewBox="0 0 16 16" fill="none"><circle cx="8" cy="8" r="7.5" fill="white" stroke="#B1BCC5" /></svg>
+      <img src={img} alt="" />
+    </span>
+  );
+  if (tooltip) {
+    return (
+      <span className={styles.navPartnerIconWrap}>
+        {icon}
+        <span className={styles.navTooltip}>{tooltip}</span>
+      </span>
+    );
+  }
+  return icon;
+}
 
-export default function BruceWayneProfile({ embedded = false }) {
+function Sidebar({ profile, activePage = 'summary' }) {
+  return (
+    <aside className={styles.sideNav}>
+      {activePage === 'summary' ? (
+        <div className={styles.navItemActive}>Summary page</div>
+      ) : (
+        <Link to={`/profile/${profile.id}`} className={styles.navItem} style={{ textDecoration: 'none' }}>
+          Summary page
+        </Link>
+      )}
+      <div className={styles.navDivider} />
+
+      {profile.sidebarSteps.map((step, i) => {
+        const dotCls = step.dot === 'red' ? styles.dotRed
+          : step.dot === 'green' ? styles.dotGreen
+          : step.dot === 'amber' ? styles.dotAmber
+          : styles.dotGrey;
+
+        if (step.tooltip || step.newTag) {
+          return (
+            <div key={i} className={styles.navItem}>
+              <div className={styles.navItemWrap}>
+                <span className={`${styles.dot} ${dotCls}`} />
+                {step.label}
+                {step.partner && <PartnerIcon partner={step.partner} tooltip={step.tooltip} />}
+                {step.newTag && <span className={styles.navNewTag}>New</span>}
+              </div>
+            </div>
+          );
+        }
+
+        return (
+          <div key={i} className={styles.navItem}>
+            <span className={`${styles.dot} ${dotCls}`} />
+            {step.label}
+            {step.partner && <PartnerIcon partner={step.partner} />}
+          </div>
+        );
+      })}
+
+      <div className={styles.navDivider} />
+
+      {profile.sidebarSections.map((sec, i) => {
+        if (sec.isDocuments && activePage === 'documents') {
+          return <div key={i} className={styles.navSectionLabelActive}>{sec.label}</div>;
+        }
+        if (sec.isDocuments) {
+          return (
+            <Link key={i} to={`/profile/${profile.id}/documents`} className={styles.navSectionLabel} style={{ textDecoration: 'none' }}>
+              {sec.label}
+            </Link>
+          );
+        }
+        return (
+          <div key={i} className={styles.navSectionLabel}>
+            {sec.label}
+            {sec.partner && (
+              <span style={{ marginLeft: 4 }}>
+                <PartnerIcon partner={sec.partner} tooltip={sec.tooltip} />
+              </span>
+            )}
+          </div>
+        );
+      })}
+
+      <div className={styles.navDivider} />
+    </aside>
+  );
+}
+
+export { Sidebar, PartnerIcon, PARTNER_ICONS, TASK_ICONS, riskBadge };
+
+export default function ProfilePage({ profile: profileProp, embedded = false }) {
+  const params = useParams();
+  const profile = profileProp || profiles[params.profileId];
   const [activeTab, setActiveTab] = useState('overview');
+  const [alert, setAlert] = useState(null);
+  const [deleteModalOpen, setDeleteModalOpen] = useState(false);
 
-  // Connections checkbox state
-  const [checked, setChecked] = useState(SUGGESTED_ROWS.map(() => false));
-  const allChecked  = checked.every(Boolean);
+  const [checked, setChecked] = useState((profile?.suggestedRows || []).map(() => false));
+  const allChecked  = checked.length > 0 && checked.every(Boolean);
   const someChecked = checked.some(Boolean) && !allChecked;
   const anyChecked  = checked.some(Boolean);
 
-  function handleSelectAll(e) {
-    setChecked(checked.map(() => e.target.checked));
-  }
+  if (!profile) return <div style={{ padding: 40, textAlign: 'center' }}>Profile not found</div>;
 
-  function handleRowCheck(i, val) {
-    const next = [...checked];
-    next[i] = val;
-    setChecked(next);
+  function handleSelectAll(e) { setChecked(checked.map(() => e.target.checked)); }
+  function handleRowCheck(i, val) { const next = [...checked]; next[i] = val; setChecked(next); }
+
+  function handleConnect() {
+    setChecked(profile.suggestedRows.map(() => false));
+    setAlert({ type: 'success', message: 'Connection added successfully' });
+    setTimeout(() => setAlert(null), 5000);
+  }
+  function handleDiscard() {
+    setChecked(profile.suggestedRows.map(() => false));
+    setAlert({ type: 'warning', message: 'Connection discarded' });
+    setTimeout(() => setAlert(null), 5000);
   }
 
   const content = (
     <>
+      {/* Alert banner */}
+      {profile.alertBanners && alert && (
+        <div className={`${styles.connAlert} ${styles['connAlert_' + alert.type]}`}>
+          <span className={`${styles.connAlertIcon} material-icons-outlined`}>
+            {alert.type === 'success' ? 'check_circle' : 'remove_circle'}
+          </span>
+          <span className={styles.connAlertText}>{alert.message}</span>
+        </div>
+      )}
+
+      {/* Delete modal */}
+      {profile.deleteModal && deleteModalOpen && (
+        <div className={styles.deleteModalOverlay} onClick={() => setDeleteModalOpen(false)}>
+          <div className={styles.deleteModal} onClick={e => e.stopPropagation()} role="dialog" aria-modal="true">
+            <div className={styles.deleteModalHeader}>
+              <span className={styles.deleteModalTitle}>Delete a Third party</span>
+              <button className={styles.deleteModalClose} aria-label="Close" onClick={() => setDeleteModalOpen(false)} />
+            </div>
+            <div className={styles.deleteModalBody}>
+              <p className={styles.deleteModalQuestion}>Are you sure you wish to delete the following Third Party?</p>
+              <p className={styles.deleteModalName}>{profile.shortName}</p>
+              <p className={styles.deleteModalConfirm}>Do you want to continue?</p>
+            </div>
+            <div className={styles.deleteModalActions}>
+              <button className={`${styles.deleteModalBtn} ${styles.deleteModalCancel}`} onClick={() => setDeleteModalOpen(false)}>Cancel</button>
+              <button className={`${styles.deleteModalBtn} ${styles.deleteModalContinue}`} onClick={() => setDeleteModalOpen(false)}>Continue</button>
+            </div>
+          </div>
+        </div>
+      )}
+
       {!embedded && <Breadcrumb items={[
         { label: 'Third Parties', to: '/third-parties' },
-        { label: 'Bruce Wayne Batman' },
+        { label: profile.shortName },
       ]} />}
 
-      {/* ── Top Strip ── */}
+      {/* Top Strip */}
       <div className={styles.tpTopStrip}>
         <div className={styles.tpPageHeader}>
           <Link to="/third-parties" className={styles.tpBack}>
@@ -95,25 +188,25 @@ export default function BruceWayneProfile({ embedded = false }) {
           </Link>
           <div className={styles.tpTitleRow}>
             <div className={styles.tpNameGroup}>
-              <h1>Bruce Wayne Batman</h1>
+              <h1>{profile.name}</h1>
               <span className={styles.tpVerified}>
                 <span className="material-icons-outlined">verified</span>
-                Identity Verified
+                {profile.verifiedText}
               </span>
             </div>
             <div className={styles.tpBadges}>
               <div className={styles.tpBadgeGroup}>
                 <div className={styles.tpBadgeLabel}>Current status:</div>
                 <div className={`${styles.badge} ${styles.badgePending} ${styles.badgeBtn}`}>
-                  Pending Approval
-                  <span className="material-icons-outlined" style={{ fontSize: 16 }}>pending</span>
+                  {profile.currentStatus.label}
+                  <span className="material-icons-outlined" style={{ fontSize: 16 }}>{profile.currentStatus.icon}</span>
                 </div>
               </div>
               <div className={styles.tpBadgeGroup}>
                 <div className={styles.tpBadgeLabel}>Risk level:</div>
-                <div className={`${styles.badge} ${styles.badgeLow} ${styles.badgeBtn}`}>
-                  Low
-                  <span className="material-icons-outlined" style={{ fontSize: 16 }}>check_circle_outline</span>
+                <div className={`${styles.badge} ${styles['badge' + profile.riskLevel.level.charAt(0).toUpperCase() + profile.riskLevel.level.slice(1)]} ${styles.badgeBtn}`}>
+                  {profile.riskLevel.label}
+                  <span className="material-icons-outlined" style={{ fontSize: 16 }}>{profile.riskLevel.icon}</span>
                 </div>
               </div>
             </div>
@@ -121,55 +214,15 @@ export default function BruceWayneProfile({ embedded = false }) {
         </div>
       </div>
 
-      {/* ── Page Body ── */}
+      {/* Page Body */}
       <div className={styles.pageBody}>
+        <Sidebar profile={profile} activePage="summary" />
 
-        {/* ── Side Nav ── */}
-        <aside className={styles.sideNav}>
-          <div className={styles.navItemActive}>Summary page</div>
-          <div className={styles.navDivider} />
-          <div className={styles.navItem}><span className={`${styles.dot} ${styles.dotAmber}`} /> Onboarding</div>
-          <div className={styles.navItem}><span className={`${styles.dot} ${styles.dotGrey}`} /> Risk Assessment</div>
-          <div className={styles.navItem}>
-            <span className={`${styles.dot} ${styles.dotGrey}`} /> Integrity Check
-            <span className={styles.navPartnerIcon}>
-              <svg width="16" height="16" viewBox="0 0 16 16" fill="none"><circle cx="8" cy="8" r="7.5" fill="white" stroke="#B1BCC5" /></svg>
-              <img src={integrityLogo} alt="" />
-            </span>
-          </div>
-          <div className={styles.navItem}><span className={`${styles.dot} ${styles.dotGrey}`} /> Due Diligence</div>
-          <div className={styles.navItem}><span className={`${styles.dot} ${styles.dotGrey}`} /> Enhanced Due Diligence Reports</div>
-          <div className={styles.navItem}>
-            <span className={`${styles.dot} ${styles.dotGreen}`} /> UBO
-            <span className={styles.navPartnerIcon}>
-              <svg width="16" height="16" viewBox="0 0 16 16" fill="none"><circle cx="8" cy="8" r="7.5" fill="white" stroke="#B1BCC5" /></svg>
-              <img src={integrityLogo} alt="" />
-            </span>
-          </div>
-          <div className={styles.navItem}><span className={`${styles.dot} ${styles.dotGrey}`} /> Risk Mitigation</div>
-          <div className={styles.navItem}><span className={`${styles.dot} ${styles.dotGrey}`} /> Approval</div>
-          <div className={styles.navItem}><span className={`${styles.dot} ${styles.dotGrey}`} /> Screening &amp; Monitoring</div>
-          <div className={styles.navDivider} />
-          <div className={styles.navSectionLabel}>Properties</div>
-          <div className={styles.navSectionLabel}>Documents</div>
-          <div className={styles.navSectionLabel}>
-            Entity Verification
-            <span className={styles.navPartnerIcon} style={{ marginLeft: 4 }}>
-              <svg width="16" height="16" viewBox="0 0 16 16" fill="none"><circle cx="8" cy="8" r="7.5" fill="white" stroke="#B1BCC5" /></svg>
-              <img src={integrityLogo} alt="" />
-            </span>
-          </div>
-          <div className={styles.navSectionLabel}>Audit</div>
-          <div className={styles.navDivider} />
-        </aside>
-
-        {/* ── Main Content ── */}
         <main className={styles.mainContent}>
-
           {/* Details Card */}
           <section className={`${styles.card} ${styles.detailsCard}`}>
             <div className={styles.cardHeader}>
-              <h2 className={styles.cardTitle}>Bruce Wayne Batman Details</h2>
+              <h2 className={styles.cardTitle}>{profile.shortName} Details</h2>
               <div className={styles.cardHeaderRight}>
                 <div className={styles.statusInline}>
                   Third party STATUS:
@@ -194,28 +247,22 @@ export default function BruceWayneProfile({ embedded = false }) {
             </div>
 
             <div className={styles.tabPanels}>
-
               {/* Overview */}
               {activeTab === 'overview' && (
                 <div className={styles.tabPanel}>
                   <div className={styles.fieldGrid}>
-                    <div><div className={styles.fieldLabel}>First Name</div><div className={styles.fieldValue}>Bruce Wayne</div></div>
-                    <div><div className={styles.fieldLabel}>Last Name</div><div className={styles.fieldValue}>Batman</div></div>
-                    <div><div className={styles.fieldLabel}>Third Party Owner</div><div className={styles.fieldValue}>Claudio Merino</div></div>
-                    <div><div className={styles.fieldLabel}>Process Name</div><div className={styles.fieldValue}>Standard RCTP</div></div>
-                    <div>
-                      <div className={styles.fieldLabel}>Country of Residence</div>
-                      <div className={`${styles.fieldValue} ${styles.fieldValueFlag}`}>
-                        <span style={{ fontSize: 20 }}>&#127482;&#127480;</span> United States
+                    {profile.overviewFields.map((f, i) => (
+                      <div key={i}>
+                        <div className={styles.fieldLabel}>{f.label}</div>
+                        {f.flag ? (
+                          <div className={`${styles.fieldValue} ${styles.fieldValueFlag}`}>
+                            <span style={{ fontSize: 20 }}>{f.flag}</span> {f.value}
+                          </div>
+                        ) : (
+                          <div className={styles.fieldValue}>{f.value}</div>
+                        )}
                       </div>
-                    </div>
-                    <div><div className={styles.fieldLabel}>Third Party Contact Email</div><div className={styles.fieldValue}>bruce.wayne@wayneenterprises.com</div></div>
-                    <div><div className={styles.fieldLabel}>Business Unit</div><div className={styles.fieldValue}>test</div></div>
-                    <div><div className={styles.fieldLabel}>Screening &amp; Monitoring Policy</div><div className={styles.fieldValue}>Default Standard KYBP Policy</div></div>
-                    <div><div className={styles.fieldLabel}>Entity Type</div><div className={styles.fieldValue}>Individual / Person</div></div>
-                    <div><div className={styles.fieldLabel}>Year of Birth</div><div className={styles.fieldValue}>1972</div></div>
-                    <div><div className={styles.fieldLabel}>Expiry date</div><div className={styles.fieldValue}>Unknown</div></div>
-                    <div><div className={styles.fieldLabel}>Tags</div><div className={styles.fieldValue}>{'\u2014'}</div></div>
+                    ))}
                   </div>
                 </div>
               )}
@@ -224,15 +271,16 @@ export default function BruceWayneProfile({ embedded = false }) {
               {activeTab === 'additional' && (
                 <div className={styles.tabPanel}>
                   <div className={styles.fieldGrid}>
-                    <div><div className={styles.fieldLabel}>Also Known As</div><div className={styles.fieldValue}>The Dark Knight</div></div>
-                    <div><div className={styles.fieldLabel}>Responsible Client Unit</div><div className={styles.fieldValue}>test</div></div>
-                    <div><div className={styles.fieldLabel}>National ID Number</div><div className={styles.fieldValue}>{'\u2014'}</div></div>
-                    <div><div className={styles.fieldLabel}>Identification Type</div><div className={styles.fieldValue}>Passport</div></div>
-                    <div><div className={styles.fieldLabel}>Address Details</div><div className={styles.fieldValue}>1007 Mountain Drive, Gotham City, NJ 07001</div></div>
-                    <div><div className={styles.fieldLabel}>All Relevant Client Units</div><div className={styles.fieldValue}>test</div></div>
-                    <div><div className={styles.fieldLabel}>Internal Reference or ID</div><div className={styles.fieldValue}>{'\u2014'}</div></div>
-                    <div><div className={styles.fieldLabel}>Identification Value</div><div className={styles.fieldValue}>{'\u2014'}</div></div>
-                    <div><div className={styles.fieldLabel}>Personal Website</div><div className={styles.fieldValue}><a href="#" className={styles.fieldLink}>www.wayneenterprises.com</a></div></div>
+                    {profile.additionalFields.map((f, i) => (
+                      <div key={i}>
+                        <div className={styles.fieldLabel}>{f.label}</div>
+                        <div className={styles.fieldValue}>
+                          {f.link ? (
+                            <a href={f.href || '#'} className={styles.fieldLink}>{f.value}</a>
+                          ) : f.value}
+                        </div>
+                      </div>
+                    ))}
                   </div>
                 </div>
               )}
@@ -255,7 +303,7 @@ export default function BruceWayneProfile({ embedded = false }) {
                         </tr>
                       </thead>
                       <tbody>
-                        {CONNECTED_ROWS.map((r, i) => (
+                        {profile.connectedRows.map((r, i) => (
                           <tr key={i}>
                             <td><span className={styles.cellLink}>{r.name}</span></td>
                             <td>{r.connType}</td>
@@ -273,8 +321,8 @@ export default function BruceWayneProfile({ embedded = false }) {
                   <div className={styles.connSubHeader}>
                     <h3 className={styles.connSectionTitle} style={{ marginBottom: 0 }}>Suggested Third Parties</h3>
                     <div className={styles.connActions}>
-                      <button className={`${styles.btn} ${styles.btnDiscard}`} disabled={!anyChecked}>Discard</button>
-                      <button className={`${styles.btn} ${styles.btnConnect}`} disabled={!anyChecked}>Connect</button>
+                      <button className={`${styles.btn} ${styles.btnDiscard}`} disabled={!anyChecked} onClick={handleDiscard}>Discard</button>
+                      <button className={`${styles.btn} ${styles.btnConnect}`} disabled={!anyChecked} onClick={handleConnect}>Connect</button>
                     </div>
                   </div>
 
@@ -291,7 +339,7 @@ export default function BruceWayneProfile({ embedded = false }) {
                             />
                           </th>
                           <th>Third Party Name</th>
-                          <th>Connection Type</th>
+                          {profile.suggestedHasConnType && <th>Connection Type</th>}
                           <th>ID Type</th>
                           <th>ID Value</th>
                           <th>Internal Reference or ID</th>
@@ -299,11 +347,11 @@ export default function BruceWayneProfile({ embedded = false }) {
                         </tr>
                       </thead>
                       <tbody>
-                        {SUGGESTED_ROWS.map((r, i) => (
+                        {profile.suggestedRows.map((r, i) => (
                           <tr key={i}>
                             <td><input type="checkbox" checked={checked[i]} onChange={e => handleRowCheck(i, e.target.checked)} /></td>
                             <td><span className={styles.cellLink}>{r.name}</span></td>
-                            <td>{r.connType}</td>
+                            {profile.suggestedHasConnType && <td>{r.connType}</td>}
                             <td>{r.idType}</td>
                             <td>{r.idValue}</td>
                             <td>{r.intRef}</td>
@@ -322,7 +370,6 @@ export default function BruceWayneProfile({ embedded = false }) {
                   </div>
                 </div>
               )}
-
             </div>
           </section>
 
@@ -330,10 +377,10 @@ export default function BruceWayneProfile({ embedded = false }) {
           <section className={styles.riskReport}>
             <div className={styles.sectionRow}>
               <h2 className={styles.cardTitle}>Risk Level Report</h2>
-              <span className={styles.linkText}>VIEW FULL REPORT</span>
+              <Link to={`/profile/${profile.id}/risk-report`} className={styles.linkText}>VIEW FULL REPORT</Link>
             </div>
             <div className={styles.riskRow}>
-              {RISK_CARDS.map((rc, i) => {
+              {profile.riskCards.map((rc, i) => {
                 const b = riskBadge(rc.level);
                 return (
                   <div key={i} className={`${styles.rcard} ${styles['rcard_' + rc.level]}`}>
@@ -376,11 +423,11 @@ export default function BruceWayneProfile({ embedded = false }) {
                   </tr>
                 </thead>
                 <tbody>
-                  {OPEN_TASKS.map((t, i) => (
+                  {profile.openTasks.map((t, i) => (
                     <tr key={i}>
                       <td>
                         <div className={styles.cellTaskType}>
-                          <span className={styles.taskIconCircle}><img src={t.icon} alt="" /></span>
+                          <span className={styles.taskIconCircle}><img src={TASK_ICONS[t.icon]} alt="" /></span>
                           {t.type}
                         </div>
                       </td>
@@ -395,7 +442,7 @@ export default function BruceWayneProfile({ embedded = false }) {
               </table>
               <div className={styles.tablePagination}>
                 <select><option>20</option></select>
-                <span>Showing results 1 - 1 of 1</span>
+                <span>Showing results 1 - {profile.openTasks.length} of {profile.openTasks.length}</span>
               </div>
             </div>
           </section>
@@ -422,7 +469,7 @@ export default function BruceWayneProfile({ embedded = false }) {
                   </tr>
                 </thead>
                 <tbody>
-                  {SCREENING_ROWS.map((r, i) => (
+                  {profile.screeningRows.map((r, i) => (
                     <tr key={i}>
                       <td><span className={styles.cellLink}>{r.name}</span></td>
                       <td>
@@ -455,11 +502,10 @@ export default function BruceWayneProfile({ embedded = false }) {
               </table>
               <div className={styles.tablePagination}>
                 <select><option>20</option></select>
-                <span>Showing results 1 - 1 of 1</span>
+                <span>Showing results 1 - {profile.screeningRows.length} of {profile.screeningRows.length}</span>
               </div>
             </div>
           </section>
-
         </main>
       </div>
     </>

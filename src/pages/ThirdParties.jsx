@@ -80,7 +80,7 @@ export default function ThirdParties() {
             <tbody>
               {ROWS.map((row, i) => (
                 <tr key={i}>
-                  <td><Link to="/tp-profile" className={styles.cellLink}>{row.name}</Link></td>
+                  <td><Link to="/profile/piedpiper" className={styles.cellLink}>{row.name}</Link></td>
                   <td>{row.owner}</td>
                   <td>{row.bu}</td>
                   <td>{row.tag && <span className={styles.tag}>{row.tag}</span>}</td>

@@ -2,7 +2,8 @@ import { useState, useRef, useEffect } from 'react';
 import { Link, useNavigate } from 'react-router-dom';
 import PageLayout from '../components/layout/PageLayout';
 import Breadcrumb from '../components/layout/Breadcrumb';
-import TpProfile from './TpProfile';
+import ProfilePage from '../components/profile/ProfilePage';
+import { piedpiper, brucewayne } from '../data/profiles';
 import styles from './AddThirdParty.module.css';
 
 /* ─────────────────────── Static data ─────────────────────── */
@@ -240,7 +241,7 @@ export default function AddThirdParty() {
       }, delay);
     });
     setTimeout(() => {
-      navigate('/tp-profile');
+      navigate('/profile/piedpiper');
     }, 3600);
   }
 
@@ -953,17 +954,12 @@ function Step4({ tpType, ob, updateOb, obPerson, updateObP, obUnknown, updateObU
 /* ─────────────────────── Profile side panel ─────────────────────── */
 
 function ProfilePanel({ name, tpType, onClose }) {
-  const [BruceWayneProfile, setBruceWayneProfile] = useState(null);
-
   useEffect(() => {
     document.body.style.overflow = 'hidden';
-    if (name === 'Bruce Wayne Batman') {
-      import('./BruceWayneProfile').then(mod => setBruceWayneProfile(() => mod.default));
-    }
     return () => { document.body.style.overflow = ''; };
   }, [name]);
 
-  const isBruceWayne = name === 'Bruce Wayne Batman';
+  const profileData = name === 'Bruce Wayne Batman' ? brucewayne : piedpiper;
 
   return (
     <>
@@ -976,10 +972,7 @@ function ProfilePanel({ name, tpType, onClose }) {
           <div className={styles.profilePanelTitle}>{name}</div>
         </div>
         <div className={styles.profilePanelContent}>
-          {isBruceWayne && BruceWayneProfile
-            ? <BruceWayneProfile embedded />
-            : <TpProfile embedded />
-          }
+          <ProfilePage profile={profileData} embedded />
         </div>
       </div>
     </>
