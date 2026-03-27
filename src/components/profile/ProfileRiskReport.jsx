@@ -1,5 +1,5 @@
-import { useState } from 'react';
-import { Link, useParams } from 'react-router-dom';
+import { useState, useEffect } from 'react';
+import { Link, useParams, useLocation } from 'react-router-dom';
 import PageLayout from '../layout/PageLayout';
 import Breadcrumb from '../layout/Breadcrumb';
 import { profiles } from '../../data/profiles';
@@ -22,7 +22,7 @@ function Accordion({ section, defaultOpen = true }) {
   }`;
 
   return (
-    <div className={styles.accordion}>
+    <div className={styles.accordion} id={section.id}>
       <div className={headerCls} onClick={() => setOpen(o => !o)}>
         <div className={styles.accordionHeaderLeft}>
           <span>{section.label}</span>
@@ -161,6 +161,15 @@ export default function ProfileRiskReport() {
   const [showAmend, setShowAmend] = useState(false);
   const [riskLevel, setRiskLevel] = useState(profile?.riskLevel?.level || 'low');
   const [amendSuccess, setAmendSuccess] = useState(false);
+
+  const location = useLocation();
+
+  useEffect(() => {
+    if (location.hash) {
+      const el = document.getElementById(location.hash.slice(1));
+      if (el) setTimeout(() => el.scrollIntoView({ behavior: 'smooth', block: 'start' }), 100);
+    }
+  }, [location.hash]);
 
   if (!profile) return <div style={{ padding: 40, textAlign: 'center' }}>Profile not found</div>;
 

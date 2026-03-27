@@ -123,11 +123,11 @@ export default {
   ],
 
   suggestedRows: [
-    { name: 'GAZMASH IO', idType: 'DUNS Number', idValue: '788234901', intRef: 'G9921234A', country: 'Russian Federation' },
-    { name: 'NOVATEK PJSC', idType: 'LEI', idValue: 'RU0520000045', intRef: 'N4456789B', country: 'Russian Federation' },
-    { name: 'LUKOIL OAO', idType: 'BVD ID', idValue: 'BVD432187', intRef: 'L3312678C', country: 'Russian Federation' },
+    { name: 'GAZMASH IO', connType: 'Subsidiary', idType: 'DUNS Number', idValue: '788234901', intRef: 'G9921234A', country: 'Russian Federation' },
+    { name: 'NOVATEK PJSC', connType: 'Subsidiary', idType: 'LEI', idValue: 'RU0520000045', intRef: 'N4456789B', country: 'Russian Federation' },
+    { name: 'LUKOIL OAO', connType: 'Subsidiary', idType: 'BVD ID', idValue: 'BVD432187', intRef: 'L3312678C', country: 'Russian Federation' },
   ],
-  suggestedHasConnType: false,
+  suggestedHasConnType: true,
 
   documents: [
     { name: 'Passport-John Luther', type: 'PDF', size: '1.1 MB', section: 'Risk Assessment', date: '10 Nov 2025', owner: 'Compliance Group' },

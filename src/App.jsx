@@ -8,6 +8,7 @@ import Placeholder from './pages/Placeholder';
 const CompanyAdmin       = lazy(() => import('./pages/CompanyAdmin'));
 const ProfileDocuments   = lazy(() => import('./components/profile/ProfileDocuments'));
 const ProfileRiskReport  = lazy(() => import('./components/profile/ProfileRiskReport'));
+const ProfileEdit        = lazy(() => import('./components/profile/ProfileEdit'));
 
 function Loading() {
   return <div style={{ padding: 40, textAlign: 'center', color: 'var(--text-light)', fontFamily: 'Roboto, sans-serif' }}>Loading…</div>;
@@ -24,6 +25,7 @@ export default function App() {
           <Route path="/profile/:profileId" element={<ProfilePage />} />
           <Route path="/profile/:profileId/documents" element={<ProfileDocuments />} />
           <Route path="/profile/:profileId/risk-report" element={<ProfileRiskReport />} />
+          <Route path="/profile/:profileId/edit" element={<ProfileEdit />} />
           <Route path="/company-admin" element={<CompanyAdmin />} />
           <Route path="/employees" element={<Placeholder title="Employees" />} />
           <Route path="/risk-search" element={<Placeholder title="Risk Search" />} />

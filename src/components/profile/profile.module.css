@@ -725,6 +725,79 @@
   color: var(--text-light);
 }
 
+/* ── Row context menu ── */
+.moreMenuCell { width: 32px; text-align: center; position: relative; }
+.rowMenuWrap { position: relative; display: inline-block; }
+.rowMenuTrigger { background: none; border: none; cursor: pointer; color: var(--text-light); display: flex; align-items: center; padding: 2px 4px; border-radius: 3px; }
+.rowMenuTrigger:hover { background: var(--neutral-50); color: var(--text-normal); }
+.rowMenuDropdown { position: absolute; right: 0; top: calc(100% + 4px); background: var(--neutral-00); border: 1px solid var(--neutral-100); border-radius: 4px; box-shadow: 0 4px 16px rgba(0,0,0,0.12); z-index: 500; min-width: 140px; padding: 4px; }
+.rowMenuItem { display: flex; align-items: center; gap: 8px; width: 100%; padding: 8px 12px; background: none; border: none; cursor: pointer; font-size: 13px; font-weight: 500; color: var(--text-normal); text-align: left; border-radius: 3px; font-family: inherit; }
+.rowMenuItem:hover { background: var(--neutral-25); }
+.rowMenuItemDanger { color: var(--alert-500); }
+.rowMenuItemDanger:hover { background: #fff0f0; }
+
+/* ── Side panel animations ── */
+@keyframes slideInRight  { from { transform: translateX(100%); } to { transform: translateX(0); } }
+@keyframes slideOutRight { from { transform: translateX(0); } to { transform: translateX(100%); } }
+@keyframes overlayFadeIn  { from { opacity: 0; } to { opacity: 1; } }
+@keyframes overlayFadeOut { from { opacity: 1; } to { opacity: 0; } }
+
+/* ── Connect side panel ── */
+.connectOverlay { position: fixed; inset: 0; background: rgba(0,0,0,0.45); z-index: 1100; animation: overlayFadeIn 0.22s ease forwards; }
+.connectOverlayClosing { animation: overlayFadeOut 0.22s ease forwards; }
+.connectPanel { position: fixed; top: 0; right: 0; width: 540px; max-width: 100vw; height: 100vh; background: var(--neutral-00); border-top: 4px solid var(--primary-500); border-left: 1px solid var(--neutral-50); box-shadow: -4px 0 20px rgba(0,0,0,0.1); z-index: 1101; display: flex; flex-direction: column; animation: slideInRight 0.25s cubic-bezier(0.25,0.46,0.45,0.94) forwards; }
+.connectPanelClosing { animation: slideOutRight 0.22s cubic-bezier(0.55,0,1,0.45) forwards; }
+.lookMorePanel { position: fixed; top: 0; right: 0; width: 940px; max-width: 100vw; height: 100vh; background: var(--neutral-00); border-top: 4px solid var(--primary-500); border-left: 1px solid var(--neutral-50); box-shadow: -4px 0 20px rgba(0,0,0,0.1); z-index: 1101; display: flex; flex-direction: column; animation: slideInRight 0.25s cubic-bezier(0.25,0.46,0.45,0.94) forwards; }
+.lookMorePanelClosing { animation: slideOutRight 0.22s cubic-bezier(0.55,0,1,0.45) forwards; }
+
+/* ── Notes side panel ── */
+.notesPanel { position: fixed; top: 0; right: 0; width: 650px; max-width: 100vw; height: 100vh; background: var(--neutral-00); border-left: 1px solid var(--neutral-50); box-shadow: -4px 0 20px rgba(0,0,0,0.1); z-index: 1101; display: flex; flex-direction: column; animation: slideInRight 0.25s cubic-bezier(0.25,0.46,0.45,0.94) forwards; }
+.notesPanelClosing { animation: slideOutRight 0.22s cubic-bezier(0.55,0,1,0.45) forwards; }
+.notesPanelHeader { display: flex; align-items: center; justify-content: space-between; padding: 16px 20px; border-bottom: 3px solid var(--primary-500); flex-shrink: 0; }
+.notesPanelTitle { font-size: 14px; font-weight: 600; text-transform: uppercase; letter-spacing: 1.5px; color: var(--text-normal); }
+.notesPanelContent { flex: 1; overflow-y: auto; padding: 16px 20px; }
+.notesPanelFooter { border-top: 3px solid var(--primary-500); flex-shrink: 0; padding: 16px 20px; }
+.notesToolbar { display: flex; gap: 4px; margin-bottom: 10px; }
+.notesToolbarBtn { width: 35px; height: 40px; border: 1px solid var(--neutral-200); background: var(--neutral-00); cursor: pointer; display: inline-flex; align-items: center; justify-content: center; color: var(--text-normal); font-size: 14px; font-weight: 700; font-family: inherit; border-radius: 0; }
+.notesToolbarBtn:hover { background: var(--neutral-25); }
+.notesTextarea { width: 100%; min-height: 100px; border: 1px solid var(--neutral-200); padding: 8px 10px; font-size: 14px; font-family: inherit; color: var(--text-normal); resize: vertical; outline: none; line-height: 1.5; border-radius: 0; box-sizing: border-box; }
+.notesTextarea:focus { border-color: var(--primary-500); }
+.notesTextarea::placeholder { color: var(--neutral-400); }
+.notesActions { display: flex; align-items: center; justify-content: flex-end; gap: 8px; margin-top: 10px; flex-wrap: wrap; }
+.noteItem { padding: 14px 0; border-bottom: 1px solid var(--neutral-50); }
+.noteItem:last-child { border-bottom: none; }
+.noteItemText { font-size: 13px; color: var(--text-light); line-height: 1.6; white-space: pre-wrap; }
+.noteItemMeta { font-size: 11px; color: var(--neutral-300); margin-top: 6px; text-transform: uppercase; letter-spacing: 0.5px; }
+.notesEmpty { font-size: 13px; color: var(--neutral-300); text-align: center; padding: 40px 0; }
+
+.connectPanelHeader { display: flex; align-items: center; justify-content: space-between; padding: 16px 20px; border-bottom: 1px solid var(--neutral-50); flex-shrink: 0; }
+.connectPanelTitle { font-size: 18px; font-weight: 600; color: var(--text-normal); }
+.connectPanelBody { flex: 1; overflow-y: auto; padding: 24px 20px; }
+.connectPanelInfo { display: flex; flex-direction: column; gap: 16px; margin-bottom: 28px; padding-bottom: 24px; border-bottom: 1px solid var(--neutral-50); }
+.connectField { display: flex; flex-direction: column; gap: 4px; }
+.connectFieldLabel { font-size: 11px; font-weight: 600; text-transform: uppercase; letter-spacing: 0.5px; color: var(--primary-500); }
+.connectFieldValue { font-size: 14px; color: var(--text-normal); }
+.connectTypeSection { display: flex; flex-direction: column; gap: 8px; }
+.connectTypeLabel { font-size: 12px; font-weight: 600; text-transform: uppercase; letter-spacing: 0.5px; color: var(--primary-500); }
+.connectTypeSelect { width: 100%; height: 40px; border: 1px solid var(--neutral-200); border-radius: 2px; padding: 0 10px; font-size: 14px; font-family: inherit; color: var(--text-normal); background: var(--neutral-00); outline: none; appearance: auto; }
+.connectTypeSelect:focus { border-color: var(--primary-500); }
+.connectPanelFooter { display: flex; align-items: center; justify-content: flex-end; gap: 8px; padding: 14px 20px; border-top: 1px solid var(--neutral-50); flex-shrink: 0; }
+.connectPanelFooter .btnFilled:disabled { opacity: 0.4; cursor: not-allowed; }
+/* search form */
+.searchFormGrid { display: grid; grid-template-columns: 1fr 1fr; gap: 16px; margin-bottom: 20px; }
+.searchFormField { display: flex; flex-direction: column; gap: 6px; }
+.searchFormLabel { font-size: 11px; font-weight: 600; text-transform: uppercase; letter-spacing: 0.5px; color: var(--primary-500); }
+.searchFormInput { height: 40px; border: 1px solid var(--neutral-200); border-radius: 2px; padding: 0 10px; font-size: 14px; font-family: inherit; color: var(--text-normal); background: var(--neutral-00); outline: none; }
+.searchFormInput:focus { border-color: var(--primary-500); }
+.searchFormInput::placeholder { color: var(--neutral-400); }
+.searchFormSelect { height: 40px; border: 1px solid var(--neutral-200); border-radius: 2px; padding: 0 10px; font-size: 14px; font-family: inherit; color: var(--text-normal); background: var(--neutral-00); outline: none; appearance: auto; }
+.searchInlineRow { display: flex; align-items: center; gap: 8px; }
+.searchInlineRow .searchFormInput { flex: 1; min-width: 0; }
+.searchSuggestedHeader { display: flex; align-items: center; justify-content: space-between; margin-bottom: 12px; }
+.searchSuggestedTitle { font-size: 15px; font-weight: 600; color: var(--text-normal); }
+.searchResultsHeader { display: flex; align-items: center; justify-content: space-between; margin-bottom: 10px; font-size: 12px; color: var(--text-light); padding-top: 4px; }
+.searchResultsCount { font-weight: 600; color: var(--text-normal); }
+
 /* ── Risk Report ── */
 .riskReport {
   padding: 0 16px 16px;
@@ -758,6 +831,7 @@
 }
 
 .rcard {
+  display: block;
   width: calc((100% - 57px) / 4);
   position: relative;
   height: 123px;
@@ -766,6 +840,7 @@
   flex-shrink: 0;
   transition: background 0.3s ease, box-shadow 0.3s ease;
   cursor: pointer;
+  color: inherit;
 }
 
 @media (max-width: 1440px) {

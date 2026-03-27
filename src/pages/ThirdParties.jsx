@@ -3,30 +3,37 @@ import PageLayout from '../components/layout/PageLayout';
 import Breadcrumb from '../components/layout/Breadcrumb';
 import RiskBadge from '../components/ui/RiskBadge';
 import Button from '../components/ui/Button';
+import { piedpiper, brucewayne, gazprom } from '../data/profiles';
 import styles from './ThirdParties.module.css';
 
+function getOwner(p) { return p.overviewFields.find(f => f.label === 'Third Party Owner')?.value || ''; }
+function getBU(p) { return p.overviewFields.find(f => f.label === 'Business Unit')?.value || ''; }
+function getTags(p) { const t = p.overviewFields.find(f => f.label === 'Tags')?.value; return t && t !== '—' ? t : ''; }
+function getRef(p) { return p.additionalFields.find(f => f.label === 'Internal Reference or ID')?.value?.replace('—','') || ''; }
+function getStage(p) {
+  const task = p.openTasks?.[0];
+  if (!task) return 'Approved';
+  if (task.type === 'Onboarding') return 'Requires Onboarding';
+  if (task.name?.toLowerCase().includes('risk assessment')) return 'Requires Risk Assessment';
+  if (task.type?.toLowerCase().includes('risk mitigation')) return 'Requires Risk Mitigation';
+  return 'Requires Review';
+}
+
 const ROWS = [
-  { name: 'Acme company LTDA',              owner: 'Claudio Merino',                  bu: 'Europe',              stage: 'Requires Onboarding',        risk: 'high',   status: 'Open (Pending Review)' },
-  { name: 'ACME INC',                       owner: 'Emily Forbes',                    bu: 'Europe',              stage: 'Requires Risk Assessment',   risk: 'low',    status: 'Open (Pending Review)' },
-  { name: 'ADIDAS ITALY SPA',               owner: 'Emily Forbes',                    bu: 'Europe',              stage: 'Requires Onboarding',        risk: 'high',   status: 'Confirmed' },
-  { name: 'Adidas Italy SPA',               owner: 'Claudio Merino',                  bu: 'Europe',              stage: 'Requires Onboarding',        risk: 'low',    status: 'Open (Pending Review)' },
-  { name: 'Ali Baba',                       owner: 'Emily Forbes',                    bu: 'Entity Verification', stage: 'Approved',                   risk: 'high',   status: 'Confirmed' },
-  { name: 'Apparel Empire',                 owner: 'Emily Forbes',                    bu: 'Entity Verification', stage: 'Approved',                   risk: 'medium', status: 'Open (Pending Review)', tag: 'Gas & Oil' },
-  { name: 'Apparel Empire',                 owner: 'This is the name of my default group', bu: 'Europe',         stage: 'Requires Onboarding',        risk: 'low',    status: 'Confirmed' },
-  { name: 'Apple',                          owner: 'Emily Forbes',                    bu: 'test',                stage: 'Requires Risk Mitigation',   risk: 'low',    status: 'Open (Pending Review)', tag: 'Gas & Oil' },
-  { name: 'Arlei',                          owner: 'Emily Forbes',                    bu: 'Europe',              stage: 'Approved',                   risk: 'low',    status: 'Confirmed' },
-  { name: 'Baxter Juarez',                  owner: 'Emily Forbes',                    bu: 'Entity Verification', stage: 'Approved',                   risk: 'low',    status: 'Open (Pending Review)', ref: 'SoleMaker0001' },
-  { name: 'Baxter Juarez',                  owner: 'Claudio Merino',                  bu: 'Europe',              stage: 'Approved',                   risk: 'high',   status: 'Confirmed' },
-  { name: 'BESTWAY WHOLESALE HOLDINGS LIMITED', owner: 'Emily Forbes',               bu: 'Europe',              stage: 'Requires Risk Assessment',   risk: 'low',    status: 'Open (Pending Review)' },
-  { name: 'Blanco',                         owner: 'Emily Forbes',                    bu: 'Europe',              stage: 'Approved',                   risk: 'high',   status: 'Confirmed' },
-  { name: 'BMW',                            owner: 'Emily Forbes',                    bu: 'Europe',              stage: 'Requires Onboarding',        risk: 'medium', status: 'Open (Pending Review)', tag: 'Gas & Oil' },
-  { name: 'BP P.L.C.',                      owner: 'Emily Forbes',                    bu: 'test',                stage: 'Requires Onboarding',        risk: 'low',    status: 'Confirmed' },
-  { name: 'British Petroleum',              owner: 'Emily Forbes',                    bu: 'Europe',              stage: 'Approved',                   risk: 'medium', status: 'Open (Pending Review)', ref: 'Ea ut sint laboriosa' },
-  { name: 'Coinbase',                       owner: 'Emily Forbes',                    bu: 'Europe',              stage: 'Approved',                   risk: 'low',    status: 'Confirmed' },
-  { name: 'Coke',                           owner: 'Emily Forbes',                    bu: 'Europe',              stage: 'Approved',                   risk: 'low',    status: 'Open (Pending Review)' },
-  { name: 'Donald John Trump',              owner: 'Emily Forbes',                    bu: 'Entity Verification', stage: 'Requires Onboarding',        risk: 'high',   status: 'Confirmed' },
-  { name: 'Dundler Mifflin',                owner: 'Emily Forbes',                    bu: 'test',                stage: 'Requires Risk Mitigation',   risk: 'low',    status: 'Open (Pending Review)' },
-];
+  { profile: piedpiper,   id: 'piedpiper' },
+  { profile: brucewayne,  id: 'brucewayne' },
+  { profile: gazprom,     id: 'gazprom' },
+].map(({ profile, id }) => ({
+  id,
+  name:   profile.name,
+  owner:  getOwner(profile),
+  bu:     getBU(profile),
+  tag:    getTags(profile),
+  stage:  getStage(profile),
+  risk:   profile.riskLevel.level,
+  ref:    getRef(profile),
+  status: profile.currentStatus.label,
+}));
 
 export default function ThirdParties() {
   return (
@@ -80,7 +87,7 @@ export default function ThirdParties() {
             <tbody>
               {ROWS.map((row, i) => (
                 <tr key={i}>
-                  <td><Link to="/profile/piedpiper" className={styles.cellLink}>{row.name}</Link></td>
+                  <td><Link to={`/profile/${row.id}`} className={styles.cellLink}>{row.name}</Link></td>
                   <td>{row.owner}</td>
                   <td>{row.bu}</td>
                   <td>{row.tag && <span className={styles.tag}>{row.tag}</span>}</td>
@@ -99,16 +106,16 @@ export default function ThirdParties() {
             <select className={styles.pageSize}>
               <option>20</option><option>50</option><option>100</option>
             </select>
-            <span>Showing results 1 – 20 of 199</span>
+            <span>Showing results 1 – 3 of 3</span>
           </div>
           <div className={styles.paginationRight}>
             <button className={styles.pageBtn} disabled><span className="material-icons-outlined">first_page</span></button>
             <button className={styles.pageBtn} disabled><span className="material-icons-outlined">chevron_left</span></button>
             <span>Page</span>
-            <input className={styles.pageInput} type="number" defaultValue={1} min={1} max={8} />
-            <span>of 8</span>
-            <button className={styles.pageBtn}><span className="material-icons-outlined">chevron_right</span></button>
-            <button className={styles.pageBtn}><span className="material-icons-outlined">last_page</span></button>
+            <input className={styles.pageInput} type="number" defaultValue={1} min={1} max={1} />
+            <span>of 1</span>
+            <button className={styles.pageBtn} disabled><span className="material-icons-outlined">chevron_right</span></button>
+            <button className={styles.pageBtn} disabled><span className="material-icons-outlined">last_page</span></button>
           </div>
         </div>
       </div>

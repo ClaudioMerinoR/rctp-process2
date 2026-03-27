@@ -1,5 +1,5 @@
-import { useState } from 'react';
-import { Link, useParams } from 'react-router-dom';
+import { useState, useEffect, useRef } from 'react';
+import { Link, useParams, useNavigate } from 'react-router-dom';
 import PageLayout from '../layout/PageLayout';
 import Breadcrumb from '../layout/Breadcrumb';
 import { profiles } from '../../data/profiles';
@@ -116,15 +116,29 @@ export { Sidebar, PartnerIcon, PARTNER_ICONS, TASK_ICONS, riskBadge };
 
 export default function ProfilePage({ profile: profileProp, embedded = false }) {
   const params = useParams();
+  const navigate = useNavigate();
   const profile = profileProp || profiles[params.profileId];
   const [activeTab, setActiveTab] = useState('overview');
   const [alert, setAlert] = useState(null);
   const [deleteModalOpen, setDeleteModalOpen] = useState(false);
+  const [showNotes, setShowNotes] = useState(false);
+  const [notes, setNotes] = useState([]);
+  const [noteText, setNoteText] = useState('');
 
   const [checked, setChecked] = useState((profile?.suggestedRows || []).map(() => false));
   const allChecked  = checked.length > 0 && checked.every(Boolean);
   const someChecked = checked.some(Boolean) && !allChecked;
   const anyChecked  = checked.some(Boolean);
+
+  // Connect panel state
+  const [connectPanelRow, setConnectPanelRow] = useState(null);
+  const [connectedRows, setConnectedRows] = useState(profile?.connectedRows || []);
+  const [suggestedRows, setSuggestedRows] = useState(profile?.suggestedRows || []);
+  const [showLookMore, setShowLookMore] = useState(false);
+
+  // Row menu + edit
+  const [openMenuIndex, setOpenMenuIndex] = useState(null);
+  const [editRow, setEditRow] = useState(null); // { index, row }
 
   if (!profile) return <div style={{ padding: 40, textAlign: 'center' }}>Profile not found</div>;
 
@@ -132,12 +146,23 @@ export default function ProfilePage({ profile: profileProp, embedded = false }) 
   function handleRowCheck(i, val) { const next = [...checked]; next[i] = val; setChecked(next); }
 
   function handleConnect() {
-    setChecked(profile.suggestedRows.map(() => false));
+    const selectedIndex = checked.findIndex(Boolean);
+    if (selectedIndex === -1) return;
+    setConnectPanelRow(suggestedRows[selectedIndex]);
+  }
+  function handleConnectConfirm(row, connType) {
+    setConnectedRows(prev => [...prev, { ...row, connType }]);
+    setSuggestedRows(prev => prev.filter(r => r !== row));
+    setConnectPanelRow(null);
+    setChecked(prev => prev.filter((_, i) => suggestedRows[i] !== row));
+    setActiveTab('connections');
     setAlert({ type: 'success', message: 'Connection added successfully' });
     setTimeout(() => setAlert(null), 5000);
   }
   function handleDiscard() {
-    setChecked(profile.suggestedRows.map(() => false));
+    const indicesToRemove = checked.map((c, i) => c ? i : -1).filter(i => i !== -1);
+    setSuggestedRows(prev => prev.filter((_, i) => !indicesToRemove.includes(i)));
+    setChecked(prev => prev.filter((_, i) => !indicesToRemove.includes(i)));
     setAlert({ type: 'warning', message: 'Connection discarded' });
     setTimeout(() => setAlert(null), 5000);
   }
@@ -229,8 +254,8 @@ export default function ProfilePage({ profile: profileProp, embedded = false }) 
                   <span className={styles.activeText}>Active</span>
                   <span className="material-icons-outlined" style={{ fontSize: 16, color: 'var(--success-700)' }}>verified</span>
                 </div>
-                <button className={`${styles.btn} ${styles.btnOutline}`}>Notes</button>
-                <button className={`${styles.btn} ${styles.btnFilled}`}>Edit</button>
+                <button className={`${styles.btn} ${styles.btnOutline}`} onClick={() => setShowNotes(true)}>Notes</button>
+                <button className={`${styles.btn} ${styles.btnFilled}`} onClick={() => navigate(`/profile/${profile.id}/edit`)}>Edit</button>
               </div>
             </div>
 
@@ -303,7 +328,7 @@ export default function ProfilePage({ profile: profileProp, embedded = false }) 
                         </tr>
                       </thead>
                       <tbody>
-                        {profile.connectedRows.map((r, i) => (
+                        {connectedRows.map((r, i) => (
                           <tr key={i}>
                             <td><span className={styles.cellLink}>{r.name}</span></td>
                             <td>{r.connType}</td>
@@ -311,7 +336,18 @@ export default function ProfilePage({ profile: profileProp, embedded = false }) 
                             <td>{r.idValue}</td>
                             <td>{r.intRef}</td>
                             <td>{r.country}</td>
-                            <td className={styles.moreMenu}><span className="material-icons-outlined" style={{ fontSize: 18 }}>more_vert</span></td>
+                            <td className={styles.moreMenuCell}>
+                              <RowMenu
+                                open={openMenuIndex === i}
+                                onToggle={() => setOpenMenuIndex(openMenuIndex === i ? null : i)}
+                                onClose={() => setOpenMenuIndex(null)}
+                                onEdit={() => { setOpenMenuIndex(null); setEditRow({ index: i, row: r }); }}
+                                onDisconnect={() => {
+                                  setOpenMenuIndex(null);
+                                  setConnectedRows(prev => prev.filter((_, idx) => idx !== i));
+                                }}
+                              />
+                            </td>
                           </tr>
                         ))}
                       </tbody>
@@ -347,9 +383,9 @@ export default function ProfilePage({ profile: profileProp, embedded = false }) 
                         </tr>
                       </thead>
                       <tbody>
-                        {profile.suggestedRows.map((r, i) => (
+                        {suggestedRows.map((r, i) => (
                           <tr key={i}>
-                            <td><input type="checkbox" checked={checked[i]} onChange={e => handleRowCheck(i, e.target.checked)} /></td>
+                            <td><input type="checkbox" checked={checked[i] || false} onChange={e => handleRowCheck(i, e.target.checked)} /></td>
                             <td><span className={styles.cellLink}>{r.name}</span></td>
                             {profile.suggestedHasConnType && <td>{r.connType}</td>}
                             <td>{r.idType}</td>
@@ -363,7 +399,7 @@ export default function ProfilePage({ profile: profileProp, embedded = false }) 
                   </div>
 
                   <div className={styles.connLookMore}>
-                    <button className={styles.btnSearch}>
+                    <button className={styles.btnSearch} onClick={() => setShowLookMore(true)}>
                       <span className="material-icons-outlined" style={{ fontSize: 18 }}>search</span>
                       Look for more connections
                     </button>
@@ -382,8 +418,11 @@ export default function ProfilePage({ profile: profileProp, embedded = false }) 
             <div className={styles.riskRow}>
               {profile.riskCards.map((rc, i) => {
                 const b = riskBadge(rc.level);
+                const sectionId = (profile.riskReport?.accordionSections || []).find(
+                  s => s.label.toLowerCase().includes(rc.title.toLowerCase())
+                )?.id || rc.title.toLowerCase().replace(/[^a-z]+/g, '-');
                 return (
-                  <div key={i} className={`${styles.rcard} ${styles['rcard_' + rc.level]}`}>
+                  <Link key={i} to={`/profile/${profile.id}/risk-report#${sectionId}`} className={`${styles.rcard} ${styles['rcard_' + rc.level]}`} style={{ textDecoration: 'none' }}>
                     <div className={styles.rcardTitle}>{rc.title}</div>
                     <span className={`${styles.rcardLbl} ${styles.lblRisk}`}>Risk Level</span>
                     <span className={`${styles.rcardLbl} ${styles.lblFlags}`}>Red flags</span>
@@ -396,7 +435,7 @@ export default function ProfilePage({ profile: profileProp, embedded = false }) 
                         <span className="material-icons-outlined" style={{ fontSize: 14, verticalAlign: 'middle' }}>{b.icon}</span>
                       </span>
                     </span>
-                  </div>
+                  </Link>
                 );
               })}
             </div>
@@ -508,8 +547,470 @@ export default function ProfilePage({ profile: profileProp, embedded = false }) 
           </section>
         </main>
       </div>
+
+      {/* Edit connection panel */}
+      {editRow && (
+        <EditConnectionPanel
+          row={editRow.row}
+          onClose={() => setEditRow(null)}
+          onSave={(connType) => {
+            setConnectedRows(prev => prev.map((r, i) => i === editRow.index ? { ...r, connType } : r));
+            setEditRow(null);
+            setAlert({ type: 'success', message: 'Connection updated successfully' });
+            setTimeout(() => setAlert(null), 5000);
+          }}
+        />
+      )}
+
+      {/* Connect side panel */}
+      {connectPanelRow && (
+        <ConnectPanel
+          row={connectPanelRow}
+          onClose={() => setConnectPanelRow(null)}
+          onConfirm={handleConnectConfirm}
+        />
+      )}
+
+      {/* Look for more connections panel */}
+      {showLookMore && (
+        <LookMorePanel
+          onClose={() => setShowLookMore(false)}
+          onSelect={row => {
+            setShowLookMore(false);
+            setConnectPanelRow(row);
+          }}
+        />
+      )}
+
+      {/* Notes side panel */}
+      {showNotes && (
+        <NotesPanel
+          profileName={profile.shortName}
+          notes={notes}
+          noteText={noteText}
+          onNoteTextChange={setNoteText}
+          onAddNote={() => {
+            if (noteText.trim()) {
+              setNotes(prev => [...prev, { text: noteText.trim(), time: new Date().toLocaleString() }]);
+              setNoteText('');
+            }
+          }}
+          onClose={() => setShowNotes(false)}
+        />
+      )}
     </>
   );
 
   return embedded ? content : <PageLayout>{content}</PageLayout>;
+}
+
+/* ─────────────────────── Row context menu ─────────────────────── */
+
+function RowMenu({ open, onToggle, onClose, onEdit, onDisconnect }) {
+  const ref = useRef(null);
+
+  useEffect(() => {
+    if (!open) return;
+    function handleClick(e) { if (ref.current && !ref.current.contains(e.target)) onClose(); }
+    document.addEventListener('mousedown', handleClick);
+    return () => document.removeEventListener('mousedown', handleClick);
+  }, [open, onClose]);
+
+  return (
+    <div className={styles.rowMenuWrap} ref={ref}>
+      <button className={styles.rowMenuTrigger} onClick={onToggle}>
+        <span className="material-icons-outlined" style={{ fontSize: 18 }}>more_vert</span>
+      </button>
+      {open && (
+        <div className={styles.rowMenuDropdown}>
+          <button className={styles.rowMenuItem} onClick={onEdit}>
+            <span className="material-icons-outlined" style={{ fontSize: 16 }}>edit</span>
+            Edit
+          </button>
+          <button className={`${styles.rowMenuItem} ${styles.rowMenuItemDanger}`} onClick={onDisconnect}>
+            <span className="material-icons-outlined" style={{ fontSize: 16 }}>link_off</span>
+            Disconnect
+          </button>
+        </div>
+      )}
+    </div>
+  );
+}
+
+/* ─────────────────────── Edit connection panel ─────────────────────── */
+
+function EditConnectionPanel({ row, onClose, onSave }) {
+  const { closing, triggerClose, handleAnimationEnd } = useClosingAnimation(onClose);
+  const [connType, setConnType] = useState(row.connType || '');
+
+  useEffect(() => {
+    document.body.style.overflow = 'hidden';
+    return () => { document.body.style.overflow = ''; };
+  }, []);
+
+  const fields = [
+    { label: 'Third Party Name', value: row.name },
+    { label: 'ID Type', value: row.idType },
+    { label: 'ID Value', value: row.idValue },
+    { label: 'Internal Reference or ID', value: row.intRef },
+    { label: 'Country of Registration', value: row.country },
+  ];
+
+  return (
+    <>
+      <div
+        className={`${styles.connectOverlay} ${closing ? styles.connectOverlayClosing : ''}`}
+        onClick={triggerClose}
+      />
+      <div
+        className={`${styles.connectPanel} ${closing ? styles.connectPanelClosing : ''}`}
+        onAnimationEnd={handleAnimationEnd}
+      >
+        <div className={styles.connectPanelHeader}>
+          <span className={styles.connectPanelTitle}>Edit Connection</span>
+          <button className={`${styles.btn} ${styles.btnOutline}`} onClick={triggerClose}>Close</button>
+        </div>
+        <div className={styles.connectPanelBody}>
+          <div className={styles.connectPanelInfo}>
+            {fields.map((f, i) => (
+              <div key={i} className={styles.connectField}>
+                <div className={styles.connectFieldLabel}>{f.label}</div>
+                <div className={styles.connectFieldValue}>{f.value || '—'}</div>
+              </div>
+            ))}
+          </div>
+          <div className={styles.connectTypeSection}>
+            <label className={styles.connectTypeLabel}>
+              Connection Type <span style={{ color: 'var(--alert-500)' }}>*</span>
+            </label>
+            <select
+              className={styles.connectTypeSelect}
+              value={connType}
+              onChange={e => setConnType(e.target.value)}
+            >
+              <option value="">Select a connection type…</option>
+              {CONNECTION_TYPES.map(t => <option key={t}>{t}</option>)}
+            </select>
+          </div>
+        </div>
+        <div className={styles.connectPanelFooter}>
+          <button className={`${styles.btn} ${styles.btnOutline}`} onClick={triggerClose}>Cancel</button>
+          <button
+            className={`${styles.btn} ${styles.btnFilled}`}
+            disabled={!connType}
+            onClick={() => onSave(connType)}
+          >
+            Save
+          </button>
+        </div>
+      </div>
+    </>
+  );
+}
+
+/* ─────────────────────── Shared panel close hook ─────────────────────── */
+
+function useClosingAnimation(onClose) {
+  const [closing, setClosing] = useState(false);
+  function triggerClose() { setClosing(true); }
+  function handleAnimationEnd() { if (closing) onClose(); }
+  return { closing, triggerClose, handleAnimationEnd };
+}
+
+/* ─────────────────────── Connect side panel ─────────────────────── */
+
+const CONNECTION_TYPES = ['Subsidiary', 'Parent Company', 'Joint Venture', 'Affiliate', 'Branch', 'Agent', 'Supplier', 'Customer', 'Subcontractor'];
+
+function ConnectPanel({ row, onClose, onConfirm }) {
+  const { closing, triggerClose, handleAnimationEnd } = useClosingAnimation(onClose);
+  const [connType, setConnType] = useState(row.connType || '');
+
+  useEffect(() => {
+    document.body.style.overflow = 'hidden';
+    return () => { document.body.style.overflow = ''; };
+  }, []);
+
+  const fields = [
+    { label: 'Third Party Name', value: row.name },
+    { label: 'ID Type', value: row.idType },
+    { label: 'ID Value', value: row.idValue },
+    { label: 'Internal Reference or ID', value: row.intRef },
+    { label: 'Country of Registration', value: row.country },
+  ];
+
+  return (
+    <>
+      <div
+        className={`${styles.connectOverlay} ${closing ? styles.connectOverlayClosing : ''}`}
+        onClick={triggerClose}
+      />
+      <div
+        className={`${styles.connectPanel} ${closing ? styles.connectPanelClosing : ''}`}
+        onAnimationEnd={handleAnimationEnd}
+      >
+        <div className={styles.connectPanelHeader}>
+          <span className={styles.connectPanelTitle}>Connect Third Party</span>
+          <button className={`${styles.btn} ${styles.btnOutline}`} onClick={triggerClose}>Close</button>
+        </div>
+        <div className={styles.connectPanelBody}>
+          <div className={styles.connectPanelInfo}>
+            {fields.map((f, i) => (
+              <div key={i} className={styles.connectField}>
+                <div className={styles.connectFieldLabel}>{f.label}</div>
+                <div className={styles.connectFieldValue}>{f.value || '—'}</div>
+              </div>
+            ))}
+          </div>
+          <div className={styles.connectTypeSection}>
+            <label className={styles.connectTypeLabel}>
+              Connection Type <span style={{ color: 'var(--alert-500)' }}>*</span>
+            </label>
+            <select
+              className={styles.connectTypeSelect}
+              value={connType}
+              onChange={e => setConnType(e.target.value)}
+            >
+              <option value="">Select a connection type…</option>
+              {CONNECTION_TYPES.map(t => <option key={t}>{t}</option>)}
+            </select>
+          </div>
+        </div>
+        <div className={styles.connectPanelFooter}>
+          <button className={`${styles.btn} ${styles.btnOutline}`} onClick={triggerClose}>Cancel</button>
+          <button
+            className={`${styles.btn} ${styles.btnFilled}`}
+            disabled={!connType}
+            onClick={() => onConfirm(row, connType)}
+          >
+            <span className="material-icons-outlined" style={{ fontSize: 16 }}>link</span>
+            Connect
+          </button>
+        </div>
+      </div>
+    </>
+  );
+}
+
+/* ─────────────────────── Notes side panel ─────────────────────── */
+
+const TOOLBAR_BUTTONS = [
+  { icon: 'format_bold', title: 'Bold' },
+  { icon: 'format_italic', title: 'Italic' },
+  { icon: 'format_underlined', title: 'Underline' },
+  { icon: 'format_list_bulleted', title: 'Bullet List' },
+  { icon: 'format_list_numbered', title: 'Numbered List' },
+  { icon: 'keyboard_return', title: 'Line Break' },
+];
+
+function NotesPanel({ profileName, notes, noteText, onNoteTextChange, onAddNote, onClose }) {
+  const { closing, triggerClose, handleAnimationEnd } = useClosingAnimation(onClose);
+
+  useEffect(() => {
+    document.body.style.overflow = 'hidden';
+    return () => { document.body.style.overflow = ''; };
+  }, []);
+
+  return (
+    <>
+      <div
+        className={`${styles.connectOverlay} ${closing ? styles.connectOverlayClosing : ''}`}
+        onClick={triggerClose}
+      />
+      <div
+        className={`${styles.notesPanel} ${closing ? styles.notesPanelClosing : ''}`}
+        onAnimationEnd={handleAnimationEnd}
+      >
+        <div className={styles.notesPanelHeader}>
+          <span className={styles.notesPanelTitle}>Note - {profileName} / Available Threads</span>
+          <button className={`${styles.btn} ${styles.btnOutline}`} onClick={triggerClose}>Close</button>
+        </div>
+        <div className={styles.notesPanelContent}>
+          {notes.length === 0
+            ? <div className={styles.notesEmpty}>No notes yet.</div>
+            : notes.map((n, i) => (
+                <div key={i} className={styles.noteItem}>
+                  <div className={styles.noteItemText}>{n.text}</div>
+                  <div className={styles.noteItemMeta}>{n.time}</div>
+                </div>
+              ))
+          }
+        </div>
+        <div className={styles.notesPanelFooter}>
+          <div className={styles.notesToolbar}>
+            {TOOLBAR_BUTTONS.map(b => (
+              <button key={b.icon} className={styles.notesToolbarBtn} title={b.title} type="button">
+                <span className="material-icons-outlined" style={{ fontSize: 18 }}>{b.icon}</span>
+              </button>
+            ))}
+          </div>
+          <textarea
+            className={styles.notesTextarea}
+            placeholder="Start a new thread..."
+            value={noteText}
+            onChange={e => onNoteTextChange(e.target.value)}
+          />
+          <div className={styles.notesActions}>
+            <button className={`${styles.btn} ${styles.btnOutline}`} type="button">
+              <span className="material-icons-outlined" style={{ fontSize: 16 }}>person_add</span>
+              Include Internal User
+            </button>
+            <button className={`${styles.btn} ${styles.btnOutline}`} type="button">
+              <span className="material-icons-outlined" style={{ fontSize: 16 }}>person_add_alt</span>
+              Include External User
+            </button>
+            <button className={`${styles.btn} ${styles.btnOutline}`} type="button">
+              <span className="material-icons-outlined" style={{ fontSize: 16 }}>attach_file</span>
+              Add Attachment
+            </button>
+            <button className={`${styles.btn} ${styles.btnFilled}`} type="button" onClick={onAddNote}>
+              Add Note
+            </button>
+          </div>
+        </div>
+      </div>
+    </>
+  );
+}
+
+/* ─────────────────────── Look for more connections panel ─────────────────────── */
+
+const SEARCH_POOL = [
+  { name: 'ROSNEFT OAO',          connType: 'Subsidiary',   idType: 'DUNS Number', idValue: '552341209',    intRef: 'R1100567D', country: 'Russian Federation' },
+  { name: 'SURGUTNEFTEGAS PJSC',  connType: 'Affiliate',    idType: 'LEI',         idValue: 'RU0620000088', intRef: 'S2209341E', country: 'Russian Federation' },
+  { name: 'TRANSNEFT PJSC',       connType: 'Affiliate',    idType: 'LEI',         idValue: 'RU0430000072', intRef: 'T8823456E', country: 'Russian Federation' },
+  { name: 'NOVATEK PJSC',         connType: 'Joint Venture',idType: 'LEI',         idValue: 'RU0520000045', intRef: 'N4456789B', country: 'Russian Federation' },
+  { name: 'LUKOIL OAO',           connType: 'Subsidiary',   idType: 'BVD ID',      idValue: 'BVD432187',    intRef: 'L3312678C', country: 'Russian Federation' },
+  { name: 'SIBUR HOLDING',        connType: 'Parent',       idType: 'BVD ID',      idValue: 'BVD891234',    intRef: 'S5534567F', country: 'Russian Federation' },
+  { name: 'RUSHYDRO PJSC',        connType: 'Subsidiary',   idType: 'LEI',         idValue: 'RU0530000099', intRef: 'RH441200C', country: 'Russian Federation' },
+];
+
+function LookMorePanel({ onClose, onSelect }) {
+  const { closing, triggerClose, handleAnimationEnd } = useClosingAnimation(onClose);
+  const [nameQuery, setNameQuery] = useState('');
+  const [results, setResults] = useState(null);
+  const [checked, setChecked] = useState([]);
+
+  useEffect(() => {
+    document.body.style.overflow = 'hidden';
+    return () => { document.body.style.overflow = ''; };
+  }, []);
+
+  function handleSearch() {
+    const filtered = SEARCH_POOL.filter(r =>
+      !nameQuery.trim() || r.name.toLowerCase().includes(nameQuery.toLowerCase())
+    );
+    setResults(filtered);
+    setChecked(filtered.map(() => false));
+  }
+
+  const allChecked  = checked.length > 0 && checked.every(Boolean);
+  const someChecked = checked.some(Boolean) && !allChecked;
+  const anyChecked  = checked.some(Boolean);
+
+  function handleSelectAll(e) { setChecked(checked.map(() => e.target.checked)); }
+  function handleRowCheck(i, val) { const next = [...checked]; next[i] = val; setChecked(next); }
+
+  function handleConnect() {
+    const idx = checked.findIndex(Boolean);
+    if (idx === -1) return;
+    const row = results[idx];
+    triggerClose();
+    setTimeout(() => onSelect(row), 220);
+  }
+
+  function handleDiscard() {
+    setChecked(checked.map(() => false));
+  }
+
+  return (
+    <>
+      <div
+        className={`${styles.connectOverlay} ${closing ? styles.connectOverlayClosing : ''}`}
+        onClick={triggerClose}
+      />
+      <div
+        className={`${styles.lookMorePanel} ${closing ? styles.lookMorePanelClosing : ''}`}
+        onAnimationEnd={handleAnimationEnd}
+      >
+        <div className={styles.connectPanelHeader}>
+          <span className={styles.connectPanelTitle}>Search for connections</span>
+          <button className={`${styles.btn} ${styles.btnOutline}`} onClick={triggerClose}>Close</button>
+        </div>
+
+        <div className={styles.connectPanelBody}>
+          {/* Search row */}
+          <div className={styles.searchFormField} style={{ marginBottom: 20 }}>
+            <label className={styles.searchFormLabel}>Entity Name</label>
+            <div className={styles.searchInlineRow}>
+              <input
+                className={styles.searchFormInput}
+                type="text"
+                placeholder="Search for entity"
+                value={nameQuery}
+                onChange={e => setNameQuery(e.target.value)}
+                onKeyDown={e => e.key === 'Enter' && handleSearch()}
+              />
+              <button className={`${styles.btn} ${styles.btnFilled}`} onClick={handleSearch}>
+                Search
+              </button>
+            </div>
+          </div>
+
+          {/* Results */}
+          {results !== null && (
+            results.length === 0 ? (
+              <div style={{ padding: '24px 0', textAlign: 'center', color: 'var(--text-light)', fontSize: 13 }}>
+                No third parties found matching your search.
+              </div>
+            ) : (
+              <>
+                <div className={styles.searchSuggestedHeader}>
+                  <span className={styles.searchSuggestedTitle}>Suggested Third Parties</span>
+                  <div className={styles.connActions}>
+                    <button className={`${styles.btn} ${styles.btnDiscard}`} disabled={!anyChecked} onClick={handleDiscard}>Discard</button>
+                    <button className={`${styles.btn} ${styles.btnConnect}`} disabled={!anyChecked} onClick={handleConnect}>Connect</button>
+                  </div>
+                </div>
+                <table className={styles.table}>
+                  <thead>
+                    <tr>
+                      <th style={{ width: 32 }}>
+                        <input
+                          type="checkbox"
+                          checked={allChecked}
+                          ref={el => { if (el) el.indeterminate = someChecked; }}
+                          onChange={handleSelectAll}
+                        />
+                      </th>
+                      <th>Third Party Name</th>
+                      <th>Connection Type</th>
+                      <th>ID Type</th>
+                      <th>ID Value</th>
+                      <th>Internal Reference or ID</th>
+                    </tr>
+                  </thead>
+                  <tbody>
+                    {results.map((r, i) => (
+                      <tr key={i}>
+                        <td><input type="checkbox" checked={checked[i] || false} onChange={e => handleRowCheck(i, e.target.checked)} /></td>
+                        <td><span className={styles.cellLink}>{r.name}</span></td>
+                        <td>{r.connType}</td>
+                        <td>{r.idType}</td>
+                        <td style={{ fontFamily: 'monospace', fontSize: 12 }}>{r.idValue}</td>
+                        <td>{r.intRef}</td>
+                      </tr>
+                    ))}
+                  </tbody>
+                </table>
+              </>
+            )
+          )}
+        </div>
+
+        <div className={styles.connectPanelFooter}>
+          <button className={`${styles.btn} ${styles.btnOutline}`} onClick={triggerClose}>Cancel</button>
+        </div>
+      </div>
+    </>
+  );
 }
