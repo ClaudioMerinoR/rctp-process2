@@ -568,7 +568,6 @@ export default function AddThirdParty() {
                 <div className={styles.activeToggleTrack}>{isActive ? 'Active' : 'Inactive'}</div>
                 <div className={styles.activeToggleThumb} />
               </div>
-              <p className={styles.activeToggleHint}>Check to make your third party active and uncheck to deactivate. Deactivated Third parties cannot be invited to processes.</p>
             </div>
           </div>
           <div className={styles.summaryGrid}>
