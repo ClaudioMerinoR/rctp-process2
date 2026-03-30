@@ -193,6 +193,7 @@
 .btnFilled:hover { background: var(--primary-600); }
 .btnOutline { display: inline-flex; align-items: center; gap: 4px; height: 32px; padding: 0 12px; background: var(--neutral-00); border: 1px solid var(--neutral-300); color: var(--text-normal); border-radius: 4px; font-size: 12px; font-weight: 500; text-transform: uppercase; letter-spacing: 0.5px; cursor: pointer; font-family: inherit; white-space: nowrap; }
 .btnOutline:hover { background: var(--neutral-25); border-color: var(--neutral-400); }
+.btnOutlineActive { background: var(--neutral-25); border-color: var(--neutral-400); }
 .btnGhost { display: inline-flex; align-items: center; height: 32px; padding: 0 12px; background: none; border: none; color: var(--text-light); font-size: 12px; font-weight: 500; text-transform: uppercase; letter-spacing: 0.5px; cursor: pointer; text-decoration: none; font-family: inherit; }
 .btnGhost:hover { color: var(--text-normal); background: var(--neutral-25); }
 

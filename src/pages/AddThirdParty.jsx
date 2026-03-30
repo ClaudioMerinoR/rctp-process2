@@ -351,12 +351,12 @@ export default function AddThirdParty() {
                 {errors.name && <div className={styles.fieldError}>Third Party Name is required.</div>}
               </div>
               <div className={styles.nameActions}>
-                <button className={styles.btnOutline} onClick={handleCheckDuplicates}>
+                <button className={`${styles.btnOutline} ${showDupCheck ? styles.btnOutlineActive : ''}`} onClick={handleCheckDuplicates}>
                   <span className="material-icons-outlined" style={{ fontSize: 16 }}>content_copy</span>
                   Check for Duplicates
                 </button>
                 {tpType === 'entity' && (
-                  <button className={styles.btnOutline} onClick={handleEntityVerification}>
+                  <button className={`${styles.btnOutline} ${showVerify ? styles.btnOutlineActive : ''}`} onClick={handleEntityVerification}>
                     <span className="material-icons-outlined" style={{ fontSize: 16 }}>verified</span>
                     Entity Verification
                   </button>
@@ -765,7 +765,6 @@ export default function AddThirdParty() {
           {/* Entity form */}
           {tpType === 'entity' && (
             <>
-              <div className={styles.obSectionLabel}>Entity</div>
               <div className={styles.obBlocks}>
                 <div className={styles.obBlock}>
                   <div className={styles.obBlockHead}><span className={styles.obNum}>1.</span><span className={styles.obLabel}>Legal Name of the Third Party</span><span className={styles.req}>*</span></div>
@@ -829,7 +828,6 @@ export default function AddThirdParty() {
           {/* Person form */}
           {tpType === 'person' && (
             <>
-              <div className={styles.obSectionLabel}>Individual / Person</div>
               <div className={styles.obBlocks}>
                 <div className={styles.obBlock}>
                   <div className={styles.obBlockHead}><span className={styles.obNum}>1.</span><span className={styles.obLabel}>Legal Name of the Third Party</span><span className={styles.req}>*</span></div>
@@ -899,7 +897,6 @@ export default function AddThirdParty() {
           {/* Unknown form */}
           {tpType === 'unknown' && (
             <>
-              <div className={styles.obSectionLabel}>Unknown</div>
               <div className={styles.obBlocks}>
                 <div className={styles.obBlock}>
                   <div className={styles.obBlockHead}><span className={styles.obNum}>1.</span><span className={styles.obLabel}>Legal Name of the Third Party</span><span className={styles.req}>*</span></div>
