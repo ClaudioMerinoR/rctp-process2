@@ -5,6 +5,8 @@
 .activeToggleOff .activeToggleTrack { color: var(--neutral-00); padding-right: 0; padding-left: 14px; }
 .activeToggleThumb { position: absolute; top: -2px; bottom: -2px; width: 26px; background: var(--neutral-00); right: -13px; transition: right 0.15s, left 0.15s; }
 .activeToggleOff .activeToggleThumb { right: auto; left: -13px; }
+.activeToggleWrap { display: flex; flex-direction: column; align-items: flex-end; gap: 4px; }
+.activeToggleHint { font-size: 11px; font-weight: 400; text-transform: none; letter-spacing: normal; color: var(--text-light); line-height: 1; white-space: nowrap; }
 
 /* ── Owner toggle ── */
 .ownerToggle { display: inline-flex; margin-bottom: 6px; }
@@ -349,6 +351,29 @@
 .cancelModalConfirm:hover { background: var(--primary-600); }
 
 /* ── Notes side panel ── */
+/* ── Language side panel ── */
+.langPanel { position: fixed; top: 0; right: 0; width: 660px; max-width: 100vw; height: 100vh; background: var(--neutral-00); border-left: 1px solid rgba(0,0,0,0.13); box-shadow: -4px 0 20px rgba(0,0,0,0.1); z-index: 1101; display: flex; flex-direction: column; }
+.langPanelHeader { display: flex; align-items: center; justify-content: space-between; padding: 16px 15px; flex-shrink: 0; }
+.langPanelTitle { font-size: 20px; font-weight: 500; text-transform: uppercase; letter-spacing: 1px; color: var(--text-normal); font-family: var(--font-heading); }
+.langSearchRow { display: flex; align-items: center; gap: 0; padding: 0 15px; flex-shrink: 0; }
+.langSearchInput { flex: 1; height: 36px; border: 1px solid var(--neutral-50); padding: 0 12px; font-size: 16px; font-family: inherit; color: var(--text-normal); outline: none; background: var(--neutral-00); }
+.langSearchInput::placeholder { color: var(--neutral-500); }
+.langSearchInput:focus { border-color: var(--primary-500); }
+.langSelectedBadge { display: flex; align-items: center; justify-content: center; height: 36px; padding: 0 16px; background: var(--success-500); color: var(--text-normal); font-size: 16px; font-weight: 400; border-radius: 0 4px 4px 0; white-space: nowrap; }
+.langDivider { height: 4px; background: var(--primary-500); margin: 0 15px; flex-shrink: 0; }
+.langList { flex: 1; overflow-y: auto; padding: 0 15px; }
+.langItem { display: flex; align-items: center; justify-content: space-between; min-height: 47px; padding: 12px 20px; border: 1px solid rgba(0,0,0,0.13); border-top: none; cursor: pointer; }
+.langItem:first-child { border-top: 1px solid rgba(0,0,0,0.13); border-radius: 4px 4px 0 0; }
+.langItem:last-child { border-radius: 0 0 4px 4px; }
+.langItem:hover { background: rgba(0,0,0,0.02); }
+.langItemActive { background: rgba(0,0,0,0.02); }
+.langItemLabel { font-size: 14px; font-weight: 500; color: var(--text-normal); }
+.langItemCheck { font-size: 18px; color: var(--neutral-50); }
+.langItemActive .langItemCheck { color: var(--success-500); }
+
+/* ── Section heading actions ── */
+.sectionHeadingActions { display: flex; align-items: center; gap: 8px; }
+
 .notesPanel { position: fixed; top: 0; right: 0; width: 640px; max-width: 100vw; height: 100vh; background: var(--neutral-00); border-left: 1px solid var(--neutral-50); box-shadow: -4px 0 20px rgba(0,0,0,0.1); z-index: 1101; display: flex; flex-direction: column; }
 .notesPanelHeader { display: flex; align-items: center; justify-content: space-between; padding: 16px 20px; border-bottom: 3px solid var(--primary-500); flex-shrink: 0; }
 .notesPanelTitle { font-size: 14px; font-weight: 600; text-transform: uppercase; letter-spacing: 1.5px; color: var(--text-normal); }

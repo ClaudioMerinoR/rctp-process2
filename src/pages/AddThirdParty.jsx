@@ -155,10 +155,14 @@ export default function AddThirdParty() {
   const [obNotes, setObNotes] = useState('');
   const [obLanguage, setObLanguage] = useState('');
 
+  // Active / Inactive
+  const [isActive, setIsActive] = useState(true);
+
   // Side panels
   const [profilePanel, setProfilePanel] = useState(null);
   const [propsPanel, setPropsPanel] = useState(null);
   const [showNotesPanel, setShowNotesPanel] = useState(false);
+  const [showLanguagePanel, setShowLanguagePanel] = useState(false);
   const [noteText, setNoteText] = useState('');
   const [notes, setNotes] = useState([]);
 
@@ -299,7 +303,7 @@ export default function AddThirdParty() {
         <div className={styles.titleDivider} />
       </div>
 
-      {/* ── Section 1: Third Party Type ── */}
+      {/* ── Section 1: Third Party Type + Name + Dup Check + Entity Verification ── */}
       <div className={styles.section}>
         <div className={styles.sectionHeading}>Third Party Type <span className={styles.req}>*</span></div>
         <div className={`${styles.typeCards} ${errors.type ? styles.typeError : ''}`}>
@@ -313,200 +317,216 @@ export default function AddThirdParty() {
           ))}
         </div>
         {errors.type && <p className={styles.errorHint}>Please select a third party type.</p>}
-      </div>
 
-      {/* ── Section 2: Third Party Name + action buttons ── */}
-      {tpType && (
-        <div className={styles.section}>
-          <div className={styles.sectionHeading}>Third Party Name</div>
-          <div className={styles.nameRow}>
-            <div className={`${styles.nameField} ${errors.name ? styles.hasError : ''}`}>
-              <input
-                className={styles.editInput}
-                type="text"
-                placeholder="Enter the full legal name"
-                value={tpName}
-                onChange={e => { setTpName(e.target.value); setErrors(prev => ({ ...prev, name: false })); }}
-              />
-              {errors.name && <div className={styles.fieldError}>Third Party Name is required.</div>}
-            </div>
-            <div className={styles.nameActions}>
-              <button className={styles.btnOutline} onClick={handleCheckDuplicates}>
-                <span className="material-icons-outlined" style={{ fontSize: 16 }}>content_copy</span>
-                Check for Duplicates
-              </button>
-              {tpType === 'entity' && (
-                <button className={styles.btnOutline} onClick={handleEntityVerification}>
-                  <span className="material-icons-outlined" style={{ fontSize: 16 }}>verified</span>
-                  Entity Verification
+        {/* ── Third Party Name (shown after type is selected) ── */}
+        {tpType && (
+          <>
+            <div className={styles.sectionHeading} style={{ marginTop: 24 }}>Third Party Name</div>
+            <div className={styles.nameRow}>
+              <div className={`${styles.nameField} ${errors.name ? styles.hasError : ''}`}>
+                <input
+                  className={styles.editInput}
+                  type="text"
+                  placeholder="Enter the full legal name"
+                  value={tpName}
+                  onChange={e => { setTpName(e.target.value); setErrors(prev => ({ ...prev, name: false })); }}
+                />
+                {errors.name && <div className={styles.fieldError}>Third Party Name is required.</div>}
+              </div>
+              <div className={styles.nameActions}>
+                <button className={styles.btnOutline} onClick={handleCheckDuplicates}>
+                  <span className="material-icons-outlined" style={{ fontSize: 16 }}>content_copy</span>
+                  Check for Duplicates
                 </button>
-              )}
-            </div>
-          </div>
-
-          {/* ── Inline: Duplicate Check Results ── */}
-          <div className={`${styles.inlineSectionWrap} ${showDupCheck ? styles.open : ''}`}>
-            <div className={styles.inlineSectionInner}>
-              <div className={styles.inlineSection}>
-                <div className={styles.inlineSectionHeader}>
-                  <h3 className={styles.inlineSectionTitle}>
-                    <span className="material-icons-outlined" style={{ fontSize: 20, color: 'var(--warning-500)' }}>content_copy</span>
-                    Duplicate Check Results
-                  </h3>
-                  <button className={styles.btnGhost} onClick={() => setShowDupCheck(false)}>
-                    <span className="material-icons-outlined" style={{ fontSize: 16 }}>close</span> Close
+                {tpType === 'entity' && (
+                  <button className={styles.btnOutline} onClick={handleEntityVerification}>
+                    <span className="material-icons-outlined" style={{ fontSize: 16 }}>verified</span>
+                    Entity Verification
                   </button>
-                </div>
-                <div className={styles.dupBanner}>
-                  <span className="material-icons-outlined">warning_amber</span>
-                  <div>
-                    <strong>{isPerson ? '1 potential match found.' : '10 potential matches found.'}</strong>{' '}
-                    These records have a similar name and may already exist in the system. If one of the matches above is the same third party, use an existing record instead of creating a new one.
-                  </div>
-                </div>
-
-                {!isPerson && (
-                  <div className={styles.tableWrap}>
-                    <table className={styles.dupTable}>
-                      <thead>
-                        <tr><th>Name</th><th>DUNS Number</th><th>Address</th><th>Country / Territory</th><th style={{ textAlign: 'center' }}>UBO Status</th><th style={{ width: 40 }} /></tr>
-                      </thead>
-                      <tbody>
-                        {DUP_ROWS.map((r, i) => (
-                          <tr key={i}>
-                            <td><span className={styles.cellLink} onClick={() => setProfilePanel(r.name)}>{r.name}</span></td>
-                            <td>{r.duns}</td>
-                            <td>{r.address}</td>
-                            <td>{r.country}</td>
-                            <td className={styles.uboCell}>
-                              <span className={`material-icons-outlined ${r.ubo ? styles.uboOk : styles.uboFail}`}>{r.ubo ? 'check_circle' : 'cancel'}</span>
-                            </td>
-                            <td><button className={styles.moreBtn} onClick={() => setPropsPanel(r.name)}>View properties</button></td>
-                          </tr>
-                        ))}
-                      </tbody>
-                    </table>
-                  </div>
                 )}
-
-                {isPerson && (
-                  <div className={styles.tableWrap}>
-                    <table className={styles.dupTable}>
-                      <thead>
-                        <tr><th>Name</th><th>Owner</th><th>Business Unit</th><th>Process</th><th>Current Status</th><th>Internal Reference</th><th>Active/Inactive</th><th style={{ width: 40 }} /></tr>
-                      </thead>
-                      <tbody>
-                        {PERSON_DUP_ROWS.map((r, i) => (
-                          <tr key={i}>
-                            <td><span className={styles.cellLink} onClick={() => setProfilePanel(r.name)}>{r.name}</span></td>
-                            <td>{r.owner}</td>
-                            <td>{r.bu}</td>
-                            <td>{r.process}</td>
-                            <td><span className={styles.statusBadge}>{r.status}</span></td>
-                            <td>{r.ref}</td>
-                            <td>{r.active}</td>
-                            <td><button className={styles.moreBtn} onClick={() => setPropsPanel(r.name)}>View properties</button></td>
-                          </tr>
-                        ))}
-                      </tbody>
-                    </table>
-                  </div>
-                )}
-
-                <div className={styles.dupFooter}>
-                  <button className={styles.btnOutline} onClick={() => setShowDupCheck(false)}>
-                    <span className="material-icons-outlined" style={{ fontSize: 16 }}>arrow_forward</span>
-                    Ignore duplicates and continue
-                  </button>
-                  <button className={styles.btnFilled} onClick={() => setShowCancelModal(true)}>
-                    Exit creation process
-                  </button>
-                </div>
               </div>
             </div>
-          </div>
 
-          {/* ── Inline: Entity Verification ── */}
-          {tpType === 'entity' && (
-            <div className={`${styles.inlineSectionWrap} ${showVerify ? styles.open : ''}`}>
+            {/* ── Inline: Duplicate Check Results ── */}
+            <div className={`${styles.inlineSectionWrap} ${showDupCheck ? styles.open : ''}`}>
               <div className={styles.inlineSectionInner}>
                 <div className={styles.inlineSection}>
                   <div className={styles.inlineSectionHeader}>
                     <h3 className={styles.inlineSectionTitle}>
-                      <span className="material-icons-outlined" style={{ fontSize: 20, color: 'var(--primary-500)' }}>verified</span>
-                      Entity Verification
+                      <span className="material-icons-outlined" style={{ fontSize: 20, color: 'var(--warning-500)' }}>content_copy</span>
+                      Duplicate Check Results
                     </h3>
-                    <button className={styles.btnGhost} onClick={() => setShowVerify(false)}>
+                    <button className={styles.btnGhost} onClick={() => setShowDupCheck(false)}>
                       <span className="material-icons-outlined" style={{ fontSize: 16 }}>close</span> Close
                     </button>
                   </div>
-                  <div className={styles.verifyIntro}>
-                    If you select an entity, corresponding properties will be prepopulated within the Third Party record and a screening association will be created.
+                  <div className={styles.dupBanner}>
+                    <span className="material-icons-outlined">warning_amber</span>
+                    <div>
+                      <strong>{isPerson ? '1 potential match found.' : '10 potential matches found.'}</strong>{' '}
+                      These records have a similar name and may already exist in the system. If one of the matches above is the same third party, use an existing record instead of creating a new one.
+                    </div>
                   </div>
 
-                  <div className={styles.fieldGroup} style={{ maxWidth: 320, marginBottom: 16 }}>
-                    <label className={styles.fieldLabel}>Country / Territory</label>
-                    <select className={styles.fieldSelect} value={verifyCountry} onChange={e => setVerifyCountry(e.target.value)}>
-                      <option value="">All countries</option>
-                      {['Australia','United States'].map(c => <option key={c}>{c}</option>)}
-                    </select>
-                  </div>
-                  <div className={styles.resultsHeader}>
-                    <span><strong>265</strong> results found</span>
-                    <span className={styles.sourceBadge}><span className="material-icons-outlined" style={{ fontSize: 12 }}>verified</span> Dun &amp; Bradstreet</span>
-                  </div>
-                  <div className={styles.tableWrap}>
-                    <table className={styles.verifyTable}>
-                      <thead><tr><th /><th>Name</th><th>DUNS Number</th><th>Address</th><th>Country/Territory</th><th>UBO Status</th></tr></thead>
-                      <tbody>
-                        {filteredVerify.map((r, i) => (
-                          <tr key={i} className={selectedVerify === r.duns ? styles.rowSelected : ''}>
-                            <td>
-                              <input
-                                type="radio"
-                                name="verify-pick"
-                                checked={selectedVerify === r.duns}
-                                onChange={() => { setSelectedVerify(r.duns); applyVerification(r.duns); }}
-                                style={{ accentColor: 'var(--primary-500)' }}
-                              />
-                            </td>
-                            <td style={{ fontWeight: 500, color: 'var(--text-normal)' }}>{r.name}</td>
-                            <td style={{ fontFamily: 'monospace', fontSize: 12 }}>{r.duns}</td>
-                            <td style={{ fontSize: 12, maxWidth: 240 }}>{r.address}</td>
-                            <td>{r.country}</td>
-                            <td className={styles.uboCell}><span className={`material-icons-outlined ${r.ubo ? styles.uboOk : styles.uboFail}`}>{r.ubo ? 'check_circle' : 'cancel'}</span></td>
-                          </tr>
-                        ))}
-                      </tbody>
-                    </table>
-                  </div>
+                  {!isPerson && (
+                    <div className={styles.tableWrap}>
+                      <table className={styles.dupTable}>
+                        <thead>
+                          <tr><th>Name</th><th>DUNS Number</th><th>Address</th><th>Country / Territory</th><th style={{ textAlign: 'center' }}>UBO Status</th><th style={{ width: 40 }} /></tr>
+                        </thead>
+                        <tbody>
+                          {DUP_ROWS.map((r, i) => (
+                            <tr key={i}>
+                              <td><span className={styles.cellLink} onClick={() => window.open('/#/profile/piedpiper', '_blank')}>{r.name}</span></td>
+                              <td>{r.duns}</td>
+                              <td>{r.address}</td>
+                              <td>{r.country}</td>
+                              <td className={styles.uboCell}>
+                                <span className={`material-icons-outlined ${r.ubo ? styles.uboOk : styles.uboFail}`}>{r.ubo ? 'check_circle' : 'cancel'}</span>
+                              </td>
+                              <td><button className={styles.moreBtn} onClick={() => setPropsPanel(r.name)}>View properties</button></td>
+                            </tr>
+                          ))}
+                        </tbody>
+                      </table>
+                    </div>
+                  )}
 
-                  <div className={styles.verifyPagination}>
-                    <div className={styles.verifyPaginationLeft}>
-                      <select className={styles.verifyPageSize}><option>20</option><option>50</option><option>100</option></select>
-                      <span>Showing results 1 – 10 of 265</span>
+                  {isPerson && (
+                    <div className={styles.tableWrap}>
+                      <table className={styles.dupTable}>
+                        <thead>
+                          <tr><th>Name</th><th>Owner</th><th>Business Unit</th><th>Process</th><th>Current Status</th><th>Internal Reference</th><th>Active/Inactive</th><th style={{ width: 40 }} /></tr>
+                        </thead>
+                        <tbody>
+                          {PERSON_DUP_ROWS.map((r, i) => (
+                            <tr key={i}>
+                              <td><span className={styles.cellLink} onClick={() => window.open(`/profile/${r.name.toLowerCase().replace(/\s+/g,'-')}`, '_blank')}>{r.name}</span></td>
+                              <td>{r.owner}</td>
+                              <td>{r.bu}</td>
+                              <td>{r.process}</td>
+                              <td><span className={styles.statusBadge}>{r.status}</span></td>
+                              <td>{r.ref}</td>
+                              <td>{r.active}</td>
+                              <td><button className={styles.moreBtn} onClick={() => setPropsPanel(r.name)}>View properties</button></td>
+                            </tr>
+                          ))}
+                        </tbody>
+                      </table>
                     </div>
-                    <div className={styles.verifyPaginationRight}>
-                      <button className={styles.verifyPageBtn} disabled title="First page"><span className="material-icons-outlined" style={{ fontSize: 16 }}>first_page</span></button>
-                      <button className={styles.verifyPageBtn} disabled title="Previous page"><span className="material-icons-outlined" style={{ fontSize: 16 }}>chevron_left</span></button>
-                      <span>Page</span>
-                      <input className={styles.verifyPageInput} type="number" defaultValue={1} min={1} max={14} />
-                      <span>of 14</span>
-                      <button className={styles.verifyPageBtn} title="Next page"><span className="material-icons-outlined" style={{ fontSize: 16 }}>chevron_right</span></button>
-                      <button className={styles.verifyPageBtn} title="Last page"><span className="material-icons-outlined" style={{ fontSize: 16 }}>last_page</span></button>
-                    </div>
+                  )}
+
+                  <div className={styles.dupFooter}>
+                    <button className={styles.btnOutline} onClick={() => setShowDupCheck(false)}>
+                      <span className="material-icons-outlined" style={{ fontSize: 16 }}>arrow_forward</span>
+                      Ignore duplicates and continue
+                    </button>
+                    <button className={styles.btnFilled} onClick={() => setShowCancelModal(true)}>
+                      Exit creation process
+                    </button>
                   </div>
                 </div>
               </div>
             </div>
-          )}
-        </div>
-      )}
+
+            {/* ── Inline: Entity Verification ── */}
+            {tpType === 'entity' && (
+              <div className={`${styles.inlineSectionWrap} ${showVerify ? styles.open : ''}`}>
+                <div className={styles.inlineSectionInner}>
+                  <div className={styles.inlineSection}>
+                    <div className={styles.inlineSectionHeader}>
+                      <h3 className={styles.inlineSectionTitle}>
+                        <span className="material-icons-outlined" style={{ fontSize: 20, color: 'var(--primary-500)' }}>verified</span>
+                        Entity Verification
+                      </h3>
+                      <button className={styles.btnGhost} onClick={() => setShowVerify(false)}>
+                        <span className="material-icons-outlined" style={{ fontSize: 16 }}>close</span> Close
+                      </button>
+                    </div>
+                    <div className={styles.verifyIntro}>
+                      Entity verification will screen the Third Party Name against the Dun&amp;Bradstreet company data source, allowing you to verify the legal existence of your Third Party before creating the RCTP record.<br />
+                      If you select an entity, corresponding properties will be prepopulated within the Third Party record.
+                    </div>
+
+                    <div className={styles.fieldGroup} style={{ maxWidth: 320, marginBottom: 16 }}>
+                      <label className={styles.fieldLabel}>Country / Territory</label>
+                      <select className={styles.fieldSelect} value={verifyCountry} onChange={e => setVerifyCountry(e.target.value)}>
+                        <option value="">All countries</option>
+                        {['Australia','United States'].map(c => <option key={c}>{c}</option>)}
+                      </select>
+                    </div>
+                    <div className={styles.resultsHeader}>
+                      <span><strong>265</strong> results found</span>
+                      <span className={styles.sourceBadge}><span className="material-icons-outlined" style={{ fontSize: 12 }}>verified</span> Dun &amp; Bradstreet</span>
+                    </div>
+                    <div className={styles.tableWrap}>
+                      <table className={styles.verifyTable}>
+                        <thead><tr><th /><th>Name</th><th>DUNS Number</th><th>Address</th><th>Country/Territory</th><th>UBO Status</th></tr></thead>
+                        <tbody>
+                          {filteredVerify.map((r, i) => (
+                            <tr key={i} className={selectedVerify === r.duns ? styles.rowSelected : ''}>
+                              <td>
+                                <input
+                                  type="radio"
+                                  name="verify-pick"
+                                  checked={selectedVerify === r.duns}
+                                  onChange={() => { setSelectedVerify(r.duns); applyVerification(r.duns); }}
+                                  style={{ accentColor: 'var(--primary-500)' }}
+                                />
+                              </td>
+                              <td style={{ fontWeight: 500, color: 'var(--text-normal)' }}>{r.name}</td>
+                              <td style={{ fontFamily: 'monospace', fontSize: 12 }}>{r.duns}</td>
+                              <td style={{ fontSize: 12, maxWidth: 240 }}>{r.address}</td>
+                              <td>{r.country}</td>
+                              <td className={styles.uboCell}><span className={`material-icons-outlined ${r.ubo ? styles.uboOk : styles.uboFail}`}>{r.ubo ? 'check_circle' : 'cancel'}</span></td>
+                            </tr>
+                          ))}
+                        </tbody>
+                      </table>
+                    </div>
+
+                    <div className={styles.verifyPagination}>
+                      <div className={styles.verifyPaginationLeft}>
+                        <select className={styles.verifyPageSize}><option>20</option><option>50</option><option>100</option></select>
+                        <span>Showing results 1 – 10 of 265</span>
+                      </div>
+                      <div className={styles.verifyPaginationRight}>
+                        <button className={styles.verifyPageBtn} disabled title="First page"><span className="material-icons-outlined" style={{ fontSize: 16 }}>first_page</span></button>
+                        <button className={styles.verifyPageBtn} disabled title="Previous page"><span className="material-icons-outlined" style={{ fontSize: 16 }}>chevron_left</span></button>
+                        <span>Page</span>
+                        <input className={styles.verifyPageInput} type="number" defaultValue={1} min={1} max={14} />
+                        <span>of 14</span>
+                        <button className={styles.verifyPageBtn} title="Next page"><span className="material-icons-outlined" style={{ fontSize: 16 }}>chevron_right</span></button>
+                        <button className={styles.verifyPageBtn} title="Last page"><span className="material-icons-outlined" style={{ fontSize: 16 }}>last_page</span></button>
+                      </div>
+                    </div>
+                  </div>
+                </div>
+              </div>
+            )}
+          </>
+        )}
+      </div>
 
       {/* ── Section 3: Summary ── */}
       {tpType && (
         <div className={styles.section}>
-          <div className={styles.sectionHeading}>Summary</div>
+          <div className={styles.sectionHeading}>
+            <span>Summary</span>
+            <div className={styles.activeToggleWrap}>
+              <div
+                className={`${styles.activeToggle} ${!isActive ? styles.activeToggleOff : ''}`}
+                onClick={() => setIsActive(v => !v)}
+                role="button"
+                tabIndex={0}
+                onKeyDown={e => e.key === 'Enter' && setIsActive(v => !v)}
+              >
+                <div className={styles.activeToggleTrack}>{isActive ? 'Active' : 'Inactive'}</div>
+                <div className={styles.activeToggleThumb} />
+              </div>
+              <p className={styles.activeToggleHint}>Check to make your third party active and uncheck to deactivate. Deactivated Third parties cannot be invited to processes.</p>
+            </div>
+          </div>
           <div className={styles.summaryGrid}>
 
             {/* LEFT COLUMN */}
@@ -667,10 +687,16 @@ export default function AddThirdParty() {
         <div className={styles.section}>
           <div className={styles.sectionHeading}>
             <span>Onboarding Details</span>
-            <button className={styles.btnOutline} onClick={() => setShowNotesPanel(true)}>
-              <span className="material-icons-outlined" style={{ fontSize: 16 }}>note_add</span>
-              Add Notes
-            </button>
+            <div className={styles.sectionHeadingActions}>
+              <button className={styles.btnOutline} onClick={() => setShowLanguagePanel(true)}>
+                <span className="material-icons-outlined" style={{ fontSize: 16 }}>translate</span>
+                Questionnaire Language{obLanguage ? `: ${obLanguage}` : ''}
+              </button>
+              <button className={styles.btnOutline} onClick={() => setShowNotesPanel(true)}>
+                <span className="material-icons-outlined" style={{ fontSize: 16 }}>note_add</span>
+                Add Notes
+              </button>
+            </div>
           </div>
 
           {/* Entity verified warning */}
@@ -687,13 +713,6 @@ export default function AddThirdParty() {
           {tpType === 'entity' && (
             <>
               <div className={styles.obSectionLabel}>Entity</div>
-              <div className={styles.obPreField} style={{ maxWidth: 400, marginBottom: 16 }}>
-                <label className={styles.obPreLabel}>Questionnaire Language</label>
-                <select className={`${styles.obInput} ${styles.obSelect}`} value={obLanguage} onChange={e => setObLanguage(e.target.value)}>
-                  <option value="">Select a language…</option>
-                  {['English','French','Spanish','German','Italian','Portuguese','Dutch','Polish','Arabic','Chinese (Simplified)','Japanese'].map(l => <option key={l}>{l}</option>)}
-                </select>
-              </div>
               <div className={styles.obBlocks}>
                 <div className={styles.obBlock}>
                   <div className={styles.obBlockHead}><span className={styles.obNum}>1.</span><span className={styles.obLabel}>Legal Name of the Third Party</span><span className={styles.req}>*</span></div>
@@ -758,13 +777,6 @@ export default function AddThirdParty() {
           {tpType === 'person' && (
             <>
               <div className={styles.obSectionLabel}>Individual / Person</div>
-              <div className={styles.obPreField} style={{ maxWidth: 400, marginBottom: 16 }}>
-                <label className={styles.obPreLabel}>Questionnaire Language</label>
-                <select className={`${styles.obInput} ${styles.obSelect}`} value={obLanguage} onChange={e => setObLanguage(e.target.value)}>
-                  <option value="">Select a language…</option>
-                  {['English','French','Spanish','German','Italian','Portuguese','Dutch','Polish','Arabic','Chinese (Simplified)','Japanese'].map(l => <option key={l}>{l}</option>)}
-                </select>
-              </div>
               <div className={styles.obBlocks}>
                 <div className={styles.obBlock}>
                   <div className={styles.obBlockHead}><span className={styles.obNum}>1.</span><span className={styles.obLabel}>Legal Name of the Third Party</span><span className={styles.req}>*</span></div>
@@ -835,13 +847,6 @@ export default function AddThirdParty() {
           {tpType === 'unknown' && (
             <>
               <div className={styles.obSectionLabel}>Unknown</div>
-              <div className={styles.obPreField} style={{ maxWidth: 400, marginBottom: 16 }}>
-                <label className={styles.obPreLabel}>Questionnaire Language</label>
-                <select className={`${styles.obInput} ${styles.obSelect}`} value={obLanguage} onChange={e => setObLanguage(e.target.value)}>
-                  <option value="">Select a language…</option>
-                  {['English','French','Spanish','German','Italian','Portuguese','Dutch','Polish','Arabic','Chinese (Simplified)','Japanese'].map(l => <option key={l}>{l}</option>)}
-                </select>
-              </div>
               <div className={styles.obBlocks}>
                 <div className={styles.obBlock}>
                   <div className={styles.obBlockHead}><span className={styles.obNum}>1.</span><span className={styles.obLabel}>Legal Name of the Third Party</span><span className={styles.req}>*</span></div>
@@ -921,6 +926,15 @@ export default function AddThirdParty() {
         </div>
       )}
 
+      {/* Language side panel */}
+      {showLanguagePanel && (
+        <LanguagePanel
+          selected={obLanguage}
+          onSelect={setObLanguage}
+          onClose={() => setShowLanguagePanel(false)}
+        />
+      )}
+
       {/* Notes side panel */}
       {showNotesPanel && (
         <NotesPanel
@@ -963,6 +977,69 @@ export default function AddThirdParty() {
         </div>
       )}
     </PageLayout>
+  );
+}
+
+/* ─────────────────────── Language side panel ─────────────────────── */
+
+const LANGUAGES = [
+  { code: 'de', label: 'Deutsch (German)' },
+  { code: 'en', label: 'English' },
+  { code: 'es', label: 'Español (Spanish)' },
+  { code: 'fr', label: 'Français (French)' },
+  { code: 'ja', label: '日本語 (Japanese)' },
+  { code: 'nl', label: 'Nederlands (Dutch)' },
+  { code: 'pl', label: 'Polski (Polish)' },
+  { code: 'ru', label: 'Русский (Russian)' },
+  { code: 'zh-s', label: '中文 (Chinese - Simplified)' },
+  { code: 'zh-t', label: '中文 (Chinese - Traditional)' },
+];
+
+function LanguagePanel({ selected, onSelect, onClose }) {
+  const [search, setSearch] = useState('');
+
+  useEffect(() => {
+    document.body.style.overflow = 'hidden';
+    return () => { document.body.style.overflow = ''; };
+  }, []);
+
+  const filtered = search
+    ? LANGUAGES.filter(l => l.label.toLowerCase().includes(search.toLowerCase()))
+    : LANGUAGES;
+
+  return (
+    <>
+      <div className={styles.panelOverlay} onClick={onClose} />
+      <div className={styles.langPanel}>
+        <div className={styles.langPanelHeader}>
+          <span className={styles.langPanelTitle}>Choose Language</span>
+          <button className={styles.btnOutline} onClick={onClose}>Close</button>
+        </div>
+        <div className={styles.langSearchRow}>
+          <input
+            className={styles.langSearchInput}
+            type="text"
+            placeholder="Search for languages.."
+            value={search}
+            onChange={e => setSearch(e.target.value)}
+          />
+          {selected && <span className={styles.langSelectedBadge}>{selected}</span>}
+        </div>
+        <div className={styles.langDivider} />
+        <div className={styles.langList}>
+          {filtered.map(l => (
+            <div
+              key={l.code}
+              className={`${styles.langItem} ${selected === l.label ? styles.langItemActive : ''}`}
+              onClick={() => { onSelect(l.label); onClose(); }}
+            >
+              <span className={styles.langItemLabel}>{l.label}</span>
+              <span className={`material-icons-outlined ${styles.langItemCheck}`}>check</span>
+            </div>
+          ))}
+        </div>
+      </div>
+    </>
   );
 }
 
