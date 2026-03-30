@@ -2,8 +2,8 @@
 .activeToggle { position: relative; width: 96px; height: 32px; border-radius: 2px; overflow: hidden; border: 1px solid var(--success-500); background: var(--success-500); cursor: pointer; user-select: none; transition: background 0.2s, border-color 0.2s; }
 .activeToggleOff { background: var(--alert-500); border-color: var(--alert-500); }
 .activeToggleTrack { position: absolute; inset: 0; display: flex; align-items: center; justify-content: center; font-size: 12px; font-weight: 500; text-transform: uppercase; color: var(--text-normal); padding-right: 14px; }
-.activeToggleOff .activeToggleTrack { color: #fff; padding-right: 0; padding-left: 14px; }
-.activeToggleThumb { position: absolute; top: -2px; bottom: -2px; width: 26px; background: #fff; right: -13px; transition: right 0.15s, left 0.15s; }
+.activeToggleOff .activeToggleTrack { color: var(--neutral-00); padding-right: 0; padding-left: 14px; }
+.activeToggleThumb { position: absolute; top: -2px; bottom: -2px; width: 26px; background: var(--neutral-00); right: -13px; transition: right 0.15s, left 0.15s; }
 .activeToggleOff .activeToggleThumb { right: auto; left: -13px; }
 
 /* ── Owner toggle ── */
@@ -20,11 +20,11 @@
 .dropdownPlaceholder { font-size: 14px; color: var(--neutral-400); }
 .dropdownValueSelected { font-size: 14px; color: var(--text-normal); }
 .dropdown { position: absolute; top: 100%; left: 0; right: 0; background: var(--neutral-00); border: 1px solid rgba(0,0,0,0.1); box-shadow: 0 4px 16px rgba(0,0,0,0.12); z-index: 200; max-height: 240px; overflow-y: auto; padding: 4px 6px; }
-.dropdownItem { min-height: 32px; padding: 8px 8px; font-size: 12px; font-weight: 500; text-transform: uppercase; letter-spacing: 1px; color: #8D9CA9; cursor: pointer; border-radius: 2px; display: flex; align-items: center; }
+.dropdownItem { min-height: 32px; padding: 8px 8px; font-size: 12px; font-weight: 500; text-transform: uppercase; letter-spacing: 1px; color: var(--neutral-500); cursor: pointer; border-radius: 2px; display: flex; align-items: center; }
 .dropdownItem:hover { background: rgba(0,0,0,0.04); color: var(--text-normal); }
 .dropdownItemSelected { color: var(--text-normal); }
 .dropdownGroup { min-height: 28px; padding: 8px 8px 4px; font-size: 11px; font-weight: 500; text-transform: uppercase; letter-spacing: 1px; color: var(--neutral-300); cursor: default; line-height: 1.2; }
-.dropdownCheckItem { display: flex; align-items: center; gap: 10px; min-height: 32px; padding: 6px 8px; cursor: pointer; border-radius: 2px; font-size: 12px; font-weight: 500; text-transform: uppercase; letter-spacing: 1px; color: #8D9CA9; user-select: none; }
+.dropdownCheckItem { display: flex; align-items: center; gap: 10px; min-height: 32px; padding: 6px 8px; cursor: pointer; border-radius: 2px; font-size: 12px; font-weight: 500; text-transform: uppercase; letter-spacing: 1px; color: var(--neutral-500); user-select: none; }
 .dropdownCheckItem:hover { background: rgba(0,0,0,0.04); }
 .dropdownCheckItem input[type="checkbox"] { width: 16px; height: 16px; flex-shrink: 0; accent-color: var(--primary-500); cursor: pointer; margin: 0; }
 
@@ -33,8 +33,8 @@
 .tagSelectTrigger { display: flex; align-items: center; justify-content: space-between; height: 40px; border: 1px solid var(--neutral-200); border-radius: 2px; padding: 0 10px; cursor: pointer; background: var(--neutral-00); }
 .tagSelectTrigger:hover { border-color: var(--primary-500); }
 .tagChips { display: flex; flex-wrap: wrap; gap: 6px; margin-top: 8px; }
-.tagChip { display: inline-flex; align-items: center; background: #516267; border: 1px solid #495158; border-radius: 4px; height: 24px; overflow: hidden; padding: 0 4px 0 8px; gap: 8px; font-size: 14px; font-weight: 400; color: #fff; }
-.tagChip button { background: none; border: none; color: #fff; cursor: pointer; font-size: 14px; line-height: 1; padding: 0; opacity: 0.8; display: flex; align-items: center; }
+.tagChip { display: inline-flex; align-items: center; background: var(--text-light); border: 1px solid var(--neutral-800); border-radius: 4px; height: 24px; overflow: hidden; padding: 0 4px 0 8px; gap: 8px; font-size: 14px; font-weight: 400; color: var(--neutral-00); }
+.tagChip button { background: none; border: none; color: var(--neutral-00); cursor: pointer; font-size: 14px; line-height: 1; padding: 0; opacity: 0.8; display: flex; align-items: center; }
 .tagChip button:hover { opacity: 1; }
 
 /* ── Info tooltip ── */
@@ -151,7 +151,7 @@
   cursor: pointer; position: relative; transition: border-color 0.2s, background 0.2s, box-shadow 0.2s;
   display: flex; flex-direction: column; gap: 10px; user-select: none;
 }
-.typeCard:hover { border-color: var(--primary-200); background: #fafeff; box-shadow: 0 2px 12px rgba(2,163,213,0.1); }
+.typeCard:hover { border-color: var(--primary-200); background: var(--primary-08); box-shadow: 0 2px 12px rgba(2,163,213,0.1); }
 .typeCard.selected { border-color: var(--primary-500); background: var(--primary-08); box-shadow: 0 2px 16px rgba(2,163,213,0.18); }
 .typeCheck { position: absolute; top: 14px; right: 14px; font-size: 20px; color: var(--primary-500); display: none; }
 .selected .typeCheck { display: block; }
@@ -161,7 +161,7 @@
   color: var(--neutral-400); transition: background 0.2s;
 }
 .typeCard:hover .typeIconWrap,
-.selected .typeIconWrap { background: var(--primary-500); color: #fff; }
+.selected .typeIconWrap { background: var(--primary-500); color: var(--neutral-00); }
 .typeTitle { font-size: 16px; font-weight: 600; color: var(--text-normal); }
 .typeDesc { font-size: 13px; color: var(--text-light); line-height: 1.5; }
 .errorHint { font-size: 11px; color: var(--alert-500); margin-top: 8px; }
@@ -176,7 +176,7 @@
   color: var(--text-normal); background: var(--neutral-00); outline: none;
   transition: border-color 0.15s; width: 100%;
 }
-.editInput:focus { border-color: #8D9CA9; }
+.editInput:focus { border-color: var(--neutral-500); }
 .editInput[readonly] { background: var(--neutral-25); color: var(--text-light); }
 .hasError .editInput, .hasError select.editInput { border-color: var(--alert-500); }
 .hasError .dropdownTrigger { border-color: var(--alert-500); }
@@ -187,7 +187,7 @@
 /* Step footer */
 .acFooter { display: flex; align-items: center; justify-content: space-between; padding-top: 20px; border-top: 1px solid var(--neutral-50); margin-top: 24px; }
 .acFooterRight { display: flex; align-items: center; gap: 8px; }
-.btnFilled { display: inline-flex; align-items: center; gap: 4px; height: 32px; padding: 0 12px; background: var(--primary-500); color: #fff; border: none; border-radius: 4px; font-size: 12px; font-weight: 500; text-transform: uppercase; letter-spacing: 0.5px; cursor: pointer; font-family: inherit; transition: background 0.2s; white-space: nowrap; }
+.btnFilled { display: inline-flex; align-items: center; gap: 4px; height: 32px; padding: 0 12px; background: var(--primary-500); color: var(--neutral-00); border: none; border-radius: 4px; font-size: 12px; font-weight: 500; text-transform: uppercase; letter-spacing: 0.5px; cursor: pointer; font-family: inherit; transition: background 0.2s; white-space: nowrap; }
 .btnFilled:hover { background: var(--primary-600); }
 .btnOutline { display: inline-flex; align-items: center; gap: 4px; height: 32px; padding: 0 12px; background: var(--neutral-00); border: 1px solid var(--neutral-300); color: var(--text-normal); border-radius: 4px; font-size: 12px; font-weight: 500; text-transform: uppercase; letter-spacing: 0.5px; cursor: pointer; font-family: inherit; white-space: nowrap; }
 .btnOutline:hover { background: var(--neutral-25); border-color: var(--neutral-400); }
@@ -203,7 +203,7 @@
 .dupTable thead th { background: var(--neutral-25); padding: 8px 12px; text-align: left; font-size: 11px; font-weight: 600; text-transform: uppercase; letter-spacing: 0.6px; color: var(--text-light); border-top: 1px solid var(--neutral-50); border-bottom: 1px solid var(--neutral-50); white-space: nowrap; }
 .dupTable tbody td { padding: 10px 12px; border-bottom: 1px solid var(--neutral-50); color: var(--text-light); vertical-align: middle; }
 .dupTable tbody tr:nth-child(odd) td { background: var(--primary-08); }
-.dupTable tbody tr:hover td { background: #d5f2fb !important; }
+.dupTable tbody tr:hover td { background: var(--primary-50) !important; }
 .cellLink { color: var(--primary-600); font-weight: 500; cursor: pointer; }
 .cellLink:hover { text-decoration: underline; }
 .uboCell { text-align: center; }
@@ -233,7 +233,7 @@
 .verifyTable thead th:first-child { width: 36px; }
 .verifyTable tbody td { padding: 10px 10px; border-bottom: 1px solid var(--neutral-50); color: var(--text-light); vertical-align: top; }
 .verifyTable tbody tr:last-child td { border-bottom: none; }
-.verifyTable tbody tr:hover td { background: #fafbfc; }
+.verifyTable tbody tr:hover td { background: var(--neutral-25); }
 .rowSelected td { background: var(--primary-08) !important; }
 .resultsHeader { display: flex; align-items: center; justify-content: space-between; margin-bottom: 8px; font-size: 12px; color: var(--text-light); }
 .sourceBadge { display: inline-flex; align-items: center; gap: 4px; font-size: 10px; font-weight: 600; letter-spacing: 0.4px; padding: 2px 6px; border-radius: 2px; background: var(--neutral-25); color: var(--neutral-500); text-transform: uppercase; }
@@ -283,7 +283,7 @@
 /* Onboarding blocks */
 .obBlocks { display: flex; flex-direction: column; }
 .obBlock { background: var(--neutral-00); border: 1px solid rgba(0,0,0,0.1); padding: 18px 24px 20px; margin-bottom: -1px; transition: background 0.12s; }
-.obBlock:hover { background: #fafbfc; }
+.obBlock:hover { background: var(--neutral-25); }
 .obBlock:first-child { border-radius: 4px 4px 0 0; }
 .obBlock:last-child { border-radius: 0 0 4px 4px; margin-bottom: 0; }
 .obBlock.hasError .obInput { border-color: var(--alert-500); }
@@ -339,7 +339,7 @@
 .cancelModalDesc { font-size: 13px; color: var(--text-light); line-height: 1.6; }
 .cancelModalFooter { display: flex; justify-content: flex-end; align-items: center; gap: 8px; padding: 12px 20px; border-top: 1px solid var(--neutral-50); }
 .cancelModalConfirm {
-  background: var(--primary-500); color: #fff; border: none;
+  background: var(--primary-500); color: var(--neutral-00); border: none;
   height: 32px; padding: 0 16px; border-radius: 4px;
   font-size: 12px; font-weight: 600; text-transform: uppercase;
   letter-spacing: 0.5px; cursor: pointer; font-family: inherit;

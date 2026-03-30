@@ -1,47 +1,150 @@
+@import url('https://fonts.googleapis.com/css2?family=Public+Sans:wght@300;400;500;600;700&display=swap');
 @import url('https://fonts.googleapis.com/css2?family=Roboto:wght@400;500;600;700&display=swap');
 @import url('https://fonts.googleapis.com/icon?family=Material+Icons+Outlined');
 
 :root {
+  /* ── Primary ── */
+  --primary-08: #E8F9FE;
+  --primary-50: #B8E5F3;
+  --primary-100: #A4DEF0;
+  --primary-200: #7BCFE9;
+  --primary-300: #53C0E2;
+  --primary-400: #2AB2DC;
   --primary-500: #02A3D5;
   --primary-600: #0289B3;
   --primary-700: #016F91;
-  --primary-08: #E8F9FE;
-  --primary-200: #7BCFE9;
-  --text-normal: #0C2A31;
-  --text-light: #516267;
-  --text-light-alt: #5A6E73;
-  --text-dark: #061619;
+  --primary-800: #01556F;
+  --primary-900: #013B4D;
+
+  /* ── Neutral ── */
   --neutral-00: #FFFFFF;
   --neutral-25: #EFEFEF;
   --neutral-50: #DFE3E7;
   --neutral-100: #D6DBE0;
   --neutral-200: #C4CCD2;
   --neutral-300: #B1BCC5;
-  --neutral-400: #9DAAB3;
+  --neutral-400: #9FACB7;
   --neutral-500: #8D9CA9;
+  --neutral-600: #76838E;
+  --neutral-700: #606A73;
+  --neutral-800: #495158;
   --neutral-900: #33383D;
+
+  /* ── Text ── */
+  --text-normal: #0C2A31;
+  --text-light: #516267;
+  --text-light-alt: #5A6E73;
+  --text-dark: #061619;
+
+  /* ── Alert ── */
+  --alert-50: #F7CDCF;
+  --alert-100: #F5BFC1;
+  --alert-300: #EC858A;
   --alert-500: #E34C53;
   --alert-700: #9A3438;
-  --alert-50: #F7CDCF;
+  --alert-900: #521B1E;
+
+  /* ── Success ── */
+  --success-50: #BDF6DC;
+  --success-100: #AAF3D2;
+  --success-300: #5FE9A9;
   --success-500: #13DF81;
   --success-700: #0D9858;
   --success-900: #07502E;
-  --success-50: #BDF6DC;
-  --warning-500: #F0C043;
-  --warning-900: #564518;
+
+  /* ── Warning ── */
   --warning-50: #FBEDCA;
+  --warning-100: #FAE8BB;
+  --warning-300: #F5D47F;
+  --warning-500: #F0C043;
+  --warning-700: #A3832E;
+  --warning-900: #564518;
+
+  /* ── Typography ── */
+  --font-heading: 'Public Sans', 'Roboto', sans-serif;
+  --font-body: 'Roboto', sans-serif;
+  --font-label: 'Public Sans', 'Roboto', sans-serif;
+
+  /* Headline sizes */
+  --heading-h1-size: 32px;
+  --heading-h1-line-height: 40px;
+  --heading-h1-weight: 300;
+  --heading-h2-size: 28px;
+  --heading-h2-line-height: 36px;
+  --heading-h2-weight: 500;
+  --heading-h3-size: 24px;
+  --heading-h3-line-height: 32px;
+  --heading-h3-weight: 500;
+  --heading-h4-size: 22px;
+  --heading-h4-line-height: 32px;
+  --heading-h4-weight: 500;
+  --heading-h5-size: 20px;
+  --heading-h5-line-height: 32px;
+  --heading-h5-weight: 500;
+  --heading-h6-size: 18px;
+  --heading-h6-line-height: 32px;
+  --heading-h6-weight: 500;
+
+  /* Body sizes */
+  --body-large-size: 16px;
+  --body-large-line-height: 24px;
+  --body-large-tracking: 0.5px;
+  --body-medium-size: 14px;
+  --body-medium-line-height: 20px;
+  --body-small-size: 13px;
+  --body-small-line-height: 16px;
+  --body-small-tracking: 0.4px;
+  --body-caption-size: 12px;
+  --body-caption-line-height: 16px;
+
+  /* Label sizes */
+  --label-large-size: 14px;
+  --label-large-line-height: 20px;
+  --label-large-tracking: 0.1px;
+  --label-medium-size: 12px;
+  --label-medium-line-height: 16px;
+  --label-medium-tracking: 0.5px;
+  --label-small-size: 11px;
+  --label-small-line-height: 16px;
+  --label-small-tracking: 0.5px;
+
+  /* Footer */
+  --footer-size: 11px;
+  --footer-line-height: 14px;
+
+  /* ── Shadows / Elevation ── */
+  --shadow-100: 0px 1px 3px 1px rgba(0, 0, 0, 0.15), 0px 1px 2px 0px rgba(0, 0, 0, 0.30);
+  --shadow-300: 0px 2px 6px 2px rgba(0, 0, 0, 0.15), 0px 1px 2px 0px rgba(0, 0, 0, 0.30);
+  --shadow-500: 0px 1px 3px 0px rgba(0, 0, 0, 0.30), 0px 4px 8px 3px rgba(0, 0, 0, 0.15);
+  --shadow-700: 0px 2px 3px 0px rgba(0, 0, 0, 0.30), 0px 6px 10px 4px rgba(0, 0, 0, 0.15);
+  --shadow-900: 0px 4px 4px 0px rgba(0, 0, 0, 0.30), 0px 8px 12px 6px rgba(0, 0, 0, 0.15);
+
+  /* ── Corner radius ── */
+  --corner-extra-large: 28px;
 }
 
 * { margin: 0; padding: 0; box-sizing: border-box; }
 html { overflow-y: scroll; }
 
 body {
-  font-family: 'Roboto', sans-serif;
+  font-family: var(--font-body);
   background-color: var(--neutral-25);
   color: var(--text-normal);
-  font-size: 14px;
+  font-size: var(--body-medium-size);
+  line-height: var(--body-medium-line-height);
   -webkit-font-smoothing: antialiased;
 }
+
+h1, h2, h3, h4, h5, h6 {
+  font-family: var(--font-heading);
+}
+
+h1 { font-size: var(--heading-h1-size); line-height: var(--heading-h1-line-height); font-weight: var(--heading-h1-weight); }
+h2 { font-size: var(--heading-h2-size); line-height: var(--heading-h2-line-height); font-weight: var(--heading-h2-weight); }
+h3 { font-size: var(--heading-h3-size); line-height: var(--heading-h3-line-height); font-weight: var(--heading-h3-weight); }
+h4 { font-size: var(--heading-h4-size); line-height: var(--heading-h4-line-height); font-weight: var(--heading-h4-weight); }
+h5 { font-size: var(--heading-h5-size); line-height: var(--heading-h5-line-height); font-weight: var(--heading-h5-weight); }
+h6 { font-size: var(--heading-h6-size); line-height: var(--heading-h6-line-height); font-weight: var(--heading-h6-weight); }
 
 a { text-decoration: none; }
 button { font-family: inherit; cursor: pointer; }

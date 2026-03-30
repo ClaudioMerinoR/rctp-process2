@@ -123,7 +123,7 @@
   align-items: center;
   gap: 12px;
   padding: 8px 16px;
-  background: rgba(74,68,89,0.12);
+  background: var(--neutral-100);
   border-radius: 4px;
   font-weight: 500;
   font-size: 14px;
@@ -158,7 +158,7 @@
   padding: 8px 16px;
   font-size: 14px;
   font-weight: 500;
-  color: #49454F;
+  color: var(--neutral-800);
   cursor: pointer;
   transition: background 0.2s ease;
 }
@@ -169,7 +169,7 @@
   font-size: 14px;
   font-weight: 500;
   color: var(--text-normal);
-  background: rgba(74,68,89,0.12);
+  background: var(--neutral-100);
   border-radius: 4px;
   display: flex;
   align-items: center;
@@ -201,7 +201,7 @@
   font-weight: 700;
   text-transform: uppercase;
   letter-spacing: 0.5px;
-  color: #fff;
+  color: var(--neutral-00);
   background: var(--primary-500);
   border-radius: 100px;
   padding: 1px 6px;
@@ -240,7 +240,7 @@
   left: 50%;
   transform: translateX(-50%);
   background: var(--text-normal);
-  color: #fff;
+  color: var(--neutral-00);
   font-size: 11px;
   font-weight: 400;
   white-space: nowrap;
@@ -305,7 +305,7 @@
 
 .btnConnect {
   background: var(--primary-500);
-  color: #fff;
+  color: var(--neutral-00);
   transition: background 0.3s ease, opacity 0.3s ease;
 }
 .btnConnect:hover:not(:disabled) { background: var(--primary-600); }
@@ -382,7 +382,7 @@
   background: var(--neutral-00);
   transition: background 0.3s ease;
 }
-.table tbody tr:hover td { background: #d4f0fa !important; }
+.table tbody tr:hover td { background: var(--primary-50) !important; }
 
 /* Checkbox styling */
 .table input[type="checkbox"] {
@@ -501,7 +501,7 @@
   gap: 8px;
   z-index: 500;
 }
-.connAlert_success { background: #5fe9a9; }
+.connAlert_success { background: var(--success-300); }
 .connAlert_warning { background: var(--warning-100); }
 .connAlertIcon {
   font-size: 20px;
@@ -607,7 +607,7 @@
 }
 .deleteModalContinue {
   background: var(--alert-500);
-  color: #fff;
+  color: var(--neutral-00);
 }
 
 /* ══════════════════════════════════════════════════════════════════════════
@@ -734,7 +734,7 @@
 .rowMenuItem { display: flex; align-items: center; gap: 8px; width: 100%; padding: 8px 12px; background: none; border: none; cursor: pointer; font-size: 13px; font-weight: 500; color: var(--text-normal); text-align: left; border-radius: 3px; font-family: inherit; }
 .rowMenuItem:hover { background: var(--neutral-25); }
 .rowMenuItemDanger { color: var(--alert-500); }
-.rowMenuItemDanger:hover { background: #fff0f0; }
+.rowMenuItemDanger:hover { background: var(--alert-50); }
 
 /* ── Side panel animations ── */
 @keyframes slideInRight  { from { transform: translateX(100%); } to { transform: translateX(0); } }
@@ -1145,7 +1145,7 @@
   padding: 0 29px;
   gap: 8px;
   z-index: 500;
-  background: #5fe9a9;
+  background: var(--success-300);
 }
 .rlrAlertIcon {
   font-size: 20px;
@@ -1230,7 +1230,7 @@
   border: 1px solid var(--neutral-50);
   border-radius: 2px;
 }
-.accordionHeader:hover { background: #d4f0fa; }
+.accordionHeader:hover { background: var(--primary-50); }
 .levelLow {
   background: #EFFDF6;
   border-color: #c4e8d6;
@@ -1309,7 +1309,7 @@
 }
 .riskTable tbody tr:nth-child(odd) td  { background: var(--primary-08); }
 .riskTable tbody tr:nth-child(even) td { background: var(--neutral-00); }
-.riskTable tbody tr:hover td { background: #d4f0fa; }
+.riskTable tbody tr:hover td { background: var(--primary-50); }
 .cellDark { color: var(--text-normal) !important; }
 .riskTableFooter {
   display: flex;
@@ -1357,7 +1357,7 @@
 }
 .genericTable tbody tr:nth-child(odd) td  { background: var(--primary-08); }
 .genericTable tbody tr:nth-child(even) td { background: var(--neutral-00); }
-.genericTable tbody tr:hover td { background: #d4f0fa !important; }
+.genericTable tbody tr:hover td { background: var(--primary-50) !important; }
 
 /* ── Screening Results ── */
 .screeningSection {
@@ -1388,7 +1388,7 @@
 }
 .screeningTable tbody tr:nth-child(odd) td  { background: var(--primary-08); }
 .screeningTable tbody tr:nth-child(even) td { background: var(--neutral-00); }
-.screeningTable tbody tr:hover td { background: #d4f0fa !important; }
+.screeningTable tbody tr:hover td { background: var(--primary-50) !important; }
 .screeningCell {
   border: 1px solid var(--neutral-50);
   padding: 12px 8px;
@@ -1539,7 +1539,7 @@
 .amendTextarea {
   width: 100%;
   height: 156px;
-  border: 1px solid #dee1e0;
+  border: 1px solid var(--neutral-50);
   border-radius: 2px;
   padding: 12px;
   resize: vertical;
@@ -1549,12 +1549,12 @@
   outline: none;
   transition: border-color 0.15s;
 }
-.amendTextarea:focus { border-color: #8D9CA9; }
-.amendTextarea::placeholder { color: #8D9CA9; }
+.amendTextarea:focus { border-color: var(--neutral-500); }
+.amendTextarea::placeholder { color: var(--neutral-500); }
 .amendFileRow {
   display: flex;
   align-items: stretch;
-  border: 1px solid #dee1e0;
+  border: 1px solid var(--neutral-50);
   border-radius: 2px;
   overflow: hidden;
   height: 35px;
@@ -1572,9 +1572,9 @@
 }
 .amendBrowseBtn {
   padding: 0 14px;
-  background: #e9ecef;
+  background: var(--neutral-25);
   border: none;
-  border-left: 1px solid #dee1e0;
+  border-left: 1px solid var(--neutral-50);
   font-size: 11px;
   font-weight: 500;
   text-transform: uppercase;
@@ -1583,10 +1583,10 @@
   cursor: pointer;
   font-family: inherit;
 }
-.amendBrowseBtn:hover { background: #dde0e3; }
+.amendBrowseBtn:hover { background: var(--neutral-100); }
 .amendHelper {
   font-size: 12px;
-  color: #6c757d;
+  color: var(--neutral-600);
   line-height: 1.5;
 }
 .amendHelper strong { font-weight: 600; }

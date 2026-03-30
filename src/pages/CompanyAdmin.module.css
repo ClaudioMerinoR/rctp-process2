@@ -43,7 +43,7 @@
   width: 256px;
   flex-shrink: 0;
   background: var(--neutral-00);
-  border: 1px solid #dee1e0;
+  border: 1px solid var(--neutral-50);
   display: flex;
   flex-direction: column;
 }
@@ -57,7 +57,7 @@
   color: var(--neutral-500);
   background: none;
   border: none;
-  border-bottom: 1px solid #dee1e0;
+  border-bottom: 1px solid var(--neutral-50);
   text-align: left;
   cursor: pointer;
   font-family: inherit;
@@ -120,7 +120,7 @@
 
 .btnFilled {
   background: var(--primary-500);
-  color: #fff;
+  color: var(--neutral-00);
 }
 
 .btnFilled:hover {
@@ -315,7 +315,7 @@
 }
 
 .dropdownItem:hover {
-  background: #f0fbfe;
+  background: var(--primary-08);
 }
 
 .dropdownItemSelected {
@@ -351,7 +351,7 @@
 }
 
 .pageAlertSuccess {
-  background: #5fe9a9;
+  background: var(--success-300);
 }
 
 .pageAlertIcon {

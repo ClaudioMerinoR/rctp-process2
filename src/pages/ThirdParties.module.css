@@ -22,7 +22,7 @@
 }
 .btnAdd {
   display: inline-flex; align-items: center; height: 32px; padding: 0 12px;
-  background: var(--primary-500); color: #fff; border-radius: 4px;
+  background: var(--primary-500); color: var(--neutral-00); border-radius: 4px;
   font-size: 12px; font-weight: 500; text-transform: uppercase;
   letter-spacing: 0.5px; transition: background 0.2s;
 }
@@ -55,7 +55,7 @@ thead th:first-child { border-left: none; }
 tbody tr { border-bottom: 1px solid var(--neutral-50); transition: background 0.15s; }
 tbody tr:nth-child(odd)  { background: var(--primary-08); }
 tbody tr:nth-child(even) { background: var(--neutral-00); }
-tbody tr:hover { background: #d5f2fb; }
+tbody tr:hover { background: var(--primary-50); }
 tbody td {
   padding: 8px; vertical-align: middle;
   color: var(--text-light); border-left: 1px solid var(--neutral-50);

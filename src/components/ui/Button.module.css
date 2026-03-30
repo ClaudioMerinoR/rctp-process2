@@ -6,10 +6,11 @@
   height: 32px;
   padding: 0 8px;
   border-radius: 4px;
-  font-size: 12px;
+  font-size: var(--label-medium-size);
+  font-family: var(--font-label);
   font-weight: 500;
   text-transform: uppercase;
-  letter-spacing: 0.5px;
+  letter-spacing: var(--label-medium-tracking);
   cursor: pointer;
   border: none;
   white-space: nowrap;

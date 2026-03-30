@@ -35,7 +35,7 @@
   color: var(--text-normal); background: var(--neutral-00); outline: none;
   transition: border-color 0.15s; width: 100%; box-sizing: border-box;
 }
-.editInput:focus { border-color: #8D9CA9; }
+.editInput:focus { border-color: var(--neutral-500); }
 
 /* ── Info tooltip (same as AddThirdParty .infoTip) ── */
 .infoTip { display: inline-flex; align-items: center; margin-left: 4px; color: var(--text-light); vertical-align: middle; cursor: help; }
@@ -47,8 +47,8 @@
 .activeToggle { position: relative; width: 96px; height: 32px; border-radius: 2px; overflow: hidden; border: 1px solid var(--success-500); background: var(--success-500); cursor: pointer; user-select: none; transition: background 0.2s, border-color 0.2s; }
 .activeToggleOff { background: var(--alert-500); border-color: var(--alert-500); }
 .activeToggleTrack { position: absolute; inset: 0; display: flex; align-items: center; justify-content: center; font-size: 12px; font-weight: 500; text-transform: uppercase; color: var(--text-normal); padding-right: 14px; }
-.activeToggleOff .activeToggleTrack { color: #fff; padding-right: 0; padding-left: 14px; }
-.activeToggleThumb { position: absolute; top: -2px; bottom: -2px; width: 26px; background: #fff; right: -13px; transition: right 0.15s, left 0.15s; }
+.activeToggleOff .activeToggleTrack { color: var(--neutral-00); padding-right: 0; padding-left: 14px; }
+.activeToggleThumb { position: absolute; top: -2px; bottom: -2px; width: 26px; background: var(--neutral-00); right: -13px; transition: right 0.15s, left 0.15s; }
 .activeToggleOff .activeToggleThumb { right: auto; left: -13px; }
 
 /* ── Owner toggle (same as AddThirdParty .ownerToggle / .ownerBtn) ── */
@@ -67,10 +67,10 @@
 .dropdownPlaceholder { font-size: 14px; color: var(--neutral-400); }
 .dropdownValueSelected { font-size: 14px; color: var(--text-normal); }
 .dropdown { position: absolute; top: 100%; left: 0; right: 0; background: var(--neutral-00); border: 1px solid rgba(0,0,0,0.1); box-shadow: 0 4px 16px rgba(0,0,0,0.12); z-index: 200; max-height: 240px; overflow-y: auto; padding: 4px 6px; }
-.dropdownItem { min-height: 32px; padding: 8px 8px; font-size: 12px; font-weight: 500; text-transform: uppercase; letter-spacing: 1px; color: #8D9CA9; cursor: pointer; border-radius: 2px; display: flex; align-items: center; }
+.dropdownItem { min-height: 32px; padding: 8px 8px; font-size: 12px; font-weight: 500; text-transform: uppercase; letter-spacing: 1px; color: var(--neutral-500); cursor: pointer; border-radius: 2px; display: flex; align-items: center; }
 .dropdownItem:hover { background: rgba(0,0,0,0.04); color: var(--text-normal); }
 .dropdownItemSelected { color: var(--text-normal); }
-.dropdownCheckItem { display: flex; align-items: center; gap: 10px; min-height: 32px; padding: 6px 8px; cursor: pointer; border-radius: 2px; font-size: 12px; font-weight: 500; text-transform: uppercase; letter-spacing: 1px; color: #8D9CA9; user-select: none; }
+.dropdownCheckItem { display: flex; align-items: center; gap: 10px; min-height: 32px; padding: 6px 8px; cursor: pointer; border-radius: 2px; font-size: 12px; font-weight: 500; text-transform: uppercase; letter-spacing: 1px; color: var(--neutral-500); user-select: none; }
 .dropdownCheckItem:hover { background: rgba(0,0,0,0.04); }
 .dropdownCheckItem input[type="checkbox"] { width: 16px; height: 16px; flex-shrink: 0; accent-color: var(--primary-500); cursor: pointer; margin: 0; }
 
@@ -79,8 +79,8 @@
 .tagSelectTrigger { display: flex; align-items: center; justify-content: space-between; height: 40px; border: 1px solid var(--neutral-200); border-radius: 2px; padding: 0 10px; cursor: pointer; background: var(--neutral-00); }
 .tagSelectTrigger:hover { border-color: var(--primary-500); }
 .tagChips { display: flex; flex-wrap: wrap; gap: 6px; margin-top: 8px; }
-.tagChip { display: inline-flex; align-items: center; background: #516267; border: 1px solid #495158; border-radius: 4px; height: 24px; overflow: hidden; padding: 0 4px 0 8px; gap: 8px; font-size: 14px; font-weight: 400; color: #fff; }
-.tagChip button { background: none; border: none; color: #fff; cursor: pointer; font-size: 14px; line-height: 1; padding: 0; opacity: 0.8; display: flex; align-items: center; }
+.tagChip { display: inline-flex; align-items: center; background: var(--text-light); border: 1px solid var(--neutral-800); border-radius: 4px; height: 24px; overflow: hidden; padding: 0 4px 0 8px; gap: 8px; font-size: 14px; font-weight: 400; color: var(--neutral-00); }
+.tagChip button { background: none; border: none; color: var(--neutral-00); cursor: pointer; font-size: 14px; line-height: 1; padding: 0; opacity: 0.8; display: flex; align-items: center; }
 .tagChip button:hover { opacity: 1; }
 
 /* ── Form footer (same as AddThirdParty .formFooter) ── */
@@ -92,7 +92,7 @@
 }
 
 /* ── Buttons (same as AddThirdParty .btnFilled / .btnOutline) ── */
-.btnFilled { display: inline-flex; align-items: center; gap: 4px; height: 32px; padding: 0 12px; background: var(--primary-500); color: #fff; border: none; border-radius: 4px; font-size: 12px; font-weight: 500; text-transform: uppercase; letter-spacing: 0.5px; cursor: pointer; font-family: inherit; transition: background 0.2s; white-space: nowrap; }
+.btnFilled { display: inline-flex; align-items: center; gap: 4px; height: 32px; padding: 0 12px; background: var(--primary-500); color: var(--neutral-00); border: none; border-radius: 4px; font-size: 12px; font-weight: 500; text-transform: uppercase; letter-spacing: 0.5px; cursor: pointer; font-family: inherit; transition: background 0.2s; white-space: nowrap; }
 .btnFilled:hover { background: var(--primary-600); }
 .btnOutline { display: inline-flex; align-items: center; gap: 4px; height: 32px; padding: 0 12px; background: var(--neutral-00); border: 1px solid var(--neutral-300); color: var(--text-normal); border-radius: 4px; font-size: 12px; font-weight: 500; text-transform: uppercase; letter-spacing: 0.5px; cursor: pointer; font-family: inherit; white-space: nowrap; }
 .btnOutline:hover { background: var(--neutral-25); border-color: var(--neutral-400); }

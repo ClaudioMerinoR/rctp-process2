@@ -3,9 +3,9 @@
   align-items: center;
   gap: 6px;
   padding: 8px 0;
-  font-size: 13px;
+  font-size: var(--body-small-size);
   text-transform: uppercase;
-  letter-spacing: 0.5px;
+  letter-spacing: var(--label-medium-tracking);
 }
 .homeLink, .link { color: var(--primary-500); display: flex; align-items: center; }
 .homeLink:hover, .link:hover { text-decoration: underline; }
