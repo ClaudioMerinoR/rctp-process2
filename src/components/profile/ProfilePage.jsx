@@ -1,4 +1,5 @@
 import { useState, useEffect, useRef } from 'react';
+import { motion, AnimatePresence } from 'motion/react';
 import { Link, useParams, useNavigate } from 'react-router-dom';
 import PageLayout from '../layout/PageLayout';
 import Breadcrumb from '../layout/Breadcrumb';
@@ -170,19 +171,41 @@ export default function ProfilePage({ profile: profileProp, embedded = false }) 
   const content = (
     <>
       {/* Alert banner */}
-      {profile.alertBanners && alert && (
-        <div className={`${styles.connAlert} ${styles['connAlert_' + alert.type]}`}>
-          <span className={`${styles.connAlertIcon} material-icons-outlined`}>
-            {alert.type === 'success' ? 'check_circle' : 'remove_circle'}
-          </span>
-          <span className={styles.connAlertText}>{alert.message}</span>
-        </div>
-      )}
+      <AnimatePresence>
+        {profile.alertBanners && alert && (
+          <motion.div
+            key="alert"
+            className={`${styles.connAlert} ${styles['connAlert_' + alert.type]}`}
+            initial={{ opacity: 0, y: -12 }}
+            animate={{ opacity: 1, y: 0 }}
+            exit={{ opacity: 0, y: -12 }}
+            transition={{ duration: 0.22 }}
+          >
+            <span className={`${styles.connAlertIcon} material-icons-outlined`}>
+              {alert.type === 'success' ? 'check_circle' : 'remove_circle'}
+            </span>
+            <span className={styles.connAlertText}>{alert.message}</span>
+          </motion.div>
+        )}
+      </AnimatePresence>
 
       {/* Delete modal */}
+      <AnimatePresence>
       {profile.deleteModal && deleteModalOpen && (
-        <div className={styles.deleteModalOverlay} onClick={() => setDeleteModalOpen(false)}>
-          <div className={styles.deleteModal} onClick={e => e.stopPropagation()} role="dialog" aria-modal="true">
+        <motion.div
+          key="delete-modal-overlay"
+          className={styles.deleteModalOverlay}
+          initial={{ opacity: 0 }} animate={{ opacity: 1 }} exit={{ opacity: 0 }}
+          transition={{ duration: 0.2 }}
+          onClick={() => setDeleteModalOpen(false)}
+        >
+          <motion.div
+            className={styles.deleteModal}
+            initial={{ scale: 0.92, opacity: 0, y: 10 }}
+            animate={{ scale: 1, opacity: 1, y: 0 }}
+            exit={{ scale: 0.92, opacity: 0, y: 10 }}
+            transition={{ duration: 0.22, ease: [0.32, 0.72, 0, 1] }}
+            onClick={e => e.stopPropagation()} role="dialog" aria-modal="true">
             <div className={styles.deleteModalHeader}>
               <span className={styles.deleteModalTitle}>Delete a Third party</span>
               <button className={styles.deleteModalClose} aria-label="Close" onClick={() => setDeleteModalOpen(false)} />
@@ -196,9 +219,10 @@ export default function ProfilePage({ profile: profileProp, embedded = false }) 
               <button className={`${styles.deleteModalBtn} ${styles.deleteModalCancel}`} onClick={() => setDeleteModalOpen(false)}>Cancel</button>
               <button className={`${styles.deleteModalBtn} ${styles.deleteModalContinue}`} onClick={() => setDeleteModalOpen(false)}>Continue</button>
             </div>
-          </div>
-        </div>
+          </motion.div>
+        </motion.div>
       )}
+      </AnimatePresence>
 
       {!embedded && <Breadcrumb items={[
         { label: 'Third Parties', to: '/third-parties' },
@@ -245,7 +269,7 @@ export default function ProfilePage({ profile: profileProp, embedded = false }) 
 
         <main className={styles.mainContent}>
           {/* Details Card */}
-          <section className={`${styles.card} ${styles.detailsCard}`}>
+          <motion.section className={`${styles.card} ${styles.detailsCard}`} initial={{ opacity: 0, y: 20 }} animate={{ opacity: 1, y: 0 }} transition={{ duration: 0.3 }}>
             <div className={styles.cardHeader}>
               <h2 className={styles.cardTitle}>{profile.shortName} Details</h2>
               <div className={styles.cardHeaderRight}>
@@ -265,16 +289,33 @@ export default function ProfilePage({ profile: profileProp, embedded = false }) 
                   key={tab}
                   className={`${styles.tab}${activeTab === tab ? ' ' + styles.tabActive : ''}`}
                   onClick={() => setActiveTab(tab)}
+                  style={{ position: 'relative' }}
                 >
                   {tab === 'overview' ? 'Overview' : tab === 'additional' ? 'Additional Details' : 'Connections'}
+                  {activeTab === tab && (
+                    <motion.div
+                      layoutId="tab-indicator"
+                      className={styles.tabIndicator}
+                      transition={{ duration: 0.25, ease: [0.32, 0.72, 0, 1] }}
+                    />
+                  )}
                 </div>
               ))}
             </div>
 
             <div className={styles.tabPanels}>
+              <AnimatePresence mode="wait">
+
               {/* Overview */}
               {activeTab === 'overview' && (
-                <div className={styles.tabPanel}>
+                <motion.div
+                  key="overview"
+                  className={styles.tabPanel}
+                  initial={{ opacity: 0, y: 8 }}
+                  animate={{ opacity: 1, y: 0 }}
+                  exit={{ opacity: 0, y: 8 }}
+                  transition={{ duration: 0.18 }}
+                >
                   <div className={styles.fieldGrid}>
                     {profile.overviewFields.map((f, i) => (
                       <div key={i}>
@@ -289,12 +330,19 @@ export default function ProfilePage({ profile: profileProp, embedded = false }) 
                       </div>
                     ))}
                   </div>
-                </div>
+                </motion.div>
               )}
 
               {/* Additional Details */}
               {activeTab === 'additional' && (
-                <div className={styles.tabPanel}>
+                <motion.div
+                  key="additional"
+                  className={styles.tabPanel}
+                  initial={{ opacity: 0, y: 8 }}
+                  animate={{ opacity: 1, y: 0 }}
+                  exit={{ opacity: 0, y: 8 }}
+                  transition={{ duration: 0.18 }}
+                >
                   <div className={styles.fieldGrid}>
                     {profile.additionalFields.map((f, i) => (
                       <div key={i}>
@@ -307,7 +355,7 @@ export default function ProfilePage({ profile: profileProp, embedded = false }) 
                       </div>
                     ))}
                   </div>
-                </div>
+                </motion.div>
               )}
 
               {/* Connections */}
@@ -406,11 +454,13 @@ export default function ProfilePage({ profile: profileProp, embedded = false }) 
                   </div>
                 </div>
               )}
+
+              </AnimatePresence>
             </div>
-          </section>
+          </motion.section>
 
           {/* Risk Level Report */}
-          <section className={styles.riskReport}>
+          <motion.section className={styles.riskReport} initial={{ opacity: 0, y: 20 }} animate={{ opacity: 1, y: 0 }} transition={{ duration: 0.3, delay: 0.07 }}>
             <div className={styles.sectionRow}>
               <h2 className={styles.cardTitle}>Risk Level Report</h2>
               <Link to={`/profile/${profile.id}/risk-report`} className={styles.linkText}>VIEW FULL REPORT</Link>
@@ -421,8 +471,9 @@ export default function ProfilePage({ profile: profileProp, embedded = false }) 
                 const sectionId = (profile.riskReport?.accordionSections || []).find(
                   s => s.label.toLowerCase().includes(rc.title.toLowerCase())
                 )?.id || rc.title.toLowerCase().replace(/[^a-z]+/g, '-');
+                const MotionLink = motion(Link);
                 return (
-                  <Link key={i} to={`/profile/${profile.id}/risk-report#${sectionId}`} className={`${styles.rcard} ${styles['rcard_' + rc.level]}`} style={{ textDecoration: 'none' }}>
+                  <MotionLink key={i} to={`/profile/${profile.id}/risk-report#${sectionId}`} className={`${styles.rcard} ${styles['rcard_' + rc.level]}`} style={{ textDecoration: 'none' }} whileHover={{ y: -4, boxShadow: '0 8px 20px rgba(0,0,0,0.13)' }} whileTap={{ scale: 0.97 }} transition={{ duration: 0.18 }}>
                     <div className={styles.rcardTitle}>{rc.title}</div>
                     <span className={`${styles.rcardLbl} ${styles.lblRisk}`}>Risk Level</span>
                     <span className={`${styles.rcardLbl} ${styles.lblFlags}`}>Red flags</span>
@@ -435,14 +486,14 @@ export default function ProfilePage({ profile: profileProp, embedded = false }) 
                         <span className="material-icons-outlined" style={{ fontSize: 14, verticalAlign: 'middle' }}>{b.icon}</span>
                       </span>
                     </span>
-                  </Link>
+                  </MotionLink>
                 );
               })}
             </div>
-          </section>
+          </motion.section>
 
           {/* Open Tasks */}
-          <section className={styles.tableCard}>
+          <motion.section className={styles.tableCard} initial={{ opacity: 0, y: 20 }} animate={{ opacity: 1, y: 0 }} transition={{ duration: 0.3, delay: 0.14 }}>
             <div className={styles.sectionBar}>
               <div className={styles.sectionRow}>
                 <h2 className={styles.cardTitle}>Open Tasks</h2>
@@ -484,10 +535,10 @@ export default function ProfilePage({ profile: profileProp, embedded = false }) 
                 <span>Showing results 1 - {profile.openTasks.length} of {profile.openTasks.length}</span>
               </div>
             </div>
-          </section>
+          </motion.section>
 
           {/* Screening and Monitoring Associations */}
-          <section className={`${styles.tableCard} ${styles.tableCardShadow}`}>
+          <motion.section className={`${styles.tableCard} ${styles.tableCardShadow}`} initial={{ opacity: 0, y: 20 }} animate={{ opacity: 1, y: 0 }} transition={{ duration: 0.3, delay: 0.21 }}>
             <div className={styles.sectionBarFlat}>
               <div className={styles.sectionRow}>
                 <h2 className={styles.cardTitle}>Screening and Monitoring Associations</h2>
@@ -544,11 +595,12 @@ export default function ProfilePage({ profile: profileProp, embedded = false }) 
                 <span>Showing results 1 - {profile.screeningRows.length} of {profile.screeningRows.length}</span>
               </div>
             </div>
-          </section>
+          </motion.section>
         </main>
       </div>
 
       {/* Edit connection panel */}
+      <AnimatePresence>
       {editRow && (
         <EditConnectionPanel
           row={editRow.row}
@@ -561,19 +613,25 @@ export default function ProfilePage({ profile: profileProp, embedded = false }) 
           }}
         />
       )}
+      </AnimatePresence>
 
       {/* Connect side panel */}
+      <AnimatePresence>
       {connectPanelRow && (
         <ConnectPanel
+          key="connect-panel"
           row={connectPanelRow}
           onClose={() => setConnectPanelRow(null)}
           onConfirm={handleConnectConfirm}
         />
       )}
+      </AnimatePresence>
 
       {/* Look for more connections panel */}
+      <AnimatePresence>
       {showLookMore && (
         <LookMorePanel
+          key="look-more-panel"
           onClose={() => setShowLookMore(false)}
           onSelect={row => {
             setShowLookMore(false);
@@ -581,10 +639,13 @@ export default function ProfilePage({ profile: profileProp, embedded = false }) 
           }}
         />
       )}
+      </AnimatePresence>
 
       {/* Notes side panel */}
+      <AnimatePresence>
       {showNotes && (
         <NotesPanel
+          key="notes-panel"
           profileName={profile.shortName}
           notes={notes}
           noteText={noteText}
@@ -598,6 +659,7 @@ export default function ProfilePage({ profile: profileProp, embedded = false }) 
           onClose={() => setShowNotes(false)}
         />
       )}
+      </AnimatePresence>
     </>
   );
 
@@ -621,8 +683,16 @@ function RowMenu({ open, onToggle, onClose, onEdit, onDisconnect }) {
       <button className={styles.rowMenuTrigger} onClick={onToggle}>
         <span className="material-icons-outlined" style={{ fontSize: 18 }}>more_vert</span>
       </button>
+      <AnimatePresence>
       {open && (
-        <div className={styles.rowMenuDropdown}>
+        <motion.div
+          className={styles.rowMenuDropdown}
+          initial={{ opacity: 0, scale: 0.92, y: -4 }}
+          animate={{ opacity: 1, scale: 1, y: 0 }}
+          exit={{ opacity: 0, scale: 0.92, y: -4 }}
+          transition={{ duration: 0.15 }}
+          style={{ transformOrigin: 'top right' }}
+        >
           <button className={styles.rowMenuItem} onClick={onEdit}>
             <span className="material-icons-outlined" style={{ fontSize: 16 }}>edit</span>
             Edit
@@ -631,8 +701,9 @@ function RowMenu({ open, onToggle, onClose, onEdit, onDisconnect }) {
             <span className="material-icons-outlined" style={{ fontSize: 16 }}>link_off</span>
             Disconnect
           </button>
-        </div>
+        </motion.div>
       )}
+      </AnimatePresence>
     </div>
   );
 }
@@ -640,7 +711,6 @@ function RowMenu({ open, onToggle, onClose, onEdit, onDisconnect }) {
 /* ─────────────────────── Edit connection panel ─────────────────────── */
 
 function EditConnectionPanel({ row, onClose, onSave }) {
-  const { closing, triggerClose, handleAnimationEnd } = useClosingAnimation(onClose);
   const [connType, setConnType] = useState(row.connType || '');
 
   useEffect(() => {
@@ -658,17 +728,11 @@ function EditConnectionPanel({ row, onClose, onSave }) {
 
   return (
     <>
-      <div
-        className={`${styles.connectOverlay} ${closing ? styles.connectOverlayClosing : ''}`}
-        onClick={triggerClose}
-      />
-      <div
-        className={`${styles.connectPanel} ${closing ? styles.connectPanelClosing : ''}`}
-        onAnimationEnd={handleAnimationEnd}
-      >
+      <motion.div className={styles.connectOverlay} initial={{ opacity: 0 }} animate={{ opacity: 1 }} exit={{ opacity: 0 }} transition={{ duration: 0.2 }} onClick={onClose} />
+      <motion.div className={styles.connectPanel} initial={{ x: '100%' }} animate={{ x: 0 }} exit={{ x: '100%' }} transition={{ duration: 0.32, ease: [0.32, 0.72, 0, 1] }} onClick={e => e.stopPropagation()}>
         <div className={styles.connectPanelHeader}>
           <span className={styles.connectPanelTitle}>Edit Connection</span>
-          <button className={`${styles.btn} ${styles.btnOutline}`} onClick={triggerClose}>Close</button>
+          <button className={`${styles.btn} ${styles.btnOutline}`} onClick={onClose}>Close</button>
         </div>
         <div className={styles.connectPanelBody}>
           <div className={styles.connectPanelInfo}>
@@ -703,18 +767,9 @@ function EditConnectionPanel({ row, onClose, onSave }) {
             Save
           </button>
         </div>
-      </div>
+      </motion.div>
     </>
   );
-}
-
-/* ─────────────────────── Shared panel close hook ─────────────────────── */
-
-function useClosingAnimation(onClose) {
-  const [closing, setClosing] = useState(false);
-  function triggerClose() { setClosing(true); }
-  function handleAnimationEnd() { if (closing) onClose(); }
-  return { closing, triggerClose, handleAnimationEnd };
 }
 
 /* ─────────────────────── Connect side panel ─────────────────────── */
@@ -722,7 +777,6 @@ function useClosingAnimation(onClose) {
 const CONNECTION_TYPES = ['Subsidiary', 'Parent Company', 'Joint Venture', 'Affiliate', 'Branch', 'Agent', 'Supplier', 'Customer', 'Subcontractor'];
 
 function ConnectPanel({ row, onClose, onConfirm }) {
-  const { closing, triggerClose, handleAnimationEnd } = useClosingAnimation(onClose);
   const [connType, setConnType] = useState(row.connType || '');
 
   useEffect(() => {
@@ -740,17 +794,11 @@ function ConnectPanel({ row, onClose, onConfirm }) {
 
   return (
     <>
-      <div
-        className={`${styles.connectOverlay} ${closing ? styles.connectOverlayClosing : ''}`}
-        onClick={triggerClose}
-      />
-      <div
-        className={`${styles.connectPanel} ${closing ? styles.connectPanelClosing : ''}`}
-        onAnimationEnd={handleAnimationEnd}
-      >
+      <motion.div className={styles.connectOverlay} initial={{ opacity: 0 }} animate={{ opacity: 1 }} exit={{ opacity: 0 }} transition={{ duration: 0.2 }} onClick={onClose} />
+      <motion.div className={styles.connectPanel} initial={{ x: '100%' }} animate={{ x: 0 }} exit={{ x: '100%' }} transition={{ duration: 0.32, ease: [0.32, 0.72, 0, 1] }} onClick={e => e.stopPropagation()}>
         <div className={styles.connectPanelHeader}>
           <span className={styles.connectPanelTitle}>Connect Third Party</span>
-          <button className={`${styles.btn} ${styles.btnOutline}`} onClick={triggerClose}>Close</button>
+          <button className={`${styles.btn} ${styles.btnOutline}`} onClick={onClose}>Close</button>
         </div>
         <div className={styles.connectPanelBody}>
           <div className={styles.connectPanelInfo}>
@@ -786,7 +834,7 @@ function ConnectPanel({ row, onClose, onConfirm }) {
             Connect
           </button>
         </div>
-      </div>
+      </motion.div>
     </>
   );
 }
@@ -803,8 +851,6 @@ const TOOLBAR_BUTTONS = [
 ];
 
 function NotesPanel({ profileName, notes, noteText, onNoteTextChange, onAddNote, onClose }) {
-  const { closing, triggerClose, handleAnimationEnd } = useClosingAnimation(onClose);
-
   useEffect(() => {
     document.body.style.overflow = 'hidden';
     return () => { document.body.style.overflow = ''; };
@@ -812,17 +858,11 @@ function NotesPanel({ profileName, notes, noteText, onNoteTextChange, onAddNote,
 
   return (
     <>
-      <div
-        className={`${styles.connectOverlay} ${closing ? styles.connectOverlayClosing : ''}`}
-        onClick={triggerClose}
-      />
-      <div
-        className={`${styles.notesPanel} ${closing ? styles.notesPanelClosing : ''}`}
-        onAnimationEnd={handleAnimationEnd}
-      >
+      <motion.div className={styles.connectOverlay} initial={{ opacity: 0 }} animate={{ opacity: 1 }} exit={{ opacity: 0 }} transition={{ duration: 0.2 }} onClick={onClose} />
+      <motion.div className={styles.notesPanel} initial={{ x: '100%' }} animate={{ x: 0 }} exit={{ x: '100%' }} transition={{ duration: 0.32, ease: [0.32, 0.72, 0, 1] }} onClick={e => e.stopPropagation()}>
         <div className={styles.notesPanelHeader}>
           <span className={styles.notesPanelTitle}>Note - {profileName} / Available Threads</span>
-          <button className={`${styles.btn} ${styles.btnOutline}`} onClick={triggerClose}>Close</button>
+          <button className={`${styles.btn} ${styles.btnOutline}`} onClick={onClose}>Close</button>
         </div>
         <div className={styles.notesPanelContent}>
           {notes.length === 0
@@ -867,7 +907,7 @@ function NotesPanel({ profileName, notes, noteText, onNoteTextChange, onAddNote,
             </button>
           </div>
         </div>
-      </div>
+      </motion.div>
     </>
   );
 }
@@ -885,7 +925,6 @@ const SEARCH_POOL = [
 ];
 
 function LookMorePanel({ onClose, onSelect }) {
-  const { closing, triggerClose, handleAnimationEnd } = useClosingAnimation(onClose);
   const [nameQuery, setNameQuery] = useState('');
   const [results, setResults] = useState(null);
   const [checked, setChecked] = useState([]);
@@ -913,9 +952,7 @@ function LookMorePanel({ onClose, onSelect }) {
   function handleConnect() {
     const idx = checked.findIndex(Boolean);
     if (idx === -1) return;
-    const row = results[idx];
-    triggerClose();
-    setTimeout(() => onSelect(row), 220);
+    onSelect(results[idx]);
   }
 
   function handleDiscard() {
@@ -924,17 +961,11 @@ function LookMorePanel({ onClose, onSelect }) {
 
   return (
     <>
-      <div
-        className={`${styles.connectOverlay} ${closing ? styles.connectOverlayClosing : ''}`}
-        onClick={triggerClose}
-      />
-      <div
-        className={`${styles.lookMorePanel} ${closing ? styles.lookMorePanelClosing : ''}`}
-        onAnimationEnd={handleAnimationEnd}
-      >
+      <motion.div className={styles.connectOverlay} initial={{ opacity: 0 }} animate={{ opacity: 1 }} exit={{ opacity: 0 }} transition={{ duration: 0.2 }} onClick={onClose} />
+      <motion.div className={styles.lookMorePanel} initial={{ x: '100%' }} animate={{ x: 0 }} exit={{ x: '100%' }} transition={{ duration: 0.32, ease: [0.32, 0.72, 0, 1] }} onClick={e => e.stopPropagation()}>
         <div className={styles.connectPanelHeader}>
           <span className={styles.connectPanelTitle}>Search for connections</span>
-          <button className={`${styles.btn} ${styles.btnOutline}`} onClick={triggerClose}>Close</button>
+          <button className={`${styles.btn} ${styles.btnOutline}`} onClick={onClose}>Close</button>
         </div>
 
         <div className={styles.connectPanelBody}>
@@ -1008,9 +1039,9 @@ function LookMorePanel({ onClose, onSelect }) {
         </div>
 
         <div className={styles.connectPanelFooter}>
-          <button className={`${styles.btn} ${styles.btnOutline}`} onClick={triggerClose}>Cancel</button>
+          <button className={`${styles.btn} ${styles.btnOutline}`} onClick={onClose}>Cancel</button>
         </div>
-      </div>
+      </motion.div>
     </>
   );
 }

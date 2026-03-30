@@ -470,15 +470,13 @@
   color: var(--text-light);
   padding-bottom: 8px;
   cursor: pointer;
-  border-bottom: 2px solid transparent;
+  border-bottom: none;
   transition: color 0.25s ease;
   user-select: none;
 }
 .tab:hover { color: var(--text-normal); }
-.tabActive {
-  color: var(--text-normal);
-  border-bottom-color: var(--primary-600);
-}
+.tabActive { color: var(--text-normal); }
+.tabIndicator { position: absolute; bottom: -1px; left: 0; right: 0; height: 2px; background: var(--primary-600); border-radius: 1px; }
 
 .tabPanels {
   position: relative;
@@ -743,16 +741,12 @@
 @keyframes overlayFadeOut { from { opacity: 1; } to { opacity: 0; } }
 
 /* ── Connect side panel ── */
-.connectOverlay { position: fixed; inset: 0; background: rgba(0,0,0,0.45); z-index: 1100; animation: overlayFadeIn 0.22s ease forwards; }
-.connectOverlayClosing { animation: overlayFadeOut 0.22s ease forwards; }
-.connectPanel { position: fixed; top: 0; right: 0; width: 540px; max-width: 100vw; height: 100vh; background: var(--neutral-00); border-top: 4px solid var(--primary-500); border-left: 1px solid var(--neutral-50); box-shadow: -4px 0 20px rgba(0,0,0,0.1); z-index: 1101; display: flex; flex-direction: column; animation: slideInRight 0.25s cubic-bezier(0.25,0.46,0.45,0.94) forwards; }
-.connectPanelClosing { animation: slideOutRight 0.22s cubic-bezier(0.55,0,1,0.45) forwards; }
-.lookMorePanel { position: fixed; top: 0; right: 0; width: 940px; max-width: 100vw; height: 100vh; background: var(--neutral-00); border-top: 4px solid var(--primary-500); border-left: 1px solid var(--neutral-50); box-shadow: -4px 0 20px rgba(0,0,0,0.1); z-index: 1101; display: flex; flex-direction: column; animation: slideInRight 0.25s cubic-bezier(0.25,0.46,0.45,0.94) forwards; }
-.lookMorePanelClosing { animation: slideOutRight 0.22s cubic-bezier(0.55,0,1,0.45) forwards; }
+.connectOverlay { position: fixed; inset: 0; background: rgba(0,0,0,0.45); z-index: 1100; }
+.connectPanel { position: fixed; top: 0; right: 0; width: 540px; max-width: 100vw; height: 100vh; background: var(--neutral-00); border-top: 4px solid var(--primary-500); border-left: 1px solid var(--neutral-50); box-shadow: -4px 0 20px rgba(0,0,0,0.1); z-index: 1101; display: flex; flex-direction: column; }
+.lookMorePanel { position: fixed; top: 0; right: 0; width: 940px; max-width: 100vw; height: 100vh; background: var(--neutral-00); border-top: 4px solid var(--primary-500); border-left: 1px solid var(--neutral-50); box-shadow: -4px 0 20px rgba(0,0,0,0.1); z-index: 1101; display: flex; flex-direction: column; }
 
 /* ── Notes side panel ── */
-.notesPanel { position: fixed; top: 0; right: 0; width: 650px; max-width: 100vw; height: 100vh; background: var(--neutral-00); border-left: 1px solid var(--neutral-50); box-shadow: -4px 0 20px rgba(0,0,0,0.1); z-index: 1101; display: flex; flex-direction: column; animation: slideInRight 0.25s cubic-bezier(0.25,0.46,0.45,0.94) forwards; }
-.notesPanelClosing { animation: slideOutRight 0.22s cubic-bezier(0.55,0,1,0.45) forwards; }
+.notesPanel { position: fixed; top: 0; right: 0; width: 650px; max-width: 100vw; height: 100vh; background: var(--neutral-00); border-left: 1px solid var(--neutral-50); box-shadow: -4px 0 20px rgba(0,0,0,0.1); z-index: 1101; display: flex; flex-direction: column; }
 .notesPanelHeader { display: flex; align-items: center; justify-content: space-between; padding: 16px 20px; border-bottom: 3px solid var(--primary-500); flex-shrink: 0; }
 .notesPanelTitle { font-size: 14px; font-weight: 600; text-transform: uppercase; letter-spacing: 1.5px; color: var(--text-normal); }
 .notesPanelContent { flex: 1; overflow-y: auto; padding: 16px 20px; }

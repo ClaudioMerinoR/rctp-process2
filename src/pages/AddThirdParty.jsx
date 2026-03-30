@@ -1,4 +1,5 @@
 import { useState, useRef, useEffect } from 'react';
+import { motion, AnimatePresence } from 'motion/react';
 import { Link, useNavigate } from 'react-router-dom';
 import PageLayout from '../components/layout/PageLayout';
 import Breadcrumb from '../components/layout/Breadcrumb';
@@ -308,19 +309,35 @@ export default function AddThirdParty() {
         <div className={styles.sectionHeading}>Third Party Type <span className={styles.req}>*</span></div>
         <div className={`${styles.typeCards} ${errors.type ? styles.typeError : ''}`}>
           {types.map(t => (
-            <div key={t.id} className={`${styles.typeCard} ${tpType === t.id ? styles.selected : ''}`} onClick={() => setTpType(t.id)} tabIndex={0} onKeyDown={e => e.key === 'Enter' && setTpType(t.id)}>
+            <motion.div
+              key={t.id}
+              className={`${styles.typeCard} ${tpType === t.id ? styles.selected : ''}`}
+              onClick={() => setTpType(t.id)}
+              tabIndex={0}
+              onKeyDown={e => e.key === 'Enter' && setTpType(t.id)}
+              whileHover={{ y: -4, boxShadow: '0 8px 20px rgba(0,0,0,0.12)' }}
+              whileTap={{ scale: 0.96 }}
+              animate={tpType === t.id ? { scale: [1, 1.04, 1] } : { scale: 1 }}
+              transition={{ duration: 0.2 }}
+            >
               <span className={`material-icons-outlined ${styles.typeCheck}`}>check_circle</span>
               <div className={styles.typeIconWrap}><span className="material-icons-outlined">{t.icon}</span></div>
               <div className={styles.typeTitle}>{t.title}</div>
               <div className={styles.typeDesc}>{t.desc}</div>
-            </div>
+            </motion.div>
           ))}
         </div>
         {errors.type && <p className={styles.errorHint}>Please select a third party type.</p>}
 
         {/* ── Third Party Name (shown after type is selected) ── */}
+        <AnimatePresence>
         {tpType && (
-          <>
+          <motion.div
+            key={tpType}
+            initial={{ opacity: 0, y: -10 }}
+            animate={{ opacity: 1, y: 0 }}
+            transition={{ duration: 0.22 }}
+          >
             <div className={styles.sectionHeading} style={{ marginTop: 24 }}>Third Party Name</div>
             <div className={styles.nameRow}>
               <div className={`${styles.nameField} ${errors.name ? styles.hasError : ''}`}>
@@ -348,8 +365,16 @@ export default function AddThirdParty() {
             </div>
 
             {/* ── Inline: Duplicate Check Results ── */}
-            <div className={`${styles.inlineSectionWrap} ${showDupCheck ? styles.open : ''}`}>
-              <div className={styles.inlineSectionInner}>
+            <AnimatePresence>
+            {showDupCheck && (
+              <motion.div
+                key="dup-check"
+                initial={{ height: 0, opacity: 0, marginTop: 0 }}
+                animate={{ height: 'auto', opacity: 1, marginTop: 20 }}
+                exit={{ height: 0, opacity: 0, marginTop: 0 }}
+                transition={{ duration: 0.3, ease: 'easeInOut' }}
+                style={{ overflow: 'hidden' }}
+              >
                 <div className={styles.inlineSection}>
                   <div className={styles.inlineSectionHeader}>
                     <h3 className={styles.inlineSectionTitle}>
@@ -426,13 +451,22 @@ export default function AddThirdParty() {
                     </button>
                   </div>
                 </div>
-              </div>
-            </div>
+              </motion.div>
+            )}
+            </AnimatePresence>
 
             {/* ── Inline: Entity Verification ── */}
             {tpType === 'entity' && (
-              <div className={`${styles.inlineSectionWrap} ${showVerify ? styles.open : ''}`}>
-                <div className={styles.inlineSectionInner}>
+              <AnimatePresence>
+              {showVerify && (
+                <motion.div
+                  key="entity-verify"
+                  initial={{ height: 0, opacity: 0, marginTop: 0 }}
+                  animate={{ height: 'auto', opacity: 1, marginTop: 20 }}
+                  exit={{ height: 0, opacity: 0, marginTop: 0 }}
+                  transition={{ duration: 0.3, ease: 'easeInOut' }}
+                  style={{ overflow: 'hidden' }}
+                >
                   <div className={styles.inlineSection}>
                     <div className={styles.inlineSectionHeader}>
                       <h3 className={styles.inlineSectionTitle}>
@@ -501,16 +535,26 @@ export default function AddThirdParty() {
                       </div>
                     </div>
                   </div>
-                </div>
-              </div>
+                </motion.div>
+              )}
+              </AnimatePresence>
             )}
-          </>
+          </motion.div>
         )}
+        </AnimatePresence>
       </div>
 
       {/* ── Section 3: Summary ── */}
+      <AnimatePresence>
       {tpType && (
-        <div className={styles.section}>
+        <motion.div
+          key="summary"
+          className={styles.section}
+          initial={{ opacity: 0, y: 18 }}
+          animate={{ opacity: 1, y: 0 }}
+          exit={{ opacity: 0, y: 18 }}
+          transition={{ duration: 0.3 }}
+        >
           <div className={styles.sectionHeading}>
             <span>Summary</span>
             <div className={styles.activeToggleWrap}>
@@ -679,12 +723,21 @@ export default function AddThirdParty() {
 
             </div>
           </div>
-        </div>
+        </motion.div>
       )}
+      </AnimatePresence>
 
       {/* ── Section 4: Onboarding Details ── */}
+      <AnimatePresence>
       {tpType && (
-        <div className={styles.section}>
+        <motion.div
+          key="onboarding"
+          className={styles.section}
+          initial={{ opacity: 0, y: 18 }}
+          animate={{ opacity: 1, y: 0 }}
+          exit={{ opacity: 0, y: 18 }}
+          transition={{ duration: 0.3, delay: 0.05 }}
+        >
           <div className={styles.sectionHeading}>
             <span>Onboarding Details</span>
             <div className={styles.sectionHeadingActions}>
@@ -913,58 +966,80 @@ export default function AddThirdParty() {
               </div>
             </>
           )}
-        </div>
+        </motion.div>
       )}
+      </AnimatePresence>
 
       {/* ── Footer ── */}
+      <AnimatePresence>
       {tpType && (
-        <div className={styles.formFooter}>
+        <motion.div
+          key="footer"
+          className={styles.formFooter}
+          initial={{ opacity: 0, y: 18 }}
+          animate={{ opacity: 1, y: 0 }}
+          exit={{ opacity: 0, y: 18 }}
+          transition={{ duration: 0.3, delay: 0.1 }}
+        >
           <a href="#" className={styles.btnGhost} onClick={handleCancel}>Cancel</a>
           <button className={styles.btnFilled} onClick={handleCreate}>
             <span className="material-icons-outlined" style={{ fontSize: 16 }}>check</span> Create Third Party
           </button>
-        </div>
+        </motion.div>
       )}
+      </AnimatePresence>
 
       {/* Language side panel */}
-      {showLanguagePanel && (
-        <LanguagePanel
-          selected={obLanguage}
-          onSelect={setObLanguage}
-          onClose={() => setShowLanguagePanel(false)}
-        />
-      )}
+      <AnimatePresence>
+        {showLanguagePanel && (
+          <LanguagePanel
+            key="lang-panel"
+            selected={obLanguage}
+            onSelect={setObLanguage}
+            onClose={() => setShowLanguagePanel(false)}
+          />
+        )}
+      </AnimatePresence>
 
       {/* Notes side panel */}
-      {showNotesPanel && (
-        <NotesPanel
-          notes={notes}
-          noteText={noteText}
-          onNoteTextChange={setNoteText}
-          onAddNote={() => {
-            if (noteText.trim()) {
-              setNotes(prev => [...prev, { text: noteText.trim(), time: new Date().toLocaleString() }]);
-              setNoteText('');
-            }
-          }}
-          onClose={() => setShowNotesPanel(false)}
-        />
-      )}
+      <AnimatePresence>
+        {showNotesPanel && (
+          <NotesPanel
+            key="notes-panel"
+            notes={notes}
+            noteText={noteText}
+            onNoteTextChange={setNoteText}
+            onAddNote={() => {
+              if (noteText.trim()) {
+                setNotes(prev => [...prev, { text: noteText.trim(), time: new Date().toLocaleString() }]);
+                setNoteText('');
+              }
+            }}
+            onClose={() => setShowNotesPanel(false)}
+          />
+        )}
+      </AnimatePresence>
 
       {/* Profile side panel */}
-      {profilePanel !== null && (
-        <ProfilePanel name={profilePanel} tpType={tpType} onClose={() => setProfilePanel(null)} />
-      )}
+      <AnimatePresence>
+        {profilePanel !== null && (
+          <ProfilePanel key="profile-panel" name={profilePanel} tpType={tpType} onClose={() => setProfilePanel(null)} />
+        )}
+      </AnimatePresence>
 
       {/* Properties side panel */}
-      {propsPanel !== null && (
-        <PropertiesPanel name={propsPanel} onClose={() => setPropsPanel(null)} />
-      )}
+      <AnimatePresence>
+        {propsPanel !== null && (
+          <PropertiesPanel key="props-panel" name={propsPanel} onClose={() => setPropsPanel(null)} />
+        )}
+      </AnimatePresence>
 
       {/* Cancel confirmation modal */}
-      {showCancelModal && (
-        <CancelModal onStay={() => setShowCancelModal(false)} onLeave={() => navigate('/third-parties')} />
-      )}
+      <AnimatePresence>
+        {showCancelModal && (
+          <CancelModal key="cancel-modal" onStay={() => setShowCancelModal(false)} onLeave={() => navigate('/third-parties')} />
+        )}
+      </AnimatePresence>
 
       {/* Creating state overlay */}
       {creating && (
@@ -1009,8 +1084,8 @@ function LanguagePanel({ selected, onSelect, onClose }) {
 
   return (
     <>
-      <div className={styles.panelOverlay} onClick={onClose} />
-      <div className={styles.langPanel}>
+      <motion.div className={styles.panelOverlay} initial={{ opacity: 0 }} animate={{ opacity: 1 }} exit={{ opacity: 0 }} transition={{ duration: 0.2 }} onClick={onClose} />
+      <motion.div className={styles.langPanel} initial={{ x: '100%' }} animate={{ x: 0 }} exit={{ x: '100%' }} transition={{ duration: 0.35, ease: [0.32, 0.72, 0, 1] }} onClick={e => e.stopPropagation()}>
         <div className={styles.langPanelHeader}>
           <span className={styles.langPanelTitle}>Choose Language</span>
           <button className={styles.btnOutline} onClick={onClose}>Close</button>
@@ -1038,7 +1113,7 @@ function LanguagePanel({ selected, onSelect, onClose }) {
             </div>
           ))}
         </div>
-      </div>
+      </motion.div>
     </>
   );
 }
@@ -1062,8 +1137,8 @@ function NotesPanel({ notes, noteText, onNoteTextChange, onAddNote, onClose }) {
 
   return (
     <>
-      <div className={styles.panelOverlay} onClick={onClose} />
-      <div className={styles.notesPanel}>
+      <motion.div className={styles.panelOverlay} initial={{ opacity: 0 }} animate={{ opacity: 1 }} exit={{ opacity: 0 }} transition={{ duration: 0.2 }} onClick={onClose} />
+      <motion.div className={styles.notesPanel} initial={{ x: '100%' }} animate={{ x: 0 }} exit={{ x: '100%' }} transition={{ duration: 0.35, ease: [0.32, 0.72, 0, 1] }} onClick={e => e.stopPropagation()}>
         <div className={styles.notesPanelHeader}>
           <span className={styles.notesPanelTitle}>Note - Onboarding / Available Threads</span>
           <button className={styles.btnOutline} onClick={onClose}>Close</button>
@@ -1111,7 +1186,7 @@ function NotesPanel({ notes, noteText, onNoteTextChange, onAddNote, onClose }) {
             </button>
           </div>
         </div>
-      </div>
+      </motion.div>
     </>
   );
 }
@@ -1128,8 +1203,8 @@ function ProfilePanel({ name, tpType, onClose }) {
 
   return (
     <>
-      <div className={styles.panelOverlay} onClick={onClose} />
-      <div className={styles.profilePanel}>
+      <motion.div className={styles.panelOverlay} initial={{ opacity: 0 }} animate={{ opacity: 1 }} exit={{ opacity: 0 }} transition={{ duration: 0.2 }} onClick={onClose} />
+      <motion.div className={styles.profilePanel} initial={{ x: '100%' }} animate={{ x: 0 }} exit={{ x: '100%' }} transition={{ duration: 0.35, ease: [0.32, 0.72, 0, 1] }} onClick={e => e.stopPropagation()}>
         <div className={styles.profilePanelTopbar}>
           <button className={styles.panelBackBtn} onClick={onClose}>
             <span className="material-icons-outlined" style={{ fontSize: 18 }}>arrow_back</span> Back
@@ -1139,7 +1214,7 @@ function ProfilePanel({ name, tpType, onClose }) {
         <div className={styles.profilePanelContent}>
           <ProfilePage profile={profileData} embedded />
         </div>
-      </div>
+      </motion.div>
     </>
   );
 }
@@ -1163,8 +1238,8 @@ function PropertiesPanel({ name, onClose }) {
 
   return (
     <>
-      <div className={styles.panelOverlay} onClick={onClose} />
-      <div className={styles.propsPanel}>
+      <motion.div className={styles.panelOverlay} initial={{ opacity: 0 }} animate={{ opacity: 1 }} exit={{ opacity: 0 }} transition={{ duration: 0.2 }} onClick={onClose} />
+      <motion.div className={styles.propsPanel} initial={{ x: '100%' }} animate={{ x: 0 }} exit={{ x: '100%' }} transition={{ duration: 0.35, ease: [0.32, 0.72, 0, 1] }} onClick={e => e.stopPropagation()}>
         <div className={styles.propsPanelHeader}>
           <span className={styles.propsPanelTitle}>Properties — <span style={{ fontWeight: 400 }}>{name}</span></span>
           <button className={styles.btnOutline} onClick={onClose}>Close</button>
@@ -1210,7 +1285,7 @@ function PropertiesPanel({ name, onClose }) {
             </tbody>
           </table>
         </div>
-      </div>
+      </motion.div>
     </>
   );
 }
@@ -1219,8 +1294,8 @@ function PropertiesPanel({ name, onClose }) {
 
 function CancelModal({ onStay, onLeave }) {
   return (
-    <div className={styles.cancelOverlay} onClick={e => e.target === e.currentTarget && onStay()}>
-      <div className={styles.cancelModal}>
+    <motion.div className={styles.cancelOverlay} initial={{ opacity: 0 }} animate={{ opacity: 1 }} exit={{ opacity: 0 }} transition={{ duration: 0.2 }} onClick={e => e.target === e.currentTarget && onStay()}>
+      <motion.div className={styles.cancelModal} initial={{ scale: 0.92, opacity: 0, y: 10 }} animate={{ scale: 1, opacity: 1, y: 0 }} exit={{ scale: 0.92, opacity: 0, y: 10 }} transition={{ duration: 0.22, ease: [0.32, 0.72, 0, 1] }}>
         <div className={styles.cancelModalHeader}>
           <span className={styles.cancelModalTitle}>Cancel Creation</span>
           <button className={styles.cancelModalClose} onClick={onStay}>
@@ -1237,8 +1312,8 @@ function CancelModal({ onStay, onLeave }) {
           <button className={styles.btnOutline} onClick={onStay}>Stay on Page</button>
           <a href="#/third-parties" className={styles.cancelModalConfirm} onClick={onLeave}>Yes, Cancel</a>
         </div>
-      </div>
-    </div>
+      </motion.div>
+    </motion.div>
   );
 }
 
