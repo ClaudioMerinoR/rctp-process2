@@ -402,7 +402,7 @@ export default function AddThirdParty() {
                         <tbody>
                           {DUP_ROWS.map((r, i) => (
                             <tr key={i}>
-                              <td><span className={styles.cellLink} onClick={() => window.open('/#/profile/piedpiper', '_blank')}>{r.name}</span></td>
+                              <td><span className={styles.cellLink} onClick={() => window.open(`${import.meta.env.BASE_URL}#/profile/piedpiper`, '_blank')}>{r.name}</span></td>
                               <td>{r.duns}</td>
                               <td>{r.address}</td>
                               <td>{r.country}</td>
@@ -426,7 +426,7 @@ export default function AddThirdParty() {
                         <tbody>
                           {PERSON_DUP_ROWS.map((r, i) => (
                             <tr key={i}>
-                              <td><span className={styles.cellLink} onClick={() => window.open(`/profile/${r.name.toLowerCase().replace(/\s+/g,'-')}`, '_blank')}>{r.name}</span></td>
+                              <td><span className={styles.cellLink} onClick={() => window.open(`${import.meta.env.BASE_URL}#/profile/${r.name.toLowerCase().replace(/\s+/g,'-')}`, '_blank')}>{r.name}</span></td>
                               <td>{r.owner}</td>
                               <td>{r.bu}</td>
                               <td>{r.process}</td>
