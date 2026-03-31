@@ -191,6 +191,7 @@
 .acFooterRight { display: flex; align-items: center; gap: 8px; }
 .btnFilled { display: inline-flex; align-items: center; gap: 4px; height: 32px; padding: 0 12px; background: var(--primary-500); color: var(--neutral-00); border: none; border-radius: 4px; font-size: 12px; font-weight: 500; text-transform: uppercase; letter-spacing: 0.5px; cursor: pointer; font-family: inherit; transition: background 0.2s; white-space: nowrap; }
 .btnFilled:hover { background: var(--primary-600); }
+.btnFilled:disabled { opacity: 0.4; cursor: not-allowed; }
 .btnOutline { display: inline-flex; align-items: center; gap: 4px; height: 32px; padding: 0 12px; background: var(--neutral-00); border: 1px solid var(--neutral-300); color: var(--text-normal); border-radius: 4px; font-size: 12px; font-weight: 500; text-transform: uppercase; letter-spacing: 0.5px; cursor: pointer; font-family: inherit; white-space: nowrap; }
 .btnOutline:hover { background: var(--neutral-25); border-color: var(--neutral-400); }
 .btnOutlineActive { background: var(--neutral-25); border-color: var(--neutral-400); }
@@ -219,15 +220,22 @@
 .statusBadge { display: inline-flex; align-items: center; padding: 4px 8px; border-radius: 2px; font-size: 11px; font-weight: 600; background: var(--neutral-50); color: var(--text-normal); }
 
 /* Verify intro text */
-.verifyIntro {
+.verifyIntroRow {
+  display: flex;
+  align-items: center;
+  gap: 20px;
   padding: 14px 16px;
   background: var(--primary-08);
   border: 1px solid var(--primary-200);
   border-radius: 4px;
+  margin-bottom: 24px;
+}
+.verifyIntro {
+  flex: 1;
   font-size: 13px;
   color: var(--text-light);
   line-height: 1.6;
-  margin-bottom: 24px;
+  margin: 0;
 }
 
 /* Verify table */
