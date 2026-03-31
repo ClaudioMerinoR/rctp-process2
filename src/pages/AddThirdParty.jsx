@@ -123,8 +123,8 @@ export default function AddThirdParty() {
   const [tpType, setTpType] = useState('');
   const [tpName, setTpName] = useState('');
 
-  // Inline sections visibility
-  const [showDupCheck, setShowDupCheck] = useState(false);
+  // Flow state
+  const [continued, setContinued] = useState(false);
   const [showVerify, setShowVerify] = useState(false);
 
   // Summary fields
@@ -203,7 +203,7 @@ export default function AddThirdParty() {
 
   // Reset sections when type changes
   useEffect(() => {
-    setShowDupCheck(false);
+    setContinued(false);
     setShowVerify(false);
     setSelectedVerify(null);
     setEntityVerified(false);
@@ -221,22 +221,13 @@ export default function AddThirdParty() {
   function removeBu(val) { setBusinessUnits(prev => prev.filter(x => x !== val)); }
   function toggleTag(val) { setTags(prev => prev.includes(val) ? prev.filter(x => x !== val) : [...prev, val]); }
 
-  function handleCheckDuplicates() {
-    if (!tpName.trim()) {
-      setErrors(prev => ({ ...prev, name: true }));
-      return;
-    }
-    setShowDupCheck(true);
-    setShowVerify(false);
-  }
-
-  function handleEntityVerification() {
-    if (!tpName.trim()) {
-      setErrors(prev => ({ ...prev, name: true }));
-      return;
-    }
-    setShowVerify(true);
-    setShowDupCheck(false);
+  function handleContinue() {
+    const errs = {};
+    if (!tpType) errs.type = true;
+    if (!tpName.trim()) errs.name = true;
+    setErrors(errs);
+    if (Object.keys(errs).length) return;
+    setContinued(true);
   }
 
   function applyVerification(duns) {
@@ -329,224 +320,120 @@ export default function AddThirdParty() {
         </div>
         {errors.type && <p className={styles.errorHint}>Please select a third party type.</p>}
 
-        {/* ── Third Party Name (shown after type is selected) ── */}
-        <AnimatePresence>
-        {tpType && (
-          <motion.div
-            key={tpType}
-            initial={{ opacity: 0, y: -10 }}
-            animate={{ opacity: 1, y: 0 }}
-            transition={{ duration: 0.22 }}
-          >
-            <div className={styles.sectionHeading} style={{ marginTop: 24 }}>Third Party Name</div>
-            <div className={styles.nameRow}>
-              <div className={`${styles.nameField} ${errors.name ? styles.hasError : ''}`}>
-                <input
-                  className={styles.editInput}
-                  type="text"
-                  placeholder="Enter the full legal name"
-                  value={tpName}
-                  onChange={e => { setTpName(e.target.value); setErrors(prev => ({ ...prev, name: false })); }}
-                />
-                {errors.name && <div className={styles.fieldError}>Third Party Name is required.</div>}
-              </div>
-              <div className={styles.nameActions}>
-                <button className={`${styles.btnOutline} ${showDupCheck ? styles.btnOutlineActive : ''}`} onClick={handleCheckDuplicates}>
-                  <span className="material-icons-outlined" style={{ fontSize: 16 }}>content_copy</span>
-                  Check for Duplicates
-                </button>
-                {tpType === 'entity' && (
-                  <button className={`${styles.btnOutline} ${showVerify ? styles.btnOutlineActive : ''}`} onClick={handleEntityVerification}>
-                    <span className="material-icons-outlined" style={{ fontSize: 16 }}>verified</span>
-                    Entity Verification
-                  </button>
-                )}
-              </div>
-            </div>
-
-            {/* ── Inline: Duplicate Check Results ── */}
-            <AnimatePresence>
-            {showDupCheck && (
-              <motion.div
-                key="dup-check"
-                initial={{ height: 0, opacity: 0, marginTop: 0 }}
-                animate={{ height: 'auto', opacity: 1, marginTop: 20 }}
-                exit={{ height: 0, opacity: 0, marginTop: 0 }}
-                transition={{ duration: 0.3, ease: 'easeInOut' }}
-                style={{ overflow: 'hidden' }}
+        {/* ── Third Party Name ── */}
+        <div className={styles.sectionHeading} style={{ marginTop: 24 }}>Third Party Name <span className={styles.req}>*</span></div>
+        <div className={styles.nameRow}>
+          <div className={`${styles.nameField} ${errors.name ? styles.hasError : ''}`}>
+            <input
+              className={styles.editInput}
+              type="text"
+              placeholder="Enter the full legal name"
+              value={tpName}
+              onChange={e => { setTpName(e.target.value); setErrors(prev => ({ ...prev, name: false })); }}
+            />
+            {errors.name && <div className={styles.fieldError}>Third Party Name is required.</div>}
+          </div>
+          {!continued && (
+            <div className={styles.nameActions}>
+              <button
+                className={styles.btnFilled}
+                disabled={!tpType || !tpName.trim()}
+                onClick={handleContinue}
               >
-                <div className={styles.inlineSection}>
-                  <div className={styles.inlineSectionHeader}>
-                    <h3 className={styles.inlineSectionTitle}>
-                      <span className="material-icons-outlined" style={{ fontSize: 20, color: 'var(--warning-500)' }}>content_copy</span>
-                      Duplicate Check Results
-                    </h3>
-                    <button className={styles.btnGhost} onClick={() => setShowDupCheck(false)}>
-                      <span className="material-icons-outlined" style={{ fontSize: 16 }}>close</span> Close
-                    </button>
-                  </div>
-                  <div className={styles.dupBanner}>
-                    <span className="material-icons-outlined">warning_amber</span>
-                    <div>
-                      <strong>{isPerson ? '1 potential match found.' : '10 potential matches found.'}</strong>{' '}
-                      These records have a similar name and may already exist in the system. If one of the matches above is the same third party, use an existing record instead of creating a new one.
-                    </div>
-                  </div>
+                <span className="material-icons-outlined" style={{ fontSize: 16 }}>arrow_forward</span>
+                Continue
+              </button>
+            </div>
+          )}
+        </div>
 
-                  {!isPerson && (
-                    <div className={styles.tableWrap}>
-                      <table className={styles.dupTable}>
-                        <thead>
-                          <tr><th>Name</th><th>DUNS Number</th><th>Address</th><th>Country / Territory</th><th style={{ textAlign: 'center' }}>UBO Status</th><th style={{ width: 40 }} /></tr>
-                        </thead>
-                        <tbody>
-                          {DUP_ROWS.map((r, i) => (
-                            <tr key={i}>
-                              <td><span className={styles.cellLink} onClick={() => window.open(`${import.meta.env.BASE_URL}#/profile/piedpiper`, '_blank')}>{r.name}</span></td>
-                              <td>{r.duns}</td>
-                              <td>{r.address}</td>
-                              <td>{r.country}</td>
-                              <td className={styles.uboCell}>
-                                <span className={`material-icons-outlined ${r.ubo ? styles.uboOk : styles.uboFail}`}>{r.ubo ? 'check_circle' : 'cancel'}</span>
-                              </td>
-                              <td><button className={styles.moreBtn} onClick={() => setPropsPanel(r.name)}>View properties</button></td>
-                            </tr>
-                          ))}
-                        </tbody>
-                      </table>
-                    </div>
-                  )}
-
-                  {isPerson && (
-                    <div className={styles.tableWrap}>
-                      <table className={styles.dupTable}>
-                        <thead>
-                          <tr><th>Name</th><th>Owner</th><th>Business Unit</th><th>Process</th><th>Current Status</th><th>Internal Reference</th><th>Active/Inactive</th><th style={{ width: 40 }} /></tr>
-                        </thead>
-                        <tbody>
-                          {PERSON_DUP_ROWS.map((r, i) => (
-                            <tr key={i}>
-                              <td><span className={styles.cellLink} onClick={() => window.open(`${import.meta.env.BASE_URL}#/profile/${r.name.toLowerCase().replace(/\s+/g,'-')}`, '_blank')}>{r.name}</span></td>
-                              <td>{r.owner}</td>
-                              <td>{r.bu}</td>
-                              <td>{r.process}</td>
-                              <td><span className={styles.statusBadge}>{r.status}</span></td>
-                              <td>{r.ref}</td>
-                              <td>{r.active}</td>
-                              <td><button className={styles.moreBtn} onClick={() => setPropsPanel(r.name)}>View properties</button></td>
-                            </tr>
-                          ))}
-                        </tbody>
-                      </table>
-                    </div>
-                  )}
-
-                  <div className={styles.dupFooter}>
-                    <button className={styles.btnOutline} onClick={() => setShowDupCheck(false)}>
-                      <span className="material-icons-outlined" style={{ fontSize: 16 }}>arrow_forward</span>
-                      Ignore duplicates and continue
-                    </button>
-                    <button className={styles.btnFilled} onClick={() => setShowCancelModal(true)}>
-                      Exit creation process
-                    </button>
-                  </div>
-                </div>
-              </motion.div>
-            )}
-            </AnimatePresence>
-
-            {/* ── Inline: Entity Verification ── */}
-            {tpType === 'entity' && (
-              <AnimatePresence>
-              {showVerify && (
-                <motion.div
-                  key="entity-verify"
-                  initial={{ height: 0, opacity: 0, marginTop: 0 }}
-                  animate={{ height: 'auto', opacity: 1, marginTop: 20 }}
-                  exit={{ height: 0, opacity: 0, marginTop: 0 }}
-                  transition={{ duration: 0.3, ease: 'easeInOut' }}
-                  style={{ overflow: 'hidden' }}
-                >
-                  <div className={styles.inlineSection}>
-                    <div className={styles.inlineSectionHeader}>
-                      <h3 className={styles.inlineSectionTitle}>
-                        <span className="material-icons-outlined" style={{ fontSize: 20, color: 'var(--primary-500)' }}>verified</span>
-                        Entity Verification
-                      </h3>
-                      <button className={styles.btnGhost} onClick={() => setShowVerify(false)}>
-                        <span className="material-icons-outlined" style={{ fontSize: 16 }}>close</span> Close
-                      </button>
-                    </div>
-                    <div className={styles.verifyIntro}>
-                      Entity verification will screen the Third Party Name against the Dun&amp;Bradstreet company data source, allowing you to verify the legal existence of your Third Party before creating the RCTP record.<br />
-                      If you select an entity, corresponding properties will be prepopulated within the Third Party record.
-                    </div>
-
-                    <div className={styles.fieldGroup} style={{ maxWidth: 320, marginBottom: 16 }}>
-                      <label className={styles.fieldLabel}>Country / Territory</label>
-                      <select className={styles.fieldSelect} value={verifyCountry} onChange={e => setVerifyCountry(e.target.value)}>
-                        <option value="">All countries</option>
-                        {['Australia','United States'].map(c => <option key={c}>{c}</option>)}
-                      </select>
-                    </div>
-                    <div className={styles.resultsHeader}>
-                      <span><strong>265</strong> results found</span>
-                      <span className={styles.sourceBadge}><span className="material-icons-outlined" style={{ fontSize: 12 }}>verified</span> Dun &amp; Bradstreet</span>
-                    </div>
-                    <div className={styles.tableWrap}>
-                      <table className={styles.verifyTable}>
-                        <thead><tr><th /><th>Name</th><th>DUNS Number</th><th>Address</th><th>Country/Territory</th><th>UBO Status</th></tr></thead>
-                        <tbody>
-                          {filteredVerify.map((r, i) => (
-                            <tr key={i} className={selectedVerify === r.duns ? styles.rowSelected : ''}>
-                              <td>
-                                <input
-                                  type="radio"
-                                  name="verify-pick"
-                                  checked={selectedVerify === r.duns}
-                                  onChange={() => { setSelectedVerify(r.duns); applyVerification(r.duns); }}
-                                  style={{ accentColor: 'var(--primary-500)' }}
-                                />
-                              </td>
-                              <td style={{ fontWeight: 500, color: 'var(--text-normal)' }}>{r.name}</td>
-                              <td style={{ fontFamily: 'monospace', fontSize: 12 }}>{r.duns}</td>
-                              <td style={{ fontSize: 12, maxWidth: 240 }}>{r.address}</td>
-                              <td>{r.country}</td>
-                              <td className={styles.uboCell}><span className={`material-icons-outlined ${r.ubo ? styles.uboOk : styles.uboFail}`}>{r.ubo ? 'check_circle' : 'cancel'}</span></td>
-                            </tr>
-                          ))}
-                        </tbody>
-                      </table>
-                    </div>
-
-                    <div className={styles.verifyPagination}>
-                      <div className={styles.verifyPaginationLeft}>
-                        <select className={styles.verifyPageSize}><option>20</option><option>50</option><option>100</option></select>
-                        <span>Showing results 1 – 10 of 265</span>
-                      </div>
-                      <div className={styles.verifyPaginationRight}>
-                        <button className={styles.verifyPageBtn} disabled title="First page"><span className="material-icons-outlined" style={{ fontSize: 16 }}>first_page</span></button>
-                        <button className={styles.verifyPageBtn} disabled title="Previous page"><span className="material-icons-outlined" style={{ fontSize: 16 }}>chevron_left</span></button>
-                        <span>Page</span>
-                        <input className={styles.verifyPageInput} type="number" defaultValue={1} min={1} max={14} />
-                        <span>of 14</span>
-                        <button className={styles.verifyPageBtn} title="Next page"><span className="material-icons-outlined" style={{ fontSize: 16 }}>chevron_right</span></button>
-                        <button className={styles.verifyPageBtn} title="Last page"><span className="material-icons-outlined" style={{ fontSize: 16 }}>last_page</span></button>
-                      </div>
-                    </div>
-                  </div>
-                </motion.div>
-              )}
-              </AnimatePresence>
-            )}
-          </motion.div>
-        )}
-        </AnimatePresence>
       </div>
+
+      {/* ── Section 2: Duplicate Check Results (shown after Continue) ── */}
+      <AnimatePresence>
+      {continued && (
+        <motion.div
+          key="dup-check-section"
+          className={styles.section}
+          initial={{ opacity: 0, y: 18 }}
+          animate={{ opacity: 1, y: 0 }}
+          exit={{ opacity: 0, y: 18 }}
+          transition={{ duration: 0.3 }}
+        >
+          <div className={styles.inlineSectionHeader}>
+            <h3 className={styles.inlineSectionTitle}>
+              <span className="material-icons-outlined" style={{ fontSize: 20, color: 'var(--warning-500)' }}>content_copy</span>
+              Duplicate Check Results
+            </h3>
+          </div>
+          <div className={styles.dupBanner}>
+            <span className="material-icons-outlined">warning_amber</span>
+            <div>
+              <strong>{isPerson ? '1 potential match found.' : '10 potential matches found.'}</strong>{' '}
+              These records have a similar name and may already exist in the system. If one of the matches above is the same third party, use an existing record instead of creating a new one.
+            </div>
+          </div>
+
+          {!isPerson && (
+            <div className={styles.tableWrap}>
+              <table className={styles.dupTable}>
+                <thead>
+                  <tr><th>Name</th><th>DUNS Number</th><th>Address</th><th>Country / Territory</th><th style={{ textAlign: 'center' }}>UBO Status</th><th style={{ width: 40 }} /></tr>
+                </thead>
+                <tbody>
+                  {DUP_ROWS.map((r, i) => (
+                    <tr key={i}>
+                      <td><span className={styles.cellLink} onClick={() => window.open(`${import.meta.env.BASE_URL}#/profile/piedpiper`, '_blank')}>{r.name}</span></td>
+                      <td>{r.duns}</td>
+                      <td>{r.address}</td>
+                      <td>{r.country}</td>
+                      <td className={styles.uboCell}>
+                        <span className={`material-icons-outlined ${r.ubo ? styles.uboOk : styles.uboFail}`}>{r.ubo ? 'check_circle' : 'cancel'}</span>
+                      </td>
+                      <td><button className={styles.moreBtn} onClick={() => setPropsPanel(r.name)}>View properties</button></td>
+                    </tr>
+                  ))}
+                </tbody>
+              </table>
+            </div>
+          )}
+
+          {isPerson && (
+            <div className={styles.tableWrap}>
+              <table className={styles.dupTable}>
+                <thead>
+                  <tr><th>Name</th><th>Owner</th><th>Business Unit</th><th>Process</th><th>Current Status</th><th>Internal Reference</th><th>Active/Inactive</th><th style={{ width: 40 }} /></tr>
+                </thead>
+                <tbody>
+                  {PERSON_DUP_ROWS.map((r, i) => (
+                    <tr key={i}>
+                      <td><span className={styles.cellLink} onClick={() => window.open(`${import.meta.env.BASE_URL}#/profile/${r.name.toLowerCase().replace(/\s+/g,'-')}`, '_blank')}>{r.name}</span></td>
+                      <td>{r.owner}</td>
+                      <td>{r.bu}</td>
+                      <td>{r.process}</td>
+                      <td><span className={styles.statusBadge}>{r.status}</span></td>
+                      <td>{r.ref}</td>
+                      <td>{r.active}</td>
+                      <td><button className={styles.moreBtn} onClick={() => setPropsPanel(r.name)}>View properties</button></td>
+                    </tr>
+                  ))}
+                </tbody>
+              </table>
+            </div>
+          )}
+
+          <div className={styles.dupFooter}>
+            <button className={styles.btnFilled} onClick={() => setShowCancelModal(true)}>
+              Exit creation process
+            </button>
+          </div>
+        </motion.div>
+      )}
+      </AnimatePresence>
 
       {/* ── Section 3: Summary ── */}
       <AnimatePresence>
-      {tpType && (
+      {continued && (
         <motion.div
           key="summary"
           className={styles.section}
@@ -726,9 +613,112 @@ export default function AddThirdParty() {
       )}
       </AnimatePresence>
 
-      {/* ── Section 4: Onboarding Details ── */}
+      {/* ── Section 4: Entity Verification (entity only, collapsible) ── */}
       <AnimatePresence>
-      {tpType && (
+      {continued && tpType === 'entity' && (
+        <motion.div
+          key="entity-verify-section"
+          className={styles.section}
+          initial={{ opacity: 0, y: 18 }}
+          animate={{ opacity: 1, y: 0 }}
+          exit={{ opacity: 0, y: 18 }}
+          transition={{ duration: 0.3, delay: 0.05 }}
+        >
+          <div className={styles.sectionHeading}>
+            <span>Entity Verification</span>
+            <button
+              className={`${styles.btnOutline} ${showVerify ? styles.btnOutlineActive : ''}`}
+              onClick={() => setShowVerify(v => !v)}
+            >
+              <span className="material-icons-outlined" style={{ fontSize: 16 }}>verified</span>
+              {showVerify ? 'Close Verification' : 'Run Entity Verification'}
+            </button>
+          </div>
+
+          {!showVerify && (
+            <div className={styles.verifyIntro}>
+              Entity verification will screen the Third Party Name against the Dun&amp;Bradstreet company data source, allowing you to verify the legal existence of your Third Party before creating the RCTP record.<br />
+              If you select an entity, corresponding properties will be prepopulated within the Third Party record.
+            </div>
+          )}
+
+          <AnimatePresence>
+          {showVerify && (
+            <motion.div
+              key="entity-verify-content"
+              initial={{ height: 0, opacity: 0 }}
+              animate={{ height: 'auto', opacity: 1 }}
+              exit={{ height: 0, opacity: 0 }}
+              transition={{ duration: 0.3, ease: 'easeInOut' }}
+              style={{ overflow: 'hidden' }}
+            >
+              <div className={styles.verifyIntro}>
+                Entity verification will screen the Third Party Name against the Dun&amp;Bradstreet company data source, allowing you to verify the legal existence of your Third Party before creating the RCTP record.<br />
+                If you select an entity, corresponding properties will be prepopulated within the Third Party record.
+              </div>
+
+              <div className={styles.fieldGroup} style={{ maxWidth: 320, marginBottom: 16 }}>
+                <label className={styles.fieldLabel}>Country / Territory</label>
+                <select className={styles.fieldSelect} value={verifyCountry} onChange={e => setVerifyCountry(e.target.value)}>
+                  <option value="">All countries</option>
+                  {['Australia','United States'].map(c => <option key={c}>{c}</option>)}
+                </select>
+              </div>
+              <div className={styles.resultsHeader}>
+                <span><strong>265</strong> results found</span>
+                <span className={styles.sourceBadge}><span className="material-icons-outlined" style={{ fontSize: 12 }}>verified</span> Dun &amp; Bradstreet</span>
+              </div>
+              <div className={styles.tableWrap}>
+                <table className={styles.verifyTable}>
+                  <thead><tr><th /><th>Name</th><th>DUNS Number</th><th>Address</th><th>Country/Territory</th><th>UBO Status</th></tr></thead>
+                  <tbody>
+                    {filteredVerify.map((r, i) => (
+                      <tr key={i} className={selectedVerify === r.duns ? styles.rowSelected : ''}>
+                        <td>
+                          <input
+                            type="radio"
+                            name="verify-pick"
+                            checked={selectedVerify === r.duns}
+                            onChange={() => { setSelectedVerify(r.duns); applyVerification(r.duns); }}
+                            style={{ accentColor: 'var(--primary-500)' }}
+                          />
+                        </td>
+                        <td style={{ fontWeight: 500, color: 'var(--text-normal)' }}>{r.name}</td>
+                        <td style={{ fontFamily: 'monospace', fontSize: 12 }}>{r.duns}</td>
+                        <td style={{ fontSize: 12, maxWidth: 240 }}>{r.address}</td>
+                        <td>{r.country}</td>
+                        <td className={styles.uboCell}><span className={`material-icons-outlined ${r.ubo ? styles.uboOk : styles.uboFail}`}>{r.ubo ? 'check_circle' : 'cancel'}</span></td>
+                      </tr>
+                    ))}
+                  </tbody>
+                </table>
+              </div>
+
+              <div className={styles.verifyPagination}>
+                <div className={styles.verifyPaginationLeft}>
+                  <select className={styles.verifyPageSize}><option>20</option><option>50</option><option>100</option></select>
+                  <span>Showing results 1 – 10 of 265</span>
+                </div>
+                <div className={styles.verifyPaginationRight}>
+                  <button className={styles.verifyPageBtn} disabled title="First page"><span className="material-icons-outlined" style={{ fontSize: 16 }}>first_page</span></button>
+                  <button className={styles.verifyPageBtn} disabled title="Previous page"><span className="material-icons-outlined" style={{ fontSize: 16 }}>chevron_left</span></button>
+                  <span>Page</span>
+                  <input className={styles.verifyPageInput} type="number" defaultValue={1} min={1} max={14} />
+                  <span>of 14</span>
+                  <button className={styles.verifyPageBtn} title="Next page"><span className="material-icons-outlined" style={{ fontSize: 16 }}>chevron_right</span></button>
+                  <button className={styles.verifyPageBtn} title="Last page"><span className="material-icons-outlined" style={{ fontSize: 16 }}>last_page</span></button>
+                </div>
+              </div>
+            </motion.div>
+          )}
+          </AnimatePresence>
+        </motion.div>
+      )}
+      </AnimatePresence>
+
+      {/* ── Section 5: Onboarding Details ── */}
+      <AnimatePresence>
+      {continued && (
         <motion.div
           key="onboarding"
           className={styles.section}
@@ -968,7 +958,7 @@ export default function AddThirdParty() {
 
       {/* ── Footer ── */}
       <AnimatePresence>
-      {tpType && (
+      {continued && (
         <motion.div
           key="footer"
           className={styles.formFooter}
