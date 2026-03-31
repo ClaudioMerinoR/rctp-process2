@@ -272,7 +272,7 @@ export default function AddThirdParty() {
     stages.forEach(({ width, text, delay }) => {
       setTimeout(() => { setCreatingProgress(width); setCreatingLabel(text); }, delay);
     });
-    setTimeout(() => navigate('/profile/piedpiper'), 3600);
+    setTimeout(() => navigate('/profile/piedpiper?new=1'), 3600);
   }
 
   function handleCancel(e) {
@@ -339,6 +339,7 @@ export default function AddThirdParty() {
                 className={styles.btnFilled}
                 disabled={!tpType || !tpName.trim()}
                 onClick={handleContinue}
+                style={{ height: 40, padding: '0 20px' }}
               >
                 Continue
               </button>
@@ -469,10 +470,7 @@ export default function AddThirdParty() {
             >
               <div className={styles.fieldGroup} style={{ maxWidth: 320, marginBottom: 16 }}>
                 <label className={styles.fieldLabel}>Country / Territory</label>
-                <select className={styles.fieldSelect} value={verifyCountry} onChange={e => setVerifyCountry(e.target.value)}>
-                  <option value="">All countries</option>
-                  {['Australia','United States'].map(c => <option key={c}>{c}</option>)}
-                </select>
+                <ObSelect value={verifyCountry} onChange={setVerifyCountry} options={['All countries', 'Australia', 'United States']} placeholder="All countries" />
               </div>
               <div className={styles.resultsHeader}>
                 <span><strong>265</strong> results found</span>
@@ -765,10 +763,7 @@ export default function AddThirdParty() {
                 </div>
                 <div className={`${styles.obBlock} ${errors.country ? styles.hasError : ''}`}>
                   <div className={styles.obBlockHead}><span className={styles.obNum}>5.</span><span className={styles.obLabel}>Registered Country / Territory</span><span className={styles.req}>*</span></div>
-                  <select className={`${styles.obInput} ${styles.obSelect}`} value={ob.country} onChange={e => { updateOb('country', e.target.value); setErrors(prev => ({ ...prev, country: false })); }}>
-                    <option value="">Choose…</option>
-                    {COUNTRIES.map(c => <option key={c}>{c}</option>)}
-                  </select>
+                  <ObSelect value={ob.country} onChange={v => { updateOb('country', v); setErrors(prev => ({ ...prev, country: false })); }} options={COUNTRIES} placeholder="Choose…" hasError={!!errors.country} />
                   {errors.country && <div className={styles.obError}>Registered country is required.</div>}
                 </div>
                 <div className={styles.obBlock}>
@@ -777,20 +772,14 @@ export default function AddThirdParty() {
                 </div>
                 <div className={styles.obBlock}>
                   <div className={styles.obBlockHead}><span className={styles.obNum}>7.</span><span className={styles.obLabel}>Industry / Sector</span></div>
-                  <select className={`${styles.obInput} ${styles.obSelect}`} value={ob.industry} onChange={e => updateOb('industry', e.target.value)}>
-                    <option value="">Select an industry</option>
-                    {INDUSTRIES.map(o => <option key={o}>{o}</option>)}
-                  </select>
+                  <ObSelect value={ob.industry} onChange={v => updateOb('industry', v)} options={INDUSTRIES} placeholder="Select an industry" />
                 </div>
                 <div className={styles.obBlock}>
                   <div className={styles.obBlockHead}><span className={styles.obNum}>8.</span><span className={styles.obLabel}>Identification</span></div>
                   <div className={styles.obSubGrid}>
                     <div>
                       <div className={styles.obSubLabel}>ID Type</div>
-                      <select className={`${styles.obInput} ${styles.obSelect}`} value={ob.idType} onChange={e => updateOb('idType', e.target.value)}>
-                        <option value="">Select ID type</option>
-                        <option>DUNS Number</option><option>LEI</option><option>BVD ID</option><option>VAT Number</option><option>Tax Code</option><option>Trade Licence</option>
-                      </select>
+                      <ObSelect value={ob.idType} onChange={v => updateOb('idType', v)} options={['DUNS Number','LEI','BVD ID','VAT Number','Tax Code','Trade Licence']} placeholder="Select ID type" />
                     </div>
                     <div>
                       <div className={styles.obSubLabel}>ID Value</div>
@@ -824,42 +813,27 @@ export default function AddThirdParty() {
                 </div>
                 <div className={`${styles.obBlock} ${errors.country ? styles.hasError : ''}`}>
                   <div className={styles.obBlockHead}><span className={styles.obNum}>4.</span><span className={styles.obLabel}>Country/Territory of Residence</span><span className={styles.req}>*</span></div>
-                  <select className={`${styles.obInput} ${styles.obSelect}`} value={obPerson.country} onChange={e => { updateObP('country', e.target.value); setErrors(prev => ({ ...prev, country: false })); }}>
-                    <option value="">Please select</option>
-                    {COUNTRIES.map(c => <option key={c}>{c}</option>)}
-                  </select>
+                  <ObSelect value={obPerson.country} onChange={v => { updateObP('country', v); setErrors(prev => ({ ...prev, country: false })); }} options={COUNTRIES} placeholder="Please select" hasError={!!errors.country} />
                   {errors.country && <div className={styles.obError}>Country/Territory of Residence is required.</div>}
                 </div>
                 <div className={styles.obBlock}>
                   <div className={styles.obBlockHead}><span className={styles.obNum}>5.</span><span className={styles.obLabel}>Year of Birth</span></div>
-                  <select className={`${styles.obInput} ${styles.obSelect}`} value={obPerson.yob} onChange={e => updateObP('yob', e.target.value)}>
-                    <option value="">Please select</option>
-                    {['2005','2000','1995','1990','1985','1980','1975','1970','1965','1960','1955','1950','1945','1940','1935','1930','1925','1920'].map(y => <option key={y}>{y}</option>)}
-                  </select>
+                  <ObSelect value={obPerson.yob} onChange={v => updateObP('yob', v)} options={['2005','2000','1995','1990','1985','1980','1975','1970','1965','1960','1955','1950','1945','1940','1935','1930','1925','1920']} placeholder="Please select" />
                 </div>
                 <div className={styles.obBlock}>
                   <div className={styles.obBlockHead}><span className={styles.obNum}>6.</span><span className={styles.obLabel}>Gender</span></div>
-                  <select className={`${styles.obInput} ${styles.obSelect}`} value={obPerson.gender} onChange={e => updateObP('gender', e.target.value)}>
-                    <option value="">Please select</option>
-                    <option>Female</option><option>Male</option><option>Non-binary</option><option>Prefer not to say</option><option>Other</option>
-                  </select>
+                  <ObSelect value={obPerson.gender} onChange={v => updateObP('gender', v)} options={['Female','Male','Non-binary','Prefer not to say','Other']} placeholder="Please select" />
                 </div>
                 <div className={styles.obBlock}>
                   <div className={styles.obBlockHead}><span className={styles.obNum}>7.</span><span className={styles.obLabel}>Industry/Sector</span></div>
-                  <select className={`${styles.obInput} ${styles.obSelect}`} value={obPerson.industry} onChange={e => updateObP('industry', e.target.value)}>
-                    <option value="">Please select</option>
-                    {INDUSTRIES.map(o => <option key={o}>{o}</option>)}
-                  </select>
+                  <ObSelect value={obPerson.industry} onChange={v => updateObP('industry', v)} options={INDUSTRIES} placeholder="Please select" />
                 </div>
                 <div className={styles.obBlock}>
                   <div className={styles.obBlockHead}><span className={styles.obNum}>8.</span><span className={styles.obLabel}>Identification</span></div>
                   <div className={styles.obSubGrid}>
                     <div>
                       <div className={styles.obSubLabel}>ID Type</div>
-                      <select className={`${styles.obInput} ${styles.obSelect}`} value={obPerson.idType} onChange={e => updateObP('idType', e.target.value)}>
-                        <option value="">Please select</option>
-                        <option>Passport</option><option>National ID</option><option>Driver's Licence</option><option>Tax Code</option><option>VAT Number</option><option>Social Security Number</option>
-                      </select>
+                      <ObSelect value={obPerson.idType} onChange={v => updateObP('idType', v)} options={['Passport','National ID','Driver\'s Licence','Tax Code','VAT Number','Social Security Number']} placeholder="Please select" />
                     </div>
                     <div>
                       <div className={styles.obSubLabel}>ID Value</div>
@@ -908,28 +882,19 @@ export default function AddThirdParty() {
                 </div>
                 <div className={`${styles.obBlock} ${errors.country ? styles.hasError : ''}`}>
                   <div className={styles.obBlockHead}><span className={styles.obNum}>5.</span><span className={styles.obLabel}>Registered Country/Territory</span><span className={styles.req}>*</span></div>
-                  <select className={`${styles.obInput} ${styles.obSelect}`} value={obUnknown.country} onChange={e => { updateObU('country', e.target.value); setErrors(prev => ({ ...prev, country: false })); }}>
-                    <option value="">Please select</option>
-                    {COUNTRIES.map(c => <option key={c}>{c}</option>)}
-                  </select>
+                  <ObSelect value={obUnknown.country} onChange={v => { updateObU('country', v); setErrors(prev => ({ ...prev, country: false })); }} options={COUNTRIES} placeholder="Please select" hasError={!!errors.country} />
                   {errors.country && <div className={styles.obError}>Registered Country/Territory is required.</div>}
                 </div>
                 <div className={styles.obBlock}>
                   <div className={styles.obBlockHead}><span className={styles.obNum}>6.</span><span className={styles.obLabel}>Industry/Sector</span></div>
-                  <select className={`${styles.obInput} ${styles.obSelect}`} value={obUnknown.industry} onChange={e => updateObU('industry', e.target.value)}>
-                    <option value="">Please select</option>
-                    {INDUSTRIES.map(o => <option key={o}>{o}</option>)}
-                  </select>
+                  <ObSelect value={obUnknown.industry} onChange={v => updateObU('industry', v)} options={INDUSTRIES} placeholder="Please select" />
                 </div>
                 <div className={styles.obBlock}>
                   <div className={styles.obBlockHead}><span className={styles.obNum}>7.</span><span className={styles.obLabel}>Identification</span></div>
                   <div className={styles.obSubGrid}>
                     <div>
                       <div className={styles.obSubLabel}>ID Type</div>
-                      <select className={`${styles.obInput} ${styles.obSelect}`} value={obUnknown.idType} onChange={e => updateObU('idType', e.target.value)}>
-                        <option value="">Please select</option>
-                        <option>DUNS Number</option><option>LEI</option><option>BVD ID</option><option>VAT Number</option><option>Tax Code</option><option>Trade Licence</option>
-                      </select>
+                      <ObSelect value={obUnknown.idType} onChange={v => updateObU('idType', v)} options={['DUNS Number','LEI','BVD ID','VAT Number','Tax Code','Trade Licence']} placeholder="Please select" />
                     </div>
                     <div>
                       <div className={styles.obSubLabel}>ID Value</div>
@@ -1147,21 +1112,10 @@ function NotesPanel({ notes, noteText, onNoteTextChange, onAddNote, onClose }) {
             onChange={e => onNoteTextChange(e.target.value)}
           />
           <div className={styles.notesActions}>
-            <button className={styles.btnOutline} type="button">
-              <span className="material-icons-outlined" style={{ fontSize: 16 }}>person_add</span>
-              Include Internal User
-            </button>
-            <button className={styles.btnOutline} type="button">
-              <span className="material-icons-outlined" style={{ fontSize: 16 }}>person_add_alt</span>
-              Include External User
-            </button>
-            <button className={styles.btnOutline} type="button">
-              <span className="material-icons-outlined" style={{ fontSize: 16 }}>attach_file</span>
-              Add Attachment
-            </button>
-            <button className={styles.btnFilled} type="button" onClick={onAddNote}>
-              Add Note
-            </button>
+            <button className={styles.btnOutline} type="button">Include Internal User</button>
+            <button className={styles.btnOutline} type="button">Include External User</button>
+            <button className={styles.btnOutline} type="button">Add Attachment</button>
+            <button className={styles.btnFilled} type="button" onClick={onAddNote}>Add Note</button>
           </div>
         </div>
       </motion.div>
@@ -1292,6 +1246,46 @@ function CancelModal({ onStay, onLeave }) {
         </div>
       </motion.div>
     </motion.div>
+  );
+}
+
+/* ─────────────────────── ObSelect — custom dropdown matching page style ─────────────────────── */
+
+function ObSelect({ value, onChange, options, placeholder = 'Choose…', hasError = false }) {
+  const [open, setOpen] = useState(false);
+  const ref = useRef();
+  useEffect(() => {
+    if (!open) return;
+    function handle(e) { if (ref.current && !ref.current.contains(e.target)) setOpen(false); }
+    document.addEventListener('mousedown', handle);
+    return () => document.removeEventListener('mousedown', handle);
+  }, [open]);
+  return (
+    <div className={styles.dropdownWrap} ref={ref}>
+      <div
+        className={`${styles.dropdownTrigger} ${hasError ? styles.dropdownTriggerError : ''}`}
+        onClick={() => setOpen(v => !v)}
+      >
+        <span className={value ? styles.dropdownValueSelected : styles.dropdownPlaceholder}>
+          {value || placeholder}
+        </span>
+        <span className="material-icons-outlined" style={{ fontSize: 18, color: 'var(--text-light)' }}>expand_more</span>
+      </div>
+      {open && (
+        <div className={styles.dropdown}>
+          {options.map(o => (
+            <div
+              key={o}
+              className={`${styles.dropdownItem} ${value === o ? styles.dropdownItemSelected : ''}`}
+              onClick={() => { onChange(o); setOpen(false); }}
+            >
+              {value === o && <span className="material-icons-outlined" style={{ fontSize: 14, marginRight: 4 }}>check</span>}
+              {o}
+            </div>
+          ))}
+        </div>
+      )}
+    </div>
   );
 }
 

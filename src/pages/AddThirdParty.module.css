@@ -19,6 +19,7 @@
 .dropdownWrap { position: relative; }
 .dropdownTrigger { display: flex; align-items: center; justify-content: space-between; height: 40px; border: 1px solid var(--neutral-200); border-radius: 2px; padding: 0 10px; cursor: pointer; background: var(--neutral-00); }
 .dropdownTrigger:hover { border-color: var(--primary-500); }
+.dropdownTriggerError { border-color: var(--alert-500) !important; }
 .dropdownPlaceholder { font-size: 14px; color: var(--neutral-400); }
 .dropdownValueSelected { font-size: 14px; color: var(--text-normal); }
 .dropdown { position: absolute; top: 100%; left: 0; right: 0; background: var(--neutral-00); border: 1px solid rgba(0,0,0,0.1); box-shadow: 0 4px 16px rgba(0,0,0,0.12); z-index: 200; max-height: 240px; overflow-y: auto; padding: 4px 6px; }
@@ -55,7 +56,7 @@
 .profilePanelContent { flex: 1; overflow-y: auto; }
 
 /* ── Properties side panel ── */
-.propsPanel { position: fixed; top: 0; right: 0; width: 640px; max-width: 100vw; height: 100vh; background: var(--neutral-00); border-top: 4px solid var(--primary-500); border-left: 1px solid var(--neutral-50); box-shadow: -4px 0 20px rgba(0,0,0,0.1); z-index: 1101; display: flex; flex-direction: column; }
+.propsPanel { position: fixed; top: 0; right: 0; width: 960px; max-width: 100vw; height: 100vh; background: var(--neutral-00); border-top: 4px solid var(--primary-500); border-left: 1px solid var(--neutral-50); box-shadow: -4px 0 20px rgba(0,0,0,0.1); z-index: 1101; display: flex; flex-direction: column; }
 .propsPanelHeader { display: flex; align-items: center; justify-content: space-between; padding: 16px 20px; flex-shrink: 0; border-bottom: 1px solid var(--neutral-50); }
 .propsPanelTitle { font-size: 18px; font-weight: 600; color: var(--text-normal); }
 .propsPanelFilters { padding: 14px 20px; border-bottom: 1px solid var(--neutral-50); flex-shrink: 0; display: grid; grid-template-columns: 1fr 1fr; gap: 16px; }
@@ -265,7 +266,15 @@
 /* Field group */
 .fieldGroup { display: flex; flex-direction: column; gap: 6px; }
 .fieldLabel { font-size: 12px; font-weight: 500; color: var(--primary-500); text-transform: uppercase; letter-spacing: 0.5px; }
-.fieldSelect { height: 36px; border: 1px solid var(--neutral-200); border-radius: 3px; padding: 0 10px; font-size: 14px; font-family: inherit; color: var(--text-normal); background: var(--neutral-00); width: 100%; }
+.fieldSelect {
+  height: 40px; border: 1px solid var(--neutral-200); border-radius: 2px;
+  padding: 0 36px 0 10px; font-size: 14px; font-family: inherit;
+  color: var(--text-normal); background: var(--neutral-00); width: 100%;
+  appearance: none; -webkit-appearance: none; outline: none; cursor: pointer;
+  background-image: url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' width='18' height='18' viewBox='0 0 24 24' fill='%23516267'%3E%3Cpath d='M7 10l5 5 5-5z'/%3E%3C/svg%3E");
+  background-repeat: no-repeat; background-position: right 10px center;
+}
+.fieldSelect:focus { border-color: var(--neutral-500); }
 
 /* Onboarding warning intro */
 .obWarningIntro {
@@ -306,7 +315,13 @@
 .obInput::placeholder { color: var(--neutral-400); }
 .obInput[readonly] { background: var(--neutral-25); color: var(--text-light); cursor: default; }
 .obTextarea { height: auto; min-height: 64px; padding: 8px 10px; resize: vertical; line-height: 1.5; }
-.obSelect { appearance: auto; -webkit-appearance: auto; }
+.obSelect {
+  appearance: none; -webkit-appearance: none; cursor: pointer;
+  padding-right: 36px;
+  background-image: url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' width='18' height='18' viewBox='0 0 24 24' fill='%23516267'%3E%3Cpath d='M7 10l5 5 5-5z'/%3E%3C/svg%3E");
+  background-repeat: no-repeat; background-position: right 10px center;
+  background-color: var(--neutral-00);
+}
 .obError { font-size: 11px; color: var(--alert-500); margin-top: 4px; }
 .obSubGrid { display: grid; grid-template-columns: 1fr 1fr; gap: 16px; }
 .obSubLabel { font-size: 11px; font-weight: 600; color: var(--text-light); text-transform: uppercase; letter-spacing: 0.5px; margin-bottom: 6px; }

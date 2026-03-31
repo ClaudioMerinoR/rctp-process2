@@ -1,6 +1,6 @@
 import { useState, useEffect, useRef } from 'react';
 import { motion, AnimatePresence } from 'motion/react';
-import { Link, useParams, useNavigate } from 'react-router-dom';
+import { Link, useParams, useNavigate, useLocation } from 'react-router-dom';
 import PageLayout from '../layout/PageLayout';
 import Breadcrumb from '../layout/Breadcrumb';
 import { profiles } from '../../data/profiles';
@@ -118,7 +118,19 @@ export { Sidebar, PartnerIcon, PARTNER_ICONS, TASK_ICONS, riskBadge };
 export default function ProfilePage({ profile: profileProp, embedded = false }) {
   const params = useParams();
   const navigate = useNavigate();
+  const location = useLocation();
   const profile = profileProp || profiles[params.profileId];
+
+  // New profile loading state (8s simulation after creation)
+  const [profileLoading, setProfileLoading] = useState(
+    !embedded && new URLSearchParams(location.search).get('new') === '1'
+  );
+  useEffect(() => {
+    if (!profileLoading) return;
+    const t = setTimeout(() => setProfileLoading(false), 8000);
+    return () => clearTimeout(t);
+  }, [profileLoading]);
+
   const [activeTab, setActiveTab] = useState('overview');
   const [alert, setAlert] = useState(null);
   const [deleteModalOpen, setDeleteModalOpen] = useState(false);
@@ -253,10 +265,23 @@ export default function ProfilePage({ profile: profileProp, embedded = false }) 
               </div>
               <div className={styles.tpBadgeGroup}>
                 <div className={styles.tpBadgeLabel}>Risk level:</div>
-                <div className={`${styles.badge} ${styles['badge' + profile.riskLevel.level.charAt(0).toUpperCase() + profile.riskLevel.level.slice(1)]} ${styles.badgeBtn}`}>
-                  {profile.riskLevel.label}
-                  <span className="material-icons-outlined" style={{ fontSize: 16 }}>{profile.riskLevel.icon}</span>
-                </div>
+                <AnimatePresence mode="wait">
+                {profileLoading ? (
+                  <motion.div key="loading-badge" initial={{ opacity: 0 }} animate={{ opacity: 1 }} exit={{ opacity: 0 }} transition={{ duration: 0.3 }}
+                    className={`${styles.badge} ${styles.badgePending} ${styles.badgeBtn}`}
+                  >
+                    Pending
+                    <span className={`material-icons-outlined ${styles.spinIcon}`} style={{ fontSize: 16 }}>sync</span>
+                  </motion.div>
+                ) : (
+                  <motion.div key="loaded-badge" initial={{ opacity: 0 }} animate={{ opacity: 1 }} exit={{ opacity: 0 }} transition={{ duration: 0.4 }}
+                    className={`${styles.badge} ${styles['badge' + profile.riskLevel.level.charAt(0).toUpperCase() + profile.riskLevel.level.slice(1)]} ${styles.badgeBtn}`}
+                  >
+                    {profile.riskLevel.label}
+                    <span className="material-icons-outlined" style={{ fontSize: 16 }}>{profile.riskLevel.icon}</span>
+                  </motion.div>
+                )}
+                </AnimatePresence>
               </div>
             </div>
           </div>
@@ -463,33 +488,42 @@ export default function ProfilePage({ profile: profileProp, embedded = false }) 
           <motion.section className={styles.riskReport} initial={{ opacity: 0, y: 20 }} animate={{ opacity: 1, y: 0 }} transition={{ duration: 0.3, delay: 0.07 }}>
             <div className={styles.sectionRow}>
               <h2 className={styles.cardTitle}>Risk Level Report</h2>
-              <Link to={`/profile/${profile.id}/risk-report`} className={styles.linkText}>VIEW FULL REPORT</Link>
+              {!profileLoading && <Link to={`/profile/${profile.id}/risk-report`} className={styles.linkText}>VIEW FULL REPORT</Link>}
             </div>
-            <div className={styles.riskRow}>
-              {profile.riskCards.map((rc, i) => {
-                const b = riskBadge(rc.level);
-                const sectionId = (profile.riskReport?.accordionSections || []).find(
-                  s => s.label.toLowerCase().includes(rc.title.toLowerCase())
-                )?.id || rc.title.toLowerCase().replace(/[^a-z]+/g, '-');
-                const MotionLink = motion(Link);
-                return (
-                  <MotionLink key={i} to={`/profile/${profile.id}/risk-report#${sectionId}`} className={`${styles.rcard} ${styles['rcard_' + rc.level]}`} style={{ textDecoration: 'none' }} whileHover={{ y: -4, boxShadow: '0 8px 20px rgba(0,0,0,0.13)' }} whileTap={{ scale: 0.97 }} transition={{ duration: 0.18 }}>
-                    <div className={styles.rcardTitle}>{rc.title}</div>
-                    <span className={`${styles.rcardLbl} ${styles.lblRisk}`}>Risk Level</span>
-                    <span className={`${styles.rcardLbl} ${styles.lblFlags}`}>Red flags</span>
-                    <span className={`${styles.rcardLbl} ${styles.lblScore}`}>Category score</span>
-                    <span className={`${styles.rcardVal} ${styles.valFlags}`}>{rc.flags}</span>
-                    <span className={`${styles.rcardVal} ${styles.valScore}`}>{rc.score}</span>
-                    <span className={styles.rcardBadge}>
-                      <span className={`${styles.badge} ${b.className}`} style={{ fontSize: 12, padding: '4px 8px' }}>
-                        {b.label}
-                        <span className="material-icons-outlined" style={{ fontSize: 14, verticalAlign: 'middle' }}>{b.icon}</span>
+            <AnimatePresence mode="wait">
+            {profileLoading ? (
+              <motion.div key="risk-loading" className={styles.blankState} initial={{ opacity: 0 }} animate={{ opacity: 1 }} exit={{ opacity: 0 }} transition={{ duration: 0.3 }}>
+                <span className={`material-icons-outlined ${styles.spinIcon}`} style={{ fontSize: 32, color: 'var(--neutral-300)' }}>sync</span>
+                <p>Calculating risk profile…</p>
+              </motion.div>
+            ) : (
+              <motion.div key="risk-loaded" className={styles.riskRow} initial={{ opacity: 0 }} animate={{ opacity: 1 }} exit={{ opacity: 0 }} transition={{ duration: 0.4 }}>
+                {profile.riskCards.map((rc, i) => {
+                  const b = riskBadge(rc.level);
+                  const sectionId = (profile.riskReport?.accordionSections || []).find(
+                    s => s.label.toLowerCase().includes(rc.title.toLowerCase())
+                  )?.id || rc.title.toLowerCase().replace(/[^a-z]+/g, '-');
+                  const MotionLink = motion(Link);
+                  return (
+                    <MotionLink key={i} to={`/profile/${profile.id}/risk-report#${sectionId}`} className={`${styles.rcard} ${styles['rcard_' + rc.level]}`} style={{ textDecoration: 'none' }} whileHover={{ y: -4, boxShadow: '0 8px 20px rgba(0,0,0,0.13)' }} whileTap={{ scale: 0.97 }} transition={{ duration: 0.18 }}>
+                      <div className={styles.rcardTitle}>{rc.title}</div>
+                      <span className={`${styles.rcardLbl} ${styles.lblRisk}`}>Risk Level</span>
+                      <span className={`${styles.rcardLbl} ${styles.lblFlags}`}>Red flags</span>
+                      <span className={`${styles.rcardLbl} ${styles.lblScore}`}>Category score</span>
+                      <span className={`${styles.rcardVal} ${styles.valFlags}`}>{rc.flags}</span>
+                      <span className={`${styles.rcardVal} ${styles.valScore}`}>{rc.score}</span>
+                      <span className={styles.rcardBadge}>
+                        <span className={`${styles.badge} ${b.className}`} style={{ fontSize: 12, padding: '4px 8px' }}>
+                          {b.label}
+                          <span className="material-icons-outlined" style={{ fontSize: 14, verticalAlign: 'middle' }}>{b.icon}</span>
+                        </span>
                       </span>
-                    </span>
-                  </MotionLink>
-                );
-              })}
-            </div>
+                    </MotionLink>
+                  );
+                })}
+              </motion.div>
+            )}
+            </AnimatePresence>
           </motion.section>
 
           {/* Open Tasks */}
@@ -545,6 +579,14 @@ export default function ProfilePage({ profile: profileProp, embedded = false }) 
                 <span className={`material-icons-outlined ${styles.infoIcon}`}>info</span>
               </div>
             </div>
+            <AnimatePresence mode="wait">
+            {profileLoading ? (
+              <motion.div key="screening-loading" className={styles.blankState} initial={{ opacity: 0 }} animate={{ opacity: 1 }} exit={{ opacity: 0 }} transition={{ duration: 0.3 }}>
+                <span className={`material-icons-outlined ${styles.spinIcon}`} style={{ fontSize: 32, color: 'var(--neutral-300)' }}>sync</span>
+                <p>Setting up screening associations…</p>
+              </motion.div>
+            ) : (
+              <motion.div key="screening-loaded" initial={{ opacity: 0 }} animate={{ opacity: 1 }} exit={{ opacity: 0 }} transition={{ duration: 0.4 }}>
             <div className={styles.cardInner}>
               <table className={styles.table}>
                 <thead>
@@ -595,6 +637,9 @@ export default function ProfilePage({ profile: profileProp, embedded = false }) 
                 <span>Showing results 1 - {profile.screeningRows.length} of {profile.screeningRows.length}</span>
               </div>
             </div>
+              </motion.div>
+            )}
+            </AnimatePresence>
           </motion.section>
         </main>
       </div>
