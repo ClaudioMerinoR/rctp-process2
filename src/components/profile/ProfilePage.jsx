@@ -774,7 +774,7 @@ function EditConnectionPanel({ row, onClose, onSave }) {
   return (
     <>
       <motion.div className={styles.connectOverlay} initial={{ opacity: 0 }} animate={{ opacity: 1 }} exit={{ opacity: 0 }} transition={{ duration: 0.2 }} onClick={onClose} />
-      <motion.div className={styles.connectPanel} initial={{ x: '100%' }} animate={{ x: 0 }} exit={{ x: '100%' }} transition={{ duration: 0.32, ease: [0.32, 0.72, 0, 1] }} onClick={e => e.stopPropagation()}>
+      <div className={styles.connectPanel}><motion.div initial={{ x: '100%' }} animate={{ x: 0 }} exit={{ x: '100%' }} transition={{ duration: 0.32, ease: [0.32, 0.72, 0, 1] }} style={{ height: '100%', display: 'flex', flexDirection: 'column', flex: 1 }}>
         <div className={styles.connectPanelHeader}>
           <span className={styles.connectPanelTitle}>Edit Connection</span>
           <button className={`${styles.btn} ${styles.btnOutline}`} onClick={onClose}>Close</button>
@@ -803,7 +803,7 @@ function EditConnectionPanel({ row, onClose, onSave }) {
           </div>
         </div>
         <div className={styles.connectPanelFooter}>
-          <button className={`${styles.btn} ${styles.btnOutline}`} onClick={triggerClose}>Cancel</button>
+          <button className={`${styles.btn} ${styles.btnOutline}`} onClick={onClose}>Cancel</button>
           <button
             className={`${styles.btn} ${styles.btnFilled}`}
             disabled={!connType}
@@ -812,7 +812,7 @@ function EditConnectionPanel({ row, onClose, onSave }) {
             Save
           </button>
         </div>
-      </motion.div>
+      </motion.div></div>
     </>
   );
 }
@@ -840,7 +840,7 @@ function ConnectPanel({ row, onClose, onConfirm }) {
   return (
     <>
       <motion.div className={styles.connectOverlay} initial={{ opacity: 0 }} animate={{ opacity: 1 }} exit={{ opacity: 0 }} transition={{ duration: 0.2 }} onClick={onClose} />
-      <motion.div className={styles.connectPanel} initial={{ x: '100%' }} animate={{ x: 0 }} exit={{ x: '100%' }} transition={{ duration: 0.32, ease: [0.32, 0.72, 0, 1] }} onClick={e => e.stopPropagation()}>
+      <div className={styles.connectPanel}><motion.div initial={{ x: '100%' }} animate={{ x: 0 }} exit={{ x: '100%' }} transition={{ duration: 0.32, ease: [0.32, 0.72, 0, 1] }} style={{ height: '100%', display: 'flex', flexDirection: 'column', flex: 1 }}>
         <div className={styles.connectPanelHeader}>
           <span className={styles.connectPanelTitle}>Connect Third Party</span>
           <button className={`${styles.btn} ${styles.btnOutline}`} onClick={onClose}>Close</button>
@@ -869,7 +869,7 @@ function ConnectPanel({ row, onClose, onConfirm }) {
           </div>
         </div>
         <div className={styles.connectPanelFooter}>
-          <button className={`${styles.btn} ${styles.btnOutline}`} onClick={triggerClose}>Cancel</button>
+          <button className={`${styles.btn} ${styles.btnOutline}`} onClick={onClose}>Cancel</button>
           <button
             className={`${styles.btn} ${styles.btnFilled}`}
             disabled={!connType}
@@ -879,7 +879,7 @@ function ConnectPanel({ row, onClose, onConfirm }) {
             Connect
           </button>
         </div>
-      </motion.div>
+      </motion.div></div>
     </>
   );
 }
@@ -904,7 +904,7 @@ function NotesPanel({ profileName, notes, noteText, onNoteTextChange, onAddNote,
   return (
     <>
       <motion.div className={styles.connectOverlay} initial={{ opacity: 0 }} animate={{ opacity: 1 }} exit={{ opacity: 0 }} transition={{ duration: 0.2 }} onClick={onClose} />
-      <motion.div className={styles.notesPanel} initial={{ x: '100%' }} animate={{ x: 0 }} exit={{ x: '100%' }} transition={{ duration: 0.32, ease: [0.32, 0.72, 0, 1] }} onClick={e => e.stopPropagation()}>
+      <div className={styles.notesPanel}><motion.div initial={{ x: '100%' }} animate={{ x: 0 }} exit={{ x: '100%' }} transition={{ duration: 0.32, ease: [0.32, 0.72, 0, 1] }} style={{ height: '100%', display: 'flex', flexDirection: 'column', flex: 1 }}>
         <div className={styles.notesPanelHeader}>
           <span className={styles.notesPanelTitle}>Note - {profileName} / Available Threads</span>
           <button className={`${styles.btn} ${styles.btnOutline}`} onClick={onClose}>Close</button>
@@ -952,7 +952,7 @@ function NotesPanel({ profileName, notes, noteText, onNoteTextChange, onAddNote,
             </button>
           </div>
         </div>
-      </motion.div>
+      </motion.div></div>
     </>
   );
 }
@@ -1007,7 +1007,7 @@ function LookMorePanel({ onClose, onSelect }) {
   return (
     <>
       <motion.div className={styles.connectOverlay} initial={{ opacity: 0 }} animate={{ opacity: 1 }} exit={{ opacity: 0 }} transition={{ duration: 0.2 }} onClick={onClose} />
-      <motion.div className={styles.lookMorePanel} initial={{ x: '100%' }} animate={{ x: 0 }} exit={{ x: '100%' }} transition={{ duration: 0.32, ease: [0.32, 0.72, 0, 1] }} onClick={e => e.stopPropagation()}>
+      <div className={styles.lookMorePanel}><motion.div initial={{ x: '100%' }} animate={{ x: 0 }} exit={{ x: '100%' }} transition={{ duration: 0.32, ease: [0.32, 0.72, 0, 1] }} style={{ height: '100%', display: 'flex', flexDirection: 'column', flex: 1 }}>
         <div className={styles.connectPanelHeader}>
           <span className={styles.connectPanelTitle}>Search for connections</span>
           <button className={`${styles.btn} ${styles.btnOutline}`} onClick={onClose}>Close</button>
@@ -1086,7 +1086,7 @@ function LookMorePanel({ onClose, onSelect }) {
         <div className={styles.connectPanelFooter}>
           <button className={`${styles.btn} ${styles.btnOutline}`} onClick={onClose}>Cancel</button>
         </div>
-      </motion.div>
+      </motion.div></div>
     </>
   );
 }

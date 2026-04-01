@@ -1028,7 +1028,7 @@ function LanguagePanel({ selected, onSelect, onClose }) {
   return (
     <>
       <motion.div className={styles.panelOverlay} initial={{ opacity: 0 }} animate={{ opacity: 1 }} exit={{ opacity: 0 }} transition={{ duration: 0.2 }} onClick={onClose} />
-      <motion.div className={styles.langPanel} initial={{ x: '100%' }} animate={{ x: 0 }} exit={{ x: '100%' }} transition={{ duration: 0.35, ease: [0.32, 0.72, 0, 1] }} onClick={e => e.stopPropagation()}>
+      <div className={styles.langPanel}><motion.div initial={{ x: '100%' }} animate={{ x: 0 }} exit={{ x: '100%' }} transition={{ duration: 0.35, ease: [0.32, 0.72, 0, 1] }} style={{ height: '100%', display: 'flex', flexDirection: 'column', flex: 1 }}>
         <div className={styles.langPanelHeader}>
           <span className={styles.langPanelTitle}>Choose Language</span>
           <button className={styles.btnOutline} onClick={onClose}>Close</button>
@@ -1056,7 +1056,7 @@ function LanguagePanel({ selected, onSelect, onClose }) {
             </div>
           ))}
         </div>
-      </motion.div>
+      </motion.div></div>
     </>
   );
 }
@@ -1081,7 +1081,7 @@ function NotesPanel({ notes, noteText, onNoteTextChange, onAddNote, onClose }) {
   return (
     <>
       <motion.div className={styles.panelOverlay} initial={{ opacity: 0 }} animate={{ opacity: 1 }} exit={{ opacity: 0 }} transition={{ duration: 0.2 }} onClick={onClose} />
-      <motion.div className={styles.notesPanel} initial={{ x: '100%' }} animate={{ x: 0 }} exit={{ x: '100%' }} transition={{ duration: 0.35, ease: [0.32, 0.72, 0, 1] }} onClick={e => e.stopPropagation()}>
+      <div className={styles.notesPanel}><motion.div initial={{ x: '100%' }} animate={{ x: 0 }} exit={{ x: '100%' }} transition={{ duration: 0.35, ease: [0.32, 0.72, 0, 1] }} style={{ height: '100%', display: 'flex', flexDirection: 'column', flex: 1 }}>
         <div className={styles.notesPanelHeader}>
           <span className={styles.notesPanelTitle}>Note - Onboarding / Available Threads</span>
           <button className={styles.btnOutline} onClick={onClose}>Close</button>
@@ -1118,7 +1118,7 @@ function NotesPanel({ notes, noteText, onNoteTextChange, onAddNote, onClose }) {
             <button className={styles.btnFilled} type="button" onClick={onAddNote}>Add Note</button>
           </div>
         </div>
-      </motion.div>
+      </motion.div></div>
     </>
   );
 }
@@ -1136,7 +1136,7 @@ function ProfilePanel({ name, tpType, onClose }) {
   return (
     <>
       <motion.div className={styles.panelOverlay} initial={{ opacity: 0 }} animate={{ opacity: 1 }} exit={{ opacity: 0 }} transition={{ duration: 0.2 }} onClick={onClose} />
-      <motion.div className={styles.profilePanel} initial={{ x: '100%' }} animate={{ x: 0 }} exit={{ x: '100%' }} transition={{ duration: 0.35, ease: [0.32, 0.72, 0, 1] }} onClick={e => e.stopPropagation()}>
+      <div className={styles.profilePanel}><motion.div initial={{ x: '100%' }} animate={{ x: 0 }} exit={{ x: '100%' }} transition={{ duration: 0.35, ease: [0.32, 0.72, 0, 1] }} style={{ height: '100%', display: 'flex', flexDirection: 'column', flex: 1 }}>
         <div className={styles.profilePanelTopbar}>
           <button className={styles.panelBackBtn} onClick={onClose}>
             <span className="material-icons-outlined" style={{ fontSize: 18 }}>arrow_back</span> Back
@@ -1146,7 +1146,7 @@ function ProfilePanel({ name, tpType, onClose }) {
         <div className={styles.profilePanelContent}>
           <ProfilePage profile={profileData} embedded />
         </div>
-      </motion.div>
+      </motion.div></div>
     </>
   );
 }
@@ -1171,7 +1171,7 @@ function PropertiesPanel({ name, onClose }) {
   return (
     <>
       <motion.div className={styles.panelOverlay} initial={{ opacity: 0 }} animate={{ opacity: 1 }} exit={{ opacity: 0 }} transition={{ duration: 0.2 }} onClick={onClose} />
-      <motion.div className={styles.propsPanel} initial={{ x: '100%' }} animate={{ x: 0 }} exit={{ x: '100%' }} transition={{ duration: 0.35, ease: [0.32, 0.72, 0, 1] }} onClick={e => e.stopPropagation()}>
+      <div className={styles.propsPanel}><motion.div initial={{ x: '100%' }} animate={{ x: 0 }} exit={{ x: '100%' }} transition={{ duration: 0.35, ease: [0.32, 0.72, 0, 1] }} style={{ height: '100%', display: 'flex', flexDirection: 'column', flex: 1 }}>
         <div className={styles.propsPanelHeader}>
           <span className={styles.propsPanelTitle}>Properties — <span style={{ fontWeight: 400 }}>{name}</span></span>
           <button className={styles.btnOutline} onClick={onClose}>Close</button>
@@ -1217,7 +1217,7 @@ function PropertiesPanel({ name, onClose }) {
             </tbody>
           </table>
         </div>
-      </motion.div>
+      </motion.div></div>
     </>
   );
 }
