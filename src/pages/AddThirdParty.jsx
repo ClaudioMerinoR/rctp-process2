@@ -130,7 +130,7 @@ export default function AddThirdParty() {
   // Summary fields
   const [ownerMode, setOwnerMode] = useState('user');
   const [owner, setOwner] = useState('Claudio Merino');
-  const [businessUnits, setBusinessUnits] = useState([]);
+  const [businessUnit, setBusinessUnit] = useState('Europe');
   const [process, setProcess] = useState('Standard RCTP');
   const [policy, setPolicy] = useState('');
   const [tags, setTags] = useState([]);
@@ -182,6 +182,12 @@ export default function AddThirdParty() {
   const [processOpen, setProcessOpen] = useState(false);
   const [policyOpen, setPolicyOpen] = useState(false);
   const [tagsOpen, setTagsOpen] = useState(false);
+  // Combobox query states
+  const [ownerQuery, setOwnerQuery] = useState('');
+  const [buQuery, setBuQuery] = useState('');
+  const [processQuery, setProcessQuery] = useState('');
+  const [policyQuery, setPolicyQuery] = useState('');
+  const [tagsQuery, setTagsQuery] = useState('');
   const ownerRef = useRef();
   const buRef = useRef();
   const processRef = useRef();
@@ -216,9 +222,8 @@ export default function AddThirdParty() {
     { id: 'unknown', icon: 'help_outline', title: 'Unknown', desc: 'The type of third party is not yet known or cannot be determined.' },
   ];
 
-  function selectOwner(val) { setOwner(val); setOwnerOpen(false); }
-  function toggleBu(val) { setBusinessUnits(prev => prev.includes(val) ? prev.filter(x => x !== val) : [...prev, val]); }
-  function removeBu(val) { setBusinessUnits(prev => prev.filter(x => x !== val)); }
+  function selectOwner(val) { setOwner(val); setOwnerOpen(false); setOwnerQuery(''); }
+  function selectBu(val) { setBusinessUnit(val); setBuOpen(false); setBuQuery(''); }
   function toggleTag(val) { setTags(prev => prev.includes(val) ? prev.filter(x => x !== val) : [...prev, val]); }
 
   function handleContinue() {
@@ -247,7 +252,8 @@ export default function AddThirdParty() {
     if (!tpType) errs.type = true;
     if (!tpName.trim()) errs.name = true;
     if (!owner.trim()) errs.owner = true;
-    if (!businessUnits.length) errs.bu = true;
+    if (!process.trim()) errs.process = true;
+    if (!businessUnit.trim()) errs.bu = true;
 
     if (tpType === 'entity' && !ob.country) errs.country = true;
     if (tpType === 'person' && !obPerson.country) errs.country = true;
@@ -297,7 +303,7 @@ export default function AddThirdParty() {
 
       {/* ── Section 1: Third Party Type + Name + Dup Check + Entity Verification ── */}
       <div className={styles.section}>
-        <div className={styles.sectionHeading}>Third Party Type <span className={styles.req}>*</span></div>
+        <div className={styles.sectionHeading}><span>Third Party Type <span className={styles.req}>*</span></span></div>
         <div className={`${styles.typeCards} ${errors.type ? styles.typeError : ''}`}>
           {types.map(t => (
             <motion.div
@@ -321,7 +327,7 @@ export default function AddThirdParty() {
         {errors.type && <p className={styles.errorHint}>Please select a third party type.</p>}
 
         {/* ── Third Party Name ── */}
-        <div className={styles.sectionHeading} style={{ marginTop: 24 }}>Third Party Name <span className={styles.req}>*</span></div>
+        <div className={styles.sectionHeading} style={{ marginTop: 24 }}><span>Third Party Name <span className={styles.req}>*</span></span></div>
         <div className={styles.nameRow}>
           <div className={`${styles.nameField} ${errors.name ? styles.hasError : ''}`}>
             <input
@@ -329,8 +335,10 @@ export default function AddThirdParty() {
               type="text"
               placeholder="Enter the full legal name"
               value={tpName}
+              disabled={!tpType}
               onChange={e => { setTpName(e.target.value); setErrors(prev => ({ ...prev, name: false })); }}
             />
+            {!tpType && <p className={styles.helperText}>Please select a Third Party Type before entering a name.</p>}
             {errors.name && <div className={styles.fieldError}>Third Party Name is required.</div>}
           </div>
           {!continued && (
@@ -349,9 +357,9 @@ export default function AddThirdParty() {
 
       </div>
 
-      {/* ── Section 2: Duplicate Check Results (shown after Continue) ── */}
+      {/* ── Section 2: Duplicate Check Results (shown after Continue, skipped for Unknown) ── */}
       <AnimatePresence>
-      {continued && (
+      {continued && tpType !== 'unknown' && (
         <motion.div
           key="dup-check-section"
           className={styles.section}
@@ -524,6 +532,10 @@ export default function AddThirdParty() {
               </div>
             </div>
           </div>
+          <div className={styles.summaryPrepopNote}>
+            <span className="material-icons-outlined" style={{ fontSize: 16 }}>info</span>
+            The fields below have been pre-populated with default values. Please review and update them as needed before proceeding.
+          </div>
           <div className={styles.summaryGrid}>
 
             {/* LEFT COLUMN */}
@@ -543,13 +555,13 @@ export default function AddThirdParty() {
                     <button type="button" className={`${styles.ownerBtn} ${ownerMode === 'user' ? styles.ownerBtnActive : ''}`} onClick={() => setOwnerMode('user')}>User</button>
                   </div>
                   <div className={styles.dropdownWrap} style={{ flex: 1, minWidth: 0 }}>
-                    <div className={styles.dropdownTrigger} onClick={() => setOwnerOpen(v => !v)}>
-                      <span className={owner ? styles.dropdownValueSelected : styles.dropdownPlaceholder}>{owner || 'Type and select employee name'}</span>
-                      <span className="material-icons-outlined" style={{ fontSize: 18, color: 'var(--text-light)' }}>expand_more</span>
+                    <div className={styles.dropdownTrigger} style={{ padding: '0 10px', gap: 4 }}>
+                      <input className={styles.comboInput} value={ownerOpen ? ownerQuery : owner} placeholder="Type and select employee name" onChange={e => { setOwnerQuery(e.target.value); setOwnerOpen(true); }} onFocus={() => { setOwnerOpen(true); setOwnerQuery(''); }} />
+                      <span className="material-icons-outlined" style={{ fontSize: 18, color: 'var(--text-light)', flexShrink: 0, cursor: 'pointer' }} onClick={() => setOwnerOpen(v => !v)}>expand_more</span>
                     </div>
                     {ownerOpen && (
                       <div className={styles.dropdown}>
-                        {OWNER_OPTIONS.map(o => <div key={o} className={styles.dropdownItem} onClick={() => selectOwner(o)}>{o}</div>)}
+                        {OWNER_OPTIONS.filter(o => !ownerQuery || o.toLowerCase().includes(ownerQuery.toLowerCase())).map(o => <div key={o} className={styles.dropdownItem} onClick={() => selectOwner(o)}>{o}</div>)}
                       </div>
                     )}
                   </div>
@@ -560,23 +572,16 @@ export default function AddThirdParty() {
               {/* Business Unit */}
               <div className={`${styles.editField} ${errors.bu ? styles.hasError : ''}`} ref={buRef}>
                 <label className={styles.editLabel}>Business Unit <span className={styles.req}>*</span></label>
-                <div className={styles.tagSelectWrap}>
-                  <div className={styles.tagSelectTrigger} onClick={() => setBuOpen(v => !v)}>
-                    <span className={styles.dropdownPlaceholder}>Search</span>
-                    <span className="material-icons-outlined" style={{ fontSize: 18, color: 'var(--text-light)' }}>expand_more</span>
+                <div className={styles.dropdownWrap}>
+                  <div className={styles.dropdownTrigger} style={{ padding: '0 10px', gap: 4 }}>
+                    <input className={styles.comboInput} value={buOpen ? buQuery : businessUnit} placeholder="Select a business unit" onChange={e => { setBuQuery(e.target.value); setBuOpen(true); }} onFocus={() => { setBuOpen(true); setBuQuery(''); }} />
+                    <span className="material-icons-outlined" style={{ fontSize: 18, color: 'var(--text-light)', flexShrink: 0, cursor: 'pointer' }} onClick={() => setBuOpen(v => !v)}>expand_more</span>
                   </div>
-                  {businessUnits.length > 0 && (
-                    <div className={styles.tagChips}>
-                      {businessUnits.map(b => (
-                        <span key={b} className={styles.tagChip}>{b}<button onClick={() => removeBu(b)}>×</button></span>
-                      ))}
-                    </div>
-                  )}
                   {buOpen && (
                     <div className={styles.dropdown}>
-                      {BU_OPTIONS.map(o => (
-                        <div key={o} className={`${styles.dropdownItem} ${businessUnits.includes(o) ? styles.dropdownItemSelected : ''}`} onClick={() => toggleBu(o)}>
-                          {businessUnits.includes(o) && <span className="material-icons-outlined" style={{ fontSize: 14, marginRight: 4 }}>check</span>}
+                      {BU_OPTIONS.filter(o => !buQuery || o.toLowerCase().includes(buQuery.toLowerCase())).map(o => (
+                        <div key={o} className={`${styles.dropdownItem} ${businessUnit === o ? styles.dropdownItemSelected : ''}`} onClick={() => selectBu(o)}>
+                          {businessUnit === o && <span className="material-icons-outlined" style={{ fontSize: 14, marginRight: 4 }}>check</span>}
                           {o}
                         </div>
                       ))}
@@ -588,7 +593,12 @@ export default function AddThirdParty() {
 
               {/* Third Party Tags */}
               <div className={styles.editField} ref={tagsRef}>
-                <label className={styles.editLabel}>Third Party Tags</label>
+                <label className={styles.editLabel}>
+                  Third Party Tags
+                  <span className={styles.infoTip} data-tooltip="Tag your Third Party to allow for faster searching.">
+                    <span className="material-icons-outlined" style={{ fontSize: 16 }}>info</span>
+                  </span>
+                </label>
                 <div className={styles.tagSelectWrap}>
                   <div className={styles.tagSelectTrigger} onClick={() => setTagsOpen(v => !v)}>
                     <span className={styles.dropdownPlaceholder}>Search</span>
@@ -603,7 +613,8 @@ export default function AddThirdParty() {
                   )}
                   {tagsOpen && (
                     <div className={styles.dropdown}>
-                      {TAG_OPTIONS.map(o => (
+                      <div className={styles.dropdownSearch}><input className={styles.comboInput} placeholder="Search tags…" value={tagsQuery} onChange={e => setTagsQuery(e.target.value)} autoFocus /></div>
+                      {TAG_OPTIONS.filter(o => !tagsQuery || o.toLowerCase().includes(tagsQuery.toLowerCase())).map(o => (
                         <label key={o} className={styles.dropdownCheckItem}>
                           <input type="checkbox" checked={tags.includes(o)} onChange={() => toggleTag(o)} style={{ accentColor: 'var(--primary-500)' }} />
                           {o}
@@ -612,7 +623,6 @@ export default function AddThirdParty() {
                     </div>
                   )}
                 </div>
-                <p className={styles.helperText}>Tag your Third Party to allow for faster searching.</p>
               </div>
 
             </div>
@@ -621,19 +631,19 @@ export default function AddThirdParty() {
             <div className={styles.summaryCol}>
 
               {/* Process */}
-              <div className={styles.editField} ref={processRef}>
+              <div className={`${styles.editField} ${errors.process ? styles.hasError : ''}`} ref={processRef}>
                 <label className={styles.editLabel}>
-                  Process
+                  <span>Process <span className={styles.req}>*</span></span>
                 </label>
                 <div className={styles.dropdownWrap}>
-                  <div className={styles.dropdownTrigger} onClick={() => setProcessOpen(v => !v)}>
-                    <span className={styles.dropdownValueSelected}>{process}</span>
-                    <span className="material-icons-outlined" style={{ fontSize: 18, color: 'var(--text-light)' }}>expand_more</span>
+                  <div className={styles.dropdownTrigger} style={{ padding: '0 10px', gap: 4 }}>
+                    <input className={styles.comboInput} value={processOpen ? processQuery : process} placeholder="Select a process" onChange={e => { setProcessQuery(e.target.value); setProcessOpen(true); }} onFocus={() => { setProcessOpen(true); setProcessQuery(''); }} />
+                    <span className="material-icons-outlined" style={{ fontSize: 18, color: 'var(--text-light)', flexShrink: 0, cursor: 'pointer' }} onClick={() => setProcessOpen(v => !v)}>expand_more</span>
                   </div>
                   {processOpen && (
                     <div className={styles.dropdown}>
-                      {PROCESS_OPTIONS.map(o => (
-                        <div key={o} className={`${styles.dropdownItem} ${process === o ? styles.dropdownItemSelected : ''}`} onClick={() => { setProcess(o); setPolicy(''); setProcessOpen(false); }}>
+                      {PROCESS_OPTIONS.filter(o => !processQuery || o.toLowerCase().includes(processQuery.toLowerCase())).map(o => (
+                        <div key={o} className={`${styles.dropdownItem} ${process === o ? styles.dropdownItemSelected : ''}`} onClick={() => { setProcess(o); setPolicy(''); setProcessOpen(false); setProcessQuery(''); }}>
                           {process === o && <span className="material-icons-outlined" style={{ fontSize: 14, marginRight: 4 }}>check</span>}
                           {o}
                         </div>
@@ -641,6 +651,7 @@ export default function AddThirdParty() {
                     </div>
                   )}
                 </div>
+                {errors.process && <div className={styles.fieldError}>Process is required.</div>}
               </div>
 
               {/* Screening & Monitoring Policy */}
@@ -652,20 +663,24 @@ export default function AddThirdParty() {
                   </span>
                 </label>
                 <div className={styles.dropdownWrap}>
-                  <div className={styles.dropdownTrigger} onClick={() => setPolicyOpen(v => !v)}>
-                    <span className={policy ? styles.dropdownValueSelected : styles.dropdownPlaceholder}>{policy || 'Select a policy…'}</span>
-                    <span className="material-icons-outlined" style={{ fontSize: 18, color: 'var(--text-light)' }}>expand_more</span>
+                  <div className={styles.dropdownTrigger} style={{ padding: '0 10px', gap: 4 }}>
+                    <input className={styles.comboInput} value={policyOpen ? policyQuery : policy} placeholder="Select a policy…" onChange={e => { setPolicyQuery(e.target.value); setPolicyOpen(true); }} onFocus={() => { setPolicyOpen(true); setPolicyQuery(''); }} />
+                    <span className="material-icons-outlined" style={{ fontSize: 18, color: 'var(--text-light)', flexShrink: 0, cursor: 'pointer' }} onClick={() => setPolicyOpen(v => !v)}>expand_more</span>
                   </div>
                   {policyOpen && (
                     <div className={styles.dropdown}>
-                      <div className={styles.dropdownGroup}>Process Managed Policies</div>
-                      {PROCESS_POLICIES[process].managed.map(o => (
-                        <div key={o} className={styles.dropdownItem} onClick={() => { setPolicy(o); setPolicyOpen(false); }}>{o}</div>
-                      ))}
-                      <div className={styles.dropdownGroup}>Unmanaged Policies</div>
-                      {PROCESS_POLICIES[process].unmanaged.map(o => (
-                        <div key={o} className={styles.dropdownItem} onClick={() => { setPolicy(o); setPolicyOpen(false); }}>{o}</div>
-                      ))}
+                      {PROCESS_POLICIES[process].managed.filter(o => !policyQuery || o.toLowerCase().includes(policyQuery.toLowerCase())).length > 0 && <>
+                        <div className={styles.dropdownGroup}>Process Managed Policies</div>
+                        {PROCESS_POLICIES[process].managed.filter(o => !policyQuery || o.toLowerCase().includes(policyQuery.toLowerCase())).map(o => (
+                          <div key={o} className={styles.dropdownItem} onClick={() => { setPolicy(o); setPolicyOpen(false); setPolicyQuery(''); }}>{o}</div>
+                        ))}
+                      </>}
+                      {PROCESS_POLICIES[process].unmanaged.filter(o => !policyQuery || o.toLowerCase().includes(policyQuery.toLowerCase())).length > 0 && <>
+                        <div className={styles.dropdownGroup}>Unmanaged Policies</div>
+                        {PROCESS_POLICIES[process].unmanaged.filter(o => !policyQuery || o.toLowerCase().includes(policyQuery.toLowerCase())).map(o => (
+                          <div key={o} className={styles.dropdownItem} onClick={() => { setPolicy(o); setPolicyOpen(false); setPolicyQuery(''); }}>{o}</div>
+                        ))}
+                      </>}
                     </div>
                   )}
                 </div>
@@ -1224,32 +1239,25 @@ function CancelModal({ onStay, onLeave }) {
 
 function ObSelect({ value, onChange, options, placeholder = 'Choose…', hasError = false }) {
   const [open, setOpen] = useState(false);
+  const [query, setQuery] = useState('');
   const ref = useRef();
   useEffect(() => {
     if (!open) return;
-    function handle(e) { if (ref.current && !ref.current.contains(e.target)) setOpen(false); }
+    function handle(e) { if (ref.current && !ref.current.contains(e.target)) { setOpen(false); setQuery(''); } }
     document.addEventListener('mousedown', handle);
     return () => document.removeEventListener('mousedown', handle);
   }, [open]);
+  const filtered = query ? options.filter(o => o.toLowerCase().includes(query.toLowerCase())) : options;
   return (
     <div className={styles.dropdownWrap} ref={ref}>
-      <div
-        className={`${styles.dropdownTrigger} ${hasError ? styles.dropdownTriggerError : ''}`}
-        onClick={() => setOpen(v => !v)}
-      >
-        <span className={value ? styles.dropdownValueSelected : styles.dropdownPlaceholder}>
-          {value || placeholder}
-        </span>
-        <span className="material-icons-outlined" style={{ fontSize: 18, color: 'var(--text-light)' }}>expand_more</span>
+      <div className={`${styles.dropdownTrigger} ${hasError ? styles.dropdownTriggerError : ''}`} style={{ padding: '0 10px', gap: 4 }}>
+        <input className={styles.comboInput} value={open ? query : value} placeholder={placeholder} onChange={e => { setQuery(e.target.value); setOpen(true); }} onFocus={() => { setOpen(true); setQuery(''); }} />
+        <span className="material-icons-outlined" style={{ fontSize: 18, color: 'var(--text-light)', flexShrink: 0, cursor: 'pointer' }} onClick={() => setOpen(v => !v)}>expand_more</span>
       </div>
-      {open && (
+      {open && filtered.length > 0 && (
         <div className={styles.dropdown}>
-          {options.map(o => (
-            <div
-              key={o}
-              className={`${styles.dropdownItem} ${value === o ? styles.dropdownItemSelected : ''}`}
-              onClick={() => { onChange(o); setOpen(false); }}
-            >
+          {filtered.map(o => (
+            <div key={o} className={`${styles.dropdownItem} ${value === o ? styles.dropdownItemSelected : ''}`} onClick={() => { onChange(o); setOpen(false); setQuery(''); }}>
               {value === o && <span className="material-icons-outlined" style={{ fontSize: 14, marginRight: 4 }}>check</span>}
               {o}
             </div>

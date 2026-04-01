@@ -19,6 +19,9 @@
 .dropdownWrap { position: relative; }
 .dropdownTrigger { display: flex; align-items: center; justify-content: space-between; height: 40px; border: 1px solid var(--neutral-200); border-radius: 2px; padding: 0 10px; cursor: pointer; background: var(--neutral-00); }
 .dropdownTrigger:hover { border-color: var(--primary-500); }
+.comboInput { flex: 1; border: none; outline: none; background: transparent; font-size: 14px; font-family: inherit; color: var(--text-normal); min-width: 0; }
+.comboInput::placeholder { color: var(--neutral-400); }
+.dropdownSearch { padding: 6px 8px 4px; border-bottom: 1px solid var(--neutral-50); margin-bottom: 4px; }
 .dropdownTriggerError { border-color: var(--alert-500) !important; }
 .dropdownPlaceholder { font-size: 14px; color: var(--neutral-400); }
 .dropdownValueSelected { font-size: 14px; color: var(--text-normal); }
@@ -205,10 +208,13 @@
 }
 .editInput:focus { border-color: var(--neutral-500); }
 .editInput[readonly] { background: var(--neutral-25); color: var(--text-light); }
+.editInput:disabled { background: var(--neutral-25); color: var(--neutral-400); cursor: not-allowed; }
 .hasError .editInput, .hasError select.editInput { border-color: var(--alert-500); }
 .hasError .dropdownTrigger { border-color: var(--alert-500); }
 .hasError .tagSelectTrigger { border-color: var(--alert-500); }
 .fieldError { font-size: 11px; color: var(--alert-500); }
+.typeWarning { display: flex; align-items: center; gap: 6px; margin-top: 6px; padding: 8px 12px; background: var(--warning-50); border: 1px solid var(--warning-300); border-radius: 4px; font-size: 12px; color: var(--text-normal); }
+.summaryPrepopNote { display: flex; align-items: flex-start; gap: 8px; padding: 10px 14px; background: var(--primary-08); border: 1px solid var(--primary-200); border-radius: 4px; font-size: 12px; color: var(--text-light); line-height: 1.5; margin-bottom: 20px; }
 .req { color: var(--alert-500); }
 
 /* Step footer */
