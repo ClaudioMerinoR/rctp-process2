@@ -10,16 +10,16 @@ import styles from './AddThirdParty.module.css';
 /* ─────────────────────── Static data ─────────────────────── */
 
 const DUP_ROWS = [
-  { name: 'THE PIED PIPER EXTERMINATORS INC', duns: '029302064', address: '100 Enterprise Way, Scotts Valley, 95066-3248, California', country: 'United States', ubo: true },
-  { name: 'Pied Piper Mills, Inc.', duns: '057420044', address: '423 E Lake Dr, Hamlin, 79520-4204, Texas', country: 'United States', ubo: true },
-  { name: 'Pied Piper Exterminating Company, Inc.', duns: '027050962', address: '3507 N Sunbelt Dr, San Antonio, 78218-3334, Texas', country: 'United States', ubo: true },
-  { name: 'PIED PIPER PRESCHOOL CHILD CARE INC', duns: '876571803', address: '1108 S Main St, Traer, 50675-1437, Iowa', country: 'United States', ubo: false },
-  { name: 'PIED PIPER PEST CONTROL, INC.', duns: '150146004', address: '1041 Derbigny St, Gretna, 70053-6329, Louisiana', country: 'United States', ubo: false },
-  { name: 'PIED PIPER PRE-SCHOOL OF TRAER, INC.', duns: '803332878', address: '1108 S Main St, Traer, 50675-1437, Iowa', country: 'United States', ubo: false },
-  { name: 'PIED PIPER PRE SCHOOL ASSN (WALLERAWANG) INC', duns: '744662352', address: '18 Pindari Pl, Wallerawang, 2845, NEW SOUTH WALES', country: 'Australia', ubo: false },
-  { name: 'Pied Piper Pest Control, Inc.', duns: '103201968', address: '12026 Gardengate Dr, Saint Louis, 63146-4809, Missouri', country: 'United States', ubo: true },
-  { name: 'Pied Piper Farms Inc', duns: '064212574', address: '423 E Lake Dr, Hamlin, 79520-4204, Texas', country: 'United States', ubo: false },
-  { name: 'Pied Piper International, Inc.', duns: '801595307', address: '163 Little Harbor Rd, New Castle, 03854-9702, New Hampshire', country: 'United States', ubo: true },
+  { name: 'THE PIED PIPER EXTERMINATORS INC', owner: 'Claudio Merino', bu: 'Americas', process: 'Standard RCTP', status: 'Active', ref: 'PP-001', active: 'Active' },
+  { name: 'Pied Piper Mills, Inc.', owner: 'Sarah Johnson', bu: 'Global Operations', process: 'Standard RCTP', status: 'Pending Approval', ref: 'PP-002', active: 'Active' },
+  { name: 'Pied Piper Exterminating Company, Inc.', owner: 'Mark Davis', bu: 'Americas', process: 'Enhanced Due Diligence', status: 'Active', ref: 'PP-003', active: 'Active' },
+  { name: 'PIED PIPER PRESCHOOL CHILD CARE INC', owner: 'Lisa Chen', bu: 'Asia Pacific', process: 'Basic Screening', status: 'Pending Approval', ref: '', active: 'Inactive' },
+  { name: 'PIED PIPER PEST CONTROL, INC.', owner: 'Claudio Merino', bu: 'Americas', process: 'Standard RCTP', status: 'Active', ref: 'PP-005', active: 'Active' },
+  { name: 'PIED PIPER PRE-SCHOOL OF TRAER, INC.', owner: 'Tom Wilson', bu: 'Europe', process: 'Basic Screening', status: 'Active', ref: '', active: 'Active' },
+  { name: 'PIED PIPER PRE SCHOOL ASSN (WALLERAWANG) INC', owner: 'Sarah Johnson', bu: 'Asia Pacific', process: 'Standard RCTP', status: 'Pending Approval', ref: 'PP-007', active: 'Inactive' },
+  { name: 'Pied Piper Pest Control, Inc.', owner: 'Mark Davis', bu: 'Americas', process: 'Standard RCTP', status: 'Active', ref: 'PP-008', active: 'Active' },
+  { name: 'Pied Piper Farms Inc', owner: 'Claudio Merino', bu: 'Americas', process: 'Basic Screening', status: 'Active', ref: '', active: 'Active' },
+  { name: 'Pied Piper International, Inc.', owner: 'Lisa Chen', bu: 'Global Operations', process: 'Enhanced Due Diligence', status: 'Pending Approval', ref: 'PP-010', active: 'Active' },
 ];
 
 const PERSON_DUP_ROWS = [
@@ -129,7 +129,7 @@ export default function AddThirdParty() {
 
   // Summary fields
   const [ownerMode, setOwnerMode] = useState('user');
-  const [owner, setOwner] = useState('');
+  const [owner, setOwner] = useState('Claudio Merino');
   const [businessUnits, setBusinessUnits] = useState([]);
   const [process, setProcess] = useState('Standard RCTP');
   const [policy, setPolicy] = useState('');
@@ -375,53 +375,27 @@ export default function AddThirdParty() {
             </div>
           </div>
 
-          {!isPerson && (
-            <div className={styles.tableWrap}>
-              <table className={styles.dupTable}>
-                <thead>
-                  <tr><th>Name</th><th>DUNS Number</th><th>Address</th><th>Country / Territory</th><th style={{ textAlign: 'center' }}>UBO Status</th><th style={{ width: 40 }} /></tr>
-                </thead>
-                <tbody>
-                  {DUP_ROWS.map((r, i) => (
-                    <tr key={i}>
-                      <td><span className={styles.cellLink} onClick={() => window.open(`${import.meta.env.BASE_URL}#/profile/piedpiper`, '_blank')}>{r.name}</span></td>
-                      <td>{r.duns}</td>
-                      <td>{r.address}</td>
-                      <td>{r.country}</td>
-                      <td className={styles.uboCell}>
-                        <span className={`material-icons-outlined ${r.ubo ? styles.uboOk : styles.uboFail}`}>{r.ubo ? 'check_circle' : 'cancel'}</span>
-                      </td>
-                      <td><button className={styles.moreBtn} onClick={() => setPropsPanel(r.name)}>View properties</button></td>
-                    </tr>
-                  ))}
-                </tbody>
-              </table>
-            </div>
-          )}
-
-          {isPerson && (
-            <div className={styles.tableWrap}>
-              <table className={styles.dupTable}>
-                <thead>
-                  <tr><th>Name</th><th>Owner</th><th>Business Unit</th><th>Process</th><th>Current Status</th><th>Internal Reference</th><th>Active/Inactive</th><th style={{ width: 40 }} /></tr>
-                </thead>
-                <tbody>
-                  {PERSON_DUP_ROWS.map((r, i) => (
-                    <tr key={i}>
-                      <td><span className={styles.cellLink} onClick={() => window.open(`${import.meta.env.BASE_URL}#/profile/${r.name.toLowerCase().replace(/\s+/g,'-')}`, '_blank')}>{r.name}</span></td>
-                      <td>{r.owner}</td>
-                      <td>{r.bu}</td>
-                      <td>{r.process}</td>
-                      <td><span className={styles.statusBadge}>{r.status}</span></td>
-                      <td>{r.ref}</td>
-                      <td>{r.active}</td>
-                      <td><button className={styles.moreBtn} onClick={() => setPropsPanel(r.name)}>View properties</button></td>
-                    </tr>
-                  ))}
-                </tbody>
-              </table>
-            </div>
-          )}
+          <div className={styles.tableWrap}>
+            <table className={styles.dupTable}>
+              <thead>
+                <tr><th>Name</th><th>Owner</th><th>Business Unit</th><th>Process</th><th>Current Status</th><th>Internal Reference</th><th>Active/Inactive</th><th style={{ width: 40 }} /></tr>
+              </thead>
+              <tbody>
+                {(isPerson ? PERSON_DUP_ROWS : DUP_ROWS).map((r, i) => (
+                  <tr key={i}>
+                    <td><span className={styles.cellLink} onClick={() => window.open(`${import.meta.env.BASE_URL}#/profile/piedpiper`, '_blank')}>{r.name}</span></td>
+                    <td>{r.owner}</td>
+                    <td>{r.bu}</td>
+                    <td>{r.process}</td>
+                    <td><span className={styles.statusBadge}>{r.status}</span></td>
+                    <td>{r.ref}</td>
+                    <td>{r.active}</td>
+                    <td><button className={styles.moreBtn} onClick={() => setPropsPanel(r.name)}>View properties</button></td>
+                  </tr>
+                ))}
+              </tbody>
+            </table>
+          </div>
 
         </motion.div>
       )}
@@ -559,7 +533,7 @@ export default function AddThirdParty() {
               <div className={`${styles.editField} ${errors.owner ? styles.hasError : ''}`} ref={ownerRef}>
                 <label className={styles.editLabel}>
                   Third Party Owner <span className={styles.req}>*</span>
-                  <span className={styles.infoTip} title="Each third party requires a group or user owner.">
+                  <span className={styles.infoTip} data-tooltip="Each third party requires a group or user owner">
                     <span className="material-icons-outlined" style={{ fontSize: 16 }}>info</span>
                   </span>
                 </label>
@@ -650,9 +624,6 @@ export default function AddThirdParty() {
               <div className={styles.editField} ref={processRef}>
                 <label className={styles.editLabel}>
                   Process
-                  <span className={styles.infoTip} title="The process defines the compliance workflow applied to this third party.">
-                    <span className="material-icons-outlined" style={{ fontSize: 16 }}>info</span>
-                  </span>
                 </label>
                 <div className={styles.dropdownWrap}>
                   <div className={styles.dropdownTrigger} onClick={() => setProcessOpen(v => !v)}>
@@ -676,7 +647,7 @@ export default function AddThirdParty() {
               <div className={styles.editField} ref={policyRef}>
                 <label className={styles.editLabel}>
                   Screening &amp; Monitoring Policy <span className={styles.req}>*</span>
-                  <span className={styles.infoTip} title="The Screening & Monitoring Policy determines how the third party will be screened and monitored.">
+                  <span className={styles.infoTip} data-tooltip="The Screening & Monitoring Policy determines how the third party will be screened and monitored against the Dow Jones Risk and Compliance database. Only the process default or ad hoc policies can be selected.">
                     <span className="material-icons-outlined" style={{ fontSize: 16 }}>info</span>
                   </span>
                 </label>
