@@ -224,6 +224,14 @@ export default function AddThirdParty() {
     }
   }, [tpDuns]);
 
+  // Auto-run entity verification if country or DUNS was provided
+  useEffect(() => {
+    if (continued && tpType === 'entity' && (tpCountry || tpDuns)) {
+      setShowVerify(true);
+      setVerifyCountry(tpCountry || 'United States');
+    }
+  }, [continued, tpType, tpCountry, tpDuns]);
+
   // Reset sections when type changes
   useEffect(() => {
     setContinued(false);
@@ -303,9 +311,13 @@ export default function AddThirdParty() {
     setShowCancelModal(true);
   }
 
-  const filteredVerify = verifyCountry
-    ? VERIFY_ROWS.filter(r => r.country.toLowerCase().includes(verifyCountry.toLowerCase()))
-    : VERIFY_ROWS;
+  const filteredVerify = VERIFY_ROWS.filter(r => {
+    const countryMatch = !verifyCountry || verifyCountry === 'All countries'
+      ? true
+      : r.country.toLowerCase().includes(verifyCountry.toLowerCase());
+    const dunsMatch = !tpDuns ? true : r.duns.includes(tpDuns.trim());
+    return countryMatch && dunsMatch;
+  });
 
   const isPerson = tpType === 'person';
 
@@ -357,22 +369,34 @@ export default function AddThirdParty() {
           {errors.name && <div className={styles.fieldError}>Third Party Name is required.</div>}
         </div>
 
-        {/* ── Optional: Country & DUNS Number ── */}
-        <div className={styles.nameRow} style={{ marginTop: 16 }}>
-          <div className={styles.nameField}>
-            <div className={styles.obLabel} style={{ marginBottom: 6 }}>Country</div>
-            <ObSelect value={tpCountry} onChange={v => setTpCountry(v)} options={COUNTRIES} placeholder="Select a country" disabled={!tpType} />
-          </div>
-          <div className={styles.nameField}>
-            <div className={styles.obLabel} style={{ marginBottom: 6 }}>DUNS Number</div>
-            <input className={styles.obInput} type="text" placeholder="Enter DUNS number" value={tpDuns} onChange={e => setTpDuns(e.target.value)} disabled={!tpType || tpType === 'person'} />
-          </div>
-        </div>
+        {/* ── Optional: Country & DUNS Number (entity only) ── */}
+        <AnimatePresence>
+          {tpType === 'entity' && (
+            <motion.div
+              key="country-duns"
+              className={styles.nameRow}
+              style={{ marginTop: 16 }}
+              initial={{ opacity: 0, y: -10 }}
+              animate={{ opacity: 1, y: 0 }}
+              exit={{ opacity: 0, y: -10 }}
+              transition={{ duration: 0.2 }}
+            >
+              <div className={styles.nameField}>
+                <div className={styles.sectionHeading} style={{ marginBottom: 8, paddingBottom: 0, borderBottom: 'none' }}>Country / Territory</div>
+                <ObSelect value={tpCountry} onChange={v => setTpCountry(v)} options={COUNTRIES} placeholder="Select a country" />
+              </div>
+              <div className={styles.nameField}>
+                <div className={styles.sectionHeading} style={{ marginBottom: 8, paddingBottom: 0, borderBottom: 'none' }}>DUNS Number</div>
+                <input className={styles.editInput} type="text" placeholder="Enter DUNS number" value={tpDuns} onChange={e => setTpDuns(e.target.value)} />
+              </div>
+            </motion.div>
+          )}
+        </AnimatePresence>
 
         {/* ── Continue row ── */}
         {!continued && (
           <div style={{ display: 'flex', alignItems: 'center', justifyContent: 'flex-end', gap: 12, marginTop: 16 }}>
-            {!tpType && <p className={styles.helperText} style={{ margin: 0 }}>Please select a Third Party Type before continuing.</p>}
+            {!tpType && <p className={styles.helperText} style={{ margin: 0 }}>Please select a Third Party Type and name before continue.</p>}
             <button
               className={styles.btnFilled}
               disabled={!tpType || !tpName.trim()}
@@ -484,34 +508,38 @@ export default function AddThirdParty() {
                 <ObSelect value={verifyCountry} onChange={setVerifyCountry} options={['All countries', 'Australia', 'United States']} placeholder="All countries" />
               </div>
               <div className={styles.resultsHeader}>
-                <span><strong>265</strong> results found</span>
+                <span><strong>{filteredVerify.length}</strong> {filteredVerify.length === 1 ? 'result' : 'results'} found</span>
                 <span className={styles.sourceBadge}><span className="material-icons-outlined" style={{ fontSize: 12 }}>verified</span> Dun &amp; Bradstreet</span>
               </div>
-              <div className={styles.tableWrap}>
-                <table className={styles.verifyTable}>
-                  <thead><tr><th /><th>Name</th><th>DUNS Number</th><th>Address</th><th>Country/Territory</th><th>UBO Status</th></tr></thead>
-                  <tbody>
-                    {filteredVerify.map((r, i) => (
-                      <tr key={i} className={selectedVerify === r.duns ? styles.rowSelected : ''}>
-                        <td>
-                          <input
-                            type="radio"
-                            name="verify-pick"
-                            checked={selectedVerify === r.duns}
-                            onChange={() => { setSelectedVerify(r.duns); applyVerification(r.duns); }}
-                            style={{ accentColor: 'var(--primary-500)' }}
-                          />
-                        </td>
-                        <td style={{ fontWeight: 500, color: 'var(--text-normal)' }}>{r.name}</td>
-                        <td style={{ fontFamily: 'monospace', fontSize: 12 }}>{r.duns}</td>
-                        <td style={{ fontSize: 12, maxWidth: 240 }}>{r.address}</td>
-                        <td>{r.country}</td>
-                        <td className={styles.uboCell}><span className={`material-icons-outlined ${r.ubo ? styles.uboOk : styles.uboFail}`}>{r.ubo ? 'check_circle' : 'cancel'}</span></td>
-                      </tr>
-                    ))}
-                  </tbody>
-                </table>
-              </div>
+              {filteredVerify.length === 0 ? (
+                <div className={styles.emptyVerify}>No entities were found matching your search criteria.</div>
+              ) : (
+                <div className={styles.tableWrap}>
+                  <table className={styles.verifyTable}>
+                    <thead><tr><th /><th>Name</th><th>DUNS Number</th><th>Address</th><th>Country/Territory</th><th>UBO Status</th></tr></thead>
+                    <tbody>
+                      {filteredVerify.map((r, i) => (
+                        <tr key={i} className={selectedVerify === r.duns ? styles.rowSelected : ''}>
+                          <td>
+                            <input
+                              type="radio"
+                              name="verify-pick"
+                              checked={selectedVerify === r.duns}
+                              onChange={() => { setSelectedVerify(r.duns); applyVerification(r.duns); }}
+                              style={{ accentColor: 'var(--primary-500)' }}
+                            />
+                          </td>
+                          <td style={{ fontWeight: 500, color: 'var(--text-normal)' }}>{r.name}</td>
+                          <td style={{ fontFamily: 'monospace', fontSize: 12 }}>{r.duns}</td>
+                          <td style={{ fontSize: 12, maxWidth: 240 }}>{r.address}</td>
+                          <td>{r.country}</td>
+                          <td className={styles.uboCell}><span className={`material-icons-outlined ${r.ubo ? styles.uboOk : styles.uboFail}`}>{r.ubo ? 'check_circle' : 'cancel'}</span></td>
+                        </tr>
+                      ))}
+                    </tbody>
+                  </table>
+                </div>
+              )}
 
               <div className={styles.verifyPagination}>
                 <div className={styles.verifyPaginationLeft}>
@@ -1266,7 +1294,7 @@ function CancelModal({ onStay, onLeave }) {
 
 /* ─────────────────────── ObSelect — custom dropdown matching page style ─────────────────────── */
 
-function ObSelect({ value, onChange, options, placeholder = 'Choose…', hasError = false, disabled = false }) {
+function ObSelect({ value, onChange, options, placeholder = 'Choose…', hasError = false }) {
   const [open, setOpen] = useState(false);
   const [query, setQuery] = useState('');
   const ref = useRef();
@@ -1279,7 +1307,7 @@ function ObSelect({ value, onChange, options, placeholder = 'Choose…', hasErro
   const filtered = query ? options.filter(o => o.toLowerCase().includes(query.toLowerCase())) : options;
   return (
     <div className={styles.dropdownWrap} ref={ref}>
-      <div className={`${styles.dropdownTrigger} ${hasError ? styles.dropdownTriggerError : ''} ${disabled ? styles.dropdownTriggerDisabled : ''}`} style={{ padding: '0 10px', gap: 4 }}>
+      <div className={`${styles.dropdownTrigger} ${hasError ? styles.dropdownTriggerError : ''}`} style={{ padding: '0 10px', gap: 4 }}>
         <input className={styles.comboInput} value={open ? query : value} placeholder={placeholder} onChange={e => { setQuery(e.target.value); setOpen(true); }} onFocus={() => { setOpen(true); setQuery(''); }} />
         <span className="material-icons-outlined" style={{ fontSize: 18, color: 'var(--text-light)', flexShrink: 0, cursor: 'pointer' }} onClick={() => setOpen(v => !v)}>expand_more</span>
       </div>

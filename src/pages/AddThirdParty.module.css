@@ -22,10 +22,7 @@
 .comboInput { flex: 1; border: none; outline: none; background: transparent; font-size: 14px; font-family: inherit; color: var(--text-normal); min-width: 0; }
 .comboInput::placeholder { color: var(--neutral-400); }
 .dropdownSearch { padding: 6px 8px 4px; border-bottom: 1px solid var(--neutral-50); margin-bottom: 4px; }
-.dropdownTriggerError { border-color: var(--alert-500) !important; }
-.dropdownTriggerDisabled { background: var(--neutral-25); cursor: not-allowed; pointer-events: none; }
-.dropdownTriggerDisabled .comboInput { color: var(--neutral-400); cursor: not-allowed; background: var(--neutral-25); }
-.dropdownPlaceholder { font-size: 14px; color: var(--neutral-400); }
+.dropdownTriggerError { border-color: var(--alert-500) !important; }.dropdownPlaceholder { font-size: 14px; color: var(--neutral-400); }
 .dropdownValueSelected { font-size: 14px; color: var(--text-normal); }
 .dropdown { position: absolute; top: 100%; left: 0; right: 0; background: var(--neutral-00); border: 1px solid rgba(0,0,0,0.1); box-shadow: 0 4px 16px rgba(0,0,0,0.12); z-index: 200; max-height: 240px; overflow-y: auto; padding: 4px 6px; }
 .dropdownItem { min-height: 32px; padding: 8px 8px; font-size: 12px; font-weight: 500; text-transform: uppercase; letter-spacing: 1px; color: var(--neutral-500); cursor: pointer; border-radius: 2px; display: flex; align-items: center; }
@@ -280,6 +277,7 @@
 .verifyTable tbody tr:hover td { background: var(--neutral-25); }
 .rowSelected td { background: var(--primary-08) !important; }
 .resultsHeader { display: flex; align-items: center; justify-content: space-between; margin-bottom: 8px; font-size: 12px; color: var(--text-light); }
+.emptyVerify { padding: 32px 16px; text-align: center; font-size: 13px; color: var(--text-light); border: 1px solid var(--neutral-100); border-radius: 4px; background: var(--neutral-25); }
 .sourceBadge { display: inline-flex; align-items: center; gap: 4px; font-size: 10px; font-weight: 600; letter-spacing: 0.4px; padding: 2px 6px; border-radius: 2px; background: var(--neutral-25); color: var(--neutral-500); text-transform: uppercase; }
 .skipOption { display: flex; align-items: center; gap: 8px; font-size: 13px; color: var(--text-light); margin-top: 12px; cursor: pointer; padding: 12px 0; }
 .skipOption:hover { color: var(--text-normal); }
