@@ -23,6 +23,8 @@
 .comboInput::placeholder { color: var(--neutral-400); }
 .dropdownSearch { padding: 6px 8px 4px; border-bottom: 1px solid var(--neutral-50); margin-bottom: 4px; }
 .dropdownTriggerError { border-color: var(--alert-500) !important; }
+.dropdownTriggerDisabled { background: var(--neutral-25); cursor: not-allowed; pointer-events: none; }
+.dropdownTriggerDisabled .comboInput { color: var(--neutral-400); cursor: not-allowed; background: var(--neutral-25); }
 .dropdownPlaceholder { font-size: 14px; color: var(--neutral-400); }
 .dropdownValueSelected { font-size: 14px; color: var(--text-normal); }
 .dropdown { position: absolute; top: 100%; left: 0; right: 0; background: var(--neutral-00); border: 1px solid rgba(0,0,0,0.1); box-shadow: 0 4px 16px rgba(0,0,0,0.12); z-index: 200; max-height: 240px; overflow-y: auto; padding: 4px 6px; }
@@ -344,6 +346,7 @@
 .obInput:focus { border-color: var(--primary-500); }
 .obInput::placeholder { color: var(--neutral-400); }
 .obInput[readonly] { background: var(--neutral-25); color: var(--text-light); cursor: default; }
+.obInput:disabled { background: var(--neutral-25); color: var(--neutral-400); cursor: not-allowed; }
 .obTextarea { height: auto; min-height: 64px; padding: 8px 10px; resize: vertical; line-height: 1.5; }
 .obSelect {
   appearance: none; -webkit-appearance: none; cursor: pointer;

@@ -122,6 +122,8 @@ export default function AddThirdParty() {
   // TP type & name
   const [tpType, setTpType] = useState('');
   const [tpName, setTpName] = useState('');
+  const [tpCountry, setTpCountry] = useState('');
+  const [tpDuns, setTpDuns] = useState('');
 
   // Flow state
   const [continued, setContinued] = useState(false);
@@ -206,6 +208,21 @@ export default function AddThirdParty() {
     updateObP('legalName', tpName);
     updateObU('legalName', tpName);
   }, [tpName]);
+
+  useEffect(() => {
+    if (tpCountry) {
+      setOb(prev => ({ ...prev, country: tpCountry }));
+      setObPerson(prev => ({ ...prev, country: tpCountry }));
+      setObUnknown(prev => ({ ...prev, country: tpCountry }));
+    }
+  }, [tpCountry]);
+
+  useEffect(() => {
+    if (tpDuns) {
+      setOb(prev => ({ ...prev, idType: 'DUNS Number', idValue: tpDuns }));
+      setObUnknown(prev => ({ ...prev, idType: 'DUNS Number', idValue: tpDuns }));
+    }
+  }, [tpDuns]);
 
   // Reset sections when type changes
   useEffect(() => {
@@ -328,32 +345,44 @@ export default function AddThirdParty() {
 
         {/* ── Third Party Name ── */}
         <div className={styles.sectionHeading} style={{ marginTop: 24 }}><span>Third Party Name <span className={styles.req}>*</span></span></div>
-        <div className={styles.nameRow}>
-          <div className={`${styles.nameField} ${errors.name ? styles.hasError : ''}`}>
-            <input
-              className={styles.editInput}
-              type="text"
-              placeholder="Enter the full legal name"
-              value={tpName}
-              disabled={!tpType}
-              onChange={e => { setTpName(e.target.value); setErrors(prev => ({ ...prev, name: false })); }}
-            />
-            {!tpType && <p className={styles.helperText}>Please select a Third Party Type before entering a name.</p>}
-            {errors.name && <div className={styles.fieldError}>Third Party Name is required.</div>}
-          </div>
-          {!continued && (
-            <div className={styles.nameActions}>
-              <button
-                className={styles.btnFilled}
-                disabled={!tpType || !tpName.trim()}
-                onClick={handleContinue}
-                style={{ height: 40, padding: '0 20px' }}
-              >
-                Continue
-              </button>
-            </div>
-          )}
+        <div className={`${styles.nameField} ${errors.name ? styles.hasError : ''}`}>
+          <input
+            className={styles.editInput}
+            type="text"
+            placeholder="Enter the full legal name"
+            value={tpName}
+            disabled={!tpType}
+            onChange={e => { setTpName(e.target.value); setErrors(prev => ({ ...prev, name: false })); }}
+          />
+          {errors.name && <div className={styles.fieldError}>Third Party Name is required.</div>}
         </div>
+
+        {/* ── Optional: Country & DUNS Number ── */}
+        <div className={styles.nameRow} style={{ marginTop: 16 }}>
+          <div className={styles.nameField}>
+            <div className={styles.obLabel} style={{ marginBottom: 6 }}>Country</div>
+            <ObSelect value={tpCountry} onChange={v => setTpCountry(v)} options={COUNTRIES} placeholder="Select a country" disabled={!tpType} />
+          </div>
+          <div className={styles.nameField}>
+            <div className={styles.obLabel} style={{ marginBottom: 6 }}>DUNS Number</div>
+            <input className={styles.obInput} type="text" placeholder="Enter DUNS number" value={tpDuns} onChange={e => setTpDuns(e.target.value)} disabled={!tpType || tpType === 'person'} />
+          </div>
+        </div>
+
+        {/* ── Continue row ── */}
+        {!continued && (
+          <div style={{ display: 'flex', alignItems: 'center', justifyContent: 'flex-end', gap: 12, marginTop: 16 }}>
+            {!tpType && <p className={styles.helperText} style={{ margin: 0 }}>Please select a Third Party Type before continuing.</p>}
+            <button
+              className={styles.btnFilled}
+              disabled={!tpType || !tpName.trim()}
+              onClick={handleContinue}
+              style={{ height: 40, padding: '0 20px', flexShrink: 0 }}
+            >
+              Continue
+            </button>
+          </div>
+        )}
 
       </div>
 
@@ -1237,7 +1266,7 @@ function CancelModal({ onStay, onLeave }) {
 
 /* ─────────────────────── ObSelect — custom dropdown matching page style ─────────────────────── */
 
-function ObSelect({ value, onChange, options, placeholder = 'Choose…', hasError = false }) {
+function ObSelect({ value, onChange, options, placeholder = 'Choose…', hasError = false, disabled = false }) {
   const [open, setOpen] = useState(false);
   const [query, setQuery] = useState('');
   const ref = useRef();
@@ -1250,7 +1279,7 @@ function ObSelect({ value, onChange, options, placeholder = 'Choose…', hasErro
   const filtered = query ? options.filter(o => o.toLowerCase().includes(query.toLowerCase())) : options;
   return (
     <div className={styles.dropdownWrap} ref={ref}>
-      <div className={`${styles.dropdownTrigger} ${hasError ? styles.dropdownTriggerError : ''}`} style={{ padding: '0 10px', gap: 4 }}>
+      <div className={`${styles.dropdownTrigger} ${hasError ? styles.dropdownTriggerError : ''} ${disabled ? styles.dropdownTriggerDisabled : ''}`} style={{ padding: '0 10px', gap: 4 }}>
         <input className={styles.comboInput} value={open ? query : value} placeholder={placeholder} onChange={e => { setQuery(e.target.value); setOpen(true); }} onFocus={() => { setOpen(true); setQuery(''); }} />
         <span className="material-icons-outlined" style={{ fontSize: 18, color: 'var(--text-light)', flexShrink: 0, cursor: 'pointer' }} onClick={() => setOpen(v => !v)}>expand_more</span>
       </div>
