@@ -134,7 +134,7 @@ export default function AddThirdParty() {
   const [owner, setOwner] = useState('Claudio Merino');
   const [businessUnit, setBusinessUnit] = useState('Europe');
   const [process, setProcess] = useState('Standard RCTP');
-  const [policy, setPolicy] = useState('');
+  const [policy, setPolicy] = useState('Default Standard KYBP Policy');
   const [tags, setTags] = useState([]);
 
   // Entity verification
@@ -700,7 +700,7 @@ export default function AddThirdParty() {
                   {processOpen && (
                     <div className={styles.dropdown}>
                       {PROCESS_OPTIONS.filter(o => !processQuery || o.toLowerCase().includes(processQuery.toLowerCase())).map(o => (
-                        <div key={o} className={`${styles.dropdownItem} ${process === o ? styles.dropdownItemSelected : ''}`} onClick={() => { setProcess(o); setPolicy(''); setProcessOpen(false); setProcessQuery(''); }}>
+                        <div key={o} className={`${styles.dropdownItem} ${process === o ? styles.dropdownItemSelected : ''}`} onClick={() => { setProcess(o); setPolicy(PROCESS_POLICIES[o]?.managed[0] || ''); setProcessOpen(false); setProcessQuery(''); }}>
                           {process === o && <span className="material-icons-outlined" style={{ fontSize: 14, marginRight: 4 }}>check</span>}
                           {o}
                         </div>
