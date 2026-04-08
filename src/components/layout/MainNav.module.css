@@ -1,6 +1,6 @@
 .nav {
   background-color: var(--primary-500);
-  height: 32px;
+  height: 36px;
 }
 .inner {
   max-width: 1920px;
@@ -14,13 +14,31 @@
   display: flex;
   align-items: center;
   padding: 0 16px;
-  color: var(--neutral-00);
+  color: rgba(255, 255, 255, 0.85);
   font-size: 12px;
   font-weight: 500;
   text-transform: uppercase;
   letter-spacing: 0.5px;
   text-decoration: none;
-  transition: background 0.2s;
+  position: relative;
+  transition: background 0.15s ease, color 0.15s ease;
 }
-.link:hover { background: var(--primary-600); }
-.active { background: var(--primary-600); }
+.link:hover { background: var(--primary-600); color: #fff; }
+.link:focus-visible {
+  outline: 2px solid rgba(255, 255, 255, 0.7);
+  outline-offset: -3px;
+}
+.active {
+  background: var(--primary-600);
+  color: #fff;
+}
+.active::after {
+  content: '';
+  position: absolute;
+  bottom: 0;
+  left: 0;
+  right: 0;
+  height: 2px;
+  background: #fff;
+  border-radius: 1px 1px 0 0;
+}

@@ -14,13 +14,18 @@
   cursor: pointer;
   border: none;
   white-space: nowrap;
-  transition: background 0.2s, border-color 0.2s;
+  transition: background 0.15s ease, border-color 0.15s ease, color 0.15s ease;
 }
-.filled  { background: var(--primary-500); color: var(--neutral-25); }
+.btn:focus-visible {
+  outline: 2px solid var(--primary-500);
+  outline-offset: 2px;
+}
+.filled  { background: var(--primary-500); color: #fff; }
 .filled:hover { background: var(--primary-600); }
 .outline { background: var(--neutral-00); border: 1px solid var(--neutral-300); color: var(--text-light); }
-.outline:hover { background: var(--neutral-25); color: var(--text-normal); }
-.soft    { background: var(--primary-200); color: var(--neutral-25); }
-.soft:hover { background: var(--primary-500); }
+.outline:hover { background: var(--neutral-25); color: var(--text-normal); border-color: var(--neutral-400); }
+/* soft: tinted button — primary-08 bg with primary-700 text (passes WCAG AA contrast) */
+.soft    { background: var(--primary-08); color: var(--primary-700); border: 1px solid var(--primary-200); }
+.soft:hover { background: var(--primary-50); border-color: var(--primary-300); }
 .ghost   { background: none; border: none; color: var(--text-light); }
 .ghost:hover { color: var(--text-normal); }

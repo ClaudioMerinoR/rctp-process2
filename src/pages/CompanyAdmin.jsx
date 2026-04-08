@@ -253,17 +253,6 @@ const INITIAL_ADDITIONAL = [
 ];
 
 /* ── Connections section (static, from the page concept) ── */
-const CONNECTIONS_SLOTS = [
-  { value: slugify('Third Party Contract Name'),        readonly: false },
-  { value: slugify('Third Party Contract Description'), readonly: false },
-  { value: slugify('Contract Value Amount'),            readonly: false },
-  { value: slugify('Contract Value Banding'),           readonly: false },
-  { value: slugify('Key Products'),                     readonly: false },
-  { value: slugify('Third Party Service Type Other'),   readonly: false },
-  { value: '',                                          readonly: false },
-  { value: '',                                          readonly: false },
-];
-
 /* ── Left admin nav items ── */
 const ADMIN_NAV_ITEMS = [
   'Summary',
@@ -430,12 +419,10 @@ export default function CompanyAdmin() {
   /* slot state — working copies + committed originals */
   const [overviewSlots, setOverviewSlots] = useState(INITIAL_OVERVIEW);
   const [additionalSlots, setAdditionalSlots] = useState(INITIAL_ADDITIONAL);
-  const [connectionsSlots, setConnectionsSlots] = useState(CONNECTIONS_SLOTS);
 
   /* originals — restored on Cancel */
   const [origOverview, setOrigOverview] = useState(INITIAL_OVERVIEW);
   const [origAdditional, setOrigAdditional] = useState(INITIAL_ADDITIONAL);
-  const [origConnections, setOrigConnections] = useState(CONNECTIONS_SLOTS);
 
   function handleEdit() {
     setIsEditing(true);
@@ -445,14 +432,12 @@ export default function CompanyAdmin() {
     setIsEditing(false);
     setOverviewSlots(origOverview.map(s => ({ ...s })));
     setAdditionalSlots(origAdditional.map(s => ({ ...s })));
-    setConnectionsSlots(origConnections.map(s => ({ ...s })));
   }
 
   function handleSave() {
     setIsEditing(false);
     setOrigOverview(overviewSlots.map(s => ({ ...s })));
     setOrigAdditional(additionalSlots.map(s => ({ ...s })));
-    setOrigConnections(connectionsSlots.map(s => ({ ...s })));
     setShowAlert(true);
     clearTimeout(alertTimerRef.current);
     alertTimerRef.current = setTimeout(() => setShowAlert(false), 5000);
@@ -551,7 +536,7 @@ export default function CompanyAdmin() {
           <div className={styles.contentDivider} />
 
           {/* Additional Details section */}
-          <div className={styles.contentSection}>
+          <div className={`${styles.contentSection} ${styles.contentSectionBottom}`}>
             <div className={styles.sectionHeading}>Additional Details</div>
             <div className={styles.sectionDesc}>
               Select which fields appear in each position of the Additional Details tab on the Third Party summary page.
@@ -563,21 +548,6 @@ export default function CompanyAdmin() {
             />
           </div>
 
-          <div className={styles.sectionGapInner} />
-          <div className={styles.contentDivider} />
-
-          {/* Connections section */}
-          <div className={`${styles.contentSection} ${styles.contentSectionBottom}`}>
-            <div className={styles.sectionHeading}>Connections</div>
-            <div className={styles.sectionDesc}>
-              Select which fields appear in each position of the Connections tab on the Third Party summary page.
-            </div>
-            <SlotGrid
-              slots={connectionsSlots}
-              isEditing={isEditing}
-              onChange={(i, v) => updateSlot(setConnectionsSlots, i, v)}
-            />
-          </div>
 
         </div>
       </div>

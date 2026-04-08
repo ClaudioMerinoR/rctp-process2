@@ -1,8 +1,8 @@
+
 .card {
   background: var(--neutral-00);
   border-radius: 4px;
   box-shadow: 0 2px 4px rgba(0,0,0,0.08);
-  margin-top: 16px;
   overflow: hidden;
 }
 .titleRow {
@@ -40,18 +40,22 @@
   color: var(--text-normal); background: var(--neutral-00);
 }
 .searchInput::placeholder { color: var(--text-light-alt); }
+.searchInput:focus {
+  outline: none;
+  border-color: var(--primary-500);
+  box-shadow: 0 0 0 3px rgba(2, 163, 213, 0.12);
+}
 
 .tableWrap { overflow-x: auto; padding: 0 16px; }
 table { width: 100%; border-collapse: collapse; font-size: 13px; min-width: 900px; }
 thead th {
   background: var(--neutral-25);
-  border-top: 1px solid var(--neutral-50); border-bottom: 1px solid var(--neutral-50);
-  border-left: 1px solid var(--neutral-50);
+  border-top: 1px solid var(--neutral-50);
+  border-bottom: 1px solid var(--neutral-100);
   padding: 8px; text-align: left;
-  font-size: 11px; font-weight: 500; color: var(--text-light);
+  font-size: 11px; font-weight: 600; color: var(--text-light);
   text-transform: uppercase; letter-spacing: 0.5px; white-space: nowrap;
 }
-thead th:first-child { border-left: none; }
 tbody tr { border-bottom: 1px solid var(--neutral-50); transition: background 0.15s; }
 tbody tr:nth-child(odd)  { background: var(--primary-08); }
 tbody tr:nth-child(even) { background: var(--neutral-00); }
