@@ -199,7 +199,7 @@ export default function ProfileRiskReport() {
       ]} />
 
       {/* Top Strip */}
-      <div className={styles.tpTopStrip}>
+      <div className={`${styles.tpTopStrip}${riskLevel === 'high' ? ' ' + styles.tpTopStripHigh : riskLevel === 'medium' ? ' ' + styles.tpTopStripMedium : riskLevel === 'low' ? ' ' + styles.tpTopStripLow : ''}`}>
         <div className={styles.tpPageHeader}>
           <Link to={`/profile/${profile.id}`} className={styles.tpBack}>
             <span className="material-icons-outlined">chevron_left</span> Back

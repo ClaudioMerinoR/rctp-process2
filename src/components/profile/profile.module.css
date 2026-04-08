@@ -6,6 +6,76 @@
 .tpTopStrip {
   background-color: var(--neutral-00);
   padding: 0 16px;
+  margin: 0 16px;
+  position: relative;
+}
+
+.tpTopStripHigh {
+  background-image:
+    linear-gradient(to left, rgba(254, 202, 202, 0.1) 0%, rgba(255, 255, 255, 0) 25%),
+    linear-gradient(182.718deg, rgba(227, 76, 83, 0.12) 0%, rgba(227, 76, 83, 0.06) 50%, transparent 100%);
+}
+
+.tpTopStripHigh::after {
+  content: '';
+  position: absolute;
+  top: 0;
+  right: 0;
+  width: 4px;
+  height: 100%;
+  background: linear-gradient(180deg, rgb(220, 38, 38) 0%, rgb(248, 113, 113) 100%);
+  box-shadow: -2px 0 8px 0 rgba(220, 38, 38, 0.3);
+}
+
+.tpTopStripPending {
+  background-image:
+    linear-gradient(to left, rgba(141, 156, 169, 0.1) 0%, rgba(255, 255, 255, 0) 25%),
+    linear-gradient(182.718deg, rgba(141, 156, 169, 0.12) 0%, rgba(141, 156, 169, 0.06) 50%, transparent 100%);
+}
+
+.tpTopStripPending::after {
+  content: '';
+  position: absolute;
+  top: 0;
+  right: 0;
+  width: 4px;
+  height: 100%;
+  background: linear-gradient(180deg, var(--neutral-500) 0%, var(--neutral-300) 100%);
+  box-shadow: -2px 0 8px 0 rgba(141, 156, 169, 0.3);
+}
+
+.tpTopStripLow {
+  background-image:
+    linear-gradient(to left, rgba(19, 223, 129, 0.1) 0%, rgba(255, 255, 255, 0) 25%),
+    linear-gradient(182.718deg, rgba(19, 223, 129, 0.12) 0%, rgba(19, 223, 129, 0.06) 50%, transparent 100%);
+}
+
+.tpTopStripLow::after {
+  content: '';
+  position: absolute;
+  top: 0;
+  right: 0;
+  width: 4px;
+  height: 100%;
+  background: linear-gradient(180deg, var(--success-700) 0%, var(--success-500) 100%);
+  box-shadow: -2px 0 8px 0 rgba(19, 223, 129, 0.3);
+}
+
+.tpTopStripMedium {
+  background-image:
+    linear-gradient(to left, rgba(240, 192, 67, 0.1) 0%, rgba(255, 255, 255, 0) 25%),
+    linear-gradient(182.718deg, rgba(240, 192, 67, 0.12) 0%, rgba(240, 192, 67, 0.06) 50%, transparent 100%);
+}
+
+.tpTopStripMedium::after {
+  content: '';
+  position: absolute;
+  top: 0;
+  right: 0;
+  width: 4px;
+  height: 100%;
+  background: linear-gradient(180deg, var(--warning-500) 0%, var(--warning-300) 100%);
+  box-shadow: -2px 0 8px 0 rgba(240, 192, 67, 0.3);
 }
 
 .tpPageHeader {

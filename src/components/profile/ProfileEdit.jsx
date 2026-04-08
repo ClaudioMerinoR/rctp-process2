@@ -97,7 +97,7 @@ export default function ProfileEdit() {
       ]} />
 
       {/* Top Strip */}
-      <div className={profileStyles.tpTopStrip}>
+      <div className={`${profileStyles.tpTopStrip}${profile.riskLevel.level === 'high' ? ' ' + profileStyles.tpTopStripHigh : profile.riskLevel.level === 'medium' ? ' ' + profileStyles.tpTopStripMedium : profile.riskLevel.level === 'low' ? ' ' + profileStyles.tpTopStripLow : ''}`}>
         <div className={profileStyles.tpPageHeader}>
           <Link to={`/profile/${profile.id}`} className={profileStyles.tpBack}>
             <span className="material-icons-outlined">chevron_left</span> Back

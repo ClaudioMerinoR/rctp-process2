@@ -3,7 +3,7 @@ import PageLayout from '../components/layout/PageLayout';
 import Breadcrumb from '../components/layout/Breadcrumb';
 import RiskBadge from '../components/ui/RiskBadge';
 import Button from '../components/ui/Button';
-import { piedpiper, brucewayne, gazprom } from '../data/profiles';
+import { piedpiper, brucewayne, gazprom, initech } from '../data/profiles';
 import styles from './ThirdParties.module.css';
 
 function getOwner(p) { return p.overviewFields.find(f => f.label === 'Third Party Owner')?.value || ''; }
@@ -23,6 +23,7 @@ const ROWS = [
   { profile: piedpiper,   id: 'piedpiper' },
   { profile: brucewayne,  id: 'brucewayne' },
   { profile: gazprom,     id: 'gazprom' },
+  { profile: initech,     id: 'initech' },
 ].map(({ profile, id }) => ({
   id,
   name:   profile.name,
@@ -106,7 +107,7 @@ export default function ThirdParties() {
             <select className={styles.pageSize}>
               <option>20</option><option>50</option><option>100</option>
             </select>
-            <span>Showing results 1 – 3 of 3</span>
+            <span>Showing results 1 – {ROWS.length} of {ROWS.length}</span>
           </div>
           <div className={styles.paginationRight}>
             <button className={styles.pageBtn} disabled><span className="material-icons-outlined">first_page</span></button>

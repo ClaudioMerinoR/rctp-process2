@@ -43,7 +43,7 @@ export default function ProfileDocuments() {
       ]} />
 
       {/* Top Strip */}
-      <div className={styles.tpTopStrip}>
+      <div className={`${styles.tpTopStrip}${profile.riskLevel.level === 'high' ? ' ' + styles.tpTopStripHigh : profile.riskLevel.level === 'medium' ? ' ' + styles.tpTopStripMedium : profile.riskLevel.level === 'low' ? ' ' + styles.tpTopStripLow : ''}`}>
         <div className={styles.tpPageHeader}>
           <Link to="/third-parties" className={styles.tpBack}>
             <span className="material-icons-outlined">chevron_left</span> Back
