@@ -127,6 +127,7 @@ export default function AddThirdParty() {
 
   // Flow state
   const [continued, setContinued] = useState(false);
+  const [dupConfirmed, setDupConfirmed] = useState(false);
   const [showVerify, setShowVerify] = useState(false);
 
   // Summary fields
@@ -224,17 +225,18 @@ export default function AddThirdParty() {
     }
   }, [tpDuns]);
 
-  // Auto-run entity verification if country or DUNS was provided
+  // Auto-run entity verification for entity type after dup confirmation
   useEffect(() => {
-    if (continued && tpType === 'entity' && (tpCountry || tpDuns)) {
+    if (dupConfirmed && tpType === 'entity') {
       setShowVerify(true);
       setVerifyCountry(tpCountry || 'United States');
     }
-  }, [continued, tpType, tpCountry, tpDuns]);
+  }, [dupConfirmed, tpType, tpCountry]);
 
   // Reset sections when type changes
   useEffect(() => {
     setContinued(false);
+    setDupConfirmed(false);
     setShowVerify(false);
     setSelectedVerify(null);
     setEntityVerified(false);
@@ -412,7 +414,7 @@ export default function AddThirdParty() {
 
       {/* ── Section 2: Duplicate Check Results (shown after Continue, skipped for Unknown) ── */}
       <AnimatePresence>
-      {continued && tpType !== 'unknown' && (
+      {continued && !dupConfirmed && tpType !== 'unknown' && (
         <motion.div
           key="dup-check-section"
           className={styles.section}
@@ -423,10 +425,6 @@ export default function AddThirdParty() {
         >
           <div className={styles.sectionHeading}>
             <span>Duplicate Check Results</span>
-            <button className={styles.btnOutline} onClick={() => setShowCancelModal(true)}>
-              <span className="material-icons-outlined" style={{ fontSize: 16 }}>cancel</span>
-              Cancel creation
-            </button>
           </div>
           <div className={styles.dupBanner}>
             <span className="material-icons-outlined">warning_amber</span>
@@ -458,13 +456,23 @@ export default function AddThirdParty() {
             </table>
           </div>
 
+          <div style={{ display: 'flex', alignItems: 'center', justifyContent: 'flex-end', gap: 12, marginTop: 20 }}>
+            <button className={styles.btnOutline} onClick={() => setShowCancelModal(true)}>
+              <span className="material-icons-outlined" style={{ fontSize: 16 }}>cancel</span>
+              Cancel creation
+            </button>
+            <button className={styles.btnFilled} onClick={() => setDupConfirmed(true)} style={{ height: 40, padding: '0 20px' }}>
+              Continue with onboarding
+            </button>
+          </div>
+
         </motion.div>
       )}
       </AnimatePresence>
 
       {/* ── Section 3: Entity Verification (entity only, collapsible) ── */}
       <AnimatePresence>
-      {continued && tpType === 'entity' && (
+      {(dupConfirmed || tpType === 'unknown') && continued && tpType === 'entity' && (
         <motion.div
           key="entity-verify-section"
           className={styles.section}
@@ -565,7 +573,7 @@ export default function AddThirdParty() {
 
       {/* ── Section 4: Summary ── */}
       <AnimatePresence>
-      {continued && (
+      {continued && (dupConfirmed || tpType === 'unknown') && (
         <motion.div
           key="summary"
           className={styles.section}
@@ -751,7 +759,7 @@ export default function AddThirdParty() {
 
       {/* ── Section 5: Onboarding Details ── */}
       <AnimatePresence>
-      {continued && (
+      {continued && (dupConfirmed || tpType === 'unknown') && (
         <motion.div
           key="onboarding"
           className={styles.section}
@@ -958,7 +966,7 @@ export default function AddThirdParty() {
 
       {/* ── Footer ── */}
       <AnimatePresence>
-      {continued && (
+      {continued && (dupConfirmed || tpType === 'unknown') && (
         <motion.div
           key="footer"
           className={styles.formFooter}
