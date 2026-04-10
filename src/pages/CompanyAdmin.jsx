@@ -218,38 +218,118 @@ function fieldLabel(value) {
 }
 
 /* ── Initial slot definitions ── */
-const INITIAL_OVERVIEW = [
-  { value: slugify('Legal Name'),                    readonly: false },
-  { value: slugify('Industry / Sector'),             readonly: false },
-  { value: slugify('Third Party Owner'),             readonly: true  },
-  { value: slugify('Process Name'),                  readonly: true  },
-  { value: slugify('Country of Registration'),       readonly: false },
-  { value: slugify('Third Party Contact Email'),     readonly: false },
-  { value: slugify('Business Unit'),                 readonly: true  },
-  { value: slugify('Screening & Monitoring Policy'), readonly: true  },
-  { value: slugify('Entity Type'),                   readonly: false },
-  { value: slugify('Commercial Significance'),       readonly: false },
-  { value: slugify('Expiry Date'),                   readonly: true  },
-  { value: slugify('Tags'),                          readonly: true  },
+const INITIAL_ENTITY_OVERVIEW = [
+  { value: slugify('Entity Third Party Legal Name'),                  readonly: false },
+  { value: slugify('Entity Industry Sector - onboarding'),           readonly: false },
+  { value: slugify('Third Party Owner'),                             readonly: true  },
+  { value: slugify('Process Name'),                                  readonly: true  },
+  { value: slugify('Entity Registered Country'),                     readonly: false },
+  { value: slugify('Third Party Contact Email Address'),             readonly: false },
+  { value: slugify('Business Unit'),                                 readonly: true  },
+  { value: slugify('Screening & Monitoring Policy'),                 readonly: true  },
+  { value: slugify('Third Party Legal Structure'),                   readonly: false },
+  { value: slugify('Commercial Significance of Product or Service'), readonly: false },
+  { value: slugify('Third Party Expiry Date'),                       readonly: false },
+  { value: slugify('Tags'),                                          readonly: true  },
 ];
 
-const INITIAL_ADDITIONAL = [
-  { value: slugify('Entity Other Known Name or Alias'),   readonly: false },
-  { value: slugify('Relevant Client Unit Other Details'), readonly: false },
-  { value: slugify('Entity Company Number'),              readonly: false },
-  { value: slugify('Entity ID Type'),                     readonly: false },
-  { value: slugify('Entity Registered Address'),          readonly: false },
-  { value: slugify('All Relevant Client Units'),          readonly: false },
-  { value: slugify('Internal Reference or ID'),           readonly: false },
-  { value: slugify('Entity ID Value'),                    readonly: false },
-  { value: slugify('Entity Website'),                     readonly: false },
-  { value: slugify('Third Party Contact Email Address'),  readonly: false },
+const INITIAL_ENTITY_ADDITIONAL = [
+  { value: slugify('Entity Other Known Name or Alias'), readonly: false },
+  { value: slugify('Entity Registered Address'),        readonly: false },
+  { value: slugify('Entity ID Type'),                   readonly: false },
+  { value: slugify('Entity ID Value'),                  readonly: false },
+  { value: slugify('Responsible Client Unit'),          readonly: true  },
+  { value: slugify('Entity Website'),                   readonly: false },
+  { value: slugify('Entity Company Number'),            readonly: false },
+  { value: slugify('Internal Reference or ID'),         readonly: true  },
+  { value: slugify('All Relevant Client Units'),        readonly: true  },
   { value: '', readonly: false },
   { value: '', readonly: false },
   { value: '', readonly: false },
   { value: '', readonly: false },
   { value: '', readonly: false },
   { value: '', readonly: false },
+  { value: '', readonly: false },
+];
+
+const INITIAL_PERSON_OVERVIEW = [
+  { value: slugify('Person Third Party Legal Name'),                  readonly: false },
+  { value: slugify('Person Industry Sector - onboarding'),           readonly: false },
+  { value: slugify('Third Party Owner'),                             readonly: true  },
+  { value: slugify('Process Name'),                                  readonly: true  },
+  { value: slugify('Person Country of Residence'),                   readonly: false },
+  { value: slugify('Third Party Contact Email Address'),             readonly: false },
+  { value: slugify('Business Unit'),                                 readonly: true  },
+  { value: slugify('Screening & Monitoring Policy'),                 readonly: true  },
+  { value: slugify('Third Party Legal Structure'),                   readonly: false },
+  { value: slugify('Commercial Significance of Product or Service'), readonly: false },
+  { value: slugify('Third Party Expiry Date'),                       readonly: false },
+  { value: slugify('Tags'),                                          readonly: true  },
+];
+
+const INITIAL_PERSON_ADDITIONAL = [
+  { value: slugify('Person Other Known Name or Alias'), readonly: false },
+  { value: slugify('Person Business Address'),          readonly: false },
+  { value: slugify('Person ID Type'),                   readonly: false },
+  { value: slugify('Person ID Value'),                  readonly: false },
+  { value: slugify('Responsible Client Unit'),          readonly: true  },
+  { value: slugify('Person Year of Birth'),             readonly: false },
+  { value: slugify('Gender'),                           readonly: false },
+  { value: slugify('Internal Reference or ID'),         readonly: true  },
+  { value: slugify('All Relevant Client Units'),        readonly: true  },
+  { value: '', readonly: false },
+  { value: '', readonly: false },
+  { value: '', readonly: false },
+  { value: '', readonly: false },
+  { value: '', readonly: false },
+  { value: '', readonly: false },
+  { value: '', readonly: false },
+];
+
+const INITIAL_UNKNOWN_OVERVIEW = [
+  { value: slugify('Unknown Third Party Legal Name'),                 readonly: false },
+  { value: slugify('Unknown Industry Sector - onboarding'),          readonly: false },
+  { value: slugify('Third Party Owner'),                             readonly: true  },
+  { value: slugify('Process Name'),                                  readonly: true  },
+  { value: slugify('Unknown Registered Country'),                    readonly: false },
+  { value: slugify('Third Party Contact Email Address'),             readonly: false },
+  { value: slugify('Business Unit'),                                 readonly: true  },
+  { value: slugify('Screening & Monitoring Policy'),                 readonly: true  },
+  { value: slugify('Third Party Legal Structure'),                   readonly: false },
+  { value: slugify('Commercial Significance of Product or Service'), readonly: false },
+  { value: slugify('Third Party Expiry Date'),                       readonly: false },
+  { value: slugify('Tags'),                                          readonly: true  },
+];
+
+const INITIAL_UNKNOWN_ADDITIONAL = [
+  { value: slugify('Unknown Other Known Name or Alias'),         readonly: false },
+  { value: slugify('Unknown Registered Address'),                readonly: false },
+  { value: slugify('Unknown ID Types'),                          readonly: false },
+  { value: slugify('Unknown ID Value'),                          readonly: false },
+  { value: slugify('Responsible Client Unit'),                   readonly: true  },
+  { value: slugify('Unknown Third Party Type'),                  readonly: false },
+  { value: slugify('Unknown Third Party Type Other details'),    readonly: false },
+  { value: slugify('Internal Reference or ID'),                  readonly: true  },
+  { value: slugify('All Relevant Client Units'),                 readonly: true  },
+  { value: '', readonly: false },
+  { value: '', readonly: false },
+  { value: '', readonly: false },
+  { value: '', readonly: false },
+  { value: '', readonly: false },
+  { value: '', readonly: false },
+  { value: '', readonly: false },
+];
+
+const INITIAL_TAB_SLOTS = {
+  entity:  { overview: INITIAL_ENTITY_OVERVIEW,  additional: INITIAL_ENTITY_ADDITIONAL  },
+  person:  { overview: INITIAL_PERSON_OVERVIEW,  additional: INITIAL_PERSON_ADDITIONAL  },
+  unknown: { overview: INITIAL_UNKNOWN_OVERVIEW, additional: INITIAL_UNKNOWN_ADDITIONAL },
+};
+
+const DETAIL_TABS = [
+  { key: 'entity',  label: 'Entity / Organisation' },
+  { key: 'person',  label: 'Individual / Person'   },
+  { key: 'unknown', label: 'Unknown'               },
 ];
 
 /* ── Connections section (static, from the page concept) ── */
@@ -412,17 +492,14 @@ function SlotGrid({ slots, isEditing, onChange }) {
 ══════════════════════════════════════════════════════ */
 export default function CompanyAdmin() {
   const [activeNav, setActiveNav] = useState('Third Party Details');
+  const [activeDetailsTab, setActiveDetailsTab] = useState('entity');
   const [isEditing, setIsEditing] = useState(false);
   const [showAlert, setShowAlert] = useState(false);
   const alertTimerRef = useRef(null);
 
-  /* slot state — working copies + committed originals */
-  const [overviewSlots, setOverviewSlots] = useState(INITIAL_OVERVIEW);
-  const [additionalSlots, setAdditionalSlots] = useState(INITIAL_ADDITIONAL);
-
-  /* originals — restored on Cancel */
-  const [origOverview, setOrigOverview] = useState(INITIAL_OVERVIEW);
-  const [origAdditional, setOrigAdditional] = useState(INITIAL_ADDITIONAL);
+  /* slot state — working copies + committed originals, keyed by tab */
+  const [tabSlots, setTabSlots] = useState(INITIAL_TAB_SLOTS);
+  const [origTabSlots, setOrigTabSlots] = useState(INITIAL_TAB_SLOTS);
 
   function handleEdit() {
     setIsEditing(true);
@@ -430,21 +507,30 @@ export default function CompanyAdmin() {
 
   function handleCancel() {
     setIsEditing(false);
-    setOverviewSlots(origOverview.map(s => ({ ...s })));
-    setAdditionalSlots(origAdditional.map(s => ({ ...s })));
+    setTabSlots(prev => ({ ...prev, [activeDetailsTab]: origTabSlots[activeDetailsTab] }));
   }
 
   function handleSave() {
     setIsEditing(false);
-    setOrigOverview(overviewSlots.map(s => ({ ...s })));
-    setOrigAdditional(additionalSlots.map(s => ({ ...s })));
+    setOrigTabSlots(prev => ({ ...prev, [activeDetailsTab]: tabSlots[activeDetailsTab] }));
     setShowAlert(true);
     clearTimeout(alertTimerRef.current);
     alertTimerRef.current = setTimeout(() => setShowAlert(false), 5000);
   }
 
-  function updateSlot(setter, index, newValue) {
-    setter(prev => prev.map((s, i) => i === index ? { ...s, value: newValue } : s));
+  function updateTabSlot(section, index, newValue) {
+    setTabSlots(prev => ({
+      ...prev,
+      [activeDetailsTab]: {
+        ...prev[activeDetailsTab],
+        [section]: prev[activeDetailsTab][section].map((s, i) => i === index ? { ...s, value: newValue } : s),
+      },
+    }));
+  }
+
+  function handleTabChange(tabKey) {
+    if (isEditing) handleCancel();
+    setActiveDetailsTab(tabKey);
   }
 
   useEffect(() => {
@@ -519,6 +605,21 @@ export default function CompanyAdmin() {
 
           <div className={styles.contentDivider} />
 
+          {/* Detail type tabs */}
+          <div className={styles.detailTabs}>
+            {DETAIL_TABS.map(tab => (
+              <button
+                key={tab.key}
+                className={`${styles.detailTab}${activeDetailsTab === tab.key ? ' ' + styles.detailTabActive : ''}`}
+                onClick={() => handleTabChange(tab.key)}
+              >
+                {tab.label}
+              </button>
+            ))}
+          </div>
+
+          <div className={styles.contentDivider} />
+
           {/* Overview section */}
           <div className={styles.contentSection}>
             <div className={styles.sectionHeading}>Overview</div>
@@ -526,9 +627,9 @@ export default function CompanyAdmin() {
               Select which fields appear in each position of the Overview tab on the Third Party summary page.
             </div>
             <SlotGrid
-              slots={overviewSlots}
+              slots={tabSlots[activeDetailsTab].overview}
               isEditing={isEditing}
-              onChange={(i, v) => updateSlot(setOverviewSlots, i, v)}
+              onChange={(i, v) => updateTabSlot('overview', i, v)}
             />
           </div>
 
@@ -542,9 +643,9 @@ export default function CompanyAdmin() {
               Select which fields appear in each position of the Additional Details tab on the Third Party summary page.
             </div>
             <SlotGrid
-              slots={additionalSlots}
+              slots={tabSlots[activeDetailsTab].additional}
               isEditing={isEditing}
-              onChange={(i, v) => updateSlot(setAdditionalSlots, i, v)}
+              onChange={(i, v) => updateTabSlot('additional', i, v)}
             />
           </div>
 

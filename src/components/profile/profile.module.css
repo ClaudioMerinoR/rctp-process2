@@ -926,12 +926,12 @@
   .rcard { width: calc((100% - 38px) / 3); }
 }
 
-.rcard_low    { background: #EFFDF6; }
-.rcard_medium { background: #FEFBF1; }
-.rcard_high   { background: #FCEBEC; }
-.rcard_low:hover    { background: #dffaed; box-shadow: 0 2px 8px rgba(0,0,0,0.08); }
-.rcard_medium:hover { background: #fdf5de; box-shadow: 0 2px 8px rgba(0,0,0,0.08); }
-.rcard_high:hover   { background: #f9d9db; box-shadow: 0 2px 8px rgba(0,0,0,0.08); }
+.rcard_low    { background: linear-gradient(201.532deg, rgba(19, 223, 129, 0.20) 0%, rgba(19, 223, 129, 0.10) 20.673%, rgba(255, 255, 255, 0) 100%); }
+.rcard_medium { background: linear-gradient(201.532deg, rgba(240, 192, 67, 0.20) 0%, rgba(240, 192, 67, 0.10) 12.019%, rgba(255, 255, 255, 0) 100%); }
+.rcard_high   { background: linear-gradient(253.768deg, rgba(227, 76, 83, 0.12) 2.805%,  rgba(227, 76, 83, 0.06) 14.955%, rgba(227, 76, 83, 0) 75.008%); }
+.rcard_low:hover    { background: linear-gradient(201.532deg, rgba(19, 223, 129, 0.30) 0%, rgba(19, 223, 129, 0.15) 20.673%, rgba(255, 255, 255, 0) 100%); box-shadow: 0 2px 8px rgba(0,0,0,0.08); }
+.rcard_medium:hover { background: linear-gradient(201.532deg, rgba(240, 192, 67, 0.30) 0%, rgba(240, 192, 67, 0.15) 12.019%, rgba(255, 255, 255, 0) 100%); box-shadow: 0 2px 8px rgba(0,0,0,0.08); }
+.rcard_high:hover   { background: linear-gradient(253.768deg, rgba(227, 76, 83, 0.20) 2.805%,  rgba(227, 76, 83, 0.10) 14.955%, rgba(227, 76, 83, 0) 75.008%); box-shadow: 0 2px 8px rgba(0,0,0,0.08); }
 
 .rcardTitle {
   position: absolute;
@@ -1286,60 +1286,85 @@
 /* ── Accordion ── */
 .riskCategorySection {
   padding: 24px 0 0;
+  max-width: 1280px;
+  margin-left: auto;
+  margin-right: auto;
 }
 .riskCategoryTitle {
-  font-size: 16px;
-  font-weight: 500;
-  color: var(--text-normal);
-  margin-bottom: 12px;
+  font-size: 11px;
+  font-weight: 700;
+  color: var(--text-light);
+  text-transform: uppercase;
+  letter-spacing: 1px;
+  margin-bottom: 14px;
 }
 .accordion {
-  margin-bottom: 8px;
+  margin-bottom: 24px;
 }
 .accordionHeader {
   display: flex;
   align-items: center;
   justify-content: space-between;
-  height: 40px;
-  padding: 0 12px 0 8px;
+  height: 48px;
+  padding: 0 14px 0 12px;
   background: var(--primary-08);
   cursor: pointer;
   user-select: none;
-  transition: background 0.3s ease;
+  transition: background 0.25s ease;
   border: 1px solid var(--neutral-50);
   border-radius: 2px;
 }
 .accordionHeader:hover { background: var(--primary-50); }
 .levelLow {
-  background: #EFFDF6;
+  background: linear-gradient(201.532deg, rgba(19, 223, 129, 0.20) 0%, rgba(19, 223, 129, 0.10) 20.673%, rgba(255, 255, 255, 0) 100%);
   border-color: #c4e8d6;
-  border-top: 2px solid var(--success-500);
 }
-.levelLow:hover { background: #dffaed; }
+.levelLow:hover { background: linear-gradient(201.532deg, rgba(19, 223, 129, 0.30) 0%, rgba(19, 223, 129, 0.15) 20.673%, rgba(255, 255, 255, 0) 100%); }
 .levelMedium {
-  background: #FEFBF1;
+  background: linear-gradient(201.532deg, rgba(240, 192, 67, 0.20) 0%, rgba(240, 192, 67, 0.10) 12.019%, rgba(255, 255, 255, 0) 100%);
   border-color: #e8dfc4;
-  border-top: 2px solid var(--warning-500);
 }
-.levelMedium:hover { background: #fdf5de; }
+.levelMedium:hover { background: linear-gradient(201.532deg, rgba(240, 192, 67, 0.30) 0%, rgba(240, 192, 67, 0.15) 12.019%, rgba(255, 255, 255, 0) 100%); }
 .levelHigh {
-  background: #FCEBEC;
+  background: linear-gradient(253.768deg, rgba(227, 76, 83, 0.12) 2.805%, rgba(227, 76, 83, 0.06) 14.955%, rgba(227, 76, 83, 0) 75.008%);
   border-color: #e8c4c6;
-  border-top: 2px solid var(--alert-500);
 }
-.levelHigh:hover { background: #f9d9db; }
+.levelHigh:hover { background: linear-gradient(253.768deg, rgba(227, 76, 83, 0.20) 2.805%, rgba(227, 76, 83, 0.10) 14.955%, rgba(227, 76, 83, 0) 75.008%); }
 .accordionHeaderLeft {
   display: flex;
   align-items: center;
-  gap: 8px;
+  gap: 10px;
+}
+.accordionLabel {
   font-size: 14px;
   font-weight: 500;
   color: var(--text-normal);
+  letter-spacing: 0.1px;
+}
+.accordionFactorCount {
+  font-size: 11px;
+  font-weight: 500;
+  color: var(--text-light);
+  background: rgba(0, 0, 0, 0.06);
+  padding: 2px 8px;
+  border-radius: 10px;
+  letter-spacing: 0.3px;
 }
 .accordionHeaderRight {
   display: flex;
   align-items: center;
   gap: 12px;
+}
+.accordionScoreStat {
+  font-size: 12px;
+  color: var(--text-light);
+  letter-spacing: 0.2px;
+  padding-right: 12px;
+  border-right: 1px solid var(--neutral-200);
+}
+.accordionScoreStat strong {
+  font-weight: 700;
+  color: var(--text-normal);
 }
 .accordionCaret {
   font-size: 20px;
@@ -1351,6 +1376,12 @@
 }
 .accordionBody {
   overflow: hidden;
+  border: 1px solid var(--neutral-50);
+  border-top: none;
+}
+.accordionBodyInner {
+  padding: 16px 20px 20px;
+  background: var(--neutral-00);
 }
 .noRiskMessage {
   text-align: center;
@@ -1381,10 +1412,17 @@
 }
 .riskTable tbody td {
   border: 1px solid var(--neutral-50);
-  padding: 8px;
+  padding: 10px 12px;
   color: var(--text-light);
   vertical-align: middle;
   font-size: 13px;
+}
+.riskScoreCol {
+  text-align: right;
+  font-weight: 700;
+  color: var(--text-normal) !important;
+  font-size: 14px;
+  font-variant-numeric: tabular-nums;
 }
 .riskTable tbody tr:nth-child(odd) td  { background: var(--primary-08); }
 .riskTable tbody tr:nth-child(even) td { background: var(--neutral-00); }
@@ -1394,20 +1432,22 @@
   display: flex;
   justify-content: flex-end;
   align-items: center;
-  padding: 10px 8px;
+  padding: 10px 12px;
   background: var(--neutral-25);
   border: 1px solid var(--neutral-50);
-  border-top: none;
-  font-size: 12px;
-  font-weight: 600;
-  color: var(--text-normal);
+  border-top: 2px solid var(--neutral-200);
+  font-size: 11px;
+  font-weight: 700;
+  color: var(--text-light);
   text-transform: uppercase;
-  letter-spacing: 0.5px;
+  letter-spacing: 1px;
 }
 .riskTableFooter span {
-  margin-left: 8px;
-  font-size: 14px;
+  margin-left: 10px;
+  font-size: 16px;
   font-weight: 700;
+  color: var(--text-normal);
+  font-variant-numeric: tabular-nums;
 }
 
 /* ── Generic table ── */
@@ -1441,11 +1481,16 @@
 /* ── Screening Results ── */
 .screeningSection {
   padding: 24px 0 0;
+  max-width: 1280px;
+  margin-left: auto;
+  margin-right: auto;
 }
 .screeningTitle {
-  font-size: 20px;
-  font-weight: 500;
-  color: var(--text-normal);
+  font-size: 11px;
+  font-weight: 700;
+  color: var(--text-light);
+  text-transform: uppercase;
+  letter-spacing: 1px;
   margin-bottom: 12px;
 }
 .screeningTable {
@@ -1504,11 +1549,16 @@
 /* ── Red Flags ── */
 .redFlagsSection {
   padding: 24px 0 0;
+  max-width: 1280px;
+  margin-left: auto;
+  margin-right: auto;
 }
 .redFlagsTitle {
-  font-size: 20px;
-  font-weight: 500;
-  color: var(--text-normal);
+  font-size: 11px;
+  font-weight: 700;
+  color: var(--text-light);
+  text-transform: uppercase;
+  letter-spacing: 1px;
   margin-bottom: 4px;
 }
 .redFlagsSubtitle {
@@ -1524,6 +1574,34 @@
   padding: 24px 16px;
   box-shadow: 0 2px 4px rgba(0, 0, 0, 0.08);
 }
+.processSummaryInner {
+  max-width: 1280px;
+  margin-left: auto;
+  margin-right: auto;
+}
+
+/* ── Status Pills ── */
+.sPill {
+  display: inline-flex;
+  align-items: center;
+  height: 22px;
+  padding: 0 8px;
+  border-radius: 2px;
+  font-size: 11px;
+  font-weight: 500;
+  letter-spacing: 0.3px;
+  white-space: nowrap;
+}
+.sPillCompleted    { background: var(--success-50);  color: var(--success-900); }
+.sPillInProgress   { background: var(--primary-08);  color: var(--primary-700); border: 1px solid var(--primary-100); }
+.sPillAction       { background: var(--warning-50);  color: var(--warning-900); }
+.sPillNotStarted   { background: var(--neutral-25);  color: var(--neutral-600); border: 1px solid var(--neutral-200); }
+.sPillNotRequired  { background: var(--neutral-25);  color: var(--neutral-600); border: 1px solid var(--neutral-200); }
+.sPillMitigated    { background: var(--success-50);  color: var(--success-700); }
+.sPillIncomplete   { background: var(--alert-50);    color: var(--alert-700); }
+.sPillOpen         { background: var(--alert-50);    color: var(--alert-700); }
+.sPillPostApproval { background: var(--primary-50);  color: var(--primary-800); }
+.sPillDefault      { background: var(--neutral-25);  color: var(--neutral-600); border: 1px solid var(--neutral-200); }
 
 /* ── Amend Panel ── */
 .amendCard {

@@ -336,6 +336,54 @@
   background: var(--neutral-00);
 }
 
+/* ── Detail type tabs ── */
+.detailTabs {
+  display: flex;
+  gap: 0;
+  padding: 0 20px;
+  background: var(--neutral-00);
+}
+
+.detailTab {
+  position: relative;
+  height: 44px;
+  padding: 0 20px;
+  font-size: 14px;
+  font-weight: 400;
+  color: var(--text-light);
+  background: none;
+  border: none;
+  cursor: pointer;
+  font-family: inherit;
+  letter-spacing: 0.2px;
+  transition: color 0.15s;
+  white-space: nowrap;
+}
+
+.detailTab::after {
+  content: '';
+  position: absolute;
+  bottom: 0;
+  left: 0;
+  right: 0;
+  height: 2px;
+  background: transparent;
+  transition: background 0.15s;
+}
+
+.detailTab:hover {
+  color: var(--text-normal);
+}
+
+.detailTabActive {
+  color: var(--primary-500);
+  font-weight: 500;
+}
+
+.detailTabActive::after {
+  background: var(--primary-500);
+}
+
 /* ── Alert toast ── */
 .pageAlert {
   position: fixed;

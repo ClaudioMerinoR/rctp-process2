@@ -1,4 +1,5 @@
 import { useState, useEffect } from 'react';
+import { motion, AnimatePresence } from 'motion/react';
 import { Link, useParams, useLocation } from 'react-router-dom';
 import PageLayout from '../layout/PageLayout';
 import Breadcrumb from '../layout/Breadcrumb';
@@ -13,6 +14,21 @@ function RiskBadge({ level }) {
   return <span className={`${styles.badge} ${cls}`}>{level.toUpperCase()}</span>;
 }
 
+function StatusPill({ status }) {
+  const map = {
+    'Completed':       styles.sPillCompleted,
+    'In Progress':     styles.sPillInProgress,
+    'Action Required': styles.sPillAction,
+    'Not Started':     styles.sPillNotStarted,
+    'Not Required':    styles.sPillNotRequired,
+    'Mitigated':       styles.sPillMitigated,
+    'Incomplete':      styles.sPillIncomplete,
+    'Open':            styles.sPillOpen,
+    'Post Approval':   styles.sPillPostApproval,
+  };
+  return <span className={`${styles.sPill} ${map[status] || styles.sPillDefault}`}>{status}</span>;
+}
+
 function Accordion({ section, defaultOpen = true }) {
   const [open, setOpen] = useState(defaultOpen);
   const headerCls = `${styles.accordionHeader} ${
@@ -25,9 +41,19 @@ function Accordion({ section, defaultOpen = true }) {
     <div className={styles.accordion} id={section.id}>
       <div className={headerCls} onClick={() => setOpen(o => !o)}>
         <div className={styles.accordionHeaderLeft}>
-          <span>{section.label}</span>
+          <span className={styles.accordionLabel}>{section.label}</span>
+          {section.rows.length > 0 && (
+            <span className={styles.accordionFactorCount}>
+              {section.rows.length} {section.rows.length === 1 ? 'factor' : 'factors'}
+            </span>
+          )}
         </div>
         <div className={styles.accordionHeaderRight}>
+          {section.totalScore > 0 && (
+            <span className={styles.accordionScoreStat}>
+              Score: <strong>{section.totalScore}</strong>
+            </span>
+          )}
           <RiskBadge level={section.level} />
           <span className={`material-icons-outlined ${styles.accordionCaret} ${open ? '' : styles.accordionCaretCollapsed}`}>
             expand_less
@@ -35,37 +61,60 @@ function Accordion({ section, defaultOpen = true }) {
         </div>
       </div>
 
-      {open && (
-        <div className={styles.accordionBody}>
-          {section.rows.length === 0 ? (
-            <div className={styles.noRiskMessage}>No risk were found in this category</div>
-          ) : (
-            <>
-              <table className={styles.riskTable}>
-                <thead>
-                  <tr>
-                    <th style={{ width: '74%' }}>PROPERTY</th>
-                    <th style={{ width: '12%' }}>Value</th>
-                    <th style={{ width: '14%' }}>Score</th>
-                  </tr>
-                </thead>
-                <tbody>
-                  {section.rows.map((row, i) => (
-                    <tr key={i}>
-                      <td className={styles.cellDark}>{row.property}</td>
-                      <td>{row.value}</td>
-                      <td>{row.score}</td>
-                    </tr>
-                  ))}
-                </tbody>
-              </table>
-              <div className={styles.riskTableFooter}>
-                TOTAL RISK SCORE:<span>{section.totalScore}</span>
-              </div>
-            </>
-          )}
-        </div>
-      )}
+      <AnimatePresence initial={false}>
+        {open && (
+          <motion.div
+            className={styles.accordionBody}
+            initial={{ height: 0, opacity: 0 }}
+            animate={{
+              height: 'auto',
+              opacity: 1,
+              transition: {
+                height: { duration: 0.25, ease: [0.4, 0, 0.2, 1] },
+                opacity: { duration: 0.2, ease: 'easeOut' },
+              },
+            }}
+            exit={{
+              height: 0,
+              opacity: 0,
+              transition: {
+                height: { duration: 0.16, ease: [0.4, 0, 1, 1] },
+                opacity: { duration: 0.1, ease: 'easeIn' },
+              },
+            }}
+          >
+            <div className={styles.accordionBodyInner}>
+              {section.rows.length === 0 ? (
+                <div className={styles.noRiskMessage}>No risk were found in this category</div>
+              ) : (
+                <>
+                  <table className={styles.riskTable}>
+                    <thead>
+                      <tr>
+                        <th style={{ width: '74%' }}>PROPERTY</th>
+                        <th style={{ width: '12%' }}>Value</th>
+                        <th style={{ width: '14%' }}>Score</th>
+                      </tr>
+                    </thead>
+                    <tbody>
+                      {section.rows.map((row, i) => (
+                        <tr key={i}>
+                          <td className={styles.cellDark}>{row.property}</td>
+                          <td>{row.value}</td>
+                          <td className={styles.riskScoreCol}>{row.score}</td>
+                        </tr>
+                      ))}
+                    </tbody>
+                  </table>
+                  <div className={styles.riskTableFooter}>
+                    TOTAL RISK SCORE:<span>{section.totalScore}</span>
+                  </div>
+                </>
+              )}
+            </div>
+          </motion.div>
+        )}
+      </AnimatePresence>
     </div>
   );
 }
@@ -364,7 +413,7 @@ export default function ProfileRiskReport() {
                                     : <span>{row.title}</span>
                                   }
                                 </td>
-                                <td>{row.status}</td>
+                                <td><StatusPill status={row.status} /></td>
                                 <td>{row.cat}</td>
                               </tr>
                             ))}
@@ -379,6 +428,7 @@ export default function ProfileRiskReport() {
               {/* Tab: Process Summary */}
               {activeTab === 'process' && (
                 <section className={styles.processSummaryCard}>
+                  <div className={styles.processSummaryInner}>
                   <table className={styles.genericTable}>
                     <thead>
                       <tr>
@@ -397,13 +447,14 @@ export default function ProfileRiskReport() {
                               : <span>{row.step}</span>
                             }
                           </td>
-                          <td>{row.status}</td>
+                          <td><StatusPill status={row.status} /></td>
                           <td>{row.by}</td>
                           <td>{row.date}</td>
                         </tr>
                       ))}
                     </tbody>
                   </table>
+                  </div>
                 </section>
               )}
             </>
