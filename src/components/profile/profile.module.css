@@ -696,11 +696,6 @@
   background: var(--neutral-00);
 }
 
-.sectionDivider {
-  height: 1px;
-  background: var(--neutral-50);
-  margin: 0 16px;
-}
 
 .detailsCard {
   border-top: 3px solid var(--primary-600);
@@ -887,6 +882,14 @@
   padding: 0 16px 16px;
   background: var(--neutral-00);
   box-shadow: var(--shadow-card);
+}
+.riskReport::before,
+.tableCard::before {
+  content: '';
+  display: block;
+  height: 1px;
+  background: var(--neutral-50);
+  margin: 0 16px;
 }
 
 .sectionRow {
