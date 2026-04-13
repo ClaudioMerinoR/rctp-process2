@@ -883,7 +883,13 @@
   background: var(--neutral-00);
   box-shadow: var(--shadow-card);
 }
-.riskReport::before,
+.riskReport::before {
+  content: '';
+  display: block;
+  height: 1px;
+  background: var(--neutral-50);
+  margin: 0; /* .riskReport padding: 0 16px already provides the inset */
+}
 .tableCard::before {
   content: '';
   display: block;
