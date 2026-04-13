@@ -485,6 +485,7 @@ export default function ProfilePage({ profile: profileProp, embedded = false }) 
               </AnimatePresence>
             </div>
           </motion.section>
+          <div className={styles.sectionDivider} />
 
           {/* Risk Level Report */}
           <motion.section className={styles.riskReport} initial={{ opacity: 0, y: 20 }} animate={{ opacity: 1, y: 0 }} transition={{ duration: 0.3, delay: 0.07 }}>
@@ -527,6 +528,7 @@ export default function ProfilePage({ profile: profileProp, embedded = false }) 
             )}
             </AnimatePresence>
           </motion.section>
+          <div className={styles.sectionDivider} />
 
           {/* Open Tasks */}
           <motion.section className={styles.tableCard} initial={{ opacity: 0, y: 20 }} animate={{ opacity: 1, y: 0 }} transition={{ duration: 0.3, delay: 0.14 }}>
@@ -572,6 +574,7 @@ export default function ProfilePage({ profile: profileProp, embedded = false }) 
               </div>
             </div>
           </motion.section>
+          <div className={styles.sectionDivider} />
 
           {/* Screening and Monitoring Associations */}
           <motion.section className={`${styles.tableCard} ${styles.tableCardShadow}`} initial={{ opacity: 0, y: 20 }} animate={{ opacity: 1, y: 0 }} transition={{ duration: 0.3, delay: 0.21 }}>

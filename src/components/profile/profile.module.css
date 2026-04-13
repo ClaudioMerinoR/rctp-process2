@@ -694,7 +694,12 @@
 /* ── Details Card ── */
 .card {
   background: var(--neutral-00);
-  border-bottom: 1px solid var(--neutral-200);
+}
+
+.sectionDivider {
+  height: 1px;
+  background: var(--neutral-50);
+  margin: 0 16px;
 }
 
 .detailsCard {
