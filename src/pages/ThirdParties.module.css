@@ -77,7 +77,6 @@ tbody td {
 .pagination {
   display: flex; align-items: center; justify-content: space-between;
   gap: 8px; padding: 12px 16px;
-  border-top: 1px solid var(--neutral-50);
   font-size: 13px; color: var(--text-light);
 }
 .paginationLeft, .paginationRight { display: flex; align-items: center; gap: 8px; }

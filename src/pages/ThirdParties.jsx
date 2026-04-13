@@ -102,6 +102,7 @@ export default function ThirdParties() {
           </table>
         </div>
 
+        <div className={styles.divider} />
         <div className={styles.pagination}>
           <div className={styles.paginationLeft}>
             <select className={styles.pageSize}>
