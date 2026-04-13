@@ -917,7 +917,7 @@
   border: 1px solid var(--neutral-200);
   border-radius: 4px;
   flex-shrink: 0;
-  transition: background 0.3s ease, box-shadow 0.3s ease;
+  transition: background 0.3s ease;
   cursor: pointer;
   color: inherit;
 }
@@ -929,9 +929,9 @@
 .rcard_low    { background: linear-gradient(201.532deg, rgba(19, 223, 129, 0.20) 0%, rgba(19, 223, 129, 0.10) 20.673%, rgba(255, 255, 255, 0) 100%); }
 .rcard_medium { background: linear-gradient(201.532deg, rgba(240, 192, 67, 0.20) 0%, rgba(240, 192, 67, 0.10) 12.019%, rgba(255, 255, 255, 0) 100%); }
 .rcard_high   { background: linear-gradient(253.768deg, rgba(227, 76, 83, 0.12) 2.805%,  rgba(227, 76, 83, 0.06) 14.955%, rgba(227, 76, 83, 0) 75.008%); }
-.rcard_low:hover    { background: linear-gradient(201.532deg, rgba(19, 223, 129, 0.30) 0%, rgba(19, 223, 129, 0.15) 20.673%, rgba(255, 255, 255, 0) 100%); box-shadow: var(--shadow-card-hover); }
-.rcard_medium:hover { background: linear-gradient(201.532deg, rgba(240, 192, 67, 0.30) 0%, rgba(240, 192, 67, 0.15) 12.019%, rgba(255, 255, 255, 0) 100%); box-shadow: var(--shadow-card-hover); }
-.rcard_high:hover   { background: linear-gradient(253.768deg, rgba(227, 76, 83, 0.20) 2.805%,  rgba(227, 76, 83, 0.10) 14.955%, rgba(227, 76, 83, 0) 75.008%); box-shadow: var(--shadow-card-hover); }
+.rcard_low:hover    { background: linear-gradient(201.532deg, rgba(19, 223, 129, 0.26) 0%, rgba(19, 223, 129, 0.13) 20.673%, rgba(255, 255, 255, 0) 100%); }
+.rcard_medium:hover { background: linear-gradient(201.532deg, rgba(240, 192, 67, 0.26) 0%, rgba(240, 192, 67, 0.13) 12.019%, rgba(255, 255, 255, 0) 100%); }
+.rcard_high:hover   { background: linear-gradient(253.768deg, rgba(227, 76, 83, 0.17) 2.805%,  rgba(227, 76, 83, 0.09) 14.955%, rgba(227, 76, 83, 0) 75.008%); }
 
 .rcardTitle {
   position: absolute;

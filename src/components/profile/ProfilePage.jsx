@@ -507,7 +507,7 @@ export default function ProfilePage({ profile: profileProp, embedded = false }) 
                   )?.id || rc.title.toLowerCase().replace(/[^a-z]+/g, '-');
                   const MotionLink = motion(Link);
                   return (
-                    <MotionLink key={i} to={`/profile/${profile.id}/risk-report#${sectionId}`} className={`${styles.rcard} ${styles['rcard_' + rc.level]}`} style={{ textDecoration: 'none' }} whileHover={{ y: -4, boxShadow: '0 8px 20px rgba(0,0,0,0.13)' }} whileTap={{ scale: 0.97 }} transition={{ duration: 0.18 }}>
+                    <MotionLink key={i} to={`/profile/${profile.id}/risk-report#${sectionId}`} className={`${styles.rcard} ${styles['rcard_' + rc.level]}`} style={{ textDecoration: 'none' }} whileTap={{ scale: 0.97 }} transition={{ duration: 0.18 }}>
                       <div className={styles.rcardTitle}>{rc.title}</div>
                       <span className={`${styles.rcardLbl} ${styles.lblRisk}`}>Risk Level</span>
                       <span className={`${styles.rcardLbl} ${styles.lblFlags}`}>Red flags</span>
