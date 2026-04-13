@@ -50,11 +50,9 @@ function Accordion({ section, defaultOpen = true }) {
           )}
         </div>
         <div className={styles.accordionHeaderRight}>
-          {section.totalScore > 0 && (
-            <span className={styles.accordionScoreStat}>
-              Score: <strong>{section.totalScore}</strong>
-            </span>
-          )}
+          <span className={styles.accordionScoreStat}>
+            Score: <strong>{section.totalScore}</strong>
+          </span>
           <RiskBadge level={section.level} />
           <span className={`material-icons-outlined ${styles.accordionCaret} ${open ? '' : styles.accordionCaretCollapsed}`}>
             expand_less
@@ -80,7 +78,7 @@ function Accordion({ section, defaultOpen = true }) {
           >
             <div className={styles.accordionBodyInner}>
               {section.rows.length === 0 ? (
-                <div className={styles.noRiskMessage}>No risk were found in this category</div>
+                <div className={styles.noRiskMessage}>No risks were found in this category</div>
               ) : (
                 <>
                   <table className={styles.riskTable}>
@@ -101,9 +99,6 @@ function Accordion({ section, defaultOpen = true }) {
                       ))}
                     </tbody>
                   </table>
-                  <div className={styles.riskTableFooter}>
-                    TOTAL RISK SCORE:<span>{section.totalScore}</span>
-                  </div>
                 </>
               )}
             </div>
