@@ -150,6 +150,7 @@
 .contentDivider {
   height: 1px;
   background: var(--neutral-50);
+  margin: 0 16px;
 }
 
 /* ── Section ── */
