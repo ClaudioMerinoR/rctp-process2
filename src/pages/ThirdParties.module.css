@@ -46,7 +46,7 @@
   box-shadow: 0 0 0 3px rgba(2, 163, 213, 0.12);
 }
 
-.tableWrap { overflow-x: auto; padding: 0 16px; }
+.tableWrap { overflow-x: auto; padding: 0 16px; margin-bottom: 12px; }
 table { width: 100%; border-collapse: collapse; font-size: 13px; min-width: 900px; }
 thead th {
   background: var(--neutral-25);
