@@ -344,7 +344,6 @@ export default function AddThirdParty() {
               onClick={() => setTpType(t.id)}
               tabIndex={0}
               onKeyDown={e => e.key === 'Enter' && setTpType(t.id)}
-              whileHover={{ y: -4, boxShadow: '0 8px 20px rgba(0,0,0,0.12)' }}
               whileTap={{ scale: 0.96 }}
               animate={tpType === t.id ? { scale: [1, 1.04, 1] } : { scale: 1 }}
               transition={mot.card}

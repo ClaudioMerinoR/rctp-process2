@@ -180,10 +180,10 @@
 .typeError .typeCard { border-color: var(--alert-500); }
 .typeCard {
   border: 2px solid var(--neutral-50); border-radius: 4px; padding: 20px 16px 18px;
-  cursor: pointer; position: relative; transition: border-color 0.2s, background 0.2s, box-shadow 0.2s;
+  cursor: pointer; position: relative; transition: border-color 0.2s, background 0.2s;
   display: flex; flex-direction: column; gap: 10px; user-select: none;
 }
-.typeCard:hover { border-color: var(--primary-200); background: var(--primary-08); box-shadow: 0 2px 12px rgba(2,163,213,0.1); }
+.typeCard:hover { border-color: var(--primary-200); background: var(--primary-08); }
 .typeCard.selected { border-color: var(--primary-500); background: var(--primary-08); box-shadow: 0 2px 16px rgba(2,163,213,0.18); }
 .typeCheck { position: absolute; top: 14px; right: 14px; font-size: 20px; color: var(--primary-500); display: none; }
 .selected .typeCheck { display: block; }
