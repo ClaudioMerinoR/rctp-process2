@@ -51,7 +51,7 @@ function Accordion({ section, defaultOpen = true }) {
         </div>
         <div className={styles.accordionHeaderRight}>
           <span className={styles.accordionScoreStat}>
-            Score: <strong>{section.totalScore}</strong>
+            Category Risk Score: <strong>{section.totalScore}</strong>
           </span>
           <RiskBadge level={section.level} />
           <span className={`material-icons-outlined ${styles.accordionCaret} ${open ? '' : styles.accordionCaretCollapsed}`}>
