@@ -317,7 +317,7 @@
   padding: 4px 8px;
   border-radius: 4px;
   pointer-events: none;
-  z-index: 100;
+  z-index: var(--z-tooltip);
 }
 .navTooltip::after {
   content: '';
@@ -368,7 +368,7 @@
 }
 .btnFilled {
   background: var(--primary-500);
-  color: #fff;
+  color: var(--neutral-00);
   transition: background 0.15s ease;
 }
 .btnFilled:hover { background: var(--primary-600); }
@@ -576,7 +576,7 @@
   align-items: center;
   padding: 0 29px;
   gap: 8px;
-  z-index: 500;
+  z-index: var(--z-alert);
 }
 .connAlert_success { background: var(--success-300); }
 .connAlert_warning { background: var(--warning-100); }
@@ -599,7 +599,7 @@
   position: fixed;
   inset: 0;
   background: rgba(0,0,0,0.4);
-  z-index: 1000;
+  z-index: var(--z-modal);
   display: flex;
   align-items: center;
   justify-content: center;
@@ -807,7 +807,7 @@
 .rowMenuWrap { position: relative; display: inline-block; }
 .rowMenuTrigger { background: none; border: none; cursor: pointer; color: var(--text-light); display: flex; align-items: center; padding: 2px 4px; border-radius: 3px; }
 .rowMenuTrigger:hover { background: var(--neutral-50); color: var(--text-normal); }
-.rowMenuDropdown { position: absolute; right: 0; top: calc(100% + 4px); background: var(--neutral-00); border: 1px solid var(--neutral-100); border-radius: 4px; box-shadow: 0 4px 16px rgba(0,0,0,0.12); z-index: 500; min-width: 140px; padding: 4px; }
+.rowMenuDropdown { position: absolute; right: 0; top: calc(100% + 4px); background: var(--neutral-00); border: 1px solid var(--neutral-100); border-radius: 4px; box-shadow: 0 4px 16px rgba(0,0,0,0.12); z-index: var(--z-alert); min-width: 140px; padding: 4px; }
 .rowMenuItem { display: flex; align-items: center; gap: 8px; width: 100%; padding: 8px 12px; background: none; border: none; cursor: pointer; font-size: 13px; font-weight: 500; color: var(--text-normal); text-align: left; border-radius: 3px; font-family: inherit; }
 .rowMenuItem:hover { background: var(--neutral-25); }
 .rowMenuItemDanger { color: var(--alert-500); }
@@ -826,12 +826,12 @@
 .blankState p { margin: 0; }
 
 /* ── Connect side panel ── */
-.connectOverlay { position: fixed; inset: 0; background: rgba(0,0,0,0.45); z-index: 1100; }
-.connectPanel { position: fixed; top: 0; right: 0; width: 540px; max-width: 100vw; height: 100vh; background: var(--neutral-00); border-top: 4px solid var(--primary-500); border-left: 1px solid var(--neutral-50); box-shadow: -4px 0 20px rgba(0,0,0,0.1); z-index: 1101; display: flex; flex-direction: column; overflow: hidden; }
-.lookMorePanel { position: fixed; top: 0; right: 0; width: 940px; max-width: 100vw; height: 100vh; background: var(--neutral-00); border-top: 4px solid var(--primary-500); border-left: 1px solid var(--neutral-50); box-shadow: -4px 0 20px rgba(0,0,0,0.1); z-index: 1101; display: flex; flex-direction: column; overflow: hidden; }
+.connectOverlay { position: fixed; inset: 0; background: rgba(0,0,0,0.45); z-index: var(--z-overlay); }
+.connectPanel { position: fixed; top: 0; right: 0; width: 540px; max-width: 100vw; height: 100vh; background: var(--neutral-00); border-top: 4px solid var(--primary-500); border-left: 1px solid var(--neutral-50); box-shadow: -4px 0 20px rgba(0,0,0,0.1); z-index: var(--z-panel); display: flex; flex-direction: column; overflow: hidden; }
+.lookMorePanel { position: fixed; top: 0; right: 0; width: 940px; max-width: 100vw; height: 100vh; background: var(--neutral-00); border-top: 4px solid var(--primary-500); border-left: 1px solid var(--neutral-50); box-shadow: -4px 0 20px rgba(0,0,0,0.1); z-index: var(--z-panel); display: flex; flex-direction: column; overflow: hidden; }
 
 /* ── Notes side panel ── */
-.notesPanel { position: fixed; top: 0; right: 0; width: 650px; max-width: 100vw; height: 100vh; background: var(--neutral-00); border-left: 1px solid var(--neutral-50); box-shadow: -4px 0 20px rgba(0,0,0,0.1); z-index: 1101; display: flex; flex-direction: column; overflow: hidden; }
+.notesPanel { position: fixed; top: 0; right: 0; width: 650px; max-width: 100vw; height: 100vh; background: var(--neutral-00); border-left: 1px solid var(--neutral-50); box-shadow: -4px 0 20px rgba(0,0,0,0.1); z-index: var(--z-panel); display: flex; flex-direction: column; overflow: hidden; }
 .notesPanelHeader { display: flex; align-items: center; justify-content: space-between; padding: 16px 20px; border-bottom: 3px solid var(--primary-500); flex-shrink: 0; }
 .notesPanelTitle { font-size: 14px; font-weight: 600; text-transform: uppercase; letter-spacing: 1.5px; color: var(--text-normal); }
 .notesPanelContent { flex: 1; overflow-y: auto; padding: 16px 20px; }
@@ -881,7 +881,7 @@
 .riskReport {
   padding: 0 16px 16px;
   background: var(--neutral-00);
-  box-shadow: 0px 2px 4px 0px rgba(0,0,0,0.08);
+  box-shadow: var(--shadow-card);
 }
 
 .sectionRow {
@@ -929,9 +929,9 @@
 .rcard_low    { background: linear-gradient(201.532deg, rgba(19, 223, 129, 0.20) 0%, rgba(19, 223, 129, 0.10) 20.673%, rgba(255, 255, 255, 0) 100%); }
 .rcard_medium { background: linear-gradient(201.532deg, rgba(240, 192, 67, 0.20) 0%, rgba(240, 192, 67, 0.10) 12.019%, rgba(255, 255, 255, 0) 100%); }
 .rcard_high   { background: linear-gradient(253.768deg, rgba(227, 76, 83, 0.12) 2.805%,  rgba(227, 76, 83, 0.06) 14.955%, rgba(227, 76, 83, 0) 75.008%); }
-.rcard_low:hover    { background: linear-gradient(201.532deg, rgba(19, 223, 129, 0.30) 0%, rgba(19, 223, 129, 0.15) 20.673%, rgba(255, 255, 255, 0) 100%); box-shadow: 0 2px 8px rgba(0,0,0,0.08); }
-.rcard_medium:hover { background: linear-gradient(201.532deg, rgba(240, 192, 67, 0.30) 0%, rgba(240, 192, 67, 0.15) 12.019%, rgba(255, 255, 255, 0) 100%); box-shadow: 0 2px 8px rgba(0,0,0,0.08); }
-.rcard_high:hover   { background: linear-gradient(253.768deg, rgba(227, 76, 83, 0.20) 2.805%,  rgba(227, 76, 83, 0.10) 14.955%, rgba(227, 76, 83, 0) 75.008%); box-shadow: 0 2px 8px rgba(0,0,0,0.08); }
+.rcard_low:hover    { background: linear-gradient(201.532deg, rgba(19, 223, 129, 0.30) 0%, rgba(19, 223, 129, 0.15) 20.673%, rgba(255, 255, 255, 0) 100%); box-shadow: var(--shadow-card-hover); }
+.rcard_medium:hover { background: linear-gradient(201.532deg, rgba(240, 192, 67, 0.30) 0%, rgba(240, 192, 67, 0.15) 12.019%, rgba(255, 255, 255, 0) 100%); box-shadow: var(--shadow-card-hover); }
+.rcard_high:hover   { background: linear-gradient(253.768deg, rgba(227, 76, 83, 0.20) 2.805%,  rgba(227, 76, 83, 0.10) 14.955%, rgba(227, 76, 83, 0) 75.008%); box-shadow: var(--shadow-card-hover); }
 
 .rcardTitle {
   position: absolute;
@@ -981,7 +981,7 @@
   border-bottom: 1px solid var(--neutral-200);
 }
 .tableCardShadow {
-  box-shadow: 0px 2px 4px 0px rgba(0,0,0,0.08);
+  box-shadow: var(--shadow-card);
 }
 
 .cardInner {
@@ -1223,7 +1223,7 @@
   align-items: center;
   padding: 0 29px;
   gap: 8px;
-  z-index: 500;
+  z-index: var(--z-alert);
   background: var(--success-300);
 }
 .rlrAlertIcon {
@@ -1280,7 +1280,7 @@
 .contentCard {
   background: var(--neutral-00);
   padding: 0 16px 24px;
-  box-shadow: 0 2px 4px rgba(0, 0, 0, 0.08);
+  box-shadow: var(--shadow-card);
 }
 
 /* ── Accordion ── */
@@ -1572,7 +1572,7 @@
 .processSummaryCard {
   background: var(--neutral-00);
   padding: 24px 16px;
-  box-shadow: 0 2px 4px rgba(0, 0, 0, 0.08);
+  box-shadow: var(--shadow-card);
 }
 .processSummaryInner {
   max-width: 1280px;
@@ -1606,9 +1606,9 @@
 /* ── Amend Panel ── */
 .amendCard {
   background: var(--neutral-00);
-  border: 1px solid rgba(0, 0, 0, 0.13);
+  border: 1px solid var(--neutral-100);
   border-top: 4px solid var(--primary-500);
-  box-shadow: 0 2px 4px rgba(0, 0, 0, 0.08);
+  box-shadow: var(--shadow-card);
   padding: 24px 20px 20px;
   margin-bottom: 16px;
 }

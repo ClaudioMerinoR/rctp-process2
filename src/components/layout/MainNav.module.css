@@ -23,14 +23,14 @@
   position: relative;
   transition: background 0.15s ease, color 0.15s ease;
 }
-.link:hover { background: var(--primary-600); color: #fff; }
+.link:hover { background: var(--primary-600); color: var(--neutral-00); }
 .link:focus-visible {
   outline: 2px solid rgba(255, 255, 255, 0.7);
   outline-offset: -3px;
 }
 .active {
   background: var(--primary-600);
-  color: #fff;
+  color: var(--neutral-00);
 }
 .active::after {
   content: '';
@@ -39,6 +39,6 @@
   left: 0;
   right: 0;
   height: 2px;
-  background: #fff;
+  background: var(--neutral-00);
   border-radius: 1px 1px 0 0;
 }

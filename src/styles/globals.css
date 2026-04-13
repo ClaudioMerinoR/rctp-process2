@@ -119,6 +119,20 @@
   --shadow-700: 0px 2px 3px 0px rgba(0, 0, 0, 0.30), 0px 6px 10px 4px rgba(0, 0, 0, 0.15);
   --shadow-900: 0px 4px 4px 0px rgba(0, 0, 0, 0.30), 0px 8px 12px 6px rgba(0, 0, 0, 0.15);
 
+  /* ── Card shadows ── */
+  --shadow-card:       0 2px 4px rgba(0, 0, 0, 0.08);
+  --shadow-card-hover: 0 2px 8px rgba(0, 0, 0, 0.08);
+
+  /* ── Z-index scale ── */
+  --z-tooltip:  10;
+  --z-dropdown: 200;
+  --z-alert:    500;
+  --z-modal:    1000;
+  --z-overlay:  1100;
+  --z-panel:    1101;
+  --z-cancel:   2000;
+  --z-creating: 3000;
+
   /* ── Corner radius ── */
   --corner-extra-large: 28px;
 }

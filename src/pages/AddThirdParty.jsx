@@ -1,5 +1,6 @@
 import { useState, useRef, useEffect } from 'react';
 import { motion, AnimatePresence } from 'motion/react';
+import { transition as mot } from '../utils/motion';
 import { Link, useNavigate } from 'react-router-dom';
 import PageLayout from '../components/layout/PageLayout';
 import Breadcrumb from '../components/layout/Breadcrumb';
@@ -346,7 +347,7 @@ export default function AddThirdParty() {
               whileHover={{ y: -4, boxShadow: '0 8px 20px rgba(0,0,0,0.12)' }}
               whileTap={{ scale: 0.96 }}
               animate={tpType === t.id ? { scale: [1, 1.04, 1] } : { scale: 1 }}
-              transition={{ duration: 0.2 }}
+              transition={mot.card}
             >
               <span className={`material-icons-outlined ${styles.typeCheck}`}>check_circle</span>
               <div className={styles.typeIconWrap}><span className="material-icons-outlined">{t.icon}</span></div>
@@ -381,7 +382,7 @@ export default function AddThirdParty() {
               initial={{ opacity: 0, y: -10 }}
               animate={{ opacity: 1, y: 0 }}
               exit={{ opacity: 0, y: -10 }}
-              transition={{ duration: 0.2 }}
+              transition={mot.card}
             >
               <div className={styles.nameField}>
                 <div className={styles.sectionHeading} style={{ marginBottom: 8, paddingBottom: 0, borderBottom: 'none' }}>Country / Territory</div>
@@ -403,7 +404,7 @@ export default function AddThirdParty() {
               className={styles.btnFilled}
               disabled={!tpType || !tpName.trim()}
               onClick={handleContinue}
-              style={{ height: 40, padding: '0 20px', flexShrink: 0 }}
+              style={{ flexShrink: 0 }}
             >
               Continue
             </button>
@@ -421,7 +422,7 @@ export default function AddThirdParty() {
           initial={{ opacity: 0, y: 18 }}
           animate={{ opacity: 1, y: 0 }}
           exit={{ opacity: 0, y: 18 }}
-          transition={{ duration: 0.3 }}
+          transition={mot.section}
         >
           <div className={styles.sectionHeading}>
             <span>Duplicate Check Results</span>
@@ -458,10 +459,9 @@ export default function AddThirdParty() {
 
           <div style={{ display: 'flex', alignItems: 'center', justifyContent: 'flex-end', gap: 12, marginTop: 20 }}>
             <button className={styles.btnOutline} onClick={() => setShowCancelModal(true)}>
-              <span className="material-icons-outlined" style={{ fontSize: 16 }}>cancel</span>
               Cancel creation
             </button>
-            <button className={styles.btnFilled} onClick={() => setDupConfirmed(true)} style={{ height: 40, padding: '0 20px' }}>
+            <button className={styles.btnFilled} onClick={() => setDupConfirmed(true)}>
               Continue with onboarding
             </button>
           </div>
@@ -479,7 +479,7 @@ export default function AddThirdParty() {
           initial={{ opacity: 0, y: 18 }}
           animate={{ opacity: 1, y: 0 }}
           exit={{ opacity: 0, y: 18 }}
-          transition={{ duration: 0.3, delay: 0.05 }}
+          transition={mot.sectionDelayed}
         >
           <div className={styles.sectionHeading}>
             <span>Entity Verification</span>
@@ -508,7 +508,7 @@ export default function AddThirdParty() {
               initial={{ height: 0, opacity: 0 }}
               animate={{ height: 'auto', opacity: 1 }}
               exit={{ height: 0, opacity: 0 }}
-              transition={{ duration: 0.3, ease: 'easeInOut' }}
+              transition={mot.inlineReveal}
               style={{ overflow: 'hidden' }}
             >
               <div className={styles.fieldGroup} style={{ maxWidth: 320, marginBottom: 16 }}>
@@ -580,7 +580,7 @@ export default function AddThirdParty() {
           initial={{ opacity: 0, y: 18 }}
           animate={{ opacity: 1, y: 0 }}
           exit={{ opacity: 0, y: 18 }}
-          transition={{ duration: 0.3 }}
+          transition={mot.section}
         >
           <div className={styles.sectionHeading}>
             <span>Summary</span>
@@ -766,7 +766,7 @@ export default function AddThirdParty() {
           initial={{ opacity: 0, y: 18 }}
           animate={{ opacity: 1, y: 0 }}
           exit={{ opacity: 0, y: 18 }}
-          transition={{ duration: 0.3, delay: 0.05 }}
+          transition={mot.sectionDelayed}
         >
           <div className={styles.sectionHeading}>
             <span>Onboarding Details</span>
@@ -973,7 +973,7 @@ export default function AddThirdParty() {
           initial={{ opacity: 0, y: 18 }}
           animate={{ opacity: 1, y: 0 }}
           exit={{ opacity: 0, y: 18 }}
-          transition={{ duration: 0.3, delay: 0.1 }}
+          transition={{ ...mot.section, delay: 0.1 }}
         >
           <a href="#" className={styles.btnGhost} onClick={handleCancel}>Cancel</a>
           <button className={styles.btnFilled} onClick={handleCreate}>
@@ -1078,8 +1078,8 @@ function LanguagePanel({ selected, onSelect, onClose }) {
 
   return (
     <>
-      <motion.div className={styles.panelOverlay} initial={{ opacity: 0 }} animate={{ opacity: 1 }} exit={{ opacity: 0 }} transition={{ duration: 0.2 }} onClick={onClose} />
-      <div className={styles.langPanel}><motion.div initial={{ x: '100%' }} animate={{ x: 0 }} exit={{ x: '100%' }} transition={{ duration: 0.35, ease: [0.32, 0.72, 0, 1] }} style={{ height: '100%', display: 'flex', flexDirection: 'column', flex: 1 }}>
+      <motion.div className={styles.panelOverlay} initial={{ opacity: 0 }} animate={{ opacity: 1 }} exit={{ opacity: 0 }} transition={mot.overlay} onClick={onClose} />
+      <div className={styles.langPanel}><motion.div initial={{ x: '100%' }} animate={{ x: 0 }} exit={{ x: '100%' }} transition={mot.panel} style={{ height: '100%', display: 'flex', flexDirection: 'column', flex: 1 }}>
         <div className={styles.langPanelHeader}>
           <span className={styles.langPanelTitle}>Choose Language</span>
           <button className={styles.btnOutline} onClick={onClose}>Close</button>
@@ -1131,8 +1131,8 @@ function NotesPanel({ notes, noteText, onNoteTextChange, onAddNote, onClose }) {
 
   return (
     <>
-      <motion.div className={styles.panelOverlay} initial={{ opacity: 0 }} animate={{ opacity: 1 }} exit={{ opacity: 0 }} transition={{ duration: 0.2 }} onClick={onClose} />
-      <div className={styles.notesPanel}><motion.div initial={{ x: '100%' }} animate={{ x: 0 }} exit={{ x: '100%' }} transition={{ duration: 0.35, ease: [0.32, 0.72, 0, 1] }} style={{ height: '100%', display: 'flex', flexDirection: 'column', flex: 1 }}>
+      <motion.div className={styles.panelOverlay} initial={{ opacity: 0 }} animate={{ opacity: 1 }} exit={{ opacity: 0 }} transition={mot.overlay} onClick={onClose} />
+      <div className={styles.notesPanel}><motion.div initial={{ x: '100%' }} animate={{ x: 0 }} exit={{ x: '100%' }} transition={mot.panel} style={{ height: '100%', display: 'flex', flexDirection: 'column', flex: 1 }}>
         <div className={styles.notesPanelHeader}>
           <span className={styles.notesPanelTitle}>Note - Onboarding / Available Threads</span>
           <button className={styles.btnOutline} onClick={onClose}>Close</button>
@@ -1186,8 +1186,8 @@ function ProfilePanel({ name, tpType, onClose }) {
 
   return (
     <>
-      <motion.div className={styles.panelOverlay} initial={{ opacity: 0 }} animate={{ opacity: 1 }} exit={{ opacity: 0 }} transition={{ duration: 0.2 }} onClick={onClose} />
-      <div className={styles.profilePanel}><motion.div initial={{ x: '100%' }} animate={{ x: 0 }} exit={{ x: '100%' }} transition={{ duration: 0.35, ease: [0.32, 0.72, 0, 1] }} style={{ height: '100%', display: 'flex', flexDirection: 'column', flex: 1 }}>
+      <motion.div className={styles.panelOverlay} initial={{ opacity: 0 }} animate={{ opacity: 1 }} exit={{ opacity: 0 }} transition={mot.overlay} onClick={onClose} />
+      <div className={styles.profilePanel}><motion.div initial={{ x: '100%' }} animate={{ x: 0 }} exit={{ x: '100%' }} transition={mot.panel} style={{ height: '100%', display: 'flex', flexDirection: 'column', flex: 1 }}>
         <div className={styles.profilePanelTopbar}>
           <button className={styles.panelBackBtn} onClick={onClose}>
             <span className="material-icons-outlined" style={{ fontSize: 18 }}>arrow_back</span> Back
@@ -1221,8 +1221,8 @@ function PropertiesPanel({ name, onClose }) {
 
   return (
     <>
-      <motion.div className={styles.panelOverlay} initial={{ opacity: 0 }} animate={{ opacity: 1 }} exit={{ opacity: 0 }} transition={{ duration: 0.2 }} onClick={onClose} />
-      <div className={styles.propsPanel}><motion.div initial={{ x: '100%' }} animate={{ x: 0 }} exit={{ x: '100%' }} transition={{ duration: 0.35, ease: [0.32, 0.72, 0, 1] }} style={{ height: '100%', display: 'flex', flexDirection: 'column', flex: 1 }}>
+      <motion.div className={styles.panelOverlay} initial={{ opacity: 0 }} animate={{ opacity: 1 }} exit={{ opacity: 0 }} transition={mot.overlay} onClick={onClose} />
+      <div className={styles.propsPanel}><motion.div initial={{ x: '100%' }} animate={{ x: 0 }} exit={{ x: '100%' }} transition={mot.panel} style={{ height: '100%', display: 'flex', flexDirection: 'column', flex: 1 }}>
         <div className={styles.propsPanelHeader}>
           <span className={styles.propsPanelTitle}>Properties — <span style={{ fontWeight: 400 }}>{name}</span></span>
           <button className={styles.btnOutline} onClick={onClose}>Close</button>
@@ -1277,7 +1277,7 @@ function PropertiesPanel({ name, onClose }) {
 
 function CancelModal({ onStay, onLeave }) {
   return (
-    <motion.div className={styles.cancelOverlay} initial={{ opacity: 0 }} animate={{ opacity: 1 }} exit={{ opacity: 0 }} transition={{ duration: 0.2 }} onClick={e => e.target === e.currentTarget && onStay()}>
+    <motion.div className={styles.cancelOverlay} initial={{ opacity: 0 }} animate={{ opacity: 1 }} exit={{ opacity: 0 }} transition={mot.overlay} onClick={e => e.target === e.currentTarget && onStay()}>
       <motion.div className={styles.cancelModal} initial={{ scale: 0.92, opacity: 0, y: 10 }} animate={{ scale: 1, opacity: 1, y: 0 }} exit={{ scale: 0.92, opacity: 0, y: 10 }} transition={{ duration: 0.22, ease: [0.32, 0.72, 0, 1] }}>
         <div className={styles.cancelModalHeader}>
           <span className={styles.cancelModalTitle}>Cancel Creation</span>

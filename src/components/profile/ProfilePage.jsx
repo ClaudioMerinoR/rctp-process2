@@ -1,5 +1,6 @@
 import { useState, useEffect, useRef } from 'react';
 import { motion, AnimatePresence } from 'motion/react';
+import { transition as mot } from '../../utils/motion';
 import { Link, useParams, useNavigate, useLocation } from 'react-router-dom';
 import PageLayout from '../layout/PageLayout';
 import Breadcrumb from '../layout/Breadcrumb';
@@ -43,7 +44,7 @@ function PartnerIcon({ partner, tooltip }) {
   return icon;
 }
 
-function Sidebar({ profile, activePage = 'summary' }) {
+function Sidebar({ profile, activePage = 'summary', profileLoading = false }) {
   return (
     <aside className={styles.sideNav}>
       {activePage === 'summary' ? (
@@ -56,9 +57,10 @@ function Sidebar({ profile, activePage = 'summary' }) {
       <div className={styles.navDivider} />
 
       {profile.sidebarSteps.map((step, i) => {
-        const dotCls = step.dot === 'red' ? styles.dotRed
-          : step.dot === 'green' ? styles.dotGreen
-          : step.dot === 'amber' ? styles.dotAmber
+        const effectiveDot = profileLoading && step.partner === 'ubo' ? 'grey' : step.dot;
+        const dotCls = effectiveDot === 'red' ? styles.dotRed
+          : effectiveDot === 'green' ? styles.dotGreen
+          : effectiveDot === 'amber' ? styles.dotAmber
           : styles.dotGrey;
 
         if (step.tooltip || step.newTag) {
@@ -208,7 +210,7 @@ export default function ProfilePage({ profile: profileProp, embedded = false }) 
           key="delete-modal-overlay"
           className={styles.deleteModalOverlay}
           initial={{ opacity: 0 }} animate={{ opacity: 1 }} exit={{ opacity: 0 }}
-          transition={{ duration: 0.2 }}
+          transition={mot.overlay}
           onClick={() => setDeleteModalOpen(false)}
         >
           <motion.div
@@ -270,8 +272,8 @@ export default function ProfilePage({ profile: profileProp, embedded = false }) 
                   <motion.div key="loading-badge" initial={{ opacity: 0 }} animate={{ opacity: 1 }} exit={{ opacity: 0 }} transition={{ duration: 0.3 }}
                     className={`${styles.badge} ${styles.badgePending} ${styles.badgeBtn}`}
                   >
-                    Pending
-                    <span className={`material-icons-outlined ${styles.spinIcon}`} style={{ fontSize: 16 }}>sync</span>
+                    Unknown
+                    <span className="material-icons-outlined" style={{ fontSize: 16 }}>help_outline</span>
                   </motion.div>
                 ) : (
                   <motion.div key="loaded-badge" initial={{ opacity: 0 }} animate={{ opacity: 1 }} exit={{ opacity: 0 }} transition={{ duration: 0.4 }}
@@ -290,7 +292,7 @@ export default function ProfilePage({ profile: profileProp, embedded = false }) 
 
       {/* Page Body */}
       <div className={styles.pageBody}>
-        <Sidebar profile={profile} activePage="summary" />
+        <Sidebar profile={profile} activePage="summary" profileLoading={profileLoading} />
 
         <main className={styles.mainContent}>
           {/* Details Card */}
@@ -773,8 +775,8 @@ function EditConnectionPanel({ row, onClose, onSave }) {
 
   return (
     <>
-      <motion.div className={styles.connectOverlay} initial={{ opacity: 0 }} animate={{ opacity: 1 }} exit={{ opacity: 0 }} transition={{ duration: 0.2 }} onClick={onClose} />
-      <div className={styles.connectPanel}><motion.div initial={{ x: '100%' }} animate={{ x: 0 }} exit={{ x: '100%' }} transition={{ duration: 0.32, ease: [0.32, 0.72, 0, 1] }} style={{ height: '100%', display: 'flex', flexDirection: 'column', flex: 1 }}>
+      <motion.div className={styles.connectOverlay} initial={{ opacity: 0 }} animate={{ opacity: 1 }} exit={{ opacity: 0 }} transition={mot.overlay} onClick={onClose} />
+      <div className={styles.connectPanel}><motion.div initial={{ x: '100%' }} animate={{ x: 0 }} exit={{ x: '100%' }} transition={mot.panel} style={{ height: '100%', display: 'flex', flexDirection: 'column', flex: 1 }}>
         <div className={styles.connectPanelHeader}>
           <span className={styles.connectPanelTitle}>Edit Connection</span>
           <button className={`${styles.btn} ${styles.btnOutline}`} onClick={onClose}>Close</button>
@@ -839,8 +841,8 @@ function ConnectPanel({ row, onClose, onConfirm }) {
 
   return (
     <>
-      <motion.div className={styles.connectOverlay} initial={{ opacity: 0 }} animate={{ opacity: 1 }} exit={{ opacity: 0 }} transition={{ duration: 0.2 }} onClick={onClose} />
-      <div className={styles.connectPanel}><motion.div initial={{ x: '100%' }} animate={{ x: 0 }} exit={{ x: '100%' }} transition={{ duration: 0.32, ease: [0.32, 0.72, 0, 1] }} style={{ height: '100%', display: 'flex', flexDirection: 'column', flex: 1 }}>
+      <motion.div className={styles.connectOverlay} initial={{ opacity: 0 }} animate={{ opacity: 1 }} exit={{ opacity: 0 }} transition={mot.overlay} onClick={onClose} />
+      <div className={styles.connectPanel}><motion.div initial={{ x: '100%' }} animate={{ x: 0 }} exit={{ x: '100%' }} transition={mot.panel} style={{ height: '100%', display: 'flex', flexDirection: 'column', flex: 1 }}>
         <div className={styles.connectPanelHeader}>
           <span className={styles.connectPanelTitle}>Connect Third Party</span>
           <button className={`${styles.btn} ${styles.btnOutline}`} onClick={onClose}>Close</button>
@@ -903,8 +905,8 @@ function NotesPanel({ profileName, notes, noteText, onNoteTextChange, onAddNote,
 
   return (
     <>
-      <motion.div className={styles.connectOverlay} initial={{ opacity: 0 }} animate={{ opacity: 1 }} exit={{ opacity: 0 }} transition={{ duration: 0.2 }} onClick={onClose} />
-      <div className={styles.notesPanel}><motion.div initial={{ x: '100%' }} animate={{ x: 0 }} exit={{ x: '100%' }} transition={{ duration: 0.32, ease: [0.32, 0.72, 0, 1] }} style={{ height: '100%', display: 'flex', flexDirection: 'column', flex: 1 }}>
+      <motion.div className={styles.connectOverlay} initial={{ opacity: 0 }} animate={{ opacity: 1 }} exit={{ opacity: 0 }} transition={mot.overlay} onClick={onClose} />
+      <div className={styles.notesPanel}><motion.div initial={{ x: '100%' }} animate={{ x: 0 }} exit={{ x: '100%' }} transition={mot.panel} style={{ height: '100%', display: 'flex', flexDirection: 'column', flex: 1 }}>
         <div className={styles.notesPanelHeader}>
           <span className={styles.notesPanelTitle}>Note - {profileName} / Available Threads</span>
           <button className={`${styles.btn} ${styles.btnOutline}`} onClick={onClose}>Close</button>
@@ -1006,8 +1008,8 @@ function LookMorePanel({ onClose, onSelect }) {
 
   return (
     <>
-      <motion.div className={styles.connectOverlay} initial={{ opacity: 0 }} animate={{ opacity: 1 }} exit={{ opacity: 0 }} transition={{ duration: 0.2 }} onClick={onClose} />
-      <div className={styles.lookMorePanel}><motion.div initial={{ x: '100%' }} animate={{ x: 0 }} exit={{ x: '100%' }} transition={{ duration: 0.32, ease: [0.32, 0.72, 0, 1] }} style={{ height: '100%', display: 'flex', flexDirection: 'column', flex: 1 }}>
+      <motion.div className={styles.connectOverlay} initial={{ opacity: 0 }} animate={{ opacity: 1 }} exit={{ opacity: 0 }} transition={mot.overlay} onClick={onClose} />
+      <div className={styles.lookMorePanel}><motion.div initial={{ x: '100%' }} animate={{ x: 0 }} exit={{ x: '100%' }} transition={mot.panel} style={{ height: '100%', display: 'flex', flexDirection: 'column', flex: 1 }}>
         <div className={styles.connectPanelHeader}>
           <span className={styles.connectPanelTitle}>Search for connections</span>
           <button className={`${styles.btn} ${styles.btnOutline}`} onClick={onClose}>Close</button>

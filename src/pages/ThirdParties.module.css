@@ -2,7 +2,7 @@
 .card {
   background: var(--neutral-00);
   border-radius: 4px;
-  box-shadow: 0 2px 4px rgba(0,0,0,0.08);
+  box-shadow: var(--shadow-card);
   overflow: hidden;
 }
 .titleRow {
@@ -52,7 +52,7 @@ thead th {
   background: var(--neutral-25);
   border-top: 1px solid var(--neutral-50);
   border-bottom: 1px solid var(--neutral-100);
-  padding: 8px; text-align: left;
+  padding: 10px 12px; text-align: left;
   font-size: 11px; font-weight: 600; color: var(--text-light);
   text-transform: uppercase; letter-spacing: 0.5px; white-space: nowrap;
 }
@@ -61,7 +61,7 @@ tbody tr:nth-child(odd)  { background: var(--primary-08); }
 tbody tr:nth-child(even) { background: var(--neutral-00); }
 tbody tr:hover { background: var(--primary-50); }
 tbody td {
-  padding: 8px; vertical-align: middle;
+  padding: 10px 12px; vertical-align: middle;
   color: var(--text-light); border-left: 1px solid var(--neutral-50);
 }
 tbody td:first-child { border-left: none; }

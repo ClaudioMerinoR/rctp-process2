@@ -1,5 +1,6 @@
 import { useState, useEffect } from 'react';
 import { motion, AnimatePresence } from 'motion/react';
+import { transition as mot } from '../../utils/motion';
 import { Link, useParams, useLocation } from 'react-router-dom';
 import PageLayout from '../layout/PageLayout';
 import Breadcrumb from '../layout/Breadcrumb';
@@ -69,18 +70,12 @@ function Accordion({ section, defaultOpen = true }) {
             animate={{
               height: 'auto',
               opacity: 1,
-              transition: {
-                height: { duration: 0.25, ease: [0.4, 0, 0.2, 1] },
-                opacity: { duration: 0.2, ease: 'easeOut' },
-              },
+              transition: mot.accordionOpen,
             }}
             exit={{
               height: 0,
               opacity: 0,
-              transition: {
-                height: { duration: 0.16, ease: [0.4, 0, 1, 1] },
-                opacity: { duration: 0.1, ease: 'easeIn' },
-              },
+              transition: mot.accordionClose,
             }}
           >
             <div className={styles.accordionBodyInner}>

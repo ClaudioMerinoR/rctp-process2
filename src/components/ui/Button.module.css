@@ -20,7 +20,7 @@
   outline: 2px solid var(--primary-500);
   outline-offset: 2px;
 }
-.filled  { background: var(--primary-500); color: #fff; }
+.filled  { background: var(--primary-500); color: var(--neutral-00); }
 .filled:hover { background: var(--primary-600); }
 .outline { background: var(--neutral-00); border: 1px solid var(--neutral-300); color: var(--text-light); }
 .outline:hover { background: var(--neutral-25); color: var(--text-normal); border-color: var(--neutral-400); }
