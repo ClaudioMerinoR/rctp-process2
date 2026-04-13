@@ -50,21 +50,19 @@
 table { width: 100%; border-collapse: collapse; font-size: 13px; min-width: 900px; }
 thead th {
   background: var(--neutral-25);
-  border-top: 1px solid var(--neutral-50);
+  border: 1px solid var(--neutral-50);
   border-bottom: 1px solid var(--neutral-100);
   padding: 10px 12px; text-align: left;
   font-size: 11px; font-weight: 600; color: var(--text-light);
   text-transform: uppercase; letter-spacing: 0.5px; white-space: nowrap;
 }
-tbody tr { border-bottom: 1px solid var(--neutral-50); transition: background 0.15s; }
 tbody tr:nth-child(odd)  { background: var(--primary-08); }
 tbody tr:nth-child(even) { background: var(--neutral-00); }
 tbody tr:hover { background: var(--primary-50); }
 tbody td {
   padding: 10px 12px; vertical-align: middle;
-  color: var(--text-light); border-left: 1px solid var(--neutral-50);
+  color: var(--text-light); border: 1px solid var(--neutral-50);
 }
-tbody td:first-child { border-left: none; }
 
 .cellLink { color: var(--primary-600); font-weight: 500; }
 .cellLink:hover { text-decoration: underline; }

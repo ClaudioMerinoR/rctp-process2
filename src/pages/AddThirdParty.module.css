@@ -237,8 +237,8 @@
 /* Dup table */
 .tableWrap { overflow-x: auto; margin-bottom: 16px; }
 .dupTable { width: 100%; border-collapse: collapse; font-size: 13px; }
-.dupTable thead th { background: var(--neutral-25); padding: 8px 12px; text-align: left; font-size: 11px; font-weight: 600; text-transform: uppercase; letter-spacing: 0.6px; color: var(--text-light); border-top: 1px solid var(--neutral-50); border-bottom: 1px solid var(--neutral-50); white-space: nowrap; }
-.dupTable tbody td { padding: 10px 12px; border-bottom: 1px solid var(--neutral-50); color: var(--text-light); vertical-align: middle; }
+.dupTable thead th { background: var(--neutral-25); padding: 8px 12px; text-align: left; font-size: 11px; font-weight: 600; text-transform: uppercase; letter-spacing: 0.6px; color: var(--text-light); border: 1px solid var(--neutral-50); white-space: nowrap; }
+.dupTable tbody td { padding: 10px 12px; border: 1px solid var(--neutral-50); color: var(--text-light); vertical-align: middle; }
 .dupTable tbody tr:nth-child(odd) td { background: var(--primary-08); }
 .dupTable tbody tr:hover td { background: var(--primary-50) !important; }
 .cellLink { color: var(--primary-600); font-weight: 500; cursor: pointer; }
@@ -273,10 +273,9 @@
 
 /* Verify table */
 .verifyTable { width: 100%; border-collapse: collapse; font-size: 13px; }
-.verifyTable thead th { background: var(--neutral-25); padding: 8px 10px; text-align: left; font-size: 11px; font-weight: 600; text-transform: uppercase; letter-spacing: 0.6px; color: var(--text-light); border-bottom: 1px solid var(--neutral-50); white-space: nowrap; }
+.verifyTable thead th { background: var(--neutral-25); padding: 8px 10px; text-align: left; font-size: 11px; font-weight: 600; text-transform: uppercase; letter-spacing: 0.6px; color: var(--text-light); border: 1px solid var(--neutral-50); white-space: nowrap; }
 .verifyTable thead th:first-child { width: 36px; }
-.verifyTable tbody td { padding: 10px 12px; border-bottom: 1px solid var(--neutral-50); color: var(--text-light); vertical-align: top; }
-.verifyTable tbody tr:last-child td { border-bottom: none; }
+.verifyTable tbody td { padding: 10px 12px; border: 1px solid var(--neutral-50); color: var(--text-light); vertical-align: top; }
 .verifyTable tbody tr:hover td { background: var(--neutral-25); }
 .rowSelected td { background: var(--primary-08) !important; }
 .resultsHeader { display: flex; align-items: center; justify-content: space-between; margin-bottom: 8px; font-size: 12px; color: var(--text-light); }
