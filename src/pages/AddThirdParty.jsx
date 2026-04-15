@@ -197,6 +197,8 @@ export default function AddThirdParty() {
   const processRef = useRef();
   const policyRef = useRef();
   const tagsRef = useRef();
+  const entityVerifyRef = useRef();
+  const dupCheckRef = useRef();
 
   useOutsideClick(ownerRef, () => setOwnerOpen(false));
   useOutsideClick(buRef, () => setBuOpen(false));
@@ -245,8 +247,8 @@ export default function AddThirdParty() {
   }, [tpType]);
 
   const types = [
-    { id: 'entity', icon: 'business', title: 'Entity / Organisation', desc: 'A company, firm, partnership or other registered legal entity.' },
-    { id: 'person', icon: 'person', title: 'Individual / Person', desc: 'A natural person acting as a sole trader, contractor or individual.' },
+    { id: 'entity', icon: 'business', title: 'Entity', desc: 'A company, firm, partnership or other registered legal entity.' },
+    { id: 'person', icon: 'person', title: 'Person', desc: 'A natural person acting as a sole trader, contractor or individual.' },
     { id: 'unknown', icon: 'help_outline', title: 'Unknown', desc: 'The type of third party is not yet known or cannot be determined.' },
   ];
 
@@ -261,6 +263,7 @@ export default function AddThirdParty() {
     setErrors(errs);
     if (Object.keys(errs).length) return;
     setContinued(true);
+    setTimeout(() => dupCheckRef.current?.scrollIntoView({ behavior: 'smooth', block: 'start' }), 50);
   }
 
   function applyVerification(duns) {
@@ -417,6 +420,7 @@ export default function AddThirdParty() {
       {continued && !dupConfirmed && tpType !== 'unknown' && (
         <motion.div
           key="dup-check-section"
+          ref={dupCheckRef}
           className={styles.section}
           initial={{ opacity: 0, y: 18 }}
           animate={{ opacity: 1, y: 0 }}
@@ -460,7 +464,10 @@ export default function AddThirdParty() {
             <button className={styles.btnOutline} onClick={() => setShowCancelModal(true)}>
               Cancel creation
             </button>
-            <button className={styles.btnFilled} onClick={() => setDupConfirmed(true)}>
+            <button className={styles.btnFilled} onClick={() => {
+              setDupConfirmed(true);
+              setTimeout(() => entityVerifyRef.current?.scrollIntoView({ behavior: 'smooth', block: 'start' }), 400);
+            }}>
               Continue with onboarding
             </button>
           </div>
@@ -474,6 +481,7 @@ export default function AddThirdParty() {
       {(dupConfirmed || tpType === 'unknown') && continued && tpType === 'entity' && (
         <motion.div
           key="entity-verify-section"
+          ref={entityVerifyRef}
           className={styles.section}
           initial={{ opacity: 0, y: 18 }}
           animate={{ opacity: 1, y: 0 }}

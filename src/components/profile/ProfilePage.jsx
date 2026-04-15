@@ -133,6 +133,12 @@ export default function ProfilePage({ profile: profileProp, embedded = false }) 
     return () => clearTimeout(t);
   }, [profileLoading]);
 
+  useEffect(() => {
+    if (!embedded && new URLSearchParams(location.search).get('new') === '1') {
+      window.scrollTo({ top: 0, behavior: 'instant' });
+    }
+  }, []);
+
   const [activeTab, setActiveTab] = useState('overview');
   const [alert, setAlert] = useState(null);
   const [deleteModalOpen, setDeleteModalOpen] = useState(false);
