@@ -25,12 +25,11 @@ Screens are grouped by flow. Use **Gazprom** as the primary reference for entity
 | 4 | Step 1 — Entity selected + name filled | Entity card active | Country + DUNS fields visible below name |
 | 5 | Step 1 — Person selected | Person card active | Name-only input |
 | 6 | Step 1 — Unknown selected | Unknown card active | |
-| 7 | Step 1 — Validation errors | Continue clicked, required fields empty | Error highlights on type cards and name input |
 | 8 | Step 2 — Duplicate check (results found) | Entity type, after Continue | Results table with mock records |
 | 9 | Step 2 — No duplicates (empty state) | Person type | Empty state message |
 | 10 | Step 3 — Entity verification | Entity type with country/DUNS | D&B results table, select row enabled |
 | 11 | Step 3 — Row selected | One result row highlighted | "Use This Entity" button active |
-| 12 | Step 4 — Summary section | All prior steps complete | Owner, Business Unit, Process, Policy, Tags fields |
+| 12 | Step 4 — Summary section | All prior steps complete | Owner, Business Unit, Process, Policy, Tags fields | 
 | 13 | Step 5 — Onboarding Details (Entity) | Entity type | Full entity field set |
 | 14 | Step 5 — Onboarding Details (Person) | Person type | Person-specific fields (Year of Birth, Gender, etc.) |
 | 15 | Step 5 — Onboarding Details (Unknown) | Unknown type | Unknown-specific fields (Third Party Type, etc.) |
