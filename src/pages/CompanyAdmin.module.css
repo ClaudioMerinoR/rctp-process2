@@ -40,7 +40,7 @@
 
 /* ── Left sidebar nav ── */
 .adminNav {
-  width: 256px;
+  width: 226px;
   flex-shrink: 0;
   background: var(--neutral-00);
   border: 1px solid var(--neutral-50);
@@ -53,8 +53,8 @@
   align-items: center;
   height: 40px;
   padding: 0 16px;
-  font-size: 16px;
-  color: var(--neutral-500);
+  font-size: 14px;
+  color: var(--text-light);
   background: none;
   border: none;
   border-bottom: 1px solid var(--neutral-50);

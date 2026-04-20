@@ -1,0 +1,256 @@
+/* ── Page header card ── */
+.pageHeaderCard {
+  background: var(--neutral-00);
+  border: 1px solid var(--neutral-50);
+  height: 64px;
+  display: flex;
+  align-items: center;
+  padding: 0 16px;
+  gap: 6px;
+}
+
+.pageHeaderTitle {
+  font-size: 20px;
+  font-weight: 500;
+  color: var(--text-normal);
+}
+
+.pageHeaderInfo {
+  font-size: 18px;
+  color: var(--neutral-500);
+  display: flex;
+  align-items: center;
+}
+
+/* ── Top tabs bar ── */
+.topTabsBar {
+  display: flex;
+  gap: 0;
+  padding: 0 4px;
+  background: var(--neutral-00);
+  border: 1px solid var(--neutral-50);
+  border-top: none;
+}
+
+.topTab {
+  position: relative;
+  height: 44px;
+  padding: 0 20px;
+  font-size: 14px;
+  font-weight: 400;
+  color: var(--text-light);
+  background: none;
+  border: none;
+  cursor: pointer;
+  font-family: inherit;
+  letter-spacing: 0.2px;
+  transition: color 0.15s;
+  white-space: nowrap;
+}
+
+.topTab::after {
+  content: '';
+  position: absolute;
+  bottom: 0;
+  left: 0;
+  right: 0;
+  height: 2px;
+  background: transparent;
+  transition: background 0.15s;
+}
+
+.topTab:hover {
+  color: var(--text-normal);
+}
+
+.topTabActive {
+  color: var(--primary-500);
+  font-weight: 500;
+}
+
+.topTabActive::after {
+  background: var(--primary-500);
+}
+
+/* ── Gap ── */
+.sectionGap {
+  height: 8px;
+}
+
+/* ── Two-column layout ── */
+.adminLayout {
+  display: flex;
+  align-items: flex-start;
+  gap: 16px;
+}
+
+/* ── Left sidebar nav ── */
+.adminNav {
+  width: 226px;
+  flex-shrink: 0;
+  background: var(--neutral-00);
+  border: 1px solid var(--neutral-50);
+  display: flex;
+  flex-direction: column;
+}
+
+.adminNavItem {
+  display: flex;
+  align-items: center;
+  height: 40px;
+  padding: 0 16px;
+  font-size: 14px;
+  color: var(--text-light);
+  background: none;
+  border: none;
+  border-bottom: 1px solid var(--neutral-50);
+  text-align: left;
+  cursor: pointer;
+  font-family: inherit;
+  transition: background 0.15s, color 0.15s;
+}
+
+.adminNavItem:last-child {
+  border-bottom: none;
+}
+
+.adminNavItem:hover:not(.adminNavItemActive) {
+  background: var(--neutral-25);
+  color: var(--text-normal);
+}
+
+.adminNavItemActive {
+  background: var(--primary-500);
+  color: var(--neutral-00);
+}
+
+/* ── Right content card ── */
+.adminContent {
+  flex: 1;
+  min-width: 0;
+  background: var(--neutral-00);
+  border: 1px solid var(--neutral-100);
+  border-top: 4px solid var(--primary-500);
+}
+
+/* ── Content header ── */
+.contentHeader {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  padding: 20px 20px 16px;
+}
+
+.contentTitle {
+  font-size: 20px;
+  font-weight: 500;
+  color: var(--text-normal);
+  margin: 0;
+}
+
+.contentHeaderRight {
+  display: flex;
+  align-items: center;
+  gap: 6px;
+}
+
+.renewalsStateLabel {
+  font-size: 12px;
+  color: var(--text-light);
+}
+
+.infoIcon {
+  font-size: 16px;
+  color: var(--neutral-400);
+  display: flex;
+  align-items: center;
+  margin-right: 4px;
+}
+
+/* ── Active/Inactive toggle (same as AddThirdParty summary) ── */
+.activeToggle { position: relative; width: 96px; height: 32px; border-radius: 2px; overflow: hidden; border: 1px solid var(--success-500); background: var(--success-500); cursor: pointer; user-select: none; transition: background 0.2s, border-color 0.2s; }
+.activeToggleOff { background: var(--alert-500); border-color: var(--alert-500); }
+.activeToggleTrack { position: absolute; inset: 0; display: flex; align-items: center; justify-content: center; font-size: 12px; font-weight: 500; text-transform: uppercase; color: var(--text-normal); padding-right: 14px; }
+.activeToggleOff .activeToggleTrack { color: var(--neutral-00); padding-right: 0; padding-left: 14px; }
+.activeToggleThumb { position: absolute; top: -2px; bottom: -2px; width: 26px; background: var(--neutral-00); right: -13px; transition: right 0.15s, left 0.15s; }
+.activeToggleOff .activeToggleThumb { right: auto; left: -13px; }
+
+/* ── Table ── */
+.tableWrap {
+  overflow-x: auto;
+  padding: 0 20px 20px;
+}
+
+.table {
+  width: 100%;
+  border-collapse: collapse;
+  font-size: 14px;
+  color: var(--text-normal);
+}
+
+.table thead th {
+  background: var(--neutral-25);
+  font-size: 12px;
+  font-weight: 500;
+  text-transform: uppercase;
+  letter-spacing: 0.5px;
+  color: var(--text-light);
+  padding: 0 12px;
+  height: 42px;
+  text-align: left;
+  border: 1px solid var(--neutral-50);
+  white-space: nowrap;
+}
+
+.thCenter {
+  text-align: center !important;
+}
+
+.table tbody td {
+  padding: 0 12px;
+  height: 54px;
+  border: 1px solid var(--neutral-50);
+  color: var(--text-normal);
+  font-size: 14px;
+}
+
+.tdCenter {
+  text-align: center;
+}
+
+/* ── Status dot ── */
+.statusDot {
+  display: inline-block;
+  width: 14px;
+  height: 14px;
+  border-radius: 50%;
+  background: var(--neutral-300);
+  vertical-align: middle;
+}
+
+.statusDotPublished {
+  background: var(--success-500);
+}
+
+/* ── Action button ── */
+.actionBtn {
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+  width: 34px;
+  height: 30px;
+  background: none;
+  border: none;
+  cursor: pointer;
+  color: var(--primary-500);
+  border-radius: 4px;
+  transition: background 0.15s;
+}
+
+.actionBtn:hover {
+  background: var(--primary-08);
+}
+
+.actionBtn .material-icons-outlined {
+  font-size: 16px;
+}
