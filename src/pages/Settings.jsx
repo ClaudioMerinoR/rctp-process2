@@ -1,4 +1,5 @@
 import { useState } from 'react';
+import { useNavigate } from 'react-router-dom';
 import PageLayout from '../components/layout/PageLayout';
 import Breadcrumb from '../components/layout/Breadcrumb';
 import styles from './Settings.module.css';
@@ -77,6 +78,7 @@ const ROWS = [
 ];
 
 export default function Settings() {
+  const navigate = useNavigate();
   const [activeTopTab, setActiveTopTab] = useState('General');
   const [activeNav, setActiveNav] = useState('Renewals');
 
@@ -177,7 +179,7 @@ export default function Settings() {
                       <span className={`${styles.statusDot}${row.published ? ' ' + styles.statusDotPublished : ''}`} />
                     </td>
                     <td>
-                      <button className={styles.actionBtn}>
+                      <button className={styles.actionBtn} onClick={() => navigate(`/settings/renewals/${row.version}/edit`)}>
                         <span className="material-icons-outlined">edit</span>
                       </button>
                     </td>

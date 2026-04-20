@@ -4,6 +4,7 @@ import ThirdParties from './pages/ThirdParties';
 import AddThirdParty from './pages/AddThirdParty';
 import ProfilePage from './components/profile/ProfilePage';
 import Settings from './pages/Settings';
+import RenewalEdit from './pages/RenewalEdit';
 import Placeholder from './pages/Placeholder';
 
 const CompanyAdmin       = lazy(() => import('./pages/CompanyAdmin'));
@@ -31,6 +32,7 @@ export default function App() {
           <Route path="/employees" element={<Placeholder title="Employees" />} />
           <Route path="/risk-search" element={<Placeholder title="Risk Search" />} />
           <Route path="/settings" element={<Settings />} />
+          <Route path="/settings/renewals/:version/edit" element={<RenewalEdit />} />
           <Route path="/reports" element={<Placeholder title="Reports" />} />
         </Routes>
       </Suspense>
