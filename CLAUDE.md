@@ -14,7 +14,7 @@ npm run preview      # Preview the production build locally
 
 No tests exist in this project.
 
-After any change: commit and push to `main` first, then `npm run deploy`. GitHub Pages repo: `ClaudioMerinoR/rctp-process2`.
+After any change: commit and push to the current branch first. Run `npm run deploy` only when deploying to GitHub Pages (builds from whatever is checked out). GitHub Pages repo: `ClaudioMerinoR/rctp-process2`.
 
 ## Architecture
 
@@ -36,6 +36,9 @@ After any change: commit and push to `main` first, then `npm run deploy`. GitHub
 - `src/components/profile/ProfilePage.jsx` — full TP profile view with tabbed sections, side panels, inline editing; also used embedded inside AddThirdParty to show the newly created profile
 - `src/components/profile/profile.module.css` — all profile styles (~1 600 lines)
 - `src/pages/CompanyAdmin.jsx` — field configuration UI; defines canonical field label lists (`INITIAL_ENTITY_OVERVIEW`, `INITIAL_PERSON_OVERVIEW`, etc.) that ProfilePage reads to render field slots
+- `src/pages/Settings.jsx` — Settings page with General/Process top tabs and left sidebar nav; currently shows the Renewals section (version history table, Enabled/Disabled toggle)
+- `src/pages/Settings.module.css` — Settings page styles; `adminNav`/`adminNavItem`/`adminNavItemActive` pattern is the canonical sidebar nav style — reused by CompanyAdmin
+- `src/pages/RenewalEdit.jsx` — Renewal configuration editor; reached from the edit icon in Settings → Renewals. Contains: draggable left/right panel split (50–80%), dynamic columns with per-column context menus (add/delete/move), drag-to-reorder rows, column picker side panel, Active/Inactive toggle per row
 - `src/data/profiles/` — static mock profile objects; `index.js` exports all profiles as named exports and as a `profiles` object keyed by id
 - `src/styles/globals.css` — all CSS variables
 - `src/utils/motion.js` — Framer Motion transition presets
@@ -88,8 +91,26 @@ Labels in `overviewFields` / `additionalFields` are prefixed by entity type to m
 
 The canonical lists are the `INITIAL_*` constants in `CompanyAdmin.jsx`.
 
+## Settings & RenewalEdit Architecture
+
+**Settings** (`/settings`) uses a two-level nav:
+- **Top tabs** (General / Process) — `role="tablist"` tabs with primary-blue underline indicator; switching tabs resets the sidebar to that tab's first item
+- **Left sidebar** (`adminNav` / `adminNavItem`) — active item gets `background: var(--primary-500)`. Same class names and sizes used in CompanyAdmin; keep them in sync.
+
+**RenewalEdit** (`/settings/renewals/:version/edit`) is a split-panel editor:
+- `rows` is the single source of truth for both the Rules panel and the Details panel — reordering one side automatically reorders the other
+- `cols` drives dynamic column rendering; each col has `{ id, label, condition }`
+- Column picker side panel (slides in from right) is triggered by Add Column Left/Right menu items; `colPicker: { colId, side }` state controls which column and side to insert at
+- The draggable divider uses `mousedown` → global `mousemove`/`mouseup` to update `leftPct` (clamped 50–80%)
+- Row drag-to-reorder uses HTML5 `draggable` on the drag handle only; `dragRowIdx` / `dragOverIdx` state drives the drop target highlight
+
+## Active/Inactive Toggle Pattern
+
+The green/red sliding toggle is used in AddThirdParty (Summary section), Settings (Renewals toggle), and RenewalEdit (per-row Status). The CSS is copy-pasted into each module file — not a shared component. Classes: `.activeToggle`, `.activeToggleOff`, `.activeToggleTrack`, `.activeToggleThumb`.
+
 ## CSS Patterns
 
 - **Inset section dividers:** `1px solid var(--neutral-50)` with `margin: 0 16px`. In `profile.module.css` implemented as `::before` pseudo-elements on `.riskReport` and `.tableCard`.
 - **Table borders:** `border: 1px solid var(--neutral-50)` on both `thead th` and `tbody td`.
 - **Risk card hover:** CSS gradient darkening only — no `box-shadow` or `y` transform.
+- **Sidebar nav (Settings / CompanyAdmin):** `width: 226px`, `font-size: 14px`, `color: var(--text-light)` for inactive items, `background: var(--primary-500); color: var(--neutral-00)` for active.
