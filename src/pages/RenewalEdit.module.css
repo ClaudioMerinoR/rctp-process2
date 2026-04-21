@@ -181,78 +181,176 @@
   gap: 8px;
 }
 
-/* ── Three-panel layout ── */
+/* ── Two-panel layout ── */
 .panels {
-  display: grid;
-  grid-template-columns: minmax(0, 7fr) minmax(0, 1fr) minmax(0, 4fr);
-  gap: 0;
   margin-top: 8px;
   background: var(--neutral-00);
   border: 1px solid var(--neutral-50);
-  min-height: 400px;
+  display: flex;
+  align-items: flex-start;
 }
 
-.panelCard {
-  padding: 16px;
-  border-right: 1px solid var(--neutral-50);
-  min-width: 0;
+.panelLeft {
+  flex: 0 0 58%;
+  padding: 16px 20px 20px;
 }
 
-.panelCardNarrow {
-  border-right: 1px solid var(--neutral-50);
-  padding-top: 64px;
+.panelDivider {
+  width: 8px;
+  align-self: stretch;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  cursor: col-resize;
+  background: var(--neutral-25);
+  border-left: 1px solid var(--neutral-100);
+  border-right: 1px solid var(--neutral-100);
+  flex-shrink: 0;
+  user-select: none;
 }
 
-.panelCard:last-child {
-  border-right: none;
+.panelDivider:hover .panelDividerHandle,
+.panelDivider:active .panelDividerHandle {
+  background: var(--primary-500);
+}
+
+.panelDividerHandle {
+  width: 2px;
+  height: 32px;
+  border-radius: 2px;
+  background: var(--neutral-300);
+  transition: background 0.15s;
+}
+
+.panelRight {
+  flex: 1;
+  padding: 16px 20px 20px;
 }
 
 .panelTitle {
   font-size: 18px;
   font-weight: 500;
   color: var(--text-normal);
-  margin: 0 0 16px;
+  margin: 0 0 12px;
 }
 
 /* ── Rules table ── */
 .rulesTable {
-  border: 1px solid var(--neutral-50);
+  border: 1px solid var(--neutral-100);
 }
 
-.rulesTableHeader {
+.rulesHeader {
   display: grid;
   grid-template-columns: 36px 1fr 1fr;
   background: var(--neutral-25);
-  border-bottom: 1px solid var(--neutral-50);
+  border-bottom: 1px solid var(--neutral-100);
 }
 
 .rulesDragCol {
   display: flex;
   align-items: center;
   justify-content: center;
-  width: 36px;
-  border-right: 1px solid var(--neutral-50);
+  border-right: 1px solid var(--neutral-100);
+  cursor: grab;
+  padding: 8px 0;
+  user-select: none;
 }
 
 .rulesColHead {
-  padding: 8px 10px;
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  padding: 9px 6px 9px 10px;
   font-size: 11px;
   font-weight: 500;
   text-transform: uppercase;
   letter-spacing: 0.5px;
   color: var(--text-light);
-  border-right: 1px solid var(--neutral-50);
+  border-right: 1px solid var(--neutral-100);
+  position: relative;
 }
 
 .rulesColHead:last-child {
   border-right: none;
 }
 
+.colHeadLabel {
+  flex: 1;
+  min-width: 0;
+  overflow: hidden;
+  text-overflow: ellipsis;
+  white-space: nowrap;
+}
+
+.colMenuWrap {
+  position: relative;
+  flex-shrink: 0;
+}
+
+.colMenuBtn {
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  width: 24px;
+  height: 24px;
+  background: none;
+  border: none;
+  cursor: pointer;
+  color: var(--neutral-400);
+  border-radius: 2px;
+  padding: 0;
+  transition: background 0.15s, color 0.15s;
+}
+
+.colMenuBtn:hover {
+  background: var(--neutral-50);
+  color: var(--text-normal);
+}
+
+.colMenu {
+  position: absolute;
+  top: calc(100% + 4px);
+  right: 0;
+  z-index: 100;
+  background: var(--neutral-00);
+  border: 1px solid var(--neutral-100);
+  border-radius: 4px;
+  box-shadow: 0 4px 12px rgba(0,0,0,0.12);
+  min-width: 180px;
+  padding: 4px 0;
+}
+
+.colMenuItem {
+  display: block;
+  width: 100%;
+  padding: 10px 16px;
+  font-family: inherit;
+  font-size: 14px;
+  font-weight: 400;
+  color: var(--text-normal);
+  background: none;
+  border: none;
+  text-align: left;
+  cursor: pointer;
+  transition: background 0.1s;
+  text-transform: none;
+  letter-spacing: normal;
+}
+
+.colMenuItem:hover:not(:disabled) {
+  background: var(--primary-08);
+}
+
+.colMenuItem:disabled {
+  color: var(--neutral-300);
+  cursor: default;
+}
+
 .ruleRow {
   display: grid;
   grid-template-columns: 36px 1fr 1fr;
-  border-bottom: 1px solid var(--neutral-50);
-  cursor: pointer;
+  border-bottom: 1px solid var(--neutral-100);
+  height: 46px;
   transition: background 0.1s;
 }
 
@@ -264,25 +362,32 @@
   background: var(--primary-08);
 }
 
-.ruleRowSelected {
-  background: rgba(2, 163, 213, 0.07);
+.ruleRowActive {
+  background: var(--primary-08);
   border-left: 3px solid var(--primary-500);
 }
 
+.ruleRowDropTarget {
+  border-top: 2px solid var(--primary-500);
+}
+
 .ruleCell {
-  padding: 4px 6px;
-  border-right: 1px solid var(--neutral-50);
+  padding: 5px 6px;
+  border-right: 1px solid var(--neutral-100);
+  display: flex;
+  align-items: center;
 }
 
 .ruleCell:last-child {
   border-right: none;
 }
 
+/* Condition pill */
 .conditionPill {
   display: flex;
   align-items: center;
-  gap: 0;
-  height: 30px;
+  height: 34px;
+  width: 100%;
   border: 1px solid var(--neutral-200);
   background: var(--neutral-00);
   border-radius: 2px;
@@ -300,6 +405,7 @@
   display: flex;
   align-items: center;
   border-right: 1px solid var(--neutral-200);
+  flex-shrink: 0;
 }
 
 .ruleSelect {
@@ -314,67 +420,129 @@
   outline: none;
   cursor: pointer;
   appearance: none;
+  min-width: 0;
 }
 
-/* ── Renewal Levels column ── */
-.levelsTh {
-  font-size: 10px;
+/* ── Add Rules button ── */
+.addRulesBtn {
+  display: inline-flex;
+  align-items: center;
+  gap: 4px;
+  margin-top: 12px;
+  background: none;
+  border: none;
+  cursor: pointer;
+  font-family: inherit;
+  font-size: 12px;
   font-weight: 500;
   text-transform: uppercase;
-  letter-spacing: 0.3px;
-  color: var(--text-light);
-  padding: 8px 0;
-  background: var(--neutral-25);
-  border-bottom: 1px solid var(--neutral-50);
-  border-top: 1px solid var(--neutral-50);
-  text-align: center;
+  letter-spacing: 0.5px;
+  color: var(--primary-500);
+  padding: 0;
+  transition: color 0.15s;
 }
 
-.levelRow {
+.addRulesBtn:hover {
+  color: var(--primary-600);
+}
+
+/* ── Details table ── */
+.detailsTable {
+  border: 1px solid var(--neutral-100);
+}
+
+.detailsHeader {
+  display: grid;
+  grid-template-columns: 1fr 120px;
+  background: var(--neutral-25);
+  border-bottom: 1px solid var(--neutral-100);
+}
+
+.detailsColPeriod {
+  display: flex;
+  align-items: center;
+  padding: 9px 10px;
+  font-size: 11px;
+  font-weight: 500;
+  text-transform: uppercase;
+  letter-spacing: 0.5px;
+  color: var(--text-light);
+  border-right: 1px solid var(--neutral-100);
+  gap: 6px;
+}
+
+.detailsColStatus {
   display: flex;
   align-items: center;
   justify-content: center;
-  height: 38px;
-  border-bottom: 1px solid var(--neutral-50);
-  cursor: pointer;
+  padding: 9px 10px;
+  font-size: 11px;
+  font-weight: 500;
+  text-transform: uppercase;
+  letter-spacing: 0.5px;
+  color: var(--text-light);
+}
+
+.detailRow {
+  display: grid;
+  grid-template-columns: 1fr 120px;
+  border-bottom: 1px solid var(--neutral-100);
+  height: 46px;
   transition: background 0.1s;
 }
 
-.levelRow:last-child {
+.detailRow:last-child {
   border-bottom: none;
 }
 
-.levelRow:hover {
+.detailRow:hover {
   background: var(--primary-08);
 }
 
-.levelRowSelected {
-  background: var(--primary-500);
+.detailRowActive {
+  background: var(--primary-08);
 }
 
-.levelRowSelected .checkOn,
-.levelRowSelected .checkOff {
-  color: var(--neutral-00);
+/* Period inputs */
+.periodInput {
+  flex: 1;
+  height: 34px;
+  min-width: 0;
+  padding: 0 8px;
+  border: 1px solid var(--neutral-200);
+  border-radius: 2px;
+  font-family: inherit;
+  font-size: 14px;
+  color: var(--text-normal);
+  outline: none;
+  background: var(--neutral-00);
 }
 
-.checkOn {
-  color: var(--success-700);
-  font-size: 20px;
+.periodInput:focus {
+  border-color: var(--primary-500);
+}
+
+.periodSelect {
+  flex: 1;
+  height: 34px;
+  min-width: 0;
+  padding: 0 24px 0 8px;
+  border: 1px solid var(--neutral-200);
+  border-radius: 2px;
+  font-family: inherit;
+  font-size: 13px;
+  color: var(--text-normal);
+  outline: none;
+  background: var(--neutral-00);
+  appearance: none;
+  background-image: url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' width='16' height='16' viewBox='0 0 24 24' fill='%238D9CA9'%3E%3Cpath d='M7 10l5 5 5-5z'/%3E%3C/svg%3E");
+  background-repeat: no-repeat;
+  background-position: right 4px center;
   cursor: pointer;
 }
 
-.checkOff {
-  color: var(--alert-500);
-  font-size: 20px;
-  cursor: pointer;
-}
-
-/* ── Detail for Levels ── */
-.detailHeader {
-  display: flex;
-  align-items: center;
-  justify-content: space-between;
-  margin-bottom: 20px;
+.periodSelect:focus {
+  border-color: var(--primary-500);
 }
 
 .detailForm {
@@ -390,3 +558,161 @@
 .activeToggleOff .activeToggleTrack { color: var(--neutral-00); padding-right: 0; padding-left: 14px; }
 .activeToggleThumb { position: absolute; top: -2px; bottom: -2px; width: 26px; background: var(--neutral-00); right: -13px; transition: right 0.15s, left 0.15s; }
 .activeToggleOff .activeToggleThumb { right: auto; left: -13px; }
+
+/* ── Column Picker Side Panel ── */
+.pickerOverlay {
+  position: fixed;
+  inset: 0;
+  z-index: 200;
+  background: rgba(0, 0, 0, 0.2);
+}
+
+.pickerPanel {
+  position: fixed;
+  top: 0;
+  right: 0;
+  bottom: 0;
+  width: 480px;
+  z-index: 201;
+  background: var(--neutral-00);
+  border-left: 1px solid var(--neutral-100);
+  display: flex;
+  flex-direction: column;
+  box-shadow: -4px 0 16px rgba(0, 0, 0, 0.1);
+  animation: slideInRight 0.2s ease;
+}
+
+@keyframes slideInRight {
+  from { transform: translateX(100%); }
+  to   { transform: translateX(0); }
+}
+
+.pickerHeader {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  padding: 16px 20px;
+  border-bottom: 1px solid var(--neutral-50);
+  flex-shrink: 0;
+}
+
+.pickerTitle {
+  font-size: 18px;
+  font-weight: 500;
+  color: var(--text-normal);
+}
+
+.pickerClose {
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  width: 32px;
+  height: 32px;
+  background: none;
+  border: none;
+  cursor: pointer;
+  color: var(--neutral-500);
+  border-radius: 4px;
+  transition: background 0.15s, color 0.15s;
+}
+
+.pickerClose:hover {
+  background: var(--neutral-25);
+  color: var(--text-normal);
+}
+
+.pickerSearchWrap {
+  position: relative;
+  padding: 12px 20px;
+  flex-shrink: 0;
+  border-bottom: 1px solid var(--neutral-50);
+}
+
+.pickerSearchIcon {
+  position: absolute;
+  left: 32px;
+  top: 50%;
+  transform: translateY(-50%);
+  font-size: 18px;
+  color: var(--neutral-400);
+  pointer-events: none;
+}
+
+.pickerSearchInput {
+  width: 100%;
+  height: 36px;
+  padding: 0 12px 0 36px;
+  border: 1px solid var(--neutral-200);
+  border-radius: 4px;
+  font-family: inherit;
+  font-size: 14px;
+  color: var(--text-normal);
+  outline: none;
+  box-sizing: border-box;
+  transition: border-color 0.15s;
+}
+
+.pickerSearchInput:focus {
+  border-color: var(--primary-500);
+}
+
+.pickerTableWrap {
+  flex: 1;
+  overflow-y: auto;
+}
+
+.pickerTableWrap::-webkit-scrollbar {
+  width: 4px;
+}
+
+.pickerTableWrap::-webkit-scrollbar-thumb {
+  background: var(--neutral-200);
+  border-radius: 4px;
+}
+
+.pickerTable {
+  width: 100%;
+  border-collapse: collapse;
+}
+
+.pickerTable thead th {
+  position: sticky;
+  top: 0;
+  background: var(--neutral-25);
+  font-size: 11px;
+  font-weight: 500;
+  text-transform: uppercase;
+  letter-spacing: 0.5px;
+  color: var(--text-light);
+  padding: 10px 16px;
+  text-align: left;
+  border-bottom: 1px solid var(--neutral-100);
+  border-right: 1px solid var(--neutral-100);
+}
+
+.pickerTable thead th:last-child {
+  border-right: none;
+}
+
+.pickerRow {
+  cursor: pointer;
+  transition: background 0.1s;
+}
+
+.pickerRow:hover {
+  background: var(--primary-08);
+}
+
+.pickerRow td {
+  padding: 12px 16px;
+  font-size: 14px;
+  color: var(--text-normal);
+  border-bottom: 1px solid var(--neutral-50);
+  border-right: 1px solid var(--neutral-50);
+}
+
+.pickerRow td:last-child {
+  border-right: none;
+  color: var(--text-light);
+  font-size: 13px;
+}

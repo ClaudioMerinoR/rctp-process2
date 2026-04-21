@@ -1,4 +1,4 @@
-import { useState } from 'react';
+import { useState, useRef, useCallback, useEffect } from 'react';
 import { useParams, useNavigate } from 'react-router-dom';
 import PageLayout from '../components/layout/PageLayout';
 import Breadcrumb from '../components/layout/Breadcrumb';
@@ -6,49 +6,233 @@ import styles from './RenewalEdit.module.css';
 
 const RENEWAL_PERIOD_UNITS = ['Day(s)', 'Week(s)', 'Month(s)', 'Year(s)'];
 
-const RULE_CONDITIONS = ['Yes', 'No', 'Any'];
 const RULE_OPTIONS = ['', 'Low Risk', 'Medium Risk', 'High Risk', 'Approved', 'Pending'];
 
-const INITIAL_RULES = [
-  { condition: 'Yes', value: '' },
-  { condition: 'Yes', value: '' },
-  { condition: 'Yes', value: '' },
-  { condition: 'Yes', value: '' },
-  { condition: 'Yes', value: '' },
-  { condition: 'Yes', value: '' },
-  { condition: 'Any', value: '' },
+const PROPERTIES = [
+  { name: 'ABC Policy Applies To',              category: 'RCTP' },
+  { name: 'ABC Risk Assess',                    category: 'EDD' },
+  { name: 'Active Date',                        category: 'RISKCENTER Third Party' },
+  { name: 'AFTE Policy',                        category: 'EDD' },
+  { name: 'Agreement Documented',               category: 'RISKCENTER Third Party' },
+  { name: 'Anti-Bribery Policy',                category: 'EDD' },
+  { name: 'Audited Accounts',                   category: 'EDD' },
+  { name: 'Average Turnover',                   category: 'RISKCENTER Third Party' },
+  { name: 'Bank Account Country',               category: 'EDD' },
+  { name: 'Business Description',               category: 'RISKCENTER Third Party' },
+  { name: 'Business Description Details',       category: 'RISKCENTER Third Party' },
+  { name: 'Business Unit',                      category: 'RISKCENTER Third Party' },
+  { name: 'Commission Success Fee',             category: 'RISKCENTER Third Party' },
+  { name: 'Commission Success Fee Details',     category: 'RISKCENTER Third Party' },
+  { name: 'Company Tags',                       category: 'Tag' },
+  { name: 'Compliance Training',                category: 'EDD' },
+  { name: 'Compliance Training Details',        category: 'EDD' },
+  { name: 'Contract Value Amount',              category: 'RISKCENTER Third Party' },
+  { name: 'Contract Value Banding',             category: 'RISKCENTER Third Party' },
+  { name: 'Contract Value Known',               category: 'RISKCENTER Third Party' },
+  { name: 'Contract Value Not Known Explanation', category: 'RISKCENTER Third Party' },
+  { name: 'Contractors',                        category: 'EDD' },
+  { name: 'Current Risk Level - BreakDown',     category: 'RISKCENTER Third Party' },
+  { name: 'Current Risk Score',                 category: 'RISKCENTER Third Party' },
+  { name: 'Current Risk Status',                category: 'RISKCENTER Third Party' },
+  { name: 'Date business established',          category: 'RISKCENTER Third Party' },
+  { name: 'Date of Decision',                   category: 'RISKCENTER Third Party' },
+  { name: 'Deleted Date',                       category: 'RISKCENTER Third Party' },
+  { name: 'EDD Signature Job Title',            category: 'EDD' },
+  { name: 'Entity Company Number',              category: 'RISKCENTER Third Party' },
+  { name: 'Entity ID Type',                     category: 'RISKCENTER Third Party' },
+  { name: 'Entity ID Value',                    category: 'RISKCENTER Third Party' },
+  { name: 'Entity Industry Sector - onboarding', category: 'RISKCENTER Third Party' },
+  { name: 'Entity Other Known Name or Alias',   category: 'RISKCENTER Third Party' },
+  { name: 'Entity Registered Address',          category: 'RISKCENTER Third Party' },
+  { name: 'Entity Registered Country',          category: 'RISKCENTER Third Party' },
+  { name: 'Entity Third Party Legal Name',      category: 'RISKCENTER Third Party' },
+  { name: 'Entity Verified',                    category: 'RISKCENTER Third Party' },
+  { name: 'Entity Website',                     category: 'RISKCENTER Third Party' },
+  { name: 'Environmental Impact Reports',       category: 'EDD' },
+  { name: 'Environmental Policies',             category: 'EDD' },
+  { name: 'Financial Referee 1',                category: 'EDD' },
+  { name: 'Financial Referee 2',                category: 'EDD' },
+  { name: 'Financial Referee 3',                category: 'EDD' },
+  { name: 'Fourth Party Due Diligence',         category: 'EDD' },
+  { name: 'Gender',                             category: 'RISKCENTER Third Party' },
+  { name: 'Government Contracts Debarment',     category: 'EDD' },
+  { name: 'Government Contracts Debarment Details', category: 'EDD' },
+  { name: 'Government Interaction',             category: 'EDD' },
+  { name: 'Government Interaction Details',     category: 'EDD' },
+  { name: 'Illegal Activity',                   category: 'EDD' },
+  { name: 'Illegal Activity Details',           category: 'EDD' },
+  { name: 'InActive Date',                      category: 'RISKCENTER Third Party' },
+  { name: 'Instances of Trafficking',           category: 'EDD' },
+  { name: 'Instances of Trafficking Details',   category: 'EDD' },
+  { name: 'Internal Reference or ID',           category: 'RISKCENTER Third Party' },
+  { name: 'Modern Slavery Policy Applies To',   category: 'EDD' },
+  { name: 'Monitoring Last Update',             category: 'RISKCENTER Third Party' },
+  { name: 'Other Red Flag(s)',                  category: 'EDD' },
+  { name: 'Other Red Flag(s) Details',          category: 'EDD' },
+  { name: 'Payment Method',                     category: 'EDD' },
+  { name: 'Person Business Address',            category: 'RISKCENTER Third Party' },
+  { name: 'Person Country of Residence',        category: 'RISKCENTER Third Party' },
+  { name: 'Person ID Type',                     category: 'RISKCENTER Third Party' },
+  { name: 'Person ID Value',                    category: 'RISKCENTER Third Party' },
+  { name: 'Person Industry Sector - onboarding', category: 'RISKCENTER Third Party' },
+  { name: 'Person Other Known Name or Alias',   category: 'RISKCENTER Third Party' },
+  { name: 'Person Third Party Legal Name',      category: 'RISKCENTER Third Party' },
+  { name: 'Person Year of Birth',               category: 'RISKCENTER Third Party' },
+  { name: 'Politically Exposed Person',         category: 'EDD' },
+  { name: 'Process Name',                       category: 'RISKCENTER Third Party' },
+  { name: 'Responsible Client Unit',            category: 'RISKCENTER Third Party' },
+  { name: 'Screening & Monitoring Policy',      category: 'RISKCENTER Third Party' },
+  { name: 'Third Party Contact Email Address',  category: 'RISKCENTER Third Party' },
+  { name: 'Third Party Expiry Date',            category: 'RISKCENTER Third Party' },
+  { name: 'Third Party Legal Structure',        category: 'RISKCENTER Third Party' },
+  { name: 'Third Party Owner',                  category: 'RISKCENTER Third Party' },
 ];
 
-const INITIAL_LEVELS = [
-  { expirations: true,  active: true,  period: '8',  unit: 'Year(s)' },
-  { expirations: true,  active: false, period: '5',  unit: 'Year(s)' },
-  { expirations: true,  active: false, period: '3',  unit: 'Year(s)' },
-  { expirations: false, active: false, period: '2',  unit: 'Year(s)' },
-  { expirations: false, active: false, period: '1',  unit: 'Year(s)' },
-  { expirations: false, active: false, period: '6',  unit: 'Month(s)' },
-  { expirations: true,  active: false, period: '',   unit: 'Year(s)' },
+const INITIAL_COLS = [
+  { id: 'col0', label: 'After Risk Assessment', condition: 'Yes' },
+  { id: 'col1', label: 'Current Risk Level',    condition: 'Any' },
+];
+
+const INITIAL_ROWS = [
+  { values: { col0: '', col1: '' }, period: '8', unit: 'Year(s)', active: true  },
+  { values: { col0: '', col1: '' }, period: '8', unit: 'Year(s)', active: false },
+  { values: { col0: '', col1: '' }, period: '8', unit: 'Year(s)', active: false },
+  { values: { col0: '', col1: '' }, period: '8', unit: 'Year(s)', active: false },
+  { values: { col0: '', col1: '' }, period: '8', unit: 'Year(s)', active: false },
+  { values: { col0: '', col1: '' }, period: '8', unit: 'Year(s)', active: false },
+  { values: { col0: '', col1: '' }, period: '8', unit: 'Year(s)', active: false },
 ];
 
 export default function RenewalEdit() {
   const { version } = useParams();
   const navigate = useNavigate();
 
-  // Rules
-  const [rules, setRules] = useState(INITIAL_RULES);
+  const [cols, setCols] = useState(INITIAL_COLS);
+  const [rows, setRows] = useState(INITIAL_ROWS);
+  const [leftPct, setLeftPct] = useState(58);
+  const [openMenu, setOpenMenu] = useState(null);
+  const [dragRowIdx, setDragRowIdx] = useState(null);
+  const [dragOverIdx, setDragOverIdx] = useState(null);
+  // Column picker panel
+  const [colPicker, setColPicker] = useState(null); // { colId, side: 'left'|'right' }
+  const [pickerSearch, setPickerSearch] = useState('');
+  const panelsRef = useRef(null);
+  const dragging = useRef(false);
+  const menuRef = useRef(null);
 
-  // Expiry Levels
-  const [levels, setLevels] = useState(INITIAL_LEVELS);
-  const [selectedLevel, setSelectedLevel] = useState(0);
-
-  function updateRule(i, key, val) {
-    setRules(prev => prev.map((r, idx) => idx === i ? { ...r, [key]: val } : r));
+  function updateRow(i, key, val) {
+    setRows(prev => prev.map((r, idx) => idx === i ? { ...r, [key]: val } : r));
   }
 
-  function updateLevel(i, key, val) {
-    setLevels(prev => prev.map((l, idx) => idx === i ? { ...l, [key]: val } : l));
+  function updateRowColVal(rowIdx, colId, val) {
+    setRows(prev => prev.map((r, i) => i === rowIdx ? { ...r, values: { ...r.values, [colId]: val } } : r));
   }
 
-  const currentLevel = levels[selectedLevel];
+  // Column operations — open picker first
+  function addColLeft(colId) {
+    setColPicker({ colId, side: 'left' });
+    setPickerSearch('');
+    setOpenMenu(null);
+  }
+
+  function addColRight(colId) {
+    setColPicker({ colId, side: 'right' });
+    setPickerSearch('');
+    setOpenMenu(null);
+  }
+
+  function confirmAddCol(property) {
+    if (!colPicker) return;
+    const { colId, side } = colPicker;
+    const idx = cols.findIndex(c => c.id === colId);
+    const newId = 'col' + Date.now();
+    const newCol = { id: newId, label: property.name, condition: 'Any' };
+    const insertAt = side === 'left' ? idx : idx + 1;
+    setCols(prev => [...prev.slice(0, insertAt), newCol, ...prev.slice(insertAt)]);
+    setRows(prev => prev.map(r => ({ ...r, values: { ...r.values, [newId]: '' } })));
+    setColPicker(null);
+  }
+
+  function moveColRight(colId) {
+    const idx = cols.findIndex(c => c.id === colId);
+    if (idx >= cols.length - 1) return;
+    const next = [...cols];
+    [next[idx], next[idx + 1]] = [next[idx + 1], next[idx]];
+    setCols(next);
+    setOpenMenu(null);
+  }
+
+  function deleteCol(colId) {
+    if (cols.length <= 1) return;
+    setCols(prev => prev.filter(c => c.id !== colId));
+    setRows(prev => prev.map(r => { const v = { ...r.values }; delete v[colId]; return { ...r, values: v }; }));
+    setOpenMenu(null);
+  }
+
+  // Row drag-to-reorder
+  function onRowDragStart(e, i) {
+    setDragRowIdx(i);
+    e.dataTransfer.effectAllowed = 'move';
+  }
+
+  function onRowDragOver(e, i) {
+    e.preventDefault();
+    e.dataTransfer.dropEffect = 'move';
+    setDragOverIdx(i);
+  }
+
+  function onRowDrop(e, i) {
+    e.preventDefault();
+    if (dragRowIdx === null || dragRowIdx === i) {
+      setDragRowIdx(null);
+      setDragOverIdx(null);
+      return;
+    }
+    setRows(prev => {
+      const next = [...prev];
+      const [moved] = next.splice(dragRowIdx, 1);
+      next.splice(i, 0, moved);
+      return next;
+    });
+    setDragRowIdx(null);
+    setDragOverIdx(null);
+  }
+
+  function onRowDragEnd() {
+    setDragRowIdx(null);
+    setDragOverIdx(null);
+  }
+
+  // Close menu on outside click
+  useEffect(() => {
+    if (!openMenu) return;
+    const handler = (e) => {
+      if (menuRef.current && !menuRef.current.contains(e.target)) setOpenMenu(null);
+    };
+    document.addEventListener('mousedown', handler);
+    return () => document.removeEventListener('mousedown', handler);
+  }, [openMenu]);
+
+  const onDividerMouseDown = useCallback((e) => {
+    e.preventDefault();
+    dragging.current = true;
+
+    const onMouseMove = (e) => {
+      if (!dragging.current || !panelsRef.current) return;
+      const rect = panelsRef.current.getBoundingClientRect();
+      const pct = ((e.clientX - rect.left) / rect.width) * 100;
+      setLeftPct(Math.min(80, Math.max(50, pct)));
+    };
+
+    const onMouseUp = () => {
+      dragging.current = false;
+      window.removeEventListener('mousemove', onMouseMove);
+      window.removeEventListener('mouseup', onMouseUp);
+    };
+
+    window.addEventListener('mousemove', onMouseMove);
+    window.addEventListener('mouseup', onMouseUp);
+  }, []);
 
   return (
     <PageLayout>
@@ -74,119 +258,185 @@ export default function RenewalEdit() {
         </div>
       </div>
 
-      {/* ── Three-panel grid ── */}
-      <div className={styles.panels}>
+      {/* ── Panels ── */}
+      <div className={styles.panels} ref={panelsRef}>
+        <div className={styles.panelLeft} style={{ flex: `0 0 ${leftPct}%` }}>
 
-        {/* Rules panel */}
-        <div className={styles.panelCard}>
+          {/* Rules heading */}
           <h3 className={styles.panelTitle}>Rules</h3>
-          <div className={styles.rulesTable}>
-            <div className={styles.rulesTableHeader}>
+
+          {/* Rules table */}
+          <div className={styles.rulesTable} style={{ gridTemplateColumns: `36px repeat(${cols.length}, 1fr)` }}>
+            {/* Header */}
+            <div className={styles.rulesHeader} style={{ gridTemplateColumns: `36px repeat(${cols.length}, 1fr)` }}>
               <div className={styles.rulesDragCol} />
-              <div className={styles.rulesColHead}>After Risk Assessment</div>
-              <div className={styles.rulesColHead}>Current Risk Level</div>
-            </div>
-            {rules.map((rule, i) => (
-              <div
-                key={i}
-                className={`${styles.ruleRow}${selectedLevel === i ? ' ' + styles.ruleRowSelected : ''}`}
-                onClick={() => setSelectedLevel(i)}
-              >
-                <div className={styles.rulesDragCol}>
-                  <span className="material-icons-outlined" style={{ fontSize: 16, color: 'var(--neutral-400)' }}>drag_indicator</span>
-                </div>
-                <div className={styles.ruleCell}>
-                  <div className={styles.conditionPill}>
-                    <span className={styles.conditionTag}>{rule.condition}</span>
-                    <select
-                      className={styles.ruleSelect}
-                      value={rule.value}
-                      onChange={e => updateRule(i, 'value', e.target.value)}
-                      onClick={e => e.stopPropagation()}
+              {cols.map(col => (
+                <div key={col.id} className={styles.rulesColHead}>
+                  <span className={styles.colHeadLabel}>{col.label}</span>
+                  <div className={styles.colMenuWrap} ref={openMenu === col.id ? menuRef : null}>
+                    <button
+                      className={styles.colMenuBtn}
+                      onClick={() => setOpenMenu(openMenu === col.id ? null : col.id)}
                     >
-                      {RULE_OPTIONS.map(o => <option key={o} value={o}>{o || 'Choose'}</option>)}
-                    </select>
+                      <span className="material-icons-outlined" style={{ fontSize: 18 }}>more_vert</span>
+                    </button>
+                    {openMenu === col.id && (
+                      <div className={styles.colMenu}>
+                        <button className={styles.colMenuItem} onClick={() => addColLeft(col.id)}>Add Column Left</button>
+                        <button className={styles.colMenuItem} onClick={() => addColRight(col.id)}>Add Column Right</button>
+                        <button className={styles.colMenuItem} onClick={() => moveColRight(col.id)} disabled={cols.indexOf(col) === cols.length - 1}>Move Column Right</button>
+                        <button className={styles.colMenuItem} onClick={() => deleteCol(col.id)} disabled={cols.length <= 1}>Delete Column</button>
+                      </div>
+                    )}
                   </div>
                 </div>
-                <div className={styles.ruleCell}>
-                  <div className={styles.conditionPill}>
-                    <span className={styles.conditionTag}>Any</span>
-                    <select
-                      className={styles.ruleSelect}
-                      value=""
-                      onChange={() => {}}
-                      onClick={e => e.stopPropagation()}
-                    >
-                      {RULE_OPTIONS.map(o => <option key={o} value={o}>{o || 'Choose'}</option>)}
-                    </select>
+              ))}
+            </div>
+
+            {/* Rows */}
+            {rows.map((row, i) => (
+              <div
+                key={i}
+                className={`${styles.ruleRow}${row.active ? ' ' + styles.ruleRowActive : ''}${dragOverIdx === i && dragRowIdx !== i ? ' ' + styles.ruleRowDropTarget : ''}`}
+                style={{ gridTemplateColumns: `36px repeat(${cols.length}, 1fr)` }}
+                onDragOver={e => onRowDragOver(e, i)}
+                onDrop={e => onRowDrop(e, i)}
+              >
+                <div
+                  className={styles.rulesDragCol}
+                  draggable
+                  onDragStart={e => onRowDragStart(e, i)}
+                  onDragEnd={onRowDragEnd}
+                >
+                  <span className="material-icons-outlined" style={{ fontSize: 16, color: 'var(--neutral-400)', cursor: 'grab' }}>drag_indicator</span>
+                </div>
+                {cols.map(col => (
+                  <div key={col.id} className={styles.ruleCell}>
+                    <div className={styles.conditionPill}>
+                      <span className={styles.conditionTag}>{col.condition}</span>
+                      <select className={styles.ruleSelect} value={row.values[col.id] || ''} onChange={e => updateRowColVal(i, col.id, e.target.value)}>
+                        {RULE_OPTIONS.map(o => <option key={o} value={o}>{o || 'Choose'}</option>)}
+                      </select>
+                    </div>
+                  </div>
+                ))}
+              </div>
+            ))}
+          </div>
+
+          {/* Add Rules link */}
+          <button className={styles.addRulesBtn} onClick={() => setRows(prev => [...prev, { values: Object.fromEntries(cols.map(c => [c.id, ''])), period: '8', unit: 'Year(s)', active: false }])}>
+            Add Rules
+            <span className="material-icons-outlined" style={{ fontSize: 16 }}>add</span>
+          </button>
+
+        </div>
+
+        {/* Draggable separator */}
+        <div className={styles.panelDivider} onMouseDown={onDividerMouseDown}>
+          <div className={styles.panelDividerHandle} />
+        </div>
+
+        <div className={styles.panelRight}>
+
+          {/* Details heading */}
+          <h3 className={styles.panelTitle}>Details</h3>
+
+          {/* Details table */}
+          <div className={styles.detailsTable}>
+            {/* Header */}
+            <div className={styles.detailsHeader}>
+              <div className={styles.detailsColPeriod}>Expiry Period</div>
+              <div className={styles.detailsColStatus}>Status</div>
+            </div>
+
+            {/* Rows */}
+            {rows.map((row, i) => (
+              <div key={i} className={`${styles.detailRow}${row.active ? ' ' + styles.detailRowActive : ''}`}>
+                <div className={styles.detailsColPeriod}>
+                  <input
+                    className={styles.periodInput}
+                    type="number"
+                    value={row.period}
+                    onChange={e => updateRow(i, 'period', e.target.value)}
+                  />
+                  <select
+                    className={styles.periodSelect}
+                    value={row.unit}
+                    onChange={e => updateRow(i, 'unit', e.target.value)}
+                  >
+                    {RENEWAL_PERIOD_UNITS.map(u => <option key={u}>{u}</option>)}
+                  </select>
+                </div>
+                <div className={styles.detailsColStatus}>
+                  <div
+                    className={`${styles.activeToggle}${!row.active ? ' ' + styles.activeToggleOff : ''}`}
+                    onClick={() => updateRow(i, 'active', !row.active)}
+                    role="button"
+                    tabIndex={0}
+                    onKeyDown={e => e.key === 'Enter' && updateRow(i, 'active', !row.active)}
+                  >
+                    <div className={styles.activeToggleTrack}>{row.active ? 'Active' : 'Inactive'}</div>
+                    <div className={styles.activeToggleThumb} />
                   </div>
                 </div>
               </div>
             ))}
           </div>
-        </div>
 
-        {/* Renewal Levels panel */}
-        <div className={styles.panelCardNarrow}>
-          <div className={styles.levelsTh}>Renewal</div>
-          {levels.map((level, i) => (
-            <div
-              key={i}
-              className={`${styles.levelRow}${selectedLevel === i ? ' ' + styles.levelRowSelected : ''}`}
-              onClick={() => setSelectedLevel(i)}
-            >
-              <span
-                className={`material-icons-outlined ${level.expirations ? styles.checkOn : styles.checkOff}`}
-                onClick={e => { e.stopPropagation(); updateLevel(i, 'expirations', !level.expirations); }}
-              >
-                {level.expirations ? 'check_box' : 'indeterminate_check_box'}
+        </div>
+      </div>
+
+      {/* ── Column Picker Side Panel ── */}
+      {colPicker && (
+        <>
+          <div className={styles.pickerOverlay} onClick={() => setColPicker(null)} />
+          <div className={styles.pickerPanel}>
+            <div className={styles.pickerHeader}>
+              <span className={styles.pickerTitle}>
+                Add Column {colPicker.side === 'left' ? 'Left' : 'Right'}
               </span>
+              <button className={styles.pickerClose} onClick={() => setColPicker(null)}>
+                <span className="material-icons-outlined">close</span>
+              </button>
             </div>
-          ))}
-        </div>
 
-        {/* Detail for Levels panel */}
-        <div className={styles.panelCard}>
-          <div className={styles.detailHeader}>
-            <h3 className={styles.panelTitle}>Detail for Levels</h3>
-            <div
-              className={`${styles.activeToggle}${!currentLevel?.active ? ' ' + styles.activeToggleOff : ''}`}
-              onClick={() => updateLevel(selectedLevel, 'active', !currentLevel.active)}
-              role="button"
-              tabIndex={0}
-              onKeyDown={e => e.key === 'Enter' && updateLevel(selectedLevel, 'active', !currentLevel.active)}
-            >
-              <div className={styles.activeToggleTrack}>{currentLevel?.active ? 'Active' : 'Inactive'}</div>
-              <div className={styles.activeToggleThumb} />
+            <div className={styles.pickerSearchWrap}>
+              <span className={`material-icons-outlined ${styles.pickerSearchIcon}`}>search</span>
+              <input
+                className={styles.pickerSearchInput}
+                type="text"
+                placeholder="Search properties…"
+                value={pickerSearch}
+                onChange={e => setPickerSearch(e.target.value)}
+                autoFocus
+              />
+            </div>
+
+            <div className={styles.pickerTableWrap}>
+              <table className={styles.pickerTable}>
+                <thead>
+                  <tr>
+                    <th>Name</th>
+                    <th>Category</th>
+                  </tr>
+                </thead>
+                <tbody>
+                  {PROPERTIES
+                    .filter(p => !pickerSearch || p.name.toLowerCase().includes(pickerSearch.toLowerCase()) || p.category.toLowerCase().includes(pickerSearch.toLowerCase()))
+                    .map(p => (
+                      <tr key={p.name} className={styles.pickerRow} onClick={() => confirmAddCol(p)}>
+                        <td>{p.name}</td>
+                        <td>{p.category}</td>
+                      </tr>
+                    ))
+                  }
+                </tbody>
+              </table>
             </div>
           </div>
-
-          {currentLevel && (
-            <div className={styles.detailForm}>
-              <label className={styles.fieldLabel}>
-                Renewal Period <span className={styles.req}>*</span>
-                <span className={`material-icons-outlined ${styles.infoIcon}`}>info</span>
-              </label>
-              <div className={styles.inputPair}>
-                <input
-                  className={styles.input}
-                  type="number"
-                  value={currentLevel.period}
-                  onChange={e => updateLevel(selectedLevel, 'period', e.target.value)}
-                />
-                <select
-                  className={styles.select}
-                  value={currentLevel.unit}
-                  onChange={e => updateLevel(selectedLevel, 'unit', e.target.value)}
-                >
-                  {RENEWAL_PERIOD_UNITS.map(u => <option key={u}>{u}</option>)}
-                </select>
-              </div>
-            </div>
-          )}
-        </div>
-
-      </div>
+        </>
+      )}
     </PageLayout>
   );
 }
