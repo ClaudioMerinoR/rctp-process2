@@ -224,6 +224,7 @@
 
 .panelRight {
   flex: 1;
+  min-width: 440px;
   padding: 16px 20px 20px;
 }
 
@@ -363,8 +364,6 @@
 }
 
 .ruleRowActive {
-  background: var(--primary-08);
-  border-left: 3px solid var(--primary-500);
 }
 
 .ruleRowDropTarget {
@@ -453,9 +452,10 @@
 
 .detailsHeader {
   display: grid;
-  grid-template-columns: 1fr 120px;
+  grid-template-columns: 1fr 120px 36px;
   background: var(--neutral-25);
   border-bottom: 1px solid var(--neutral-100);
+  min-height: 42px;
 }
 
 .detailsColPeriod {
@@ -485,7 +485,7 @@
 
 .detailRow {
   display: grid;
-  grid-template-columns: 1fr 120px;
+  grid-template-columns: 1fr 120px 36px;
   border-bottom: 1px solid var(--neutral-100);
   height: 46px;
   transition: background 0.1s;
@@ -500,7 +500,12 @@
 }
 
 .detailRowActive {
-  background: var(--primary-08);
+}
+
+.detailRow .detailsColPeriod,
+.detailRow .detailsColStatus {
+  padding-top: 0;
+  padding-bottom: 0;
 }
 
 /* Period inputs */
@@ -543,6 +548,47 @@
 
 .periodSelect:focus {
   border-color: var(--primary-500);
+}
+
+.detailsColActions {
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  border-left: 1px solid var(--neutral-100);
+  position: relative;
+}
+
+.rowMenuBtn {
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  width: 28px;
+  height: 28px;
+  background: none;
+  border: none;
+  cursor: pointer;
+  color: var(--neutral-400);
+  border-radius: 2px;
+  padding: 0;
+  transition: background 0.15s, color 0.15s;
+}
+
+.rowMenuBtn:hover {
+  background: var(--neutral-50);
+  color: var(--text-normal);
+}
+
+.rowMenu {
+  position: absolute;
+  top: calc(100% + 4px);
+  right: 0;
+  z-index: 100;
+  background: var(--neutral-00);
+  border: 1px solid var(--neutral-100);
+  border-radius: 4px;
+  box-shadow: 0 4px 12px rgba(0,0,0,0.12);
+  min-width: 160px;
+  padding: 4px 0;
 }
 
 .detailForm {

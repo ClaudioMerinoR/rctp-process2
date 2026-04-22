@@ -116,9 +116,11 @@ export default function RenewalEdit() {
   // Column picker panel
   const [colPicker, setColPicker] = useState(null); // { colId, side: 'left'|'right' }
   const [pickerSearch, setPickerSearch] = useState('');
+  const [openRowMenu, setOpenRowMenu] = useState(null); // row index
   const panelsRef = useRef(null);
   const dragging = useRef(false);
   const menuRef = useRef(null);
+  const rowMenuRef = useRef(null);
 
   function updateRow(i, key, val) {
     setRows(prev => prev.map((r, idx) => idx === i ? { ...r, [key]: val } : r));
@@ -203,7 +205,26 @@ export default function RenewalEdit() {
     setDragOverIdx(null);
   }
 
-  // Close menu on outside click
+  function deleteRow(i) {
+    setRows(prev => prev.filter((_, idx) => idx !== i));
+    setOpenRowMenu(null);
+  }
+
+  function duplicateRow(i) {
+    setRows(prev => {
+      const next = [...prev];
+      next.splice(i + 1, 0, { ...prev[i], values: { ...prev[i].values } });
+      return next;
+    });
+    setOpenRowMenu(null);
+  }
+
+  function toggleRowActive(i) {
+    updateRow(i, 'active', !rows[i].active);
+    setOpenRowMenu(null);
+  }
+
+  // Close column menu on outside click
   useEffect(() => {
     if (!openMenu) return;
     const handler = (e) => {
@@ -213,6 +234,16 @@ export default function RenewalEdit() {
     return () => document.removeEventListener('mousedown', handler);
   }, [openMenu]);
 
+  // Close row menu on outside click
+  useEffect(() => {
+    if (openRowMenu === null) return;
+    const handler = (e) => {
+      if (rowMenuRef.current && !rowMenuRef.current.contains(e.target)) setOpenRowMenu(null);
+    };
+    document.addEventListener('mousedown', handler);
+    return () => document.removeEventListener('mousedown', handler);
+  }, [openRowMenu]);
+
   const onDividerMouseDown = useCallback((e) => {
     e.preventDefault();
     dragging.current = true;
@@ -221,7 +252,9 @@ export default function RenewalEdit() {
       if (!dragging.current || !panelsRef.current) return;
       const rect = panelsRef.current.getBoundingClientRect();
       const pct = ((e.clientX - rect.left) / rect.width) * 100;
-      setLeftPct(Math.min(80, Math.max(50, pct)));
+      // Reserve at least 440px + 8px divider for the right panel
+      const maxPct = ((rect.width - 448) / rect.width) * 100;
+      setLeftPct(Math.min(maxPct, Math.max(50, pct)));
     };
 
     const onMouseUp = () => {
@@ -348,6 +381,7 @@ export default function RenewalEdit() {
             <div className={styles.detailsHeader}>
               <div className={styles.detailsColPeriod}>Expiry Period</div>
               <div className={styles.detailsColStatus}>Status</div>
+              <div className={styles.detailsColActions} />
             </div>
 
             {/* Rows */}
@@ -379,6 +413,20 @@ export default function RenewalEdit() {
                     <div className={styles.activeToggleTrack}>{row.active ? 'Active' : 'Inactive'}</div>
                     <div className={styles.activeToggleThumb} />
                   </div>
+                </div>
+                <div className={styles.detailsColActions} ref={openRowMenu === i ? rowMenuRef : null}>
+                  <button
+                    className={styles.rowMenuBtn}
+                    onClick={() => setOpenRowMenu(openRowMenu === i ? null : i)}
+                  >
+                    <span className="material-icons-outlined" style={{ fontSize: 18 }}>more_vert</span>
+                  </button>
+                  {openRowMenu === i && (
+                    <div className={styles.rowMenu}>
+                      <button className={styles.colMenuItem} onClick={() => duplicateRow(i)}>Duplicate</button>
+                      <button className={styles.colMenuItem} onClick={() => deleteRow(i)} disabled={rows.length <= 1}>Delete</button>
+                    </div>
+                  )}
                 </div>
               </div>
             ))}
