@@ -124,21 +124,25 @@
   color: var(--neutral-00);
 }
 
-/* ── Right content card ── */
-.adminContent {
+/* ── Right column: stacked cards ── */
+.contentStack {
   flex: 1;
   min-width: 0;
+  display: flex;
+  flex-direction: column;
+  gap: 16px;
+}
+
+/* ── Card 1: title + toggle ── */
+.cardTitle {
   background: var(--neutral-00);
   border: 1px solid var(--neutral-100);
   border-top: 4px solid var(--primary-500);
-}
-
-/* ── Content header ── */
-.contentHeader {
   display: flex;
   align-items: center;
   justify-content: space-between;
-  padding: 20px 20px 16px;
+  padding: 16px 16px 16px 20px;
+  box-shadow: 0 2px 4px rgba(0,0,0,0.08);
 }
 
 .contentTitle {
@@ -175,10 +179,160 @@
 .activeToggleThumb { position: absolute; top: -2px; bottom: -2px; width: 26px; background: var(--neutral-00); right: -13px; transition: right 0.15s, left 0.15s; }
 .activeToggleOff .activeToggleThumb { right: auto; left: -13px; }
 
-/* ── Table ── */
+/* ── Card 2: settings ── */
+.cardSettings {
+  background: var(--neutral-00);
+  border: 1px solid var(--neutral-100);
+  padding: 16px;
+}
+
+.settingsRow {
+  display: flex;
+  align-items: flex-start;
+  gap: 0;
+}
+
+.settingsBlockReminder {
+  flex-shrink: 0;
+  padding-right: 24px;
+  border-right: 1px solid var(--neutral-50);
+}
+
+.settingsBlockNotification {
+  flex: 1;
+  min-width: 0;
+  padding-left: 24px;
+}
+
+.settingsBlockTitle {
+  font-size: 18px;
+  font-weight: 500;
+  color: var(--text-normal);
+  margin: 0 0 16px;
+}
+
+.reminderFields {
+  display: flex;
+  align-items: flex-end;
+  gap: 16px;
+  flex-wrap: nowrap;
+}
+
+.reminderField {
+  display: flex;
+  flex-direction: column;
+  gap: 6px;
+  flex-shrink: 0;
+}
+
+.reminderFieldGrow {
+  flex: 1;
+  min-width: 0;
+}
+
+.fieldLabel {
+  font-size: 11px;
+  font-weight: 500;
+  text-transform: uppercase;
+  letter-spacing: 1px;
+  color: var(--primary-500);
+  display: flex;
+  align-items: center;
+  gap: 2px;
+  white-space: nowrap;
+}
+
+.required {
+  color: red;
+  font-size: 11px;
+}
+
+.periodInputRow {
+  display: flex;
+  gap: 8px;
+}
+
+.fieldInput {
+  height: 36px;
+  padding: 0 12px;
+  border: 1px solid var(--neutral-100);
+  background: var(--neutral-00);
+  font-size: 16px;
+  color: var(--text-normal);
+  font-family: inherit;
+  width: 193px;
+  box-sizing: border-box;
+  outline: none;
+}
+
+.fieldInputNarrow {
+  width: 95px;
+}
+
+.fieldInput:focus {
+  border-color: var(--primary-500);
+}
+
+.fieldSelect {
+  height: 36px;
+  padding: 0 12px;
+  border: 1px solid var(--neutral-100);
+  background: var(--neutral-00);
+  font-size: 16px;
+  color: var(--text-normal);
+  font-family: inherit;
+  width: 155px;
+  box-sizing: border-box;
+  outline: none;
+  cursor: pointer;
+  appearance: none;
+  background-image: url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' width='10' height='6' viewBox='0 0 10 6'%3E%3Cpath d='M0 0l5 6 5-6z' fill='%23666'/%3E%3C/svg%3E");
+  background-repeat: no-repeat;
+  background-position: right 10px center;
+  padding-right: 28px;
+}
+
+.fieldSelect:focus {
+  border-color: var(--primary-500);
+}
+
+.fieldSelectNotification {
+  width: 100%;
+}
+
+.saveBtnWrap {
+  display: flex;
+  align-items: flex-end;
+}
+
+.saveBtn {
+  height: 37px;
+  padding: 0 20px;
+  background: var(--primary-500);
+  border: 1px solid var(--primary-500);
+  color: var(--neutral-00);
+  font-size: 12px;
+  font-weight: 500;
+  text-transform: uppercase;
+  letter-spacing: 0.5px;
+  cursor: pointer;
+  font-family: inherit;
+  transition: background 0.15s;
+}
+
+.saveBtn:hover {
+  background: var(--primary-600);
+}
+
+/* ── Card 3: Table ── */
+.cardTable {
+  background: var(--neutral-00);
+  border: 1px solid var(--neutral-100);
+}
+
 .tableWrap {
   overflow-x: auto;
-  padding: 0 20px 20px;
+  padding: 20px;
 }
 
 .table {

@@ -87,6 +87,11 @@ export default function Settings() {
     setActiveNav(SIDEBAR_ITEMS[tab][0]);
   }
   const [renewalsEnabled, setRenewalsEnabled] = useState(true);
+  const [reminderPeriod, setReminderPeriod] = useState('30');
+  const [reminderUnit, setReminderUnit] = useState('Day(s)');
+  const [reminderCount, setReminderCount] = useState('2');
+  const [reminderDaysBetween, setReminderDaysBetween] = useState('3');
+  const [notificationGroup, setNotificationGroup] = useState('Not Approval Group');
 
   return (
     <PageLayout>
@@ -131,11 +136,11 @@ export default function Settings() {
           ))}
         </nav>
 
-        {/* Right content card */}
-        <div className={styles.adminContent}>
+        {/* Right column: three separate cards */}
+        <div className={styles.contentStack}>
 
-          {/* Content header */}
-          <div className={styles.contentHeader}>
+          {/* Card 1: title + toggle */}
+          <div className={styles.cardTitle}>
             <h2 className={styles.contentTitle}>Renewals</h2>
             <div className={styles.contentHeaderRight}>
               <span className={styles.renewalsStateLabel}>Renewals current state</span>
@@ -153,8 +158,87 @@ export default function Settings() {
             </div>
           </div>
 
-          {/* Table */}
-          <div className={styles.tableWrap}>
+          {/* Card 2: Reminder & Notification Settings */}
+          <div className={styles.cardSettings}>
+            <div className={styles.settingsRow}>
+
+              {/* Reminder Settings */}
+              <div className={styles.settingsBlockReminder}>
+                <p className={styles.settingsBlockTitle}>Reminder Settings</p>
+                <div className={styles.reminderFields}>
+                  <div className={styles.reminderField}>
+                    <label className={styles.fieldLabel}>
+                      Period before Renewals <span className={styles.required}>*</span>
+                    </label>
+                    <div className={styles.periodInputRow}>
+                      <input
+                        className={`${styles.fieldInput} ${styles.fieldInputNarrow}`}
+                        value={reminderPeriod}
+                        onChange={e => setReminderPeriod(e.target.value)}
+                      />
+                      <select
+                        className={styles.fieldSelect}
+                        value={reminderUnit}
+                        onChange={e => setReminderUnit(e.target.value)}
+                      >
+                        <option>Day(s)</option>
+                        <option>Week(s)</option>
+                        <option>Month(s)</option>
+                      </select>
+                    </div>
+                  </div>
+                  <div className={styles.reminderField}>
+                    <label className={styles.fieldLabel}>
+                      Number of reminders <span className={styles.required}>*</span>
+                    </label>
+                    <input
+                      className={styles.fieldInput}
+                      value={reminderCount}
+                      onChange={e => setReminderCount(e.target.value)}
+                    />
+                  </div>
+                  <div className={styles.reminderField}>
+                    <label className={styles.fieldLabel}>
+                      Days between reminder emails <span className={styles.required}>*</span>
+                    </label>
+                    <input
+                      className={styles.fieldInput}
+                      value={reminderDaysBetween}
+                      onChange={e => setReminderDaysBetween(e.target.value)}
+                    />
+                  </div>
+                </div>
+              </div>
+
+              {/* Notification Settings */}
+              <div className={styles.settingsBlockNotification}>
+                <p className={styles.settingsBlockTitle}>Notification Settings</p>
+                <div className={styles.reminderFields}>
+                  <div className={`${styles.reminderField} ${styles.reminderFieldGrow}`}>
+                    <label className={styles.fieldLabel}>
+                      Renewals Notification Group <span className={styles.required}>*</span>
+                    </label>
+                    <select
+                      className={`${styles.fieldSelect} ${styles.fieldSelectNotification}`}
+                      value={notificationGroup}
+                      onChange={e => setNotificationGroup(e.target.value)}
+                    >
+                      <option>Not Approval Group</option>
+                      <option>Approval Group A</option>
+                      <option>Approval Group B</option>
+                    </select>
+                  </div>
+                  <div className={styles.saveBtnWrap}>
+                    <button className={styles.saveBtn}>Save</button>
+                  </div>
+                </div>
+              </div>
+
+            </div>
+          </div>
+
+          {/* Card 3: Table */}
+          <div className={styles.cardTable}>
             <table className={styles.table}>
               <thead>
                 <tr>
