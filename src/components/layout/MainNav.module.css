@@ -1,6 +1,8 @@
+/* ── Cyan secondary nav — 44px ── */
 .nav {
-  background-color: var(--primary-500);
-  height: 36px;
+  background-color: var(--rctp-blue-500);
+  height: 44px;
+  flex-shrink: 0;
 }
 .inner {
   max-width: 1920px;
@@ -8,37 +10,44 @@
   height: 100%;
   display: flex;
   align-items: stretch;
-  padding: 0 16px;
+}
+.subProduct {
+  background: var(--rctp-blue-400);
+  padding: 0 20px;
+  display: flex;
+  align-items: center;
+  color: #fff;
+  font-family: var(--rctp-font-ui);
+  font-weight: 500;
+  font-size: 14px;
+  letter-spacing: 0.06em;
+  white-space: nowrap;
+  flex-shrink: 0;
 }
 .link {
   display: flex;
   align-items: center;
-  padding: 0 16px;
-  color: rgba(255, 255, 255, 0.85);
-  font-size: 12px;
+  padding: 0 20px;
+  color: rgba(255, 255, 255, 0.9);
+  font-family: var(--rctp-font-ui);
+  font-size: 13px;
   font-weight: 500;
-  text-transform: uppercase;
-  letter-spacing: 0.5px;
+  letter-spacing: 0.04em;
   text-decoration: none;
   position: relative;
-  transition: background 0.15s ease, color 0.15s ease;
+  transition: background 140ms ease, color 140ms ease;
+  white-space: nowrap;
 }
-.link:hover { background: var(--primary-600); color: var(--neutral-00); }
+.link:hover {
+  background: rgba(0, 0, 0, 0.12);
+  color: #fff;
+}
 .link:focus-visible {
   outline: 2px solid rgba(255, 255, 255, 0.7);
   outline-offset: -3px;
 }
 .active {
-  background: var(--primary-600);
-  color: var(--neutral-00);
-}
-.active::after {
-  content: '';
-  position: absolute;
-  bottom: 0;
-  left: 0;
-  right: 0;
-  height: 2px;
-  background: var(--neutral-00);
-  border-radius: 1px 1px 0 0;
+  background: var(--rctp-blue-700);
+  color: #fff;
+  opacity: 1;
 }

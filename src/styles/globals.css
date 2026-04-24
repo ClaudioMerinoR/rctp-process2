@@ -1,24 +1,24 @@
-@import url('https://fonts.googleapis.com/css2?family=Public+Sans:wght@300;400;500;600;700&display=swap');
-@import url('https://fonts.googleapis.com/css2?family=Roboto:wght@400;500;600;700&display=swap');
+/* Google Fonts — Inter replaces proprietary Simplon Norm; Roboto for body */
+@import url('https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600;700&family=Roboto:ital,wght@0,400;0,500;0,600;0,700;1,400&family=Source+Code+Pro:wght@400;500;600;700&display=swap');
 @import url('https://fonts.googleapis.com/icon?family=Material+Icons+Outlined');
 
 :root {
-  /* ── Primary ── */
+  /* ── Brand accent — Riskcenter cyan ── */
   --primary-08: #E8F9FE;
   --primary-50: #B8E5F3;
   --primary-100: #A4DEF0;
   --primary-200: #7BCFE9;
   --primary-300: #53C0E2;
-  --primary-400: #2AB2DC;
-  --primary-500: #02A3D5;
+  --primary-400: #02A3D5;
+  --primary-500: #028FBB;   /* rctp-blue-500, used on nav bg */
   --primary-600: #0289B3;
-  --primary-700: #016F91;
+  --primary-700: #017295;
   --primary-800: #01556F;
   --primary-900: #013B4D;
 
   /* ── Neutral ── */
   --neutral-00: #FFFFFF;
-  --neutral-25: #EFEFEF;
+  --neutral-25: #F7F2FA;    /* warm lilac canvas — RCTP brand */
   --neutral-50: #DFE3E7;
   --neutral-100: #D6DBE0;
   --neutral-200: #C4CCD2;
@@ -31,7 +31,7 @@
   --neutral-900: #33383D;
 
   /* ── Text ── */
-  --text-normal: #0C2A31;
+  --text-normal: #0C2A31;   /* rctp-ink-900 — teal ink */
   --text-light: #516267;
   --text-light-alt: #5A6E73;
   --text-dark: #061619;
@@ -60,68 +60,136 @@
   --warning-700: #A3832E;
   --warning-900: #564518;
 
+  /* ── RCTP primitive tokens (design system source) ── */
+  --rctp-ink-900:        #0C2A31;
+  --rctp-ink-800:        #1D1B20;
+  --rctp-ink-600:        #21262A;
+  --rctp-ink-500:        #49454F;
+  --rctp-slate-700:      #5A6E73;
+  --rctp-slate-600:      #516267;
+
+  --rctp-blue-700:       #017295;
+  --rctp-blue-600:       #0289B3;
+  --rctp-blue-500:       #028FBB;
+  --rctp-blue-400:       #02A3D5;
+  --rctp-blue-200:       #7BCFE9;
+
+  --rctp-white:          #FFFFFF;
+  --rctp-gray-50:        #FEF7FF;
+  --rctp-gray-100:       #F7F2FA;
+  --rctp-gray-200:       #EFEFEF;
+  --rctp-gray-300:       #D9D9D9;
+  --rctp-gray-400:       #C4CCD2;
+  --rctp-gray-500:       #B1BCCA;
+  --rctp-gray-700:       #8D9CA9;
+
+  --rctp-success-500:    #13DF81;
+  --rctp-success-400:    #5FE9A9;
+  --rctp-success-900:    #07502E;
+  --rctp-warning-500:    #F0C043;
+  --rctp-warning-400:    #F5D47F;
+  --rctp-warning-900:    #564518;
+  --rctp-danger-600:     #B3261E;
+  --rctp-danger-500:     #F42500;
+  --rctp-danger-400:     #E34C53;
+  --rctp-danger-100:     #F7CDCF;
+  --rctp-danger-50:      #FBE6E7;
+
+  --rctp-purple-200:     #E8DEFF;
+  --rctp-purple-100:     #EADDFF;
+
+  /* ── RCTP semantic tokens ── */
+  --rctp-fg-1:           var(--rctp-ink-800);
+  --rctp-fg-2:           var(--rctp-slate-700);
+  --rctp-fg-3:           var(--rctp-gray-700);
+  --rctp-fg-accent:      var(--rctp-blue-400);
+  --rctp-fg-onbrand:     var(--rctp-white);
+  --rctp-fg-link:        var(--rctp-blue-400);
+  --rctp-fg-danger:      var(--rctp-danger-400);
+  --rctp-fg-success:     var(--rctp-success-900);
+  --rctp-fg-warning:     var(--rctp-warning-900);
+
+  --rctp-bg-app:         var(--rctp-gray-100);
+  --rctp-bg-surface:     var(--rctp-white);
+  --rctp-bg-raised:      var(--rctp-gray-50);
+  --rctp-bg-inverse:     var(--rctp-ink-900);
+  --rctp-bg-accent:      var(--rctp-blue-400);
+  --rctp-bg-accent-hover: var(--rctp-blue-600);
+  --rctp-bg-danger:      var(--rctp-danger-400);
+  --rctp-bg-warning:     var(--rctp-warning-400);
+  --rctp-bg-success:     var(--rctp-success-400);
+
+  --rctp-border-subtle:  rgba(0, 0, 0, 0.10);
+  --rctp-border-field:   var(--rctp-gray-400);
+  --rctp-border-strong:  var(--rctp-gray-700);
+  --rctp-border-focus:   var(--rctp-blue-400);
+
+  /* ── RCTP elevation ── */
+  --rctp-shadow-xs:      0 1px 2px rgba(0,0,0,0.07);
+  --rctp-shadow-sm:      0 1px 2px rgba(0,0,0,0.15);
+  --rctp-shadow-md:      0 2px 6px rgba(0,0,0,0.15), 0 1px 2px rgba(0,0,0,0.07);
+  --rctp-shadow-lg:      0 6px 14px rgba(0,0,0,0.25);
+  --rctp-shadow-xl:      0 12px 24px rgba(0,0,0,0.30);
+
+  /* ── RCTP radii ── */
+  --rctp-radius-xs:      2px;
+  --rctp-radius-sm:      4px;
+  --rctp-radius-md:      16px;
+  --rctp-radius-lg:      28px;
+  --rctp-radius-pill:    1000px;
+
+  /* ── RCTP spacing ── */
+  --rctp-space-1:        4px;
+  --rctp-space-2:        8px;
+  --rctp-space-3:        12px;
+  --rctp-space-4:        16px;
+  --rctp-space-5:        20px;
+  --rctp-space-6:        24px;
+  --rctp-space-8:        32px;
+  --rctp-space-10:       40px;
+  --rctp-space-12:       48px;
+  --rctp-space-14:       56px;
+
   /* ── Typography ── */
-  --font-heading: 'Public Sans', 'Roboto', sans-serif;
-  --font-body: 'Roboto', sans-serif;
-  --font-label: 'Public Sans', 'Roboto', sans-serif;
+  --rctp-font-ui:        "Inter", ui-sans-serif, system-ui, -apple-system, sans-serif;
+  --rctp-font-body:      "Roboto", "Inter", ui-sans-serif, system-ui, sans-serif;
+  --rctp-font-mono:      "Source Code Pro", ui-monospace, SFMono-Regular, Menlo, Consolas, monospace;
 
-  /* Headline sizes */
-  --heading-h1-size: 32px;
-  --heading-h1-line-height: 40px;
-  --heading-h1-weight: 300;
-  --heading-h2-size: 28px;
-  --heading-h2-line-height: 36px;
-  --heading-h2-weight: 500;
-  --heading-h3-size: 24px;
-  --heading-h3-line-height: 32px;
-  --heading-h3-weight: 500;
-  --heading-h4-size: 22px;
-  --heading-h4-line-height: 32px;
-  --heading-h4-weight: 500;
-  --heading-h5-size: 20px;
-  --heading-h5-line-height: 32px;
-  --heading-h5-weight: 500;
-  --heading-h6-size: 18px;
-  --heading-h6-line-height: 32px;
-  --heading-h6-weight: 500;
+  /* Legacy aliases — keep existing code working */
+  --font-heading:        var(--rctp-font-ui);
+  --font-body:           var(--rctp-font-body);
+  --font-label:          var(--rctp-font-ui);
 
-  /* Body sizes */
-  --body-large-size: 16px;
-  --body-large-line-height: 24px;
-  --body-large-tracking: 0.5px;
-  --body-medium-size: 14px;
-  --body-medium-line-height: 20px;
-  --body-small-size: 13px;
-  --body-small-line-height: 16px;
-  --body-small-tracking: 0.4px;
-  --body-caption-size: 12px;
-  --body-caption-line-height: 16px;
+  /* Headline */
+  --heading-h1-size: 32px;   --heading-h1-line-height: 40px;  --heading-h1-weight: 300;
+  --heading-h2-size: 28px;   --heading-h2-line-height: 36px;  --heading-h2-weight: 500;
+  --heading-h3-size: 24px;   --heading-h3-line-height: 32px;  --heading-h3-weight: 500;
+  --heading-h4-size: 22px;   --heading-h4-line-height: 32px;  --heading-h4-weight: 500;
+  --heading-h5-size: 20px;   --heading-h5-line-height: 32px;  --heading-h5-weight: 500;
+  --heading-h6-size: 18px;   --heading-h6-line-height: 32px;  --heading-h6-weight: 500;
 
-  /* Label sizes */
-  --label-large-size: 14px;
-  --label-large-line-height: 20px;
-  --label-large-tracking: 0.1px;
-  --label-medium-size: 12px;
-  --label-medium-line-height: 16px;
-  --label-medium-tracking: 0.5px;
-  --label-small-size: 11px;
-  --label-small-line-height: 16px;
-  --label-small-tracking: 0.5px;
+  /* Body */
+  --body-large-size: 16px;    --body-large-line-height: 24px;    --body-large-tracking: 0.5px;
+  --body-medium-size: 14px;   --body-medium-line-height: 20px;
+  --body-small-size: 13px;    --body-small-line-height: 16px;    --body-small-tracking: 0.4px;
+  --body-caption-size: 12px;  --body-caption-line-height: 16px;
 
-  /* Footer */
-  --footer-size: 11px;
-  --footer-line-height: 14px;
+  /* Label */
+  --label-large-size: 14px;   --label-large-line-height: 20px;  --label-large-tracking: 0.10px;
+  --label-medium-size: 12px;  --label-medium-line-height: 16px; --label-medium-tracking: 0.50px;
+  --label-small-size: 11px;   --label-small-line-height: 16px;  --label-small-tracking: 0.50px;
 
-  /* ── Shadows / Elevation ── */
-  --shadow-100: 0px 1px 3px 1px rgba(0, 0, 0, 0.15), 0px 1px 2px 0px rgba(0, 0, 0, 0.30);
-  --shadow-300: 0px 2px 6px 2px rgba(0, 0, 0, 0.15), 0px 1px 2px 0px rgba(0, 0, 0, 0.30);
-  --shadow-500: 0px 1px 3px 0px rgba(0, 0, 0, 0.30), 0px 4px 8px 3px rgba(0, 0, 0, 0.15);
-  --shadow-700: 0px 2px 3px 0px rgba(0, 0, 0, 0.30), 0px 6px 10px 4px rgba(0, 0, 0, 0.15);
-  --shadow-900: 0px 4px 4px 0px rgba(0, 0, 0, 0.30), 0px 8px 12px 6px rgba(0, 0, 0, 0.15);
+  --footer-size: 11px; --footer-line-height: 14px;
 
-  /* ── Card shadows ── */
-  --shadow-card:       0 2px 4px rgba(0, 0, 0, 0.08);
-  --shadow-card-hover: 0 2px 8px rgba(0, 0, 0, 0.08);
+  /* ── Shadows / Elevation (legacy scale kept) ── */
+  --shadow-100: var(--rctp-shadow-xs);
+  --shadow-300: var(--rctp-shadow-sm);
+  --shadow-500: var(--rctp-shadow-md);
+  --shadow-700: var(--rctp-shadow-lg);
+  --shadow-900: var(--rctp-shadow-xl);
+
+  --shadow-card:       var(--rctp-shadow-xs);
+  --shadow-card-hover: var(--rctp-shadow-sm);
 
   /* ── Z-index scale ── */
   --z-tooltip:  10;
@@ -134,23 +202,22 @@
   --z-creating: 3000;
 
   /* ── Corner radius ── */
-  --corner-extra-large: 28px;
+  --corner-extra-large: var(--rctp-radius-lg);
 }
 
 * { margin: 0; padding: 0; box-sizing: border-box; }
 html { overflow-y: scroll; }
 
-/* Global focus ring — applies everywhere that doesn't define its own */
 :focus { outline: none; }
 :focus-visible {
-  outline: 2px solid var(--primary-500);
+  outline: 2px solid var(--rctp-blue-400);
   outline-offset: 2px;
   border-radius: 2px;
 }
 
 body {
   font-family: var(--font-body);
-  background-color: var(--neutral-25);
+  background-color: var(--neutral-25);   /* warm lilac canvas */
   color: var(--text-normal);
   font-size: var(--body-medium-size);
   line-height: var(--body-medium-line-height);
@@ -159,10 +226,7 @@ body {
   text-rendering: optimizeLegibility;
 }
 
-h1, h2, h3, h4, h5, h6 {
-  font-family: var(--font-heading);
-}
-
+h1, h2, h3, h4, h5, h6 { font-family: var(--font-heading); }
 h1 { font-size: var(--heading-h1-size); line-height: var(--heading-h1-line-height); font-weight: var(--heading-h1-weight); }
 h2 { font-size: var(--heading-h2-size); line-height: var(--heading-h2-line-height); font-weight: var(--heading-h2-weight); }
 h3 { font-size: var(--heading-h3-size); line-height: var(--heading-h3-line-height); font-weight: var(--heading-h3-weight); }
