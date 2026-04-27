@@ -417,3 +417,168 @@
 .actionBtn .material-icons-outlined {
   font-size: 16px;
 }
+
+/* ── Currency & Approval Groups panel ── */
+.cagPanel {
+  background: var(--neutral-00);
+  border: 1px solid var(--neutral-100);
+  border-top: 4px solid var(--primary-500);
+  box-shadow: 0 2px 4px rgba(0,0,0,0.08);
+  padding-bottom: 28px;
+}
+
+.cagHeader {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  padding: 16px 20px;
+  border-bottom: 1px solid var(--neutral-50);
+}
+
+.cagHeaderRight {
+  display: flex;
+  align-items: center;
+  gap: 8px;
+}
+
+/* Language selector */
+.langSelector {
+  display: flex;
+  align-items: stretch;
+  height: 34px;
+  border: 1px solid var(--neutral-200);
+  border-radius: 3px;
+  overflow: hidden;
+}
+
+.langFlag {
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  width: 40px;
+  background: var(--neutral-50);
+  border-right: 1px solid var(--neutral-200);
+  color: var(--text-normal);
+  flex-shrink: 0;
+}
+
+.langValue {
+  display: flex;
+  align-items: center;
+  padding: 0 12px;
+  font-size: 14px;
+  color: var(--text-normal);
+  background: var(--neutral-00);
+  min-width: 120px;
+}
+
+.langSelect {
+  border: none;
+  background: var(--neutral-00);
+  font-size: 14px;
+  font-family: inherit;
+  color: var(--text-normal);
+  padding: 0 12px;
+  outline: none;
+  cursor: pointer;
+  min-width: 120px;
+}
+
+/* Buttons (reuse same spec as other pages) */
+.btn {
+  display: inline-flex;
+  align-items: center;
+  height: 32px;
+  padding: 0 12px;
+  font-size: 12px;
+  font-weight: 500;
+  text-transform: uppercase;
+  letter-spacing: 0.5px;
+  border-radius: 4px;
+  cursor: pointer;
+  font-family: inherit;
+  white-space: nowrap;
+  transition: background 0.2s, border-color 0.15s, color 0.15s;
+}
+
+.btnOutline {
+  background: var(--neutral-00);
+  border: 1px solid var(--neutral-300);
+  color: var(--text-light);
+}
+
+.btnOutline:hover {
+  border-color: var(--primary-500);
+  color: var(--primary-500);
+}
+
+.btnFilled {
+  background: var(--primary-500);
+  color: var(--neutral-25);
+  border: none;
+}
+
+.btnFilled:hover {
+  background: var(--primary-600);
+}
+
+/* Fields */
+.cagSection {
+  padding: 16px 20px 0;
+  display: flex;
+  flex-direction: column;
+  gap: 6px;
+}
+
+.cagLabel {
+  font-size: 11px;
+  font-weight: 600;
+  text-transform: uppercase;
+  letter-spacing: 0.5px;
+  color: var(--primary-500);
+  font-family: var(--font-heading);
+  display: flex;
+  align-items: center;
+  gap: 4px;
+}
+
+.cagReq {
+  color: var(--alert-500, #e53935);
+}
+
+.cagInfoIcon {
+  font-size: 14px;
+  color: var(--primary-500);
+  cursor: help;
+}
+
+.cagValue {
+  font-size: 14px;
+  color: var(--text-normal);
+  padding: 4px 0;
+  min-height: 24px;
+}
+
+.cagSelect {
+  height: 34px;
+  padding: 0 10px;
+  border: 1px solid var(--neutral-300);
+  border-radius: 2px;
+  background: var(--neutral-00);
+  font-size: 14px;
+  font-family: inherit;
+  color: var(--text-normal);
+  outline: none;
+  max-width: 400px;
+  transition: border-color 0.15s;
+}
+
+.cagSelect:focus {
+  border-color: var(--primary-500);
+}
+
+.cagDivider {
+  margin: 16px 20px 0;
+  height: 1px;
+  background: rgba(0,0,0,0.08);
+}

@@ -86,6 +86,103 @@ const ROWS = [
   { version: 1,  createdBy: 'System',         createdDate: '05 Dec 2022', modifiedBy: 'System',         modifiedDate: '05 Dec 2022', published: false },
 ];
 
+const CURRENCY_OPTIONS = ['EUR €', 'USD $', 'GBP £', 'CHF ₣', 'JPY ¥'];
+const LANGUAGE_OPTIONS = ['English', 'French', 'German', 'Spanish'];
+const APPROVAL_GROUP_OPTIONS = [
+  'Not Approval Group',
+  'This is the name of my default group',
+  'Test Group A',
+  'Test Group B',
+];
+
+function CurrencyApprovalGroupsPanel() {
+  const [isEditing, setIsEditing] = useState(false);
+  const [data, setData] = useState({
+    currency: 'EUR €',
+    language: 'English',
+    eddGroup: 'This is the name of my default group',
+    riskGroup: 'This is the name of my default group',
+    redFlagGroup: 'This is the name of my default group',
+  });
+  const [draft, setDraft] = useState(data);
+
+  function handleEdit() { setDraft({ ...data }); setIsEditing(true); }
+  function handleCancel() { setIsEditing(false); }
+  function handleSave() { setData({ ...draft }); setIsEditing(false); }
+  function set(key, val) { setDraft(prev => ({ ...prev, [key]: val })); }
+
+  const d = isEditing ? draft : data;
+
+  return (
+    <div className={styles.cagPanel}>
+
+      {/* Header */}
+      <div className={styles.cagHeader}>
+        <h2 className={styles.contentTitle}>Currency &amp; Approval Groups</h2>
+        <div className={styles.cagHeaderRight}>
+          <div className={styles.langSelector}>
+            <div className={styles.langFlag}>
+              <span className="material-icons-outlined" style={{ fontSize: 16 }}>translate</span>
+            </div>
+            {isEditing ? (
+              <select className={styles.langSelect} value={d.language} onChange={e => set('language', e.target.value)}>
+                {LANGUAGE_OPTIONS.map(l => <option key={l}>{l}</option>)}
+              </select>
+            ) : (
+              <div className={styles.langValue}>{d.language}</div>
+            )}
+          </div>
+          {isEditing ? (
+            <>
+              <button className={`${styles.btn} ${styles.btnOutline}`} onClick={handleCancel}>Cancel</button>
+              <button className={`${styles.btn} ${styles.btnFilled}`} onClick={handleSave}>Save</button>
+            </>
+          ) : (
+            <button className={`${styles.btn} ${styles.btnFilled}`} onClick={handleEdit}>Edit</button>
+          )}
+        </div>
+      </div>
+
+      {/* Currency */}
+      <div className={styles.cagSection}>
+        <label className={styles.cagLabel}>Currency</label>
+        {isEditing ? (
+          <select className={styles.cagSelect} value={d.currency} onChange={e => set('currency', e.target.value)}>
+            {CURRENCY_OPTIONS.map(c => <option key={c}>{c}</option>)}
+          </select>
+        ) : (
+          <div className={styles.cagValue}>{d.currency}</div>
+        )}
+      </div>
+
+      <div className={styles.cagDivider} />
+
+      {/* Approval group fields */}
+      {[
+        { key: 'eddGroup',     label: 'Enhanced Due Diligence (EDD) Report Approval Group', required: true },
+        { key: 'riskGroup',    label: 'Manual Risk Level Amendment Approval Group',          required: true },
+        { key: 'redFlagGroup', label: 'Red Flag Cancel Approval',                            required: true },
+      ].map(({ key, label, required }) => (
+        <div key={key} className={styles.cagSection}>
+          <label className={styles.cagLabel}>
+            {label}
+            {required && <span className={styles.cagReq}> *</span>}
+            <span className={`material-icons-outlined ${styles.cagInfoIcon}`}>info</span>
+          </label>
+          {isEditing ? (
+            <select className={styles.cagSelect} value={d[key]} onChange={e => set(key, e.target.value)}>
+              {APPROVAL_GROUP_OPTIONS.map(o => <option key={o}>{o}</option>)}
+            </select>
+          ) : (
+            <div className={styles.cagValue}>{d[key]}</div>
+          )}
+        </div>
+      ))}
+
+    </div>
+  );
+}
+
 export default function Settings() {
   const navigate = useNavigate();
   const { tab: tabParam, section: sectionParam } = useParams();
@@ -153,9 +250,12 @@ export default function Settings() {
           ))}
         </nav>
 
-        {/* Right column: three separate cards */}
+        {/* Right column */}
         <div className={styles.contentStack}>
 
+          {activeNav === 'Currency & Approval Groups' && <CurrencyApprovalGroupsPanel />}
+
+          {activeNav === 'Renewals' && <>
           {/* Card 1: title + toggle */}
           <div className={styles.cardTitle}>
             <h2 className={styles.contentTitle}>Renewals</h2>
@@ -291,6 +391,8 @@ export default function Settings() {
             </table>
             </div>
           </div>
+
+          </>}
 
         </div>
       </div>
