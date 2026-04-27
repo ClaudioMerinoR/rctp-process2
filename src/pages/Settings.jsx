@@ -20,11 +20,12 @@ const SIDEBAR_ITEMS = {
     'Screening & Monitoring',
   ],
   Process: [
-    'Workflow',
     'Stages',
-    'Task Templates',
-    'Escalation Rules',
-    'SLA Settings',
+    'Screening & Monitoring',
+    'Pre-Onboarding Entity Verification',
+    'Enhanced Due Diligence Reports',
+    'Integrity Check Report Review',
+    'Reminders',
   ],
 };
 
@@ -201,6 +202,7 @@ export default function Settings() {
   function handleNavChange(item) {
     navigate(`/settings/${slugify(activeTopTab)}/${slugify(item)}`);
   }
+  const [selectedProcess, setSelectedProcess] = useState('Standard RCTP');
   const [renewalsEnabled, setRenewalsEnabled] = useState(true);
   const [reminderPeriod, setReminderPeriod] = useState('30');
   const [reminderUnit, setReminderUnit] = useState('Day(s)');
@@ -248,6 +250,19 @@ export default function Settings() {
 
         {/* Left sidebar nav */}
         <nav className={styles.adminNav}>
+          {activeTopTab === 'Process' && (
+            <div className={styles.processPickerWrap}>
+              <select
+                className={styles.processPicker}
+                value={selectedProcess}
+                onChange={e => setSelectedProcess(e.target.value)}
+              >
+                <option>Standard RCTP</option>
+                <option>Enhanced Due Diligence</option>
+                <option>Basic Screening</option>
+              </select>
+            </div>
+          )}
           {SIDEBAR_ITEMS[activeTopTab].map(item => (
             <button
               key={item}
