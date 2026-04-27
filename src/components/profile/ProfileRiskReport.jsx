@@ -317,14 +317,30 @@ export default function ProfileRiskReport() {
                   <div
                     className={`${styles.tab} ${activeTab === 'breakdown' ? styles.tabActive : ''}`}
                     onClick={() => setActiveTab('breakdown')}
+                    style={{ position: 'relative' }}
                   >
                     Current Risk Level Breakdown
+                    {activeTab === 'breakdown' && (
+                      <motion.div
+                        layoutId="rr-tab-indicator"
+                        className={styles.tabIndicator}
+                        transition={{ duration: 0.25, ease: [0.32, 0.72, 0, 1] }}
+                      />
+                    )}
                   </div>
                   <div
                     className={`${styles.tab} ${activeTab === 'process' ? styles.tabActive : ''}`}
                     onClick={() => setActiveTab('process')}
+                    style={{ position: 'relative' }}
                   >
                     Process Summary
+                    {activeTab === 'process' && (
+                      <motion.div
+                        layoutId="rr-tab-indicator"
+                        className={styles.tabIndicator}
+                        transition={{ duration: 0.25, ease: [0.32, 0.72, 0, 1] }}
+                      />
+                    )}
                   </div>
                 </div>
               </section>

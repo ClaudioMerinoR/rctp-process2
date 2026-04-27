@@ -1,4 +1,5 @@
 import { useState, useRef, useEffect } from 'react';
+import { motion } from 'motion/react';
 import PageLayout from '../components/layout/PageLayout';
 import Breadcrumb from '../components/layout/Breadcrumb';
 import styles from './CompanyAdmin.module.css';
@@ -612,8 +613,16 @@ export default function CompanyAdmin() {
                 key={tab.key}
                 className={`${styles.detailTab}${activeDetailsTab === tab.key ? ' ' + styles.detailTabActive : ''}`}
                 onClick={() => handleTabChange(tab.key)}
+                style={{ position: 'relative' }}
               >
                 {tab.label}
+                {activeDetailsTab === tab.key && (
+                  <motion.div
+                    layoutId="ca-tab-indicator"
+                    className={styles.detailTabIndicator}
+                    transition={{ duration: 0.25, ease: [0.32, 0.72, 0, 1] }}
+                  />
+                )}
               </button>
             ))}
           </div>
