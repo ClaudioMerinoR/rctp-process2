@@ -253,6 +253,19 @@
   width: 120px;
 }
 
+.thPermInner {
+  display: flex;
+  align-items: center;
+  gap: 6px;
+}
+
+.naCell {
+  color: var(--neutral-300);
+  font-size: 14px;
+  display: block;
+  text-align: center;
+}
+
 .table tbody tr:nth-child(odd)  { background: var(--primary-08); }
 .table tbody tr:nth-child(even) { background: var(--neutral-00); }
 .table tbody tr:hover { background: var(--primary-50); }

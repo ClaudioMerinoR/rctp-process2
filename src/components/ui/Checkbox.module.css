@@ -48,7 +48,7 @@
 
 .boxChecked {
   background: var(--primary-500);
-  border: none;
+  border: 2px solid transparent;
 }
 
 .container:not(.disabled):hover .boxChecked {
@@ -62,12 +62,12 @@
 
 .boxDisabledChecked {
   background: var(--neutral-200);
-  border: none;
+  border: 2px solid transparent;
 }
 
 .boxError {
   background: var(--alert-500, #e53935);
-  border: none;
+  border: 2px solid transparent;
 }
 
 .boxErrorEmpty {

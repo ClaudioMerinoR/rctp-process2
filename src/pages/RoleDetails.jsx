@@ -50,15 +50,15 @@ const THIRD_PARTIES_SECTIONS = [
         title: 'General',
         cols: ['View', 'Edit', 'Create', 'Delete', 'Export'],
         rows: [
-          { name: 'Third Parties',                    perms: [true,  true,  false, false, true ] },
-          { name: 'Third Party Owner',                perms: [true,  true,  false, false, false] },
-          { name: 'Business Unit',                    perms: [true,  false, false, false, false] },
-          { name: 'Active / Inactive',                perms: [true,  true,  false, false, false] },
-          { name: 'Tags',                             perms: [true,  true,  false, false, false] },
-          { name: 'Third Party Expiry Date',          perms: [true,  true,  false, false, false] },
-          { name: 'Expiry Date Rationale',            perms: [true,  true,  false, false, false] },
-          { name: 'Screening & Monitoring Policy',    perms: [true,  false, false, false, false] },
-          { name: 'Pre-Onboarding Entity Verification', perms: [true, false, false, false, false] },
+          { name: 'Third Parties',                    perms: [true,  true,  true,  true,  true ] },
+          { name: 'Third Party Owner',                perms: [true,  true,  null,  null,  null ] },
+          { name: 'Business Unit',                    perms: [true,  true,  null,  null,  null ] },
+          { name: 'Active / Inactive',                perms: [true,  true,  null,  null,  null ] },
+          { name: 'Tags',                             perms: [true,  true,  null,  null,  null ] },
+          { name: 'Third Party Expiry Date',          perms: [true,  true,  null,  null,  null ] },
+          { name: 'Expiry Date Rationale',            perms: [true,  true,  null,  null,  null ] },
+          { name: 'Screening & Monitoring Policy',    perms: [true,  false, null,  null,  null ] },
+          { name: 'Pre-Onboarding Entity Verification', perms: [true, null,  null,  null,  null ] },
         ],
       },
       {
@@ -155,10 +155,20 @@ function buildPermState(sections) {
   const state = {};
   sections.forEach(g => {
     if (g.children) g.children.forEach(s => {
+      // null = N/A (always disabled), true/false = editable
       state[s.title] = s.rows.map(r => [...r.perms]);
     });
   });
   return state;
+}
+
+function colAllChecked(permRows, colIdx) {
+  return permRows.every(row => row[colIdx] === null || row[colIdx] === true);
+}
+
+function toggleColAll(permRows, colIdx) {
+  const newVal = !colAllChecked(permRows, colIdx);
+  return permRows.map(row => row.map((v, j) => j === colIdx && v !== null ? newVal : v));
 }
 
 function buildFlatPermState() {
@@ -351,9 +361,26 @@ export default function RoleDetails() {
                                 <thead>
                                   <tr>
                                     <th className={styles.thName}>Name</th>
-                                    {section.cols.map(col => (
-                                      <th key={col} className={styles.thPerm}>{col}</th>
-                                    ))}
+                                    {section.cols.map((col, j) => {
+                                      const sectionPerms = tpPerms[section.title] ?? section.rows.map(r => [...r.perms]);
+                                      const allChecked = colAllChecked(sectionPerms, j);
+                                      return (
+                                        <th key={col} className={styles.thPerm}>
+                                          <div className={styles.thPermInner}>
+                                            {isEditing && (
+                                              <Checkbox
+                                                checked={allChecked}
+                                                onChange={() => setTpPerms(prev => ({
+                                                  ...prev,
+                                                  [section.title]: toggleColAll(prev[section.title] ?? section.rows.map(r => [...r.perms]), j),
+                                                }))}
+                                              />
+                                            )}
+                                            {col}
+                                          </div>
+                                        </th>
+                                      );
+                                    })}
                                   </tr>
                                 </thead>
                                 <tbody>
@@ -370,11 +397,15 @@ export default function RoleDetails() {
                                       </td>
                                       {permRow.map((val, j) => (
                                         <td key={j} className={styles.tdPerm}>
-                                          <Checkbox
-                                            checked={val}
-                                            disabled={!isEditing}
-                                            onChange={() => toggleTpPerm(section.title, i, j)}
-                                          />
+                                          {val === null ? (
+                                            <span className={styles.naCell}>—</span>
+                                          ) : (
+                                            <Checkbox
+                                              checked={val}
+                                              disabled={!isEditing}
+                                              onChange={() => toggleTpPerm(section.title, i, j)}
+                                            />
+                                          )}
                                         </td>
                                       ))}
                                     </tr>
@@ -400,8 +431,26 @@ export default function RoleDetails() {
               <thead>
                 <tr>
                   <th className={styles.thName}>Name</th>
-                  <th className={styles.thPerm}>View</th>
-                  <th className={styles.thPerm}>Export</th>
+                  {(['view', 'export']).map(key => {
+                    const fp = flatPerms[activeTab] ?? rows.map(r => ({ view: r.view, export: r.export }));
+                    const allChecked = fp.every(r => r[key]);
+                    return (
+                      <th key={key} className={styles.thPerm}>
+                        <div className={styles.thPermInner}>
+                          {isEditing && (
+                            <Checkbox
+                              checked={allChecked}
+                              onChange={() => setFlatPerms(prev => ({
+                                ...prev,
+                                [activeTab]: (prev[activeTab] ?? rows.map(r => ({ view: r.view, export: r.export }))).map(r => ({ ...r, [key]: !allChecked })),
+                              }))}
+                            />
+                          )}
+                          {key.charAt(0).toUpperCase() + key.slice(1)}
+                        </div>
+                      </th>
+                    );
+                  })}
                 </tr>
               </thead>
               <tbody>
