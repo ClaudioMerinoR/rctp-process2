@@ -506,7 +506,7 @@ export default function CompanyAdmin() {
     if (pathname.startsWith('/company-admin/third-party-details')) return 'Third Party Details';
     if (pathname.startsWith('/company-admin/roles')) return 'Roles';
     if (pathname.startsWith('/company-admin/summary')) return 'Summary';
-    return 'Third Party Details';
+    return 'Summary';
   })();
 
   const [activeDetailsTab, setActiveDetailsTab] = useState('entity');
