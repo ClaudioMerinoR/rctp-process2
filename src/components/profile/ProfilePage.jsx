@@ -538,8 +538,10 @@ export default function ProfilePage({ profile: profileProp, embedded = false }) 
           <motion.section className={styles.tableCard} initial={{ opacity: 0, y: 20 }} animate={{ opacity: 1, y: 0 }} transition={{ duration: 0.3, delay: 0.14 }}>
             <div className={styles.sectionBar}>
               <div className={styles.sectionRow}>
-                <h2 className={styles.cardTitle}>Open Tasks</h2>
-                <span className={`material-icons-outlined ${styles.infoIcon}`}>info</span>
+                <div className={styles.sectionTitleGroup}>
+                  <h2 className={styles.cardTitle}>Open Tasks</h2>
+                  <span className={`material-icons-outlined ${styles.infoIcon}`}>info</span>
+                </div>
               </div>
             </div>
             <div className={styles.cardInner}>
@@ -583,8 +585,10 @@ export default function ProfilePage({ profile: profileProp, embedded = false }) 
           <motion.section className={`${styles.tableCard} ${styles.tableCardShadow}`} initial={{ opacity: 0, y: 20 }} animate={{ opacity: 1, y: 0 }} transition={{ duration: 0.3, delay: 0.21 }}>
             <div className={styles.sectionBarFlat}>
               <div className={styles.sectionRow}>
-                <h2 className={styles.cardTitle}>Screening and Monitoring Associations</h2>
-                <span className={`material-icons-outlined ${styles.infoIcon}`}>info</span>
+                <div className={styles.sectionTitleGroup}>
+                  <h2 className={styles.cardTitle}>Screening and Monitoring Associations</h2>
+                  <span className={`material-icons-outlined ${styles.infoIcon}`}>info</span>
+                </div>
               </div>
             </div>
             <AnimatePresence mode="wait">
