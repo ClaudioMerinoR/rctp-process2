@@ -1,0 +1,271 @@
+.gap { height: 8px; }
+
+/* ── Header card ── */
+.headerCard {
+  background: var(--neutral-00);
+  border: 1px solid var(--neutral-50);
+  border-top: 4px solid var(--primary-500);
+  box-shadow: var(--shadow-card);
+  padding: 20px 20px 20px;
+}
+
+.titleRow {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  margin-bottom: 16px;
+}
+
+.titleGroup {
+  display: flex;
+  align-items: center;
+  gap: 8px;
+}
+
+.pageTitle {
+  font-size: 20px;
+  font-weight: 500;
+  color: var(--text-normal);
+  font-family: var(--font-heading);
+}
+
+.titleIcon {
+  font-size: 18px;
+  color: var(--primary-500);
+  cursor: help;
+}
+
+.headerActions {
+  display: flex;
+  gap: 8px;
+}
+
+/* ── Buttons ── */
+.btn {
+  display: inline-flex;
+  align-items: center;
+  gap: 4px;
+  height: 32px;
+  padding: 0 12px;
+  font-size: 12px;
+  font-weight: 500;
+  text-transform: uppercase;
+  letter-spacing: 0.5px;
+  border-radius: 4px;
+  cursor: pointer;
+  border: none;
+  font-family: inherit;
+  white-space: nowrap;
+  transition: background 0.2s, border-color 0.15s, color 0.15s;
+}
+
+.btnOutline {
+  background: var(--neutral-00);
+  border: 1px solid var(--neutral-300);
+  color: var(--text-light);
+}
+
+.btnOutline:hover {
+  border-color: var(--primary-500);
+  color: var(--primary-500);
+}
+
+.btnFilled {
+  background: var(--primary-500);
+  color: var(--neutral-25);
+}
+
+.btnFilled:hover {
+  background: var(--primary-600);
+}
+
+/* ── Fields row ── */
+.fieldsRow {
+  display: flex;
+  gap: 24px;
+  align-items: flex-end;
+}
+
+.fieldGroup {
+  display: flex;
+  flex-direction: column;
+  gap: 6px;
+}
+
+.fieldGroup:nth-child(1) { flex: 0 0 340px; }
+.fieldGroup:nth-child(2) { flex: 0 0 480px; }
+.fieldGroup:nth-child(3) { flex: 1; }
+
+.fieldLabel {
+  font-size: 11px;
+  font-weight: 500;
+  text-transform: uppercase;
+  letter-spacing: 0.5px;
+  color: var(--primary-500);
+  font-family: var(--font-heading);
+}
+
+.required {
+  color: var(--alert-500, #e53935);
+}
+
+.fieldInput {
+  height: 34px;
+  padding: 0 10px;
+  border: 1px solid var(--neutral-200);
+  border-radius: 2px;
+  background: var(--neutral-25);
+  font-size: 14px;
+  font-family: inherit;
+  color: var(--text-normal);
+  outline: none;
+  cursor: default;
+  box-sizing: border-box;
+  width: 100%;
+}
+
+.checkboxRow {
+  display: flex;
+  align-items: center;
+  gap: 20px;
+  height: 34px;
+}
+
+.checkboxLabel {
+  display: flex;
+  align-items: center;
+  gap: 6px;
+  font-size: 13px;
+  font-weight: 500;
+  color: var(--text-normal);
+  cursor: pointer;
+}
+
+.checkbox {
+  width: 16px;
+  height: 16px;
+  cursor: pointer;
+}
+
+/* ── Tab bar ── */
+.tabBar {
+  display: flex;
+  gap: 0;
+  background: var(--neutral-00);
+  border: 1px solid var(--neutral-50);
+  padding: 0 8px;
+}
+
+.tabBtn {
+  height: 44px;
+  padding: 0 16px;
+  font-size: 14px;
+  font-weight: 400;
+  color: var(--text-light);
+  background: none;
+  border: none;
+  cursor: pointer;
+  font-family: inherit;
+  letter-spacing: 0.2px;
+  transition: color 0.15s;
+  white-space: nowrap;
+}
+
+.tabBtn:hover {
+  color: var(--text-normal);
+}
+
+.tabBtnActive {
+  color: var(--neutral-00);
+  font-weight: 500;
+  background: var(--primary-500);
+  border-radius: 0;
+}
+
+.tabBtnActive:hover {
+  color: var(--neutral-00);
+}
+
+/* ── Permissions table ── */
+.tableCard {
+  background: var(--neutral-00);
+  border: 1px solid var(--neutral-50);
+  box-shadow: var(--shadow-card);
+}
+
+.tableWrap {
+  padding: 16px;
+}
+
+.table {
+  width: 100%;
+  border-collapse: collapse;
+  font-size: 13px;
+  border: 1px solid var(--neutral-100);
+}
+
+.table thead th {
+  background: var(--neutral-25);
+  border: 1px solid var(--neutral-50);
+  border-bottom: 2px solid var(--neutral-100);
+  padding: 10px 12px;
+  text-align: left;
+  font-size: 11px;
+  font-weight: 600;
+  color: var(--text-normal);
+  text-transform: uppercase;
+  letter-spacing: 0.5px;
+  white-space: nowrap;
+}
+
+.thName {
+  width: 55%;
+}
+
+.thPerm {
+  width: 120px;
+}
+
+.table tbody tr {
+  border-bottom: 1px solid var(--neutral-50);
+}
+
+.table tbody tr:last-child {
+  border-bottom: none;
+}
+
+.tdName {
+  padding: 14px 12px;
+  color: var(--text-light);
+  font-size: 14px;
+  border-right: 1px solid var(--neutral-50);
+  display: flex;
+  align-items: center;
+  gap: 6px;
+}
+
+.rowInfoIcon {
+  font-size: 14px;
+  color: var(--primary-500);
+  cursor: help;
+}
+
+.tdPerm {
+  padding: 14px 12px;
+  border-right: 1px solid var(--neutral-50);
+  vertical-align: middle;
+}
+
+.tdPerm:last-child {
+  border-right: none;
+}
+
+.checkOn {
+  font-size: 22px;
+  color: var(--success-500);
+}
+
+.checkOff {
+  font-size: 22px;
+  color: var(--neutral-300);
+}

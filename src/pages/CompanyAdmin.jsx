@@ -688,7 +688,7 @@ export default function CompanyAdmin() {
   );
 }
 
-const ROLES_DATA = [
+export const ROLES_DATA = [
   { name: 'Admin',              description: 'Has everything',      restrictedTP: 'No', restrictedEmp: 'No' },
   { name: 'Default Role',       description: 'Default Role',        restrictedTP: 'No', restrictedEmp: 'No' },
   { name: 'EV: View N, Edit N', description: 'For bug testing',     restrictedTP: 'No', restrictedEmp: 'No' },
@@ -700,6 +700,7 @@ const ROLES_DATA = [
 
 /* ── Roles panel ── */
 function RolesPanel() {
+  const navigate = useNavigate();
   const [openMenu, setOpenMenu] = useState(null);
 
   return (
@@ -745,7 +746,7 @@ function RolesPanel() {
                     </button>
                     {openMenu === i && (
                       <div className={styles.rolesMenuDropdown}>
-                        <button className={styles.rolesMenuItem} onClick={() => setOpenMenu(null)}>View/Edit Details</button>
+                        <button className={styles.rolesMenuItem} onClick={() => { setOpenMenu(null); navigate(`/company-admin/roles/${i}`); }}>View/Edit Details</button>
                         <button className={styles.rolesMenuItem} onClick={() => setOpenMenu(null)}>Edit Role</button>
                         <button className={styles.rolesMenuItem} onClick={() => setOpenMenu(null)}>Duplicate</button>
                       </div>
