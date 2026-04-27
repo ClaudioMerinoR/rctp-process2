@@ -858,7 +858,7 @@
 .connectFieldValue { font-size: 14px; color: var(--text-normal); }
 .connectTypeSection { display: flex; flex-direction: column; gap: 8px; }
 .connectTypeLabel { font-size: 12px; font-weight: 600; text-transform: uppercase; letter-spacing: 0.5px; color: var(--primary-500); }
-.connectTypeSelect { width: 100%; height: 40px; border: 1px solid var(--neutral-200); border-radius: 2px; padding: 0 10px; font-size: 14px; font-family: inherit; color: var(--text-normal); background: var(--neutral-00); outline: none; appearance: auto; }
+.connectTypeSelect { width: 100%; height: 40px; border: 1px solid var(--neutral-200); border-radius: 2px; padding: 0 28px 0 10px; font-size: 14px; font-family: inherit; color: var(--text-normal); background: var(--neutral-00) url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' width='16' height='16' viewBox='0 0 24 24' fill='%238D9CA9'%3E%3Cpath d='M7 10l5 5 5-5z'/%3E%3C/svg%3E") no-repeat right 8px center; outline: none; appearance: none; -webkit-appearance: none; }
 .connectTypeSelect:focus { border-color: var(--primary-500); }
 .connectPanelFooter { display: flex; align-items: center; justify-content: flex-end; gap: 8px; padding: 14px 20px; border-top: 1px solid var(--neutral-50); flex-shrink: 0; }
 .connectPanelFooter .btnFilled:disabled { opacity: 0.4; cursor: not-allowed; }

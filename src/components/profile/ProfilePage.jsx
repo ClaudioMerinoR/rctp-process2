@@ -883,7 +883,6 @@ function ConnectPanel({ row, onClose, onConfirm }) {
             disabled={!connType}
             onClick={() => onConfirm(row, connType)}
           >
-            <span className="material-icons-outlined" style={{ fontSize: 16 }}>link</span>
             Connect
           </button>
         </div>
@@ -1034,7 +1033,7 @@ function LookMorePanel({ onClose, onSelect }) {
                 onChange={e => setNameQuery(e.target.value)}
                 onKeyDown={e => e.key === 'Enter' && handleSearch()}
               />
-              <button className={`${styles.btn} ${styles.btnFilled}`} onClick={handleSearch}>
+              <button className={`${styles.btn} ${styles.btnFilled}`} style={{ height: 40, padding: '0 16px' }} onClick={handleSearch}>
                 Search
               </button>
             </div>
