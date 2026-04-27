@@ -465,8 +465,8 @@ export default function RenewalEdit() {
               <table className={styles.pickerTable}>
                 <thead>
                   <tr>
-                    <th>Name</th>
-                    <th>Category</th>
+                    <th style={{ width: '400px' }}>Name</th>
+                    <th style={{ width: '200px' }}>Category</th>
                   </tr>
                 </thead>
                 <tbody>

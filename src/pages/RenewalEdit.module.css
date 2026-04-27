@@ -618,7 +618,7 @@
   top: 0;
   right: 0;
   bottom: 0;
-  width: 480px;
+  width: 640px;
   z-index: 201;
   background: var(--neutral-00);
   border-left: 1px solid var(--neutral-100);
@@ -718,7 +718,9 @@
 
 .pickerTable {
   width: 100%;
+  min-width: 0;
   border-collapse: collapse;
+  table-layout: fixed;
 }
 
 .pickerTable thead th {
@@ -734,11 +736,12 @@
   text-align: left;
   border-bottom: 1px solid var(--neutral-100);
   border-right: 1px solid var(--neutral-100);
+  overflow: hidden;
+  text-overflow: ellipsis;
+  white-space: nowrap;
 }
 
-.pickerTable thead th:last-child {
-  border-right: none;
-}
+.pickerTable thead th:last-child { border-right: none; }
 
 .pickerRow {
   cursor: pointer;
@@ -755,6 +758,9 @@
   color: var(--text-normal);
   border-bottom: 1px solid var(--neutral-50);
   border-right: 1px solid var(--neutral-50);
+  overflow: hidden;
+  text-overflow: ellipsis;
+  white-space: nowrap;
 }
 
 .pickerRow td:last-child {
