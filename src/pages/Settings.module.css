@@ -13,6 +13,7 @@
   font-size: 20px;
   font-weight: 500;
   color: var(--text-normal);
+  font-family: var(--font-heading);
 }
 
 .pageHeaderInfo {
@@ -146,9 +147,10 @@
 }
 
 .contentTitle {
-  font-size: 20px;
+  font-size: 18px;
   font-weight: 500;
   color: var(--text-normal);
+  font-family: var(--font-heading);
   margin: 0;
 }
 
@@ -205,9 +207,10 @@
 }
 
 .settingsBlockTitle {
-  font-size: 18px;
+  font-size: 16px;
   font-weight: 500;
   color: var(--text-normal);
+  font-family: var(--font-heading);
   margin: 0 0 16px;
 }
 
@@ -253,11 +256,12 @@
 }
 
 .fieldInput {
-  height: 36px;
-  padding: 0 12px;
-  border: 1px solid var(--neutral-100);
+  height: 34px;
+  padding: 0 8px;
+  border: 1px solid var(--neutral-200);
+  border-radius: 2px;
   background: var(--neutral-00);
-  font-size: 16px;
+  font-size: 14px;
   color: var(--text-normal);
   font-family: inherit;
   width: 193px;
@@ -274,11 +278,12 @@
 }
 
 .fieldSelect {
-  height: 36px;
-  padding: 0 12px;
-  border: 1px solid var(--neutral-100);
+  height: 34px;
+  padding: 0 24px 0 8px;
+  border: 1px solid var(--neutral-200);
+  border-radius: 2px;
   background: var(--neutral-00);
-  font-size: 16px;
+  font-size: 13px;
   color: var(--text-normal);
   font-family: inherit;
   width: 155px;
@@ -286,10 +291,9 @@
   outline: none;
   cursor: pointer;
   appearance: none;
-  background-image: url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' width='10' height='6' viewBox='0 0 10 6'%3E%3Cpath d='M0 0l5 6 5-6z' fill='%23666'/%3E%3C/svg%3E");
+  background-image: url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' width='16' height='16' viewBox='0 0 24 24' fill='%238D9CA9'%3E%3Cpath d='M7 10l5 5 5-5z'/%3E%3C/svg%3E");
   background-repeat: no-repeat;
-  background-position: right 10px center;
-  padding-right: 28px;
+  background-position: right 4px center;
 }
 
 .fieldSelect:focus {
@@ -306,18 +310,23 @@
 }
 
 .saveBtn {
-  height: 37px;
-  padding: 0 20px;
+  display: inline-flex;
+  align-items: center;
+  gap: 4px;
+  height: 32px;
+  padding: 0 12px;
   background: var(--primary-500);
-  border: 1px solid var(--primary-500);
-  color: var(--neutral-00);
+  border: none;
+  border-radius: 4px;
+  color: var(--neutral-25);
   font-size: 12px;
   font-weight: 500;
   text-transform: uppercase;
   letter-spacing: 0.5px;
   cursor: pointer;
   font-family: inherit;
-  transition: background 0.15s;
+  transition: background 0.2s;
+  white-space: nowrap;
 }
 
 .saveBtn:hover {
@@ -332,25 +341,25 @@
 
 .tableWrap {
   overflow-x: auto;
-  padding: 20px;
+  padding: 16px;
 }
 
 .table {
   width: 100%;
   border-collapse: collapse;
-  font-size: 14px;
+  font-size: 13px;
   color: var(--text-normal);
 }
 
 .table thead th {
   background: var(--neutral-25);
-  font-size: 12px;
-  font-weight: 500;
+  font-size: 11px;
+  font-weight: 600;
   text-transform: uppercase;
   letter-spacing: 0.5px;
   color: var(--text-light);
   padding: 0 12px;
-  height: 42px;
+  height: 38px;
   text-align: left;
   border: 1px solid var(--neutral-50);
   white-space: nowrap;
@@ -362,10 +371,10 @@
 
 .table tbody td {
   padding: 0 12px;
-  height: 54px;
+  height: 40px;
   border: 1px solid var(--neutral-50);
   color: var(--text-normal);
-  font-size: 14px;
+  font-size: 13px;
 }
 
 .tdCenter {

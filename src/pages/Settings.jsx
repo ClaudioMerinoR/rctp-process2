@@ -239,6 +239,7 @@ export default function Settings() {
 
           {/* Card 3: Table */}
           <div className={styles.cardTable}>
+            <div className={styles.tableWrap}>
             <table className={styles.table}>
               <thead>
                 <tr>
@@ -248,7 +249,7 @@ export default function Settings() {
                   <th>Last Modified By</th>
                   <th>Last Modified Date</th>
                   <th className={styles.thCenter}>Saved/Published</th>
-                  <th>Action</th>
+                  <th className={styles.thCenter}>Action</th>
                 </tr>
               </thead>
               <tbody>
@@ -262,7 +263,7 @@ export default function Settings() {
                     <td className={styles.tdCenter}>
                       <span className={`${styles.statusDot}${row.published ? ' ' + styles.statusDotPublished : ''}`} />
                     </td>
-                    <td>
+                    <td className={styles.tdCenter}>
                       <button className={styles.actionBtn} onClick={() => navigate(`/settings/renewals/${row.version}/edit`)}>
                         <span className="material-icons-outlined">edit</span>
                       </button>
@@ -271,6 +272,7 @@ export default function Settings() {
                 ))}
               </tbody>
             </table>
+            </div>
           </div>
 
         </div>
