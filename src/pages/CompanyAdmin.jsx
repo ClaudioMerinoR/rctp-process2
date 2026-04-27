@@ -688,24 +688,73 @@ export default function CompanyAdmin() {
   );
 }
 
+const ROLES_DATA = [
+  { name: 'Admin',              description: 'Has everything',      restrictedTP: 'No', restrictedEmp: 'No' },
+  { name: 'Default Role',       description: 'Default Role',        restrictedTP: 'No', restrictedEmp: 'No' },
+  { name: 'EV: View N, Edit N', description: 'For bug testing',     restrictedTP: 'No', restrictedEmp: 'No' },
+  { name: 'EV: View N, Edit Y', description: 'For bug testing',     restrictedTP: 'No', restrictedEmp: 'No' },
+  { name: 'EV: View Y, Edit N', description: 'For bug testing',     restrictedTP: 'No', restrictedEmp: 'No' },
+  { name: 'EV: View Y, Edit Y', description: 'For bug testing',     restrictedTP: 'No', restrictedEmp: 'No' },
+  { name: 'Not Approval Group', description: 'Not Approval Group',  restrictedTP: 'No', restrictedEmp: 'No' },
+];
+
 /* ── Roles panel ── */
 function RolesPanel() {
+  const [openMenu, setOpenMenu] = useState(null);
+
   return (
     <>
       <div className={styles.contentHeader}>
-        <div className={styles.contentTitle}>Roles</div>
+        <div className={styles.rolesTitleGroup}>
+          <span className={styles.contentTitle}>Your Company Roles</span>
+          <span className={`material-icons-outlined ${styles.rolesTitleIcon}`}>info</span>
+        </div>
         <div className={styles.contentActions}>
           <button className={`${styles.btn} ${styles.btnFilled}`}>
-            <span className="material-icons-outlined" style={{ fontSize: 16 }}>add</span>
             Add Role
           </button>
         </div>
       </div>
-      <div className={styles.contentDivider} />
-      <div className={styles.contentSection} style={{ paddingBottom: 28 }}>
-        <div className={styles.sectionDesc} style={{ marginBottom: 0, paddingTop: 8 }}>
-          No roles have been configured yet.
-        </div>
+
+      <div className={styles.rolesTableWrap}>
+        <table className={styles.rolesTable} style={{ minWidth: 0 }}>
+          <thead>
+            <tr>
+              <th className={styles.rolesThName}>Name</th>
+              <th>Restricted to Third Parties</th>
+              <th>Restricted to Employees</th>
+              <th className={styles.rolesThAction} />
+            </tr>
+          </thead>
+          <tbody>
+            {ROLES_DATA.map((r, i) => (
+              <tr key={i} className={i % 2 === 0 ? styles.rolesRowOdd : styles.rolesRowEven}>
+                <td className={styles.rolesTdName}>
+                  <div className={styles.rolesRoleName}>{r.name}</div>
+                  <div className={styles.rolesRoleDesc}>{r.description}</div>
+                </td>
+                <td className={styles.rolesTd}>{r.restrictedTP}</td>
+                <td className={styles.rolesTd}>{r.restrictedEmp}</td>
+                <td className={styles.rolesTdAction}>
+                  <div className={styles.rolesMenuWrap}>
+                    <button
+                      className={styles.rolesMenuBtn}
+                      onClick={() => setOpenMenu(openMenu === i ? null : i)}
+                    >
+                      <span className="material-icons-outlined" style={{ fontSize: 20 }}>more_vert</span>
+                    </button>
+                    {openMenu === i && (
+                      <div className={styles.rolesMenuDropdown}>
+                        <button className={styles.rolesMenuItem} onClick={() => setOpenMenu(null)}>Edit</button>
+                        <button className={styles.rolesMenuItem} onClick={() => setOpenMenu(null)}>Delete</button>
+                      </div>
+                    )}
+                  </div>
+                </td>
+              </tr>
+            ))}
+          </tbody>
+        </table>
       </div>
     </>
   );
