@@ -94,7 +94,9 @@ export default function App() {
           <Route path="/profile/:profileId/documents" element={<ProfileDocuments />} />
           <Route path="/profile/:profileId/risk-report" element={<ProfileRiskReport />} />
           <Route path="/profile/:profileId/edit" element={<ProfileEdit />} />
-          <Route path="/company-admin" element={<CompanyAdmin />} />
+          <Route path="/company-admin" element={<Navigate to="/company-admin/third-party-details" replace />} />
+          <Route path="/company-admin/third-party-details" element={<CompanyAdmin />} />
+          <Route path="/company-admin/roles" element={<CompanyAdmin />} />
           <Route path="/employees" element={<Placeholder title="Employees" />} />
           <Route path="/risk-search" element={<Placeholder title="Risk Search" />} />
           <Route path="/settings" element={<Settings />} />

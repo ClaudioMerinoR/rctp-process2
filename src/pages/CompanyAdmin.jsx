@@ -1,8 +1,14 @@
 import { useState, useRef, useEffect } from 'react';
+import { useNavigate, useLocation } from 'react-router-dom';
 import { motion } from 'motion/react';
 import PageLayout from '../components/layout/PageLayout';
 import Breadcrumb from '../components/layout/Breadcrumb';
 import styles from './CompanyAdmin.module.css';
+
+const ROUTED_NAV = {
+  'Third Party Details': '/company-admin/third-party-details',
+  'Roles':               '/company-admin/roles',
+};
 
 /* ── helpers ── */
 function slugify(str) {
@@ -492,7 +498,15 @@ function SlotGrid({ slots, isEditing, onChange }) {
    Main page component
 ══════════════════════════════════════════════════════ */
 export default function CompanyAdmin() {
-  const [activeNav, setActiveNav] = useState('Third Party Details');
+  const navigate = useNavigate();
+  const { pathname } = useLocation();
+
+  const activeNav = (() => {
+    if (pathname.startsWith('/company-admin/third-party-details')) return 'Third Party Details';
+    if (pathname.startsWith('/company-admin/roles')) return 'Roles';
+    return 'Third Party Details';
+  })();
+
   const [activeDetailsTab, setActiveDetailsTab] = useState('entity');
   const [isEditing, setIsEditing] = useState(false);
   const [showAlert, setShowAlert] = useState(false);
@@ -550,8 +564,8 @@ export default function CompanyAdmin() {
 
       <Breadcrumb
         items={[
-          { label: 'Company Admin', to: '/company-admin' },
-          { label: 'Third Party Details' },
+          { label: 'Company Admin', to: '/company-admin/third-party-details' },
+          { label: activeNav },
         ]}
       />
 
@@ -572,7 +586,7 @@ export default function CompanyAdmin() {
             <button
               key={item}
               className={`${styles.adminNavItem}${activeNav === item ? ' ' + styles.adminNavItemActive : ''}`}
-              onClick={() => setActiveNav(item)}
+              onClick={() => ROUTED_NAV[item] ? navigate(ROUTED_NAV[item]) : undefined}
             >
               {item}
             </button>
@@ -582,87 +596,117 @@ export default function CompanyAdmin() {
         {/* Right content card */}
         <div className={styles.adminContent}>
 
-          {/* Content header */}
-          <div className={styles.contentHeader}>
-            <div className={styles.contentTitle}>Third Party Details</div>
-            <div className={styles.contentActions}>
-              {!isEditing && (
-                <button className={`${styles.btn} ${styles.btnFilled}`} onClick={handleEdit}>
-                  Edit
-                </button>
-              )}
-              {isEditing && (
-                <>
-                  <button className={`${styles.btn} ${styles.btnOutline}`} onClick={handleCancel}>
-                    Cancel
+          {activeNav === 'Third Party Details' && (
+            <>
+              {/* Content header */}
+              <div className={styles.contentHeader}>
+                <div className={styles.contentTitle}>Third Party Details</div>
+                <div className={styles.contentActions}>
+                  {!isEditing && (
+                    <button className={`${styles.btn} ${styles.btnFilled}`} onClick={handleEdit}>
+                      Edit
+                    </button>
+                  )}
+                  {isEditing && (
+                    <>
+                      <button className={`${styles.btn} ${styles.btnOutline}`} onClick={handleCancel}>
+                        Cancel
+                      </button>
+                      <button className={`${styles.btn} ${styles.btnFilled}`} onClick={handleSave}>
+                        Save
+                      </button>
+                    </>
+                  )}
+                </div>
+              </div>
+
+              <div className={styles.contentDivider} />
+
+              {/* Detail type tabs */}
+              <div className={styles.detailTabs}>
+                {DETAIL_TABS.map(tab => (
+                  <button
+                    key={tab.key}
+                    className={`${styles.detailTab}${activeDetailsTab === tab.key ? ' ' + styles.detailTabActive : ''}`}
+                    onClick={() => handleTabChange(tab.key)}
+                    style={{ position: 'relative' }}
+                  >
+                    {tab.label}
+                    {activeDetailsTab === tab.key && (
+                      <motion.div
+                        layoutId="ca-tab-indicator"
+                        className={styles.detailTabIndicator}
+                        transition={{ duration: 0.25, ease: [0.32, 0.72, 0, 1] }}
+                      />
+                    )}
                   </button>
-                  <button className={`${styles.btn} ${styles.btnFilled}`} onClick={handleSave}>
-                    Save
-                  </button>
-                </>
-              )}
-            </div>
-          </div>
+                ))}
+              </div>
 
-          <div className={styles.contentDivider} />
+              <div className={styles.contentDivider} />
 
-          {/* Detail type tabs */}
-          <div className={styles.detailTabs}>
-            {DETAIL_TABS.map(tab => (
-              <button
-                key={tab.key}
-                className={`${styles.detailTab}${activeDetailsTab === tab.key ? ' ' + styles.detailTabActive : ''}`}
-                onClick={() => handleTabChange(tab.key)}
-                style={{ position: 'relative' }}
-              >
-                {tab.label}
-                {activeDetailsTab === tab.key && (
-                  <motion.div
-                    layoutId="ca-tab-indicator"
-                    className={styles.detailTabIndicator}
-                    transition={{ duration: 0.25, ease: [0.32, 0.72, 0, 1] }}
-                  />
-                )}
-              </button>
-            ))}
-          </div>
+              {/* Overview section */}
+              <div className={styles.contentSection}>
+                <div className={styles.sectionHeading}>Overview</div>
+                <div className={styles.sectionDesc}>
+                  Select which fields appear in each position of the Overview tab on the Third Party summary page.
+                </div>
+                <SlotGrid
+                  slots={tabSlots[activeDetailsTab].overview}
+                  isEditing={isEditing}
+                  onChange={(i, v) => updateTabSlot('overview', i, v)}
+                />
+              </div>
 
-          <div className={styles.contentDivider} />
+              <div className={styles.sectionGapInner} />
+              <div className={styles.contentDivider} />
 
-          {/* Overview section */}
-          <div className={styles.contentSection}>
-            <div className={styles.sectionHeading}>Overview</div>
-            <div className={styles.sectionDesc}>
-              Select which fields appear in each position of the Overview tab on the Third Party summary page.
-            </div>
-            <SlotGrid
-              slots={tabSlots[activeDetailsTab].overview}
-              isEditing={isEditing}
-              onChange={(i, v) => updateTabSlot('overview', i, v)}
-            />
-          </div>
+              {/* Additional Details section */}
+              <div className={`${styles.contentSection} ${styles.contentSectionBottom}`}>
+                <div className={styles.sectionHeading}>Additional Details</div>
+                <div className={styles.sectionDesc}>
+                  Select which fields appear in each position of the Additional Details tab on the Third Party summary page.
+                </div>
+                <SlotGrid
+                  slots={tabSlots[activeDetailsTab].additional}
+                  isEditing={isEditing}
+                  onChange={(i, v) => updateTabSlot('additional', i, v)}
+                />
+              </div>
+            </>
+          )}
 
-          <div className={styles.sectionGapInner} />
-          <div className={styles.contentDivider} />
-
-          {/* Additional Details section */}
-          <div className={`${styles.contentSection} ${styles.contentSectionBottom}`}>
-            <div className={styles.sectionHeading}>Additional Details</div>
-            <div className={styles.sectionDesc}>
-              Select which fields appear in each position of the Additional Details tab on the Third Party summary page.
-            </div>
-            <SlotGrid
-              slots={tabSlots[activeDetailsTab].additional}
-              isEditing={isEditing}
-              onChange={(i, v) => updateTabSlot('additional', i, v)}
-            />
-          </div>
-
+          {activeNav === 'Roles' && (
+            <RolesPanel />
+          )}
 
         </div>
       </div>
 
       <div className={styles.sectionGap} />
     </PageLayout>
+  );
+}
+
+/* ── Roles panel ── */
+function RolesPanel() {
+  return (
+    <>
+      <div className={styles.contentHeader}>
+        <div className={styles.contentTitle}>Roles</div>
+        <div className={styles.contentActions}>
+          <button className={`${styles.btn} ${styles.btnFilled}`}>
+            <span className="material-icons-outlined" style={{ fontSize: 16 }}>add</span>
+            Add Role
+          </button>
+        </div>
+      </div>
+      <div className={styles.contentDivider} />
+      <div className={styles.contentSection} style={{ paddingBottom: 28 }}>
+        <div className={styles.sectionDesc} style={{ marginBottom: 0, paddingTop: 8 }}>
+          No roles have been configured yet.
+        </div>
+      </div>
+    </>
   );
 }
