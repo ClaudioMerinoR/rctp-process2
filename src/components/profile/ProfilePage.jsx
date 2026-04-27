@@ -1055,7 +1055,8 @@ function LookMorePanel({ onClose, onSelect }) {
                     <button className={`${styles.btn} ${styles.btnConnect}`} disabled={!anyChecked} onClick={handleConnect}>Connect</button>
                   </div>
                 </div>
-                <table className={styles.table}>
+                <div className={styles.connTableWrap}>
+                <table className={styles.table} style={{ minWidth: 0 }}>
                   <thead>
                     <tr>
                       <th style={{ width: 32 }}>
@@ -1086,6 +1087,7 @@ function LookMorePanel({ onClose, onSelect }) {
                     ))}
                   </tbody>
                 </table>
+                </div>
               </>
             )
           )}
