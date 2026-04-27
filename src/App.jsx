@@ -99,7 +99,8 @@ export default function App() {
           <Route path="/company-admin/roles" element={<CompanyAdmin />} />
           <Route path="/employees" element={<Placeholder title="Employees" />} />
           <Route path="/risk-search" element={<Placeholder title="Risk Search" />} />
-          <Route path="/settings" element={<Settings />} />
+          <Route path="/settings" element={<Navigate to="/settings/general/renewals" replace />} />
+          <Route path="/settings/:tab/:section" element={<Settings />} />
           <Route path="/settings/renewals/:version/edit" element={<RenewalEdit />} />
           <Route path="/reports" element={<Placeholder title="Reports" />} />
         </Routes>

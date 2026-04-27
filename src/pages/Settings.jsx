@@ -1,5 +1,5 @@
 import { useState } from 'react';
-import { useNavigate } from 'react-router-dom';
+import { useNavigate, useParams } from 'react-router-dom';
 import PageLayout from '../components/layout/PageLayout';
 import Breadcrumb from '../components/layout/Breadcrumb';
 import styles from './Settings.module.css';
@@ -26,6 +26,15 @@ const SIDEBAR_ITEMS = {
     'SLA Settings',
   ],
 };
+
+function slugify(str) {
+  return str.toLowerCase().replace(/[^a-z0-9]+/g, '-').replace(/^-|-$/g, '');
+}
+
+function unslugify(slug, tab) {
+  const items = SIDEBAR_ITEMS[tab] || [];
+  return items.find(i => slugify(i) === slug) || items[0];
+}
 
 const ROWS = [
   { version: 47, createdBy: 'Claudio Merino', createdDate: '11 Feb 2025', modifiedBy: 'Claudio Merino', modifiedDate: '11 Feb 2025', published: true },
@@ -79,12 +88,20 @@ const ROWS = [
 
 export default function Settings() {
   const navigate = useNavigate();
-  const [activeTopTab, setActiveTopTab] = useState('General');
-  const [activeNav, setActiveNav] = useState('Renewals');
+  const { tab: tabParam, section: sectionParam } = useParams();
+
+  const activeTopTab = tabParam
+    ? Object.keys(SIDEBAR_ITEMS).find(t => slugify(t) === tabParam) || 'General'
+    : 'General';
+
+  const activeNav = sectionParam ? unslugify(sectionParam, activeTopTab) : SIDEBAR_ITEMS[activeTopTab][0];
 
   function handleTopTabChange(tab) {
-    setActiveTopTab(tab);
-    setActiveNav(SIDEBAR_ITEMS[tab][0]);
+    navigate(`/settings/${slugify(tab)}/${slugify(SIDEBAR_ITEMS[tab][0])}`);
+  }
+
+  function handleNavChange(item) {
+    navigate(`/settings/${slugify(activeTopTab)}/${slugify(item)}`);
   }
   const [renewalsEnabled, setRenewalsEnabled] = useState(true);
   const [reminderPeriod, setReminderPeriod] = useState('30');
@@ -97,7 +114,7 @@ export default function Settings() {
     <PageLayout>
       <Breadcrumb
         items={[
-          { label: 'Settings', to: '/settings' },
+          { label: 'Settings', to: `/settings/${slugify(activeTopTab)}/${slugify(activeNav)}` },
           { label: activeTopTab },
           { label: activeNav },
         ]}
@@ -129,7 +146,7 @@ export default function Settings() {
             <button
               key={item}
               className={`${styles.adminNavItem}${activeNav === item ? ' ' + styles.adminNavItemActive : ''}`}
-              onClick={() => setActiveNav(item)}
+              onClick={() => handleNavChange(item)}
             >
               {item}
             </button>

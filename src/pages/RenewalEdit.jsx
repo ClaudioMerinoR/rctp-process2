@@ -271,7 +271,7 @@ export default function RenewalEdit() {
     <PageLayout>
       <Breadcrumb
         items={[
-          { label: 'Settings', to: '/settings' },
+          { label: 'Settings', to: '/settings/general/renewals' },
           { label: 'General – Renewals' },
         ]}
       />
@@ -284,7 +284,7 @@ export default function RenewalEdit() {
             <span className={styles.versionMeta}>— Version {version || 47}, Last Updated 11 Feb 2025, by Claudio Merino</span>
           </div>
           <div className={styles.expirationsActions}>
-            <button className={styles.btnOutline} onClick={() => navigate('/settings')}>Back</button>
+            <button className={styles.btnOutline} onClick={() => navigate('/settings/general/renewals')}>Back</button>
             <button className={styles.btnFilled}>Save</button>
             <button className={styles.btnFilled}>Publish</button>
           </div>
