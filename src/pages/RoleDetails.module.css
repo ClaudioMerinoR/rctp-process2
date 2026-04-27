@@ -200,7 +200,7 @@
 
 .tableWrap {
   overflow-x: auto;
-  padding: 0 16px;
+  padding: 16px 16px 0;
   margin-bottom: 12px;
 }
 
