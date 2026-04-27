@@ -520,14 +520,15 @@
 .rolesMenuItem {
   display: block;
   width: 100%;
-  padding: 8px 12px;
+  padding: 8px 16px;
   background: none;
   border: none;
   text-align: left;
-  font-size: 13px;
-  color: var(--text-normal);
+  font-size: 14px;
+  color: var(--primary-600);
   cursor: pointer;
   font-family: inherit;
+  line-height: 1.5;
 }
 
 .rolesMenuItem:hover {

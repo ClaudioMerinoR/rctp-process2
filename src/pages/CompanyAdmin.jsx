@@ -745,8 +745,9 @@ function RolesPanel() {
                     </button>
                     {openMenu === i && (
                       <div className={styles.rolesMenuDropdown}>
-                        <button className={styles.rolesMenuItem} onClick={() => setOpenMenu(null)}>Edit</button>
-                        <button className={styles.rolesMenuItem} onClick={() => setOpenMenu(null)}>Delete</button>
+                        <button className={styles.rolesMenuItem} onClick={() => setOpenMenu(null)}>View/Edit Details</button>
+                        <button className={styles.rolesMenuItem} onClick={() => setOpenMenu(null)}>Edit Role</button>
+                        <button className={styles.rolesMenuItem} onClick={() => setOpenMenu(null)}>Duplicate</button>
                       </div>
                     )}
                   </div>
