@@ -774,7 +774,7 @@
   margin-bottom: 12px;
 }
 
-.connTableWrap { margin-bottom: 24px; }
+.connTableWrap { margin-bottom: 16px; }
 
 .connSubHeader {
   display: flex;
@@ -792,7 +792,6 @@
 .connLookMore {
   display: flex;
   justify-content: flex-end;
-  padding-top: 8px;
 }
 
 .moreMenu {
