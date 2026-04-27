@@ -267,6 +267,45 @@
 }
 
 /* ── Third parties accordion ── */
+
+/* Group (e.g. Standard RCTP) */
+.accordionGroup {
+  border-bottom: 1px solid var(--neutral-50);
+}
+
+.accordionGroup:last-child {
+  border-bottom: none;
+}
+
+.accordionGroupHeader {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  padding: 12px 16px;
+  background: var(--neutral-100);
+  cursor: pointer;
+  user-select: none;
+  border-bottom: 1px solid var(--neutral-50);
+}
+
+.accordionGroupHeader:hover {
+  background: var(--neutral-50);
+}
+
+.accordionGroupTitle {
+  font-size: 13px;
+  font-weight: 600;
+  text-transform: uppercase;
+  letter-spacing: 0.5px;
+  color: var(--text-normal);
+  font-family: var(--font-heading);
+}
+
+.accordionGroupBody {
+  /* no extra padding — sections sit flush */
+}
+
+/* Section inside a group */
 .accordionSection {
   border-bottom: 1px solid var(--neutral-50);
 }
@@ -279,7 +318,7 @@
   display: flex;
   align-items: center;
   justify-content: space-between;
-  padding: 10px 16px;
+  padding: 10px 16px 10px 28px;
   background: var(--neutral-25);
   cursor: pointer;
   user-select: none;
@@ -308,17 +347,6 @@
 
 .accordionChevronOpen {
   transform: rotate(0deg);
-}
-
-.sectionSeparator {
-  padding: 8px 16px;
-  background: var(--neutral-100);
-  font-size: 11px;
-  font-weight: 600;
-  text-transform: uppercase;
-  letter-spacing: 0.5px;
-  color: var(--text-light);
-  border-bottom: 1px solid var(--neutral-50);
 }
 
 .tdNameIndent {
