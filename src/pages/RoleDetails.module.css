@@ -149,41 +149,46 @@
 
 /* ── Tab bar ── */
 .tabBar {
-  display: flex;
-  gap: 0;
   background: var(--neutral-00);
   border: 1px solid var(--neutral-50);
-  padding: 0 8px;
+  padding: 0 20px;
 }
 
-.tabBtn {
-  height: 44px;
-  padding: 0 16px;
+.tabs {
+  display: flex;
+  gap: 26px;
+  border-bottom: 1px solid var(--neutral-50);
+}
+
+.tab {
   font-size: 14px;
-  font-weight: 400;
+  font-weight: 500;
+  text-transform: uppercase;
+  letter-spacing: 0.1px;
   color: var(--text-light);
-  background: none;
-  border: none;
+  padding: 12px 0 10px;
   cursor: pointer;
-  font-family: inherit;
-  letter-spacing: 0.2px;
-  transition: color 0.15s;
+  transition: color 0.25s ease;
+  user-select: none;
   white-space: nowrap;
 }
 
-.tabBtn:hover {
+.tab:hover {
   color: var(--text-normal);
 }
 
-.tabBtnActive {
-  color: var(--neutral-00);
-  font-weight: 500;
-  background: var(--primary-500);
-  border-radius: 0;
+.tabActive {
+  color: var(--text-normal);
 }
 
-.tabBtnActive:hover {
-  color: var(--neutral-00);
+.tabIndicator {
+  position: absolute;
+  bottom: -1px;
+  left: 0;
+  right: 0;
+  height: 2px;
+  background: var(--primary-600);
+  border-radius: 1px;
 }
 
 /* ── Permissions table ── */

@@ -1,5 +1,6 @@
 import { useState } from 'react';
 import { useNavigate, useParams } from 'react-router-dom';
+import { motion } from 'motion/react';
 import PageLayout from '../components/layout/PageLayout';
 import Breadcrumb from '../components/layout/Breadcrumb';
 import { ROLES_DATA } from './CompanyAdmin';
@@ -109,15 +110,25 @@ export default function RoleDetails() {
 
       {/* Tab bar */}
       <div className={styles.tabBar}>
-        {PERMISSION_TABS.map(tab => (
-          <button
-            key={tab}
-            className={`${styles.tabBtn}${activeTab === tab ? ' ' + styles.tabBtnActive : ''}`}
-            onClick={() => setActiveTab(tab)}
-          >
-            {tab}
-          </button>
-        ))}
+        <div className={styles.tabs}>
+          {PERMISSION_TABS.map(tab => (
+            <div
+              key={tab}
+              className={`${styles.tab}${activeTab === tab ? ' ' + styles.tabActive : ''}`}
+              onClick={() => setActiveTab(tab)}
+              style={{ position: 'relative' }}
+            >
+              {tab}
+              {activeTab === tab && (
+                <motion.div
+                  layoutId="role-tab-indicator"
+                  className={styles.tabIndicator}
+                  transition={{ duration: 0.25, ease: [0.32, 0.72, 0, 1] }}
+                />
+              )}
+            </div>
+          ))}
+        </div>
       </div>
 
       <div className={styles.gap} />
