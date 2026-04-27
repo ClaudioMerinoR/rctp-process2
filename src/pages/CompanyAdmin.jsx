@@ -1,8 +1,15 @@
 import { useState, useRef, useEffect } from 'react';
+import { useNavigate, useLocation } from 'react-router-dom';
 import { motion } from 'motion/react';
 import PageLayout from '../components/layout/PageLayout';
 import Breadcrumb from '../components/layout/Breadcrumb';
 import styles from './CompanyAdmin.module.css';
+
+const ROUTED_NAV = {
+  'Summary':             '/company-admin/summary',
+  'Third Party Details': '/company-admin/third-party-details',
+  'Roles':               '/company-admin/roles',
+};
 
 /* ── helpers ── */
 function slugify(str) {
@@ -492,7 +499,16 @@ function SlotGrid({ slots, isEditing, onChange }) {
    Main page component
 ══════════════════════════════════════════════════════ */
 export default function CompanyAdmin() {
-  const [activeNav, setActiveNav] = useState('Third Party Details');
+  const navigate = useNavigate();
+  const { pathname } = useLocation();
+
+  const activeNav = (() => {
+    if (pathname.startsWith('/company-admin/third-party-details')) return 'Third Party Details';
+    if (pathname.startsWith('/company-admin/roles')) return 'Roles';
+    if (pathname.startsWith('/company-admin/summary')) return 'Summary';
+    return 'Summary';
+  })();
+
   const [activeDetailsTab, setActiveDetailsTab] = useState('entity');
   const [isEditing, setIsEditing] = useState(false);
   const [showAlert, setShowAlert] = useState(false);
@@ -550,8 +566,8 @@ export default function CompanyAdmin() {
 
       <Breadcrumb
         items={[
-          { label: 'Company Admin', to: '/company-admin' },
-          { label: 'Third Party Details' },
+          { label: 'Company Admin', to: '/company-admin/third-party-details' },
+          { label: activeNav },
         ]}
       />
 
@@ -572,7 +588,7 @@ export default function CompanyAdmin() {
             <button
               key={item}
               className={`${styles.adminNavItem}${activeNav === item ? ' ' + styles.adminNavItemActive : ''}`}
-              onClick={() => setActiveNav(item)}
+              onClick={() => ROUTED_NAV[item] ? navigate(ROUTED_NAV[item]) : undefined}
             >
               {item}
             </button>
@@ -582,87 +598,310 @@ export default function CompanyAdmin() {
         {/* Right content card */}
         <div className={styles.adminContent}>
 
-          {/* Content header */}
-          <div className={styles.contentHeader}>
-            <div className={styles.contentTitle}>Third Party Details</div>
-            <div className={styles.contentActions}>
-              {!isEditing && (
-                <button className={`${styles.btn} ${styles.btnFilled}`} onClick={handleEdit}>
-                  Edit
-                </button>
-              )}
-              {isEditing && (
-                <>
-                  <button className={`${styles.btn} ${styles.btnOutline}`} onClick={handleCancel}>
-                    Cancel
+          {activeNav === 'Third Party Details' && (
+            <>
+              {/* Content header */}
+              <div className={styles.contentHeader}>
+                <div className={styles.contentTitle}>Third Party Details</div>
+                <div className={styles.contentActions}>
+                  {!isEditing && (
+                    <button className={`${styles.btn} ${styles.btnFilled}`} onClick={handleEdit}>
+                      Edit
+                    </button>
+                  )}
+                  {isEditing && (
+                    <>
+                      <button className={`${styles.btn} ${styles.btnOutline}`} onClick={handleCancel}>
+                        Cancel
+                      </button>
+                      <button className={`${styles.btn} ${styles.btnFilled}`} onClick={handleSave}>
+                        Save
+                      </button>
+                    </>
+                  )}
+                </div>
+              </div>
+
+              <div className={styles.contentDivider} />
+
+              {/* Detail type tabs */}
+              <div className={styles.detailTabs}>
+                {DETAIL_TABS.map(tab => (
+                  <button
+                    key={tab.key}
+                    className={`${styles.detailTab}${activeDetailsTab === tab.key ? ' ' + styles.detailTabActive : ''}`}
+                    onClick={() => handleTabChange(tab.key)}
+                    style={{ position: 'relative' }}
+                  >
+                    {tab.label}
+                    {activeDetailsTab === tab.key && (
+                      <motion.div
+                        layoutId="ca-tab-indicator"
+                        className={styles.detailTabIndicator}
+                        transition={{ duration: 0.25, ease: [0.32, 0.72, 0, 1] }}
+                      />
+                    )}
                   </button>
-                  <button className={`${styles.btn} ${styles.btnFilled}`} onClick={handleSave}>
-                    Save
-                  </button>
-                </>
-              )}
-            </div>
-          </div>
+                ))}
+              </div>
 
-          <div className={styles.contentDivider} />
+              <div className={styles.contentDivider} />
 
-          {/* Detail type tabs */}
-          <div className={styles.detailTabs}>
-            {DETAIL_TABS.map(tab => (
-              <button
-                key={tab.key}
-                className={`${styles.detailTab}${activeDetailsTab === tab.key ? ' ' + styles.detailTabActive : ''}`}
-                onClick={() => handleTabChange(tab.key)}
-                style={{ position: 'relative' }}
-              >
-                {tab.label}
-                {activeDetailsTab === tab.key && (
-                  <motion.div
-                    layoutId="ca-tab-indicator"
-                    className={styles.detailTabIndicator}
-                    transition={{ duration: 0.25, ease: [0.32, 0.72, 0, 1] }}
-                  />
-                )}
-              </button>
-            ))}
-          </div>
+              {/* Overview section */}
+              <div className={styles.contentSection}>
+                <div className={styles.sectionHeading}>Overview</div>
+                <div className={styles.sectionDesc}>
+                  Select which fields appear in each position of the Overview tab on the Third Party summary page.
+                </div>
+                <SlotGrid
+                  slots={tabSlots[activeDetailsTab].overview}
+                  isEditing={isEditing}
+                  onChange={(i, v) => updateTabSlot('overview', i, v)}
+                />
+              </div>
 
-          <div className={styles.contentDivider} />
+              <div className={styles.sectionGapInner} />
+              <div className={styles.contentDivider} />
 
-          {/* Overview section */}
-          <div className={styles.contentSection}>
-            <div className={styles.sectionHeading}>Overview</div>
-            <div className={styles.sectionDesc}>
-              Select which fields appear in each position of the Overview tab on the Third Party summary page.
-            </div>
-            <SlotGrid
-              slots={tabSlots[activeDetailsTab].overview}
-              isEditing={isEditing}
-              onChange={(i, v) => updateTabSlot('overview', i, v)}
-            />
-          </div>
+              {/* Additional Details section */}
+              <div className={`${styles.contentSection} ${styles.contentSectionBottom}`}>
+                <div className={styles.sectionHeading}>Additional Details</div>
+                <div className={styles.sectionDesc}>
+                  Select which fields appear in each position of the Additional Details tab on the Third Party summary page.
+                </div>
+                <SlotGrid
+                  slots={tabSlots[activeDetailsTab].additional}
+                  isEditing={isEditing}
+                  onChange={(i, v) => updateTabSlot('additional', i, v)}
+                />
+              </div>
+            </>
+          )}
 
-          <div className={styles.sectionGapInner} />
-          <div className={styles.contentDivider} />
+          {activeNav === 'Roles' && (
+            <RolesPanel />
+          )}
 
-          {/* Additional Details section */}
-          <div className={`${styles.contentSection} ${styles.contentSectionBottom}`}>
-            <div className={styles.sectionHeading}>Additional Details</div>
-            <div className={styles.sectionDesc}>
-              Select which fields appear in each position of the Additional Details tab on the Third Party summary page.
-            </div>
-            <SlotGrid
-              slots={tabSlots[activeDetailsTab].additional}
-              isEditing={isEditing}
-              onChange={(i, v) => updateTabSlot('additional', i, v)}
-            />
-          </div>
-
+          {activeNav === 'Summary' && (
+            <SummaryPanel />
+          )}
 
         </div>
       </div>
 
       <div className={styles.sectionGap} />
     </PageLayout>
+  );
+}
+
+export const ROLES_DATA = [
+  { name: 'Admin',              description: 'Has everything',      restrictedTP: 'No', restrictedEmp: 'No' },
+  { name: 'Default Role',       description: 'Default Role',        restrictedTP: 'No', restrictedEmp: 'No' },
+  { name: 'EV: View N, Edit N', description: 'For bug testing',     restrictedTP: 'No', restrictedEmp: 'No' },
+  { name: 'EV: View N, Edit Y', description: 'For bug testing',     restrictedTP: 'No', restrictedEmp: 'No' },
+  { name: 'EV: View Y, Edit N', description: 'For bug testing',     restrictedTP: 'No', restrictedEmp: 'No' },
+  { name: 'EV: View Y, Edit Y', description: 'For bug testing',     restrictedTP: 'No', restrictedEmp: 'No' },
+  { name: 'Not Approval Group', description: 'Not Approval Group',  restrictedTP: 'No', restrictedEmp: 'No' },
+];
+
+/* ── Summary panel ── */
+const SUMMARY_DATA = {
+  companyName:      'UX_Team',
+  addressLine1:     '123 Example Street',
+  addressLine2:     '',
+  addressLine3:     '',
+  addressLine4:     '',
+  city:             'London',
+  postcode:         'EC1A 1BB',
+  country:          'United Kingdom',
+  telephone:        '+44 20 7946 0000',
+  website:          'www.uxteam.com',
+};
+
+function SummaryPanel() {
+  const [isEditing, setIsEditing] = useState(false);
+  const [data, setData] = useState(SUMMARY_DATA);
+  const [draft, setDraft] = useState(SUMMARY_DATA);
+
+  function handleEdit() { setDraft({ ...data }); setIsEditing(true); }
+  function handleCancel() { setIsEditing(false); }
+  function handleSave() { setData({ ...draft }); setIsEditing(false); }
+  function set(key, val) { setDraft(prev => ({ ...prev, [key]: val })); }
+
+  const d = isEditing ? draft : data;
+
+  return (
+    <div className={styles.summaryPanel}>
+      {/* Header */}
+      <div className={styles.contentHeader}>
+        <div className={styles.summaryTitleGroup}>
+          <span className={styles.contentTitle}>Summary</span>
+          <span className={`material-icons-outlined ${styles.summaryInfoIcon}`}>info</span>
+        </div>
+        <div className={styles.contentActions}>
+          {isEditing ? (
+            <>
+              <button className={`${styles.btn} ${styles.btnOutline}`} onClick={handleCancel}>Cancel</button>
+              <button className={`${styles.btn} ${styles.btnFilled}`} onClick={handleSave}>Save</button>
+            </>
+          ) : (
+            <button className={`${styles.btn} ${styles.btnFilled}`} onClick={handleEdit}>Edit</button>
+          )}
+        </div>
+      </div>
+
+      <div className={styles.contentDivider} />
+
+      {/* Fields */}
+      <div className={styles.summaryFields}>
+
+        {/* Company Name — full width */}
+        <div className={styles.summaryFieldFull}>
+          <label className={styles.summaryLabel}>Company Name <span className={styles.summaryReq}>*</span></label>
+          {isEditing
+            ? <input className={styles.summaryInput} value={d.companyName} onChange={e => set('companyName', e.target.value)} />
+            : <div className={styles.summaryValue}>{d.companyName || <span className={styles.summaryEmpty}>—</span>}</div>
+          }
+        </div>
+
+        {/* Address Line 1 / 2 */}
+        <div className={styles.summaryField}>
+          <label className={styles.summaryLabel}>Address Line 1 <span className={styles.summaryReq}>*</span></label>
+          {isEditing
+            ? <input className={styles.summaryInput} value={d.addressLine1} onChange={e => set('addressLine1', e.target.value)} />
+            : <div className={styles.summaryValue}>{d.addressLine1 || <span className={styles.summaryEmpty}>—</span>}</div>
+          }
+        </div>
+        <div className={styles.summaryField}>
+          <label className={styles.summaryLabel}>Address Line 2</label>
+          {isEditing
+            ? <input className={styles.summaryInput} value={d.addressLine2} onChange={e => set('addressLine2', e.target.value)} />
+            : <div className={styles.summaryValue}>{d.addressLine2 || <span className={styles.summaryEmpty}>—</span>}</div>
+          }
+        </div>
+
+        {/* Address Line 3 / 4 */}
+        <div className={styles.summaryField}>
+          <label className={styles.summaryLabel}>Address Line 3</label>
+          {isEditing
+            ? <input className={styles.summaryInput} value={d.addressLine3} onChange={e => set('addressLine3', e.target.value)} />
+            : <div className={styles.summaryValue}>{d.addressLine3 || <span className={styles.summaryEmpty}>—</span>}</div>
+          }
+        </div>
+        <div className={styles.summaryField}>
+          <label className={styles.summaryLabel}>Address Line 4</label>
+          {isEditing
+            ? <input className={styles.summaryInput} value={d.addressLine4} onChange={e => set('addressLine4', e.target.value)} />
+            : <div className={styles.summaryValue}>{d.addressLine4 || <span className={styles.summaryEmpty}>—</span>}</div>
+          }
+        </div>
+
+        {/* City / Postcode */}
+        <div className={styles.summaryField}>
+          <label className={styles.summaryLabel}>City <span className={styles.summaryReq}>*</span></label>
+          {isEditing
+            ? <input className={styles.summaryInput} value={d.city} onChange={e => set('city', e.target.value)} />
+            : <div className={styles.summaryValue}>{d.city || <span className={styles.summaryEmpty}>—</span>}</div>
+          }
+        </div>
+        <div className={styles.summaryField}>
+          <label className={styles.summaryLabel}>Postcode/Zip <span className={styles.summaryReq}>*</span></label>
+          {isEditing
+            ? <input className={styles.summaryInput} value={d.postcode} onChange={e => set('postcode', e.target.value)} />
+            : <div className={styles.summaryValue}>{d.postcode || <span className={styles.summaryEmpty}>—</span>}</div>
+          }
+        </div>
+
+        {/* Country — full width */}
+        <div className={styles.summaryFieldFull}>
+          <label className={styles.summaryLabel}>Country/Territory <span className={styles.summaryReq}>*</span></label>
+          {isEditing
+            ? <input className={styles.summaryInput} value={d.country} onChange={e => set('country', e.target.value)} />
+            : <div className={styles.summaryValue}>{d.country || <span className={styles.summaryEmpty}>—</span>}</div>
+          }
+        </div>
+
+        {/* Telephone / Website */}
+        <div className={styles.summaryField}>
+          <label className={styles.summaryLabel}>Company Telephone <span className={styles.summaryReq}>*</span></label>
+          {isEditing
+            ? <input className={styles.summaryInput} value={d.telephone} onChange={e => set('telephone', e.target.value)} />
+            : <div className={styles.summaryValue}>{d.telephone || <span className={styles.summaryEmpty}>—</span>}</div>
+          }
+        </div>
+        <div className={styles.summaryField}>
+          <label className={styles.summaryLabel}>Company Website</label>
+          {isEditing
+            ? <input className={styles.summaryInput} value={d.website} onChange={e => set('website', e.target.value)} />
+            : <div className={styles.summaryValue}>{d.website || <span className={styles.summaryEmpty}>—</span>}</div>
+          }
+        </div>
+
+      </div>
+    </div>
+  );
+}
+
+/* ── Roles panel ── */
+function RolesPanel() {
+  const navigate = useNavigate();
+  const [openMenu, setOpenMenu] = useState(null);
+
+  return (
+    <>
+      <div className={styles.contentHeader}>
+        <div className={styles.rolesTitleGroup}>
+          <span className={styles.contentTitle}>Your Company Roles</span>
+          <span className={`material-icons-outlined ${styles.rolesTitleIcon}`}>info</span>
+        </div>
+        <div className={styles.contentActions}>
+          <button className={`${styles.btn} ${styles.btnFilled}`}>
+            Add Role
+          </button>
+        </div>
+      </div>
+
+      <div className={styles.rolesTableWrap}>
+        <table className={styles.rolesTable} style={{ minWidth: 0 }}>
+          <thead>
+            <tr>
+              <th className={styles.rolesThName}>Name</th>
+              <th>Restricted to Third Parties</th>
+              <th>Restricted to Employees</th>
+              <th className={styles.rolesThAction} />
+            </tr>
+          </thead>
+          <tbody>
+            {ROLES_DATA.map((r, i) => (
+              <tr key={i} className={i % 2 === 0 ? styles.rolesRowOdd : styles.rolesRowEven}>
+                <td className={styles.rolesTdName}>
+                  <div className={styles.rolesRoleName}>{r.name}</div>
+                  <div className={styles.rolesRoleDesc}>{r.description}</div>
+                </td>
+                <td className={styles.rolesTd}>{r.restrictedTP}</td>
+                <td className={styles.rolesTd}>{r.restrictedEmp}</td>
+                <td className={styles.rolesTdAction}>
+                  <div className={styles.rolesMenuWrap}>
+                    <button
+                      className={styles.rolesMenuBtn}
+                      onClick={() => setOpenMenu(openMenu === i ? null : i)}
+                    >
+                      <span className="material-icons-outlined" style={{ fontSize: 20 }}>more_vert</span>
+                    </button>
+                    {openMenu === i && (
+                      <div className={styles.rolesMenuDropdown}>
+                        <button className={styles.rolesMenuItem} onClick={() => { setOpenMenu(null); navigate(`/company-admin/roles/${i}`); }}>View/Edit Details</button>
+                        <button className={styles.rolesMenuItem} onClick={() => setOpenMenu(null)}>Edit Role</button>
+                        <button className={styles.rolesMenuItem} onClick={() => setOpenMenu(null)}>Duplicate</button>
+                      </div>
+                    )}
+                  </div>
+                </td>
+              </tr>
+            ))}
+          </tbody>
+        </table>
+      </div>
+    </>
   );
 }

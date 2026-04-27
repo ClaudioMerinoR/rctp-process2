@@ -6,6 +6,7 @@ import PageLayout from '../components/layout/PageLayout';
 import Breadcrumb from '../components/layout/Breadcrumb';
 import ProfilePage from '../components/profile/ProfilePage';
 import { piedpiper, brucewayne } from '../data/profiles';
+import Checkbox from '../components/ui/Checkbox';
 import styles from './AddThirdParty.module.css';
 
 /* ─────────────────────── Static data ─────────────────────── */
@@ -688,7 +689,7 @@ export default function AddThirdParty() {
                       <div className={styles.dropdownSearch}><input className={styles.comboInput} placeholder="Search tags…" value={tagsQuery} onChange={e => setTagsQuery(e.target.value)} autoFocus /></div>
                       {TAG_OPTIONS.filter(o => !tagsQuery || o.toLowerCase().includes(tagsQuery.toLowerCase())).map(o => (
                         <label key={o} className={styles.dropdownCheckItem}>
-                          <input type="checkbox" checked={tags.includes(o)} onChange={() => toggleTag(o)} style={{ accentColor: 'var(--primary-500)' }} />
+                          <Checkbox checked={tags.includes(o)} onChange={() => toggleTag(o)} size="small" />
                           {o}
                         </label>
                       ))}
@@ -924,7 +925,7 @@ export default function AddThirdParty() {
                   <div className={styles.obCheckboxGroup}>
                     {['For Profit Commercial Organisation','Registered Charity','Not For Profit Organisation','Sole Trader','Freelancer','Self employed','Government Entity','Other'].map(opt => (
                       <label key={opt} className={styles.obCheckboxItem}>
-                        <input type="checkbox" checked={obUnknown.tpDesc.includes(opt)} onChange={() => {
+                        <Checkbox checked={obUnknown.tpDesc.includes(opt)} onChange={() => {
                           updateObU('tpDesc', obUnknown.tpDesc.includes(opt) ? obUnknown.tpDesc.filter(x => x !== opt) : [...obUnknown.tpDesc, opt]);
                           setErrors(prev => ({ ...prev, tpDesc: false }));
                         }} />

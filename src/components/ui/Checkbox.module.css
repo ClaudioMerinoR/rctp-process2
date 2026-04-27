@@ -1,0 +1,89 @@
+.container {
+  display: inline-flex;
+  align-items: center;
+  cursor: pointer;
+  position: relative;
+}
+
+.disabled {
+  cursor: not-allowed;
+  opacity: 1;
+}
+
+.hiddenInput {
+  position: absolute;
+  opacity: 0;
+  width: 0;
+  height: 0;
+  pointer-events: none;
+}
+
+/* ── Box ── */
+.box {
+  width: 16px;
+  height: 16px;
+  border-radius: 2px;
+  flex-shrink: 0;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  box-sizing: border-box;
+  transition: background 0.15s, border-color 0.15s;
+}
+
+.boxSmall {
+  width: 12px;
+  height: 12px;
+}
+
+/* States */
+.boxEmpty {
+  border: 2px solid var(--neutral-400);
+  background: transparent;
+}
+
+.container:not(.disabled):hover .boxEmpty {
+  border-color: var(--primary-500);
+}
+
+.boxChecked {
+  background: var(--primary-500);
+  border: 2px solid transparent;
+}
+
+.container:not(.disabled):hover .boxChecked {
+  background: var(--primary-600);
+}
+
+.boxDisabledEmpty {
+  border: 2px solid var(--neutral-200);
+  background: transparent;
+}
+
+.boxDisabledChecked {
+  background: var(--neutral-200);
+  border: 2px solid transparent;
+}
+
+.boxError {
+  background: var(--alert-500, #e53935);
+  border: 2px solid transparent;
+}
+
+.boxErrorEmpty {
+  border: 2px solid var(--alert-500, #e53935);
+  background: transparent;
+}
+
+/* ── Icon ── */
+.icon {
+  width: 10px;
+  height: 8px;
+  display: block;
+  flex-shrink: 0;
+}
+
+.iconSmall {
+  width: 8px;
+  height: 6px;
+}

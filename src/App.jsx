@@ -8,6 +8,7 @@ import RenewalEdit from './pages/RenewalEdit';
 import Placeholder from './pages/Placeholder';
 
 const CompanyAdmin       = lazy(() => import('./pages/CompanyAdmin'));
+const RoleDetails        = lazy(() => import('./pages/RoleDetails'));
 const ProfileDocuments   = lazy(() => import('./components/profile/ProfileDocuments'));
 const ProfileRiskReport  = lazy(() => import('./components/profile/ProfileRiskReport'));
 const ProfileEdit        = lazy(() => import('./components/profile/ProfileEdit'));
@@ -94,10 +95,15 @@ export default function App() {
           <Route path="/profile/:profileId/documents" element={<ProfileDocuments />} />
           <Route path="/profile/:profileId/risk-report" element={<ProfileRiskReport />} />
           <Route path="/profile/:profileId/edit" element={<ProfileEdit />} />
-          <Route path="/company-admin" element={<CompanyAdmin />} />
+          <Route path="/company-admin" element={<Navigate to="/company-admin/summary" replace />} />
+          <Route path="/company-admin/summary" element={<CompanyAdmin />} />
+          <Route path="/company-admin/third-party-details" element={<CompanyAdmin />} />
+          <Route path="/company-admin/roles" element={<CompanyAdmin />} />
+          <Route path="/company-admin/roles/:roleIndex" element={<RoleDetails />} />
           <Route path="/employees" element={<Placeholder title="Employees" />} />
           <Route path="/risk-search" element={<Placeholder title="Risk Search" />} />
-          <Route path="/settings" element={<Settings />} />
+          <Route path="/settings" element={<Navigate to="/settings/general/currency_approval_groups" replace />} />
+          <Route path="/settings/:tab/:section" element={<Settings />} />
           <Route path="/settings/renewals/:version/edit" element={<RenewalEdit />} />
           <Route path="/reports" element={<Placeholder title="Reports" />} />
         </Routes>

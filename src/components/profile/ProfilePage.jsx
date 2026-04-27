@@ -1,5 +1,6 @@
 import { useState, useEffect, useRef } from 'react';
 import { motion, AnimatePresence } from 'motion/react';
+import Checkbox from '../ui/Checkbox';
 import { transition as mot } from '../../utils/motion';
 import { Link, useParams, useNavigate, useLocation } from 'react-router-dom';
 import PageLayout from '../layout/PageLayout';
@@ -448,10 +449,9 @@ export default function ProfilePage({ profile: profileProp, embedded = false }) 
                       <thead>
                         <tr>
                           <th style={{ width: 32 }}>
-                            <input
-                              type="checkbox"
+                            <Checkbox
                               checked={allChecked}
-                              ref={el => { if (el) el.indeterminate = someChecked; }}
+                              indeterminate={someChecked}
                               onChange={handleSelectAll}
                             />
                           </th>
@@ -466,7 +466,7 @@ export default function ProfilePage({ profile: profileProp, embedded = false }) 
                       <tbody>
                         {suggestedRows.map((r, i) => (
                           <tr key={i}>
-                            <td><input type="checkbox" checked={checked[i] || false} onChange={e => handleRowCheck(i, e.target.checked)} /></td>
+                            <td><Checkbox checked={checked[i] || false} onChange={e => handleRowCheck(i, e.target.checked)} /></td>
                             <td><span className={styles.cellLink}>{r.name}</span></td>
                             {profile.suggestedHasConnType && <td>{r.connType}</td>}
                             <td>{r.idType}</td>
@@ -1063,10 +1063,9 @@ function LookMorePanel({ onClose, onSelect }) {
                   <thead>
                     <tr>
                       <th style={{ width: 32 }}>
-                        <input
-                          type="checkbox"
+                        <Checkbox
                           checked={allChecked}
-                          ref={el => { if (el) el.indeterminate = someChecked; }}
+                          indeterminate={someChecked}
                           onChange={handleSelectAll}
                         />
                       </th>
@@ -1080,7 +1079,7 @@ function LookMorePanel({ onClose, onSelect }) {
                   <tbody>
                     {results.map((r, i) => (
                       <tr key={i}>
-                        <td><input type="checkbox" checked={checked[i] || false} onChange={e => handleRowCheck(i, e.target.checked)} /></td>
+                        <td><Checkbox checked={checked[i] || false} onChange={e => handleRowCheck(i, e.target.checked)} /></td>
                         <td><span className={styles.cellLink}>{r.name}</span></td>
                         <td>{r.connType}</td>
                         <td>{r.idType}</td>

@@ -1,0 +1,398 @@
+.gap { height: 8px; }
+
+/* ── Header card ── */
+.headerCard {
+  background: var(--neutral-00);
+  border: 1px solid var(--neutral-50);
+  border-top: 4px solid var(--primary-500);
+  box-shadow: var(--shadow-card);
+  padding: 20px 20px 20px;
+}
+
+.titleRow {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  margin-bottom: 16px;
+}
+
+.titleGroup {
+  display: flex;
+  align-items: center;
+  gap: 8px;
+}
+
+.pageTitle {
+  font-size: 20px;
+  font-weight: 500;
+  color: var(--text-normal);
+  font-family: var(--font-heading);
+}
+
+.titleIcon {
+  font-size: 18px;
+  color: var(--primary-500);
+  cursor: help;
+}
+
+.headerActions {
+  display: flex;
+  gap: 8px;
+}
+
+/* ── Buttons ── */
+.btn {
+  display: inline-flex;
+  align-items: center;
+  gap: 4px;
+  height: 32px;
+  padding: 0 12px;
+  font-size: 12px;
+  font-weight: 500;
+  text-transform: uppercase;
+  letter-spacing: 0.5px;
+  border-radius: 4px;
+  cursor: pointer;
+  border: none;
+  font-family: inherit;
+  white-space: nowrap;
+  transition: background 0.2s, border-color 0.15s, color 0.15s;
+}
+
+.btnOutline {
+  background: var(--neutral-00);
+  border: 1px solid var(--neutral-300);
+  color: var(--text-light);
+}
+
+.btnOutline:hover {
+  border-color: var(--primary-500);
+  color: var(--primary-500);
+}
+
+.btnFilled {
+  background: var(--primary-500);
+  color: var(--neutral-25);
+}
+
+.btnFilled:hover {
+  background: var(--primary-600);
+}
+
+.btnDanger {
+  color: var(--alert-500, #e53935);
+  border-color: var(--alert-500, #e53935);
+}
+
+.btnDanger:hover {
+  background: var(--alert-500, #e53935);
+  color: var(--neutral-00);
+  border-color: var(--alert-500, #e53935);
+}
+
+/* ── Fields row ── */
+.fieldsRow {
+  display: flex;
+  gap: 24px;
+  align-items: flex-end;
+}
+
+.fieldGroup {
+  display: flex;
+  flex-direction: column;
+  gap: 6px;
+}
+
+.fieldGroup:nth-child(1) { flex: 0 0 340px; }
+.fieldGroup:nth-child(2) { flex: 0 0 480px; }
+.fieldGroup:nth-child(3) { flex: 1; }
+
+.fieldLabel {
+  font-size: 11px;
+  font-weight: 500;
+  text-transform: uppercase;
+  letter-spacing: 0.5px;
+  color: var(--primary-500);
+  font-family: var(--font-heading);
+}
+
+.required {
+  color: var(--alert-500, #e53935);
+}
+
+.fieldInput {
+  height: 34px;
+  padding: 0 10px;
+  border: 1px solid var(--neutral-200);
+  border-radius: 2px;
+  background: var(--neutral-25);
+  font-size: 14px;
+  font-family: inherit;
+  color: var(--text-normal);
+  outline: none;
+  cursor: default;
+  box-sizing: border-box;
+  width: 100%;
+}
+
+.fieldInputEditable {
+  background: var(--neutral-00);
+  border-color: var(--neutral-300);
+  cursor: text;
+}
+
+.fieldInputEditable:focus {
+  border-color: var(--primary-500);
+}
+
+.checkboxRow {
+  display: flex;
+  align-items: center;
+  gap: 20px;
+  height: 34px;
+}
+
+.checkboxLabel {
+  display: flex;
+  align-items: center;
+  gap: 6px;
+  font-size: 13px;
+  font-weight: 500;
+  color: var(--text-normal);
+  cursor: pointer;
+}
+
+.checkbox {
+  width: 16px;
+  height: 16px;
+  cursor: pointer;
+}
+
+/* ── Tab bar ── */
+.tabBar {
+  background: var(--neutral-00);
+  border: 1px solid var(--neutral-50);
+  padding: 0 20px;
+}
+
+.tabs {
+  display: flex;
+  gap: 26px;
+  border-bottom: 1px solid var(--neutral-50);
+}
+
+.tab {
+  font-size: 14px;
+  font-weight: 500;
+  text-transform: uppercase;
+  letter-spacing: 0.1px;
+  color: var(--text-light);
+  padding: 12px 0 10px;
+  cursor: pointer;
+  transition: color 0.25s ease;
+  user-select: none;
+  white-space: nowrap;
+}
+
+.tab:hover {
+  color: var(--text-normal);
+}
+
+.tabActive {
+  color: var(--text-normal);
+}
+
+.tabIndicator {
+  position: absolute;
+  bottom: -1px;
+  left: 0;
+  right: 0;
+  height: 2px;
+  background: var(--primary-600);
+  border-radius: 1px;
+}
+
+/* ── Permissions table ── */
+.tableCard {
+  background: var(--neutral-00);
+  border: 1px solid var(--neutral-50);
+  box-shadow: var(--shadow-card);
+}
+
+.tableWrap {
+  overflow-x: auto;
+  padding: 16px 16px 0;
+  margin-bottom: 12px;
+}
+
+.table {
+  width: 100%;
+  border-collapse: collapse;
+  font-size: 13px;
+}
+
+.table thead th {
+  background: var(--neutral-25);
+  border: 1px solid var(--neutral-50);
+  border-bottom: 1px solid var(--neutral-100);
+  padding: 10px 12px;
+  text-align: left;
+  font-size: 11px;
+  font-weight: 600;
+  color: var(--text-light);
+  text-transform: uppercase;
+  letter-spacing: 0.5px;
+  white-space: nowrap;
+}
+
+.thName {
+  width: 55%;
+}
+
+.thPerm {
+  width: 120px;
+}
+
+.thPermInner {
+  display: flex;
+  align-items: center;
+  gap: 6px;
+}
+
+.naCell {
+  color: var(--neutral-300);
+  font-size: 14px;
+  display: block;
+  text-align: center;
+}
+
+.table tbody tr:nth-child(odd)  { background: var(--primary-08); }
+.table tbody tr:nth-child(even) { background: var(--neutral-00); }
+.table tbody tr:hover { background: var(--primary-50); }
+
+.table tbody td {
+  border: 1px solid var(--neutral-50);
+  padding: 10px 12px;
+  vertical-align: middle;
+  color: var(--text-light);
+  font-size: 13px;
+}
+
+.tdName {
+  font-size: 14px;
+  color: var(--text-light);
+}
+
+.tdNameInner {
+  display: flex;
+  align-items: center;
+  gap: 6px;
+}
+
+.rowInfoIcon {
+  font-size: 14px;
+  color: var(--primary-500);
+  cursor: help;
+  flex-shrink: 0;
+}
+
+.tdPerm {
+  text-align: left;
+}
+
+/* ── Third parties accordion ── */
+
+/* Group (e.g. Standard RCTP) */
+.accordionGroup {
+  border-bottom: 1px solid var(--neutral-50);
+}
+
+.accordionGroup:last-child {
+  border-bottom: none;
+}
+
+.accordionGroupHeader {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  padding: 12px 16px;
+  background: var(--neutral-100);
+  cursor: pointer;
+  user-select: none;
+  border-bottom: 1px solid var(--neutral-50);
+}
+
+.accordionGroupHeader:hover {
+  background: var(--neutral-50);
+}
+
+.accordionGroupTitle {
+  font-size: 13px;
+  font-weight: 600;
+  text-transform: uppercase;
+  letter-spacing: 0.5px;
+  color: var(--text-normal);
+  font-family: var(--font-heading);
+}
+
+.accordionGroupBody {
+  /* no extra padding — sections sit flush */
+}
+
+/* Section inside a group */
+.accordionSection {
+  border-bottom: 1px solid var(--neutral-50);
+}
+
+.accordionSection:last-child {
+  border-bottom: none;
+}
+
+.accordionHeader {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  padding: 10px 16px 10px 28px;
+  background: var(--neutral-25);
+  cursor: pointer;
+  user-select: none;
+  border-bottom: 1px solid var(--neutral-50);
+}
+
+.accordionHeader:hover {
+  background: var(--primary-08);
+}
+
+.accordionTitle {
+  font-size: 12px;
+  font-weight: 600;
+  text-transform: uppercase;
+  letter-spacing: 0.5px;
+  color: var(--primary-500);
+  font-family: var(--font-heading);
+}
+
+.accordionChevron {
+  font-size: 18px;
+  color: var(--text-light);
+  transition: transform 0.2s ease;
+  transform: rotate(-90deg);
+}
+
+.accordionChevronOpen {
+  transform: rotate(0deg);
+}
+
+.tdNameIndent {
+  padding-left: 8px;
+}
+
+.indentBar {
+  display: inline-block;
+  width: 3px;
+  height: 14px;
+  background: var(--neutral-200);
+  border-radius: 2px;
+  flex-shrink: 0;
+}
+

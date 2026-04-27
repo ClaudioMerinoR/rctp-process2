@@ -20,7 +20,15 @@ After any change: commit and push to the current branch first. Run `npm run depl
 
 **What it is:** A React SPA prototyping a Third-Party Risk Management (RCTP) compliance platform. All data is static mock data — no backend, no API calls.
 
-**Routing:** `HashRouter` (required for GitHub Pages). Base path is `/rctp-process2/` in production, `/` in dev — controlled by `vite.config.js`. Routes are defined in `src/App.jsx`; `CompanyAdmin`, `ProfileDocuments`, `ProfileRiskReport`, and `ProfileEdit` are lazy-loaded.
+**Routing:** `HashRouter` (required for GitHub Pages). Base path is `/rctp-process2/` in production, `/` in dev — controlled by `vite.config.js`. Routes are defined in `src/App.jsx`; `CompanyAdmin`, `RoleDetails`, `ProfileDocuments`, `ProfileRiskReport`, and `ProfileEdit` are lazy-loaded.
+
+Key routes:
+- `/company-admin` → redirects to `/company-admin/summary`
+- `/company-admin/summary` | `/company-admin/third-party-details` | `/company-admin/roles` → `<CompanyAdmin />` (active nav derived from pathname)
+- `/company-admin/roles/:roleIndex` → `<RoleDetails />`
+- `/settings` → redirects to `/settings/general/currency_approval_groups`
+- `/settings/:tab/:section` → `<Settings />` (tab + section derived from URL params via `slugify`/`unslugify`)
+- `/settings/renewals/:version/edit` → `<RenewalEdit />`
 
 **State:** Local React state only (`useState`, `useEffect`, `useRef`). No Redux, Zustand, or context providers.
 
@@ -35,10 +43,12 @@ After any change: commit and push to the current branch first. Run `npm run depl
 - `src/pages/AddThirdParty.module.css` — wizard styles
 - `src/components/profile/ProfilePage.jsx` — full TP profile view with tabbed sections, side panels, inline editing; also used embedded inside AddThirdParty to show the newly created profile
 - `src/components/profile/profile.module.css` — all profile styles (~1 600 lines)
-- `src/pages/CompanyAdmin.jsx` — field configuration UI; defines canonical field label lists (`INITIAL_ENTITY_OVERVIEW`, `INITIAL_PERSON_OVERVIEW`, etc.) that ProfilePage reads to render field slots
-- `src/pages/Settings.jsx` — Settings page with General/Process top tabs and left sidebar nav; currently shows the Renewals section (version history table, Enabled/Disabled toggle)
+- `src/pages/CompanyAdmin.jsx` — field configuration UI + Summary + Roles panels; defines canonical field label lists (`INITIAL_ENTITY_OVERVIEW`, `INITIAL_PERSON_OVERVIEW`, etc.) that ProfilePage reads to render field slots; exports `ROLES_DATA`
+- `src/pages/RoleDetails.jsx` — View/Edit Company Role page; tab bar with animated indicator, Third parties accordion (grouped under Standard RCTP), per-section column sets, `null` perms for N/A cells, column-header toggle-all in edit mode
+- `src/pages/Settings.jsx` — Settings page with General/Process top tabs (animated motion indicator) and left sidebar nav; General default-loads Currency & Approval Groups; Process sidebar has a process-picker select and default-loads Stages
 - `src/pages/Settings.module.css` — Settings page styles; `adminNav`/`adminNavItem`/`adminNavItemActive` pattern is the canonical sidebar nav style — reused by CompanyAdmin
 - `src/pages/RenewalEdit.jsx` — Renewal configuration editor; reached from the edit icon in Settings → Renewals. Contains: draggable left/right panel split (50–80%), dynamic columns with per-column context menus (add/delete/move), drag-to-reorder rows, column picker side panel, Active/Inactive toggle per row
+- `src/components/ui/Checkbox.jsx` — shared Checkbox component; props: `checked`, `indeterminate`, `disabled`, `error`, `size` (`'default'`|`'small'`), `onChange`. All filled states use `border: 2px solid transparent` to match the empty state's 2px border and keep vertical alignment consistent.
 - `src/data/profiles/` — static mock profile objects; `index.js` exports all profiles as named exports and as a `profiles` object keyed by id
 - `src/styles/globals.css` — all CSS variables
 - `src/utils/motion.js` — Framer Motion transition presets
@@ -91,11 +101,34 @@ Labels in `overviewFields` / `additionalFields` are prefixed by entity type to m
 
 The canonical lists are the `INITIAL_*` constants in `CompanyAdmin.jsx`.
 
+## CompanyAdmin Architecture
+
+URL-driven nav — `activeNav` derived from `pathname`, not `useState`. `ROUTED_NAV` maps nav item names to paths. Panels rendered conditionally by `activeNav`:
+- `Summary` → `<SummaryPanel />` — company name, address, telephone, website; view/edit modes
+- `Third Party Details` → slot grid (entity/person/unknown tabs, overview + additional fields)
+- `Roles` → `<RolesPanel />` — table with per-row ⋮ dropdown; "View/Edit Details" navigates to `/company-admin/roles/:index`
+
+`ROLES_DATA` is exported from `CompanyAdmin.jsx` and imported by `RoleDetails.jsx`.
+
+## RoleDetails Architecture
+
+- Header card: view/edit title, Back/Edit or Cancel/Delete/Save and close/Save buttons, role name + description inputs, business unit checkboxes
+- Tab bar: Framer Motion `layoutId="role-tab-indicator"` animated underline
+- **Third parties tab**: two-level accordion — top-level group (Standard RCTP, darker header), children are collapsible sections each with their own column set. `null` in `perms` arrays = N/A cell (renders `—`, always disabled). In edit mode: checkboxes become interactive, column headers show a toggle-all checkbox.
+- **Other tabs**: flat table (Name, View, Export columns)
+- Permission state: `tpPerms` (keyed by section title) for Third parties; `flatPerms` (keyed by tab name) for all others
+
 ## Settings & RenewalEdit Architecture
 
 **Settings** (`/settings`) uses a two-level nav:
-- **Top tabs** (General / Process) — `role="tablist"` tabs with primary-blue underline indicator; switching tabs resets the sidebar to that tab's first item
+- **Top tabs** (General / Process) — `<div>` tabs with Framer Motion `layoutId="settings-top-tab-indicator"` animated underline; switching tabs resets the sidebar to that tab's first item
 - **Left sidebar** (`adminNav` / `adminNavItem`) — active item gets `background: var(--primary-500)`. Same class names and sizes used in CompanyAdmin; keep them in sync.
+- **Process tab sidebar** has a `<select>` process-picker at the top (Standard RCTP / Enhanced Due Diligence / Basic Screening) above the nav items.
+
+**Settings content panels** (rendered conditionally by `activeNav`):
+- `Currency & Approval Groups` → `<CurrencyApprovalGroupsPanel />` — currency select, language selector, 3 approval group dropdowns
+- `Renewals` → existing toggle + reminder settings + version history table
+- `Stages` → `<StagesPanel />` — table with Enabled/Low/Medium/High Risk/Renewal columns, expandable Due Diligence row, footer Approval Auto Start badge toggle
 
 **RenewalEdit** (`/settings/renewals/:version/edit`) is a split-panel editor:
 - `rows` is the single source of truth for both the Rules panel and the Details panel — reordering one side automatically reorders the other
@@ -108,9 +141,29 @@ The canonical lists are the `INITIAL_*` constants in `CompanyAdmin.jsx`.
 
 The green/red sliding toggle is used in AddThirdParty (Summary section), Settings (Renewals toggle), and RenewalEdit (per-row Status). The CSS is copy-pasted into each module file — not a shared component. Classes: `.activeToggle`, `.activeToggleOff`, `.activeToggleTrack`, `.activeToggleThumb`.
 
+## Tab Pattern (canonical)
+
+All tab bars in the app use the same pattern — do not use `<button>` with `::after` CSS for the indicator:
+- Tabs are `<div>` elements with `style={{ position: 'relative' }}`
+- Active tab renders `<motion.div layoutId="<unique-id>" className={styles.tabIndicator} transition={{ duration: 0.25, ease: [0.32, 0.72, 0, 1] }} />`
+- `.tabIndicator` CSS: `position: absolute; bottom: -1px; left: 0; right: 0; height: 2px; background: var(--primary-600); border-radius: 1px`
+- Tab text: `font-size: 14px; font-weight: 500; text-transform: uppercase; letter-spacing: 0.1px`
+- Tab container has `border-bottom: 1px solid var(--neutral-50)` and the indicator sits at `bottom: -1px` to overlap it
+
+## Checkbox Component
+
+`src/components/ui/Checkbox.jsx` — use this everywhere instead of `<input type="checkbox">`.
+
+Key implementation detail: all filled box states (`.boxChecked`, `.boxDisabledChecked`, `.boxError`) use `border: 2px solid transparent` — same width as the empty border — so checked and unchecked boxes are identical total size and align vertically.
+
+`null` as a `checked` value is not valid — use the `disabled` prop for non-interactive cells, and render `—` (dash) instead of a Checkbox for N/A cells.
+
 ## CSS Patterns
 
 - **Inset section dividers:** `1px solid var(--neutral-50)` with `margin: 0 16px`. In `profile.module.css` implemented as `::before` pseudo-elements on `.riskReport` and `.tableCard`.
 - **Table borders:** `border: 1px solid var(--neutral-50)` on both `thead th` and `tbody td`.
+- **Table stripes:** `tbody tr:nth-child(odd) { background: var(--primary-08) }`, `tr:nth-child(even) { background: var(--neutral-00) }`, `tr:hover { background: var(--primary-50) }`
 - **Risk card hover:** CSS gradient darkening only — no `box-shadow` or `y` transform.
 - **Sidebar nav (Settings / CompanyAdmin):** `width: 226px`, `font-size: 14px`, `color: var(--text-light)` for inactive items, `background: var(--primary-500); color: var(--neutral-00)` for active.
+- **Card with top accent:** `border-top: 4px solid var(--primary-500); box-shadow: var(--shadow-card)` — used on all main content cards.
+- **Global table leak fix:** `ThirdParties.module.css` has a bare `table { min-width: 900px }` that leaks to all tables. Override with `style={{ minWidth: 0 }}` on any `<table>` rendered inside a component that isn't ThirdParties.
