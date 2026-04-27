@@ -25,39 +25,28 @@
 
 /* ── Top tabs bar ── */
 .topTabsBar {
-  display: flex;
-  gap: 0;
-  padding: 0 4px;
   background: var(--neutral-00);
   border: 1px solid var(--neutral-50);
-  border-top: none;
+  padding: 0 20px;
+}
+
+.topTabs {
+  display: flex;
+  gap: 26px;
+  border-bottom: 1px solid var(--neutral-50);
 }
 
 .topTab {
-  position: relative;
-  height: 44px;
-  padding: 0 20px;
   font-size: 14px;
-  font-weight: 400;
+  font-weight: 500;
+  text-transform: uppercase;
+  letter-spacing: 0.1px;
   color: var(--text-light);
-  background: none;
-  border: none;
+  padding: 12px 0 10px;
   cursor: pointer;
-  font-family: inherit;
-  letter-spacing: 0.2px;
-  transition: color 0.15s;
+  transition: color 0.25s ease;
+  user-select: none;
   white-space: nowrap;
-}
-
-.topTab::after {
-  content: '';
-  position: absolute;
-  bottom: 0;
-  left: 0;
-  right: 0;
-  height: 2px;
-  background: transparent;
-  transition: background 0.15s;
 }
 
 .topTab:hover {
@@ -65,12 +54,17 @@
 }
 
 .topTabActive {
-  color: var(--primary-500);
-  font-weight: 500;
+  color: var(--text-normal);
 }
 
-.topTabActive::after {
-  background: var(--primary-500);
+.topTabIndicator {
+  position: absolute;
+  bottom: -1px;
+  left: 0;
+  right: 0;
+  height: 2px;
+  background: var(--primary-600);
+  border-radius: 1px;
 }
 
 /* ── Gap ── */

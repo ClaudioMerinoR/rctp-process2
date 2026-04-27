@@ -1,5 +1,6 @@
 import { useState } from 'react';
 import { useNavigate, useParams } from 'react-router-dom';
+import { motion } from 'motion/react';
 import PageLayout from '../components/layout/PageLayout';
 import Breadcrumb from '../components/layout/Breadcrumb';
 import styles from './Settings.module.css';
@@ -218,18 +219,26 @@ export default function Settings() {
       />
 
       {/* Top tabs */}
-      <div className={styles.topTabsBar} role="tablist">
-        {Object.keys(SIDEBAR_ITEMS).map(tab => (
-          <button
-            key={tab}
-            role="tab"
-            aria-selected={activeTopTab === tab}
-            className={`${styles.topTab}${activeTopTab === tab ? ' ' + styles.topTabActive : ''}`}
-            onClick={() => handleTopTabChange(tab)}
-          >
-            {tab}
-          </button>
-        ))}
+      <div className={styles.topTabsBar}>
+        <div className={styles.topTabs}>
+          {Object.keys(SIDEBAR_ITEMS).map(tab => (
+            <div
+              key={tab}
+              className={`${styles.topTab}${activeTopTab === tab ? ' ' + styles.topTabActive : ''}`}
+              onClick={() => handleTopTabChange(tab)}
+              style={{ position: 'relative' }}
+            >
+              {tab}
+              {activeTopTab === tab && (
+                <motion.div
+                  layoutId="settings-top-tab-indicator"
+                  className={styles.topTabIndicator}
+                  transition={{ duration: 0.25, ease: [0.32, 0.72, 0, 1] }}
+                />
+              )}
+            </div>
+          ))}
+        </div>
       </div>
 
       <div className={styles.sectionGap} />
