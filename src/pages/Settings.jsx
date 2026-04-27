@@ -1,4 +1,4 @@
-import { useState } from 'react';
+import { useState, useRef } from 'react';
 import { useNavigate, useParams } from 'react-router-dom';
 import { motion } from 'motion/react';
 import PageLayout from '../components/layout/PageLayout';
@@ -87,6 +87,152 @@ const ROWS = [
   { version: 2,  createdBy: 'Barry Marbles',  createdDate: '05 Dec 2022', modifiedBy: 'Barry Marbles',  modifiedDate: '05 Dec 2022', published: false },
   { version: 1,  createdBy: 'System',         createdDate: '05 Dec 2022', modifiedBy: 'System',         modifiedDate: '05 Dec 2022', published: false },
 ];
+
+/* ── Stages data ── */
+const STAGES_COLS = ['Enabled', 'Low Risk', 'Medium Risk', 'High Risk', 'Renewal Set / Period'];
+// perms: [enabled, lowRisk, medRisk, highRisk, renewalPeriod]
+// null = N/A, true/false = checkable, string = text value
+const STAGES_ROWS = [
+  { name: 'Risk Assessment',             info: true, perms: [true,  null,  null,  null,  null ] },
+  { name: 'Due Diligence',               info: true, perms: [null,  null,  null,  null,  null ], expandable: true,
+    children: [
+      { name: 'Internal Due Diligence',  info: true, perms: [null,  null,  true,  null,  null ] },
+      { name: 'External Due Diligence',  info: true, perms: [null,  null,  true,  null,  null ] },
+    ],
+  },
+  { name: 'Enhanced Due Diligence Report', info: true, perms: [null, null, null,  null,  null ] },
+  { name: 'Integrity Check',             info: true, perms: [null,  null,  null,  null,  null ] },
+  { name: 'UBO',                         info: true, perms: [null,  null,  null,  true,  '20 Day(s)'] },
+  { name: 'Monitoring Required',         info: true, perms: [true,  null,  null,  null,  null ] },
+  { name: 'Auto Approval',               info: true, perms: [null,  null,  null,  null,  null ] },
+];
+
+function buildStagesState(rows) {
+  const flat = {};
+  function process(r) {
+    flat[r.name] = r.perms.map(v => v);
+    if (r.children) r.children.forEach(process);
+  }
+  rows.forEach(process);
+  return flat;
+}
+
+function StagesPanel() {
+  const [isEditing, setIsEditing] = useState(false);
+  const [expanded, setExpanded] = useState({ 'Due Diligence': true });
+  const [perms, setPerms] = useState(() => buildStagesState(STAGES_ROWS));
+  const [draft, setDraft] = useState(() => buildStagesState(STAGES_ROWS));
+  const [approvalAutoStart, setApprovalAutoStart] = useState(false);
+
+  function handleEdit() { setDraft({ ...perms }); setIsEditing(true); }
+  function handleCancel() { setIsEditing(false); }
+  function handleSave() { setPerms({ ...draft }); setIsEditing(false); }
+  function togglePerm(name, colIdx) {
+    setDraft(prev => ({
+      ...prev,
+      [name]: prev[name].map((v, i) => i === colIdx && typeof v === 'boolean' ? !v : v),
+    }));
+  }
+
+  const state = isEditing ? draft : perms;
+
+  function renderRow(row, indent = false) {
+    const rowPerms = state[row.name] ?? row.perms;
+    return (
+      <tr key={row.name} className={indent ? styles.stagesRowIndent : ''}>
+        <td className={styles.stagesTdName}>
+          <div className={styles.stagesTdNameInner}>
+            {row.expandable && (
+              <span
+                className={`material-icons-outlined ${styles.stagesChevron}${expanded[row.name] ? ' ' + styles.stagesChevronOpen : ''}`}
+                onClick={() => setExpanded(p => ({ ...p, [row.name]: !p[row.name] }))}
+              >chevron_right</span>
+            )}
+            {indent && <span className={styles.stagesIndentSpacer} />}
+            {row.name}
+            {row.info && <span className={`material-icons-outlined ${styles.stagesInfoIcon}`}>info</span>}
+          </div>
+        </td>
+        {rowPerms.map((val, j) => (
+          <td key={j} className={styles.stagesTdPerm}>
+            {val === null ? null
+              : typeof val === 'string' ? <span className={styles.stagesPeriodText}>{val}</span>
+              : isEditing
+                ? <input type="checkbox" className={styles.stagesCheckbox} checked={val} onChange={() => togglePerm(row.name, j)} />
+                : val ? <span className={`material-icons-outlined ${styles.stagesCheck}`}>check</span> : null
+            }
+          </td>
+        ))}
+      </tr>
+    );
+  }
+
+  function renderRows(rows) {
+    const out = [];
+    rows.forEach(row => {
+      out.push(renderRow(row, false));
+      if (row.children && expanded[row.name]) {
+        row.children.forEach(child => out.push(renderRow(child, true)));
+      }
+    });
+    return out;
+  }
+
+  return (
+    <div className={styles.stagesPanel}>
+
+      {/* Header */}
+      <div className={styles.stagesHeader}>
+        <h2 className={styles.contentTitle}>Stages</h2>
+        <div className={styles.contentActions}>
+          {isEditing ? (
+            <>
+              <button className={`${styles.btn} ${styles.btnOutline}`} onClick={handleCancel}>Cancel</button>
+              <button className={`${styles.btn} ${styles.btnFilled}`} onClick={handleSave}>Save</button>
+            </>
+          ) : (
+            <button className={`${styles.btn} ${styles.btnFilled}`} onClick={handleEdit}>Edit</button>
+          )}
+        </div>
+      </div>
+
+      {/* Main table */}
+      <div className={styles.stagesTableWrap}>
+        <table className={styles.stagesTable}>
+          <thead>
+            <tr>
+              <th className={styles.stagesThName}>Name</th>
+              {STAGES_COLS.map(col => (
+                <th key={col} className={styles.stagesTh}>{col}</th>
+              ))}
+            </tr>
+          </thead>
+          <tbody>
+            {renderRows(STAGES_ROWS)}
+          </tbody>
+        </table>
+      </div>
+
+      {/* Footer row — Approval Auto Start */}
+      <div className={styles.stagesFooter}>
+        <div className={styles.stagesFooterCell}>
+          <span>Approval Auto Start</span>
+          <span className={`material-icons-outlined ${styles.stagesInfoIcon}`}>info</span>
+        </div>
+        <div className={styles.stagesFooterBadge}>
+          <div
+            className={`${styles.stagesBadge}${approvalAutoStart ? ' ' + styles.stagesBadgeActive : ' ' + styles.stagesBadgeInactive}`}
+            onClick={() => isEditing && setApprovalAutoStart(v => !v)}
+            style={{ cursor: isEditing ? 'pointer' : 'default' }}
+          >
+            {approvalAutoStart ? 'ACTIVE' : 'INACTIVE'}
+          </div>
+        </div>
+      </div>
+
+    </div>
+  );
+}
 
 const CURRENCY_OPTIONS = ['EUR €', 'USD $', 'GBP £', 'CHF ₣', 'JPY ¥'];
 const LANGUAGE_OPTIONS = ['English', 'French', 'German', 'Spanish'];
@@ -276,6 +422,8 @@ export default function Settings() {
 
         {/* Right column */}
         <div className={styles.contentStack}>
+
+          {activeNav === 'Stages' && <StagesPanel />}
 
           {activeNav === 'Currency & Approval Groups' && <CurrencyApprovalGroupsPanel />}
 

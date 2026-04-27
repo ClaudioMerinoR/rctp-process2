@@ -602,3 +602,177 @@
   height: 1px;
   background: rgba(0,0,0,0.08);
 }
+
+/* ── Stages panel ── */
+.stagesPanel {
+  background: var(--neutral-00);
+  border: 1px solid var(--neutral-100);
+  border-top: 4px solid var(--primary-500);
+  box-shadow: 0 2px 4px rgba(0,0,0,0.08);
+}
+
+.stagesHeader {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  padding: 16px 20px;
+}
+
+.contentActions {
+  display: flex;
+  gap: 8px;
+}
+
+.stagesTableWrap {
+  overflow-x: auto;
+  border-top: 1px solid var(--neutral-50);
+}
+
+.stagesTable {
+  width: 100%;
+  border-collapse: collapse;
+  font-size: 13px;
+  min-width: 700px;
+}
+
+.stagesTable thead th {
+  background: var(--neutral-25);
+  border: 1px solid var(--neutral-50);
+  padding: 10px 12px;
+  font-size: 11px;
+  font-weight: 600;
+  text-transform: uppercase;
+  letter-spacing: 0.5px;
+  color: var(--text-light);
+  white-space: nowrap;
+}
+
+.stagesThName {
+  text-align: left;
+  width: 40%;
+}
+
+.stagesTh {
+  text-align: center;
+  width: 110px;
+}
+
+.stagesTable tbody tr:nth-child(odd)  { background: var(--primary-08); }
+.stagesTable tbody tr:nth-child(even) { background: var(--neutral-00); }
+.stagesTable tbody tr:hover { background: var(--primary-50); }
+
+.stagesTable tbody td {
+  border: 1px solid var(--neutral-50);
+  padding: 10px 12px;
+  vertical-align: middle;
+}
+
+.stagesRowIndent td:first-child {
+  padding-left: 32px;
+}
+
+.stagesTdName {
+  font-size: 14px;
+  color: var(--text-normal);
+}
+
+.stagesTdNameInner {
+  display: flex;
+  align-items: center;
+  gap: 6px;
+}
+
+.stagesChevron {
+  font-size: 16px;
+  color: var(--primary-500);
+  cursor: pointer;
+  transition: transform 0.2s ease;
+  transform: rotate(0deg);
+  flex-shrink: 0;
+}
+
+.stagesChevronOpen {
+  transform: rotate(90deg);
+}
+
+.stagesIndentSpacer {
+  display: inline-block;
+  width: 16px;
+  flex-shrink: 0;
+}
+
+.stagesInfoIcon {
+  font-size: 14px;
+  color: var(--primary-500);
+  cursor: help;
+  flex-shrink: 0;
+}
+
+.stagesTdPerm {
+  text-align: center;
+}
+
+.stagesCheck {
+  font-size: 18px;
+  color: var(--success-500, #2ecc71);
+}
+
+.stagesPeriodText {
+  font-size: 13px;
+  color: var(--text-normal);
+}
+
+.stagesCheckbox {
+  width: 16px;
+  height: 16px;
+  cursor: pointer;
+  accent-color: var(--primary-500);
+}
+
+/* Footer row */
+.stagesFooter {
+  display: flex;
+  align-items: center;
+  border-top: 1px solid var(--neutral-50);
+  padding: 12px 12px 12px 12px;
+  gap: 24px;
+  background: var(--neutral-00);
+}
+
+.stagesFooterCell {
+  display: flex;
+  align-items: center;
+  gap: 6px;
+  font-size: 14px;
+  color: var(--text-normal);
+  min-width: 200px;
+}
+
+.stagesFooterBadge {
+  display: flex;
+  align-items: center;
+}
+
+.stagesBadge {
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+  height: 32px;
+  padding: 0 14px;
+  font-size: 12px;
+  font-weight: 500;
+  text-transform: uppercase;
+  letter-spacing: 0.5px;
+  border-radius: 2px;
+  user-select: none;
+}
+
+.stagesBadgeInactive {
+  background: rgba(227, 76, 83, 0.65);
+  color: var(--neutral-00);
+}
+
+.stagesBadgeActive {
+  background: var(--success-500, #2ecc71);
+  color: var(--neutral-00);
+}
