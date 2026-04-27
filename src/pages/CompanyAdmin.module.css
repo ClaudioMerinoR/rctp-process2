@@ -563,3 +563,83 @@
   font-weight: 500;
   color: var(--success-900);
 }
+
+/* ── Summary panel ── */
+.summaryPanel {
+  padding-bottom: 28px;
+}
+
+.summaryTitleGroup {
+  display: flex;
+  align-items: center;
+  gap: 6px;
+}
+
+.summaryInfoIcon {
+  font-size: 16px;
+  color: var(--primary-500);
+  cursor: help;
+}
+
+.summaryFields {
+  display: grid;
+  grid-template-columns: 1fr 1fr;
+  gap: 20px 32px;
+  padding: 20px 20px 0;
+}
+
+.summaryField {
+  display: flex;
+  flex-direction: column;
+  gap: 6px;
+}
+
+.summaryFieldFull {
+  grid-column: 1 / -1;
+  display: flex;
+  flex-direction: column;
+  gap: 6px;
+}
+
+.summaryLabel {
+  font-size: 11px;
+  font-weight: 600;
+  text-transform: uppercase;
+  letter-spacing: 0.5px;
+  color: var(--primary-500);
+  font-family: var(--font-heading);
+}
+
+.summaryReq {
+  color: var(--alert-500, #e53935);
+}
+
+.summaryValue {
+  font-size: 14px;
+  color: var(--text-normal);
+  min-height: 24px;
+  padding: 4px 0;
+}
+
+.summaryEmpty {
+  color: var(--neutral-300);
+}
+
+.summaryInput {
+  height: 34px;
+  padding: 0 10px;
+  border: 1px solid var(--neutral-300);
+  border-radius: 2px;
+  background: var(--neutral-00);
+  font-size: 14px;
+  font-family: inherit;
+  color: var(--text-normal);
+  outline: none;
+  box-sizing: border-box;
+  width: 100%;
+  transition: border-color 0.15s;
+}
+
+.summaryInput:focus {
+  border-color: var(--primary-500);
+}

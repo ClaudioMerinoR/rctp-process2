@@ -6,6 +6,7 @@ import Breadcrumb from '../components/layout/Breadcrumb';
 import styles from './CompanyAdmin.module.css';
 
 const ROUTED_NAV = {
+  'Summary':             '/company-admin/summary',
   'Third Party Details': '/company-admin/third-party-details',
   'Roles':               '/company-admin/roles',
 };
@@ -504,6 +505,7 @@ export default function CompanyAdmin() {
   const activeNav = (() => {
     if (pathname.startsWith('/company-admin/third-party-details')) return 'Third Party Details';
     if (pathname.startsWith('/company-admin/roles')) return 'Roles';
+    if (pathname.startsWith('/company-admin/summary')) return 'Summary';
     return 'Third Party Details';
   })();
 
@@ -680,6 +682,10 @@ export default function CompanyAdmin() {
             <RolesPanel />
           )}
 
+          {activeNav === 'Summary' && (
+            <SummaryPanel />
+          )}
+
         </div>
       </div>
 
@@ -697,6 +703,144 @@ export const ROLES_DATA = [
   { name: 'EV: View Y, Edit Y', description: 'For bug testing',     restrictedTP: 'No', restrictedEmp: 'No' },
   { name: 'Not Approval Group', description: 'Not Approval Group',  restrictedTP: 'No', restrictedEmp: 'No' },
 ];
+
+/* ── Summary panel ── */
+const SUMMARY_DATA = {
+  companyName:      'UX_Team',
+  addressLine1:     '123 Example Street',
+  addressLine2:     '',
+  addressLine3:     '',
+  addressLine4:     '',
+  city:             'London',
+  postcode:         'EC1A 1BB',
+  country:          'United Kingdom',
+  telephone:        '+44 20 7946 0000',
+  website:          'www.uxteam.com',
+};
+
+function SummaryPanel() {
+  const [isEditing, setIsEditing] = useState(false);
+  const [data, setData] = useState(SUMMARY_DATA);
+  const [draft, setDraft] = useState(SUMMARY_DATA);
+
+  function handleEdit() { setDraft({ ...data }); setIsEditing(true); }
+  function handleCancel() { setIsEditing(false); }
+  function handleSave() { setData({ ...draft }); setIsEditing(false); }
+  function set(key, val) { setDraft(prev => ({ ...prev, [key]: val })); }
+
+  const d = isEditing ? draft : data;
+
+  return (
+    <div className={styles.summaryPanel}>
+      {/* Header */}
+      <div className={styles.contentHeader}>
+        <div className={styles.summaryTitleGroup}>
+          <span className={styles.contentTitle}>Summary</span>
+          <span className={`material-icons-outlined ${styles.summaryInfoIcon}`}>info</span>
+        </div>
+        <div className={styles.contentActions}>
+          {isEditing ? (
+            <>
+              <button className={`${styles.btn} ${styles.btnOutline}`} onClick={handleCancel}>Cancel</button>
+              <button className={`${styles.btn} ${styles.btnFilled}`} onClick={handleSave}>Save</button>
+            </>
+          ) : (
+            <button className={`${styles.btn} ${styles.btnFilled}`} onClick={handleEdit}>Edit</button>
+          )}
+        </div>
+      </div>
+
+      <div className={styles.contentDivider} />
+
+      {/* Fields */}
+      <div className={styles.summaryFields}>
+
+        {/* Company Name — full width */}
+        <div className={styles.summaryFieldFull}>
+          <label className={styles.summaryLabel}>Company Name <span className={styles.summaryReq}>*</span></label>
+          {isEditing
+            ? <input className={styles.summaryInput} value={d.companyName} onChange={e => set('companyName', e.target.value)} />
+            : <div className={styles.summaryValue}>{d.companyName || <span className={styles.summaryEmpty}>—</span>}</div>
+          }
+        </div>
+
+        {/* Address Line 1 / 2 */}
+        <div className={styles.summaryField}>
+          <label className={styles.summaryLabel}>Address Line 1 <span className={styles.summaryReq}>*</span></label>
+          {isEditing
+            ? <input className={styles.summaryInput} value={d.addressLine1} onChange={e => set('addressLine1', e.target.value)} />
+            : <div className={styles.summaryValue}>{d.addressLine1 || <span className={styles.summaryEmpty}>—</span>}</div>
+          }
+        </div>
+        <div className={styles.summaryField}>
+          <label className={styles.summaryLabel}>Address Line 2</label>
+          {isEditing
+            ? <input className={styles.summaryInput} value={d.addressLine2} onChange={e => set('addressLine2', e.target.value)} />
+            : <div className={styles.summaryValue}>{d.addressLine2 || <span className={styles.summaryEmpty}>—</span>}</div>
+          }
+        </div>
+
+        {/* Address Line 3 / 4 */}
+        <div className={styles.summaryField}>
+          <label className={styles.summaryLabel}>Address Line 3</label>
+          {isEditing
+            ? <input className={styles.summaryInput} value={d.addressLine3} onChange={e => set('addressLine3', e.target.value)} />
+            : <div className={styles.summaryValue}>{d.addressLine3 || <span className={styles.summaryEmpty}>—</span>}</div>
+          }
+        </div>
+        <div className={styles.summaryField}>
+          <label className={styles.summaryLabel}>Address Line 4</label>
+          {isEditing
+            ? <input className={styles.summaryInput} value={d.addressLine4} onChange={e => set('addressLine4', e.target.value)} />
+            : <div className={styles.summaryValue}>{d.addressLine4 || <span className={styles.summaryEmpty}>—</span>}</div>
+          }
+        </div>
+
+        {/* City / Postcode */}
+        <div className={styles.summaryField}>
+          <label className={styles.summaryLabel}>City <span className={styles.summaryReq}>*</span></label>
+          {isEditing
+            ? <input className={styles.summaryInput} value={d.city} onChange={e => set('city', e.target.value)} />
+            : <div className={styles.summaryValue}>{d.city || <span className={styles.summaryEmpty}>—</span>}</div>
+          }
+        </div>
+        <div className={styles.summaryField}>
+          <label className={styles.summaryLabel}>Postcode/Zip <span className={styles.summaryReq}>*</span></label>
+          {isEditing
+            ? <input className={styles.summaryInput} value={d.postcode} onChange={e => set('postcode', e.target.value)} />
+            : <div className={styles.summaryValue}>{d.postcode || <span className={styles.summaryEmpty}>—</span>}</div>
+          }
+        </div>
+
+        {/* Country — full width */}
+        <div className={styles.summaryFieldFull}>
+          <label className={styles.summaryLabel}>Country/Territory <span className={styles.summaryReq}>*</span></label>
+          {isEditing
+            ? <input className={styles.summaryInput} value={d.country} onChange={e => set('country', e.target.value)} />
+            : <div className={styles.summaryValue}>{d.country || <span className={styles.summaryEmpty}>—</span>}</div>
+          }
+        </div>
+
+        {/* Telephone / Website */}
+        <div className={styles.summaryField}>
+          <label className={styles.summaryLabel}>Company Telephone <span className={styles.summaryReq}>*</span></label>
+          {isEditing
+            ? <input className={styles.summaryInput} value={d.telephone} onChange={e => set('telephone', e.target.value)} />
+            : <div className={styles.summaryValue}>{d.telephone || <span className={styles.summaryEmpty}>—</span>}</div>
+          }
+        </div>
+        <div className={styles.summaryField}>
+          <label className={styles.summaryLabel}>Company Website</label>
+          {isEditing
+            ? <input className={styles.summaryInput} value={d.website} onChange={e => set('website', e.target.value)} />
+            : <div className={styles.summaryValue}>{d.website || <span className={styles.summaryEmpty}>—</span>}</div>
+          }
+        </div>
+
+      </div>
+    </div>
+  );
+}
 
 /* ── Roles panel ── */
 function RolesPanel() {
