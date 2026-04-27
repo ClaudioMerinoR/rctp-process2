@@ -265,12 +265,3 @@
   border-right: none;
 }
 
-.checkOn {
-  font-size: 22px;
-  color: var(--success-500);
-}
-
-.checkOff {
-  font-size: 22px;
-  color: var(--neutral-300);
-}

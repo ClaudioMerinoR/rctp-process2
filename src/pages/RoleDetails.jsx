@@ -153,10 +153,10 @@ export default function RoleDetails() {
                     <span className={`material-icons-outlined ${styles.rowInfoIcon}`}>info</span>
                   </td>
                   <td className={styles.tdPerm}>
-                    <CheckIcon checked={r.view} />
+                    <Checkbox checked={r.view} disabled onChange={() => {}} />
                   </td>
                   <td className={styles.tdPerm}>
-                    <CheckIcon checked={r.export} />
+                    <Checkbox checked={r.export} disabled onChange={() => {}} />
                   </td>
                 </tr>
               ))}
@@ -170,12 +170,3 @@ export default function RoleDetails() {
   );
 }
 
-function CheckIcon({ checked }) {
-  return (
-    <span
-      className={`material-icons-outlined ${checked ? styles.checkOn : styles.checkOff}`}
-    >
-      {checked ? 'check_box' : 'check_box_outline_blank'}
-    </span>
-  );
-}
