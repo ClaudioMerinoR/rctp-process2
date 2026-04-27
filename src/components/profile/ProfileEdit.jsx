@@ -4,6 +4,7 @@ import PageLayout from '../layout/PageLayout';
 import Breadcrumb from '../layout/Breadcrumb';
 import { profiles } from '../../data/profiles';
 import { Sidebar } from './ProfilePage';
+import Checkbox from '../ui/Checkbox';
 import styles from './ProfileEdit.module.css';
 import profileStyles from './profile.module.css';
 
@@ -245,7 +246,7 @@ export default function ProfileEdit() {
                       <div className={styles.dropdown}>
                         {TAG_OPTIONS.map(o => (
                           <label key={o} className={styles.dropdownCheckItem}>
-                            <input type="checkbox" checked={tags.includes(o)} onChange={() => toggleTag(o)} style={{ accentColor: 'var(--primary-500)' }} />
+                            <Checkbox checked={tags.includes(o)} onChange={() => toggleTag(o)} size="small" />
                             {o}
                           </label>
                         ))}

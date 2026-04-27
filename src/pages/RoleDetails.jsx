@@ -4,6 +4,7 @@ import { motion } from 'motion/react';
 import PageLayout from '../components/layout/PageLayout';
 import Breadcrumb from '../components/layout/Breadcrumb';
 import { ROLES_DATA } from './CompanyAdmin';
+import Checkbox from '../components/ui/Checkbox';
 import styles from './RoleDetails.module.css';
 
 const PERMISSION_TABS = ['Dashboard', 'Third parties', 'Employees', 'Risk Search', 'Company Admin', 'Settings', 'Reports'];
@@ -94,11 +95,11 @@ export default function RoleDetails() {
             <label className={styles.fieldLabel}>Business unit restricted by:</label>
             <div className={styles.checkboxRow}>
               <label className={styles.checkboxLabel}>
-                <input type="checkbox" className={styles.checkbox} defaultChecked={false} />
+                <Checkbox checked={false} onChange={() => {}} />
                 Third parties
               </label>
               <label className={styles.checkboxLabel}>
-                <input type="checkbox" className={styles.checkbox} defaultChecked={false} />
+                <Checkbox checked={false} onChange={() => {}} />
                 Employees
               </label>
             </div>
