@@ -79,6 +79,17 @@
   background: var(--primary-600);
 }
 
+.btnDanger {
+  color: var(--alert-500, #e53935);
+  border-color: var(--alert-500, #e53935);
+}
+
+.btnDanger:hover {
+  background: var(--alert-500, #e53935);
+  color: var(--neutral-00);
+  border-color: var(--alert-500, #e53935);
+}
+
 /* ── Fields row ── */
 .fieldsRow {
   display: flex;
@@ -122,6 +133,16 @@
   cursor: default;
   box-sizing: border-box;
   width: 100%;
+}
+
+.fieldInputEditable {
+  background: var(--neutral-00);
+  border-color: var(--neutral-300);
+  cursor: text;
+}
+
+.fieldInputEditable:focus {
+  border-color: var(--primary-500);
 }
 
 .checkboxRow {

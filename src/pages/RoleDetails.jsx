@@ -151,10 +151,55 @@ const THIRD_PARTIES_SECTIONS = [
   },
 ];
 
+function buildPermState(sections) {
+  const state = {};
+  sections.forEach(g => {
+    if (g.children) g.children.forEach(s => {
+      state[s.title] = s.rows.map(r => [...r.perms]);
+    });
+  });
+  return state;
+}
+
+function buildFlatPermState() {
+  const state = {};
+  Object.entries(PERMISSIONS_BY_TAB).forEach(([tab, rows]) => {
+    state[tab] = rows.map(r => ({ view: r.view, export: r.export }));
+  });
+  return state;
+}
+
 export default function RoleDetails() {
   const navigate = useNavigate();
   const { roleIndex } = useParams();
   const role = ROLES_DATA[parseInt(roleIndex, 10)] || ROLES_DATA[0];
+
+  const [isEditing, setIsEditing] = useState(false);
+  const [roleName, setRoleName] = useState(role.name);
+  const [roleDesc, setRoleDesc] = useState(role.description);
+  const [restrictTP, setRestrictTP] = useState(false);
+  const [restrictEmp, setRestrictEmp] = useState(false);
+  const [tpPerms, setTpPerms] = useState(() => buildPermState(THIRD_PARTIES_SECTIONS));
+  const [flatPerms, setFlatPerms] = useState(() => buildFlatPermState());
+
+  function handleEdit() { setIsEditing(true); }
+  function handleCancel() { setIsEditing(false); }
+  function handleDelete() { navigate('/company-admin/roles'); }
+  function handleSave() { setIsEditing(false); }
+
+  function toggleTpPerm(sectionTitle, rowIdx, colIdx) {
+    setTpPerms(prev => {
+      const next = { ...prev, [sectionTitle]: prev[sectionTitle].map((r, i) => i === rowIdx ? r.map((v, j) => j === colIdx ? !v : v) : r) };
+      return next;
+    });
+  }
+
+  function toggleFlatPerm(tab, rowIdx, key) {
+    setFlatPerms(prev => ({
+      ...prev,
+      [tab]: prev[tab].map((r, i) => i === rowIdx ? { ...r, [key]: !r[key] } : r),
+    }));
+  }
 
   const [activeTab, setActiveTab] = useState('Dashboard');
   const [openGroups, setOpenGroups] = useState(() => {
@@ -193,37 +238,54 @@ export default function RoleDetails() {
       <div className={styles.headerCard}>
         <div className={styles.titleRow}>
           <div className={styles.titleGroup}>
-            <h1 className={styles.pageTitle}>View Company Role</h1>
+            <h1 className={styles.pageTitle}>{isEditing ? 'Edit Company Role' : 'View Company Role'}</h1>
             <span className={`material-icons-outlined ${styles.titleIcon}`}>info</span>
           </div>
           <div className={styles.headerActions}>
-            <button className={`${styles.btn} ${styles.btnOutline}`} onClick={() => navigate('/company-admin/roles')}>
-              Back
-            </button>
-            <button className={`${styles.btn} ${styles.btnFilled}`}>
-              Edit
-            </button>
+            {isEditing ? (
+              <>
+                <button className={`${styles.btn} ${styles.btnOutline}`} onClick={handleCancel}>Cancel</button>
+                <button className={`${styles.btn} ${styles.btnOutline} ${styles.btnDanger}`} onClick={handleDelete}>Delete</button>
+                <button className={`${styles.btn} ${styles.btnOutline} ${styles.btnFilled}`} onClick={handleSave}>Save and close</button>
+                <button className={`${styles.btn} ${styles.btnFilled}`} onClick={handleSave}>Save</button>
+              </>
+            ) : (
+              <>
+                <button className={`${styles.btn} ${styles.btnOutline}`} onClick={() => navigate('/company-admin/roles')}>Back</button>
+                <button className={`${styles.btn} ${styles.btnFilled}`} onClick={handleEdit}>Edit</button>
+              </>
+            )}
           </div>
         </div>
 
         <div className={styles.fieldsRow}>
           <div className={styles.fieldGroup}>
             <label className={styles.fieldLabel}>Role Name <span className={styles.required}>*</span></label>
-            <input className={styles.fieldInput} value={role.name} readOnly />
+            <input
+              className={`${styles.fieldInput}${isEditing ? ' ' + styles.fieldInputEditable : ''}`}
+              value={roleName}
+              readOnly={!isEditing}
+              onChange={e => setRoleName(e.target.value)}
+            />
           </div>
           <div className={styles.fieldGroup}>
             <label className={styles.fieldLabel}>Description <span className={styles.required}>*</span></label>
-            <input className={styles.fieldInput} value={role.description} readOnly />
+            <input
+              className={`${styles.fieldInput}${isEditing ? ' ' + styles.fieldInputEditable : ''}`}
+              value={roleDesc}
+              readOnly={!isEditing}
+              onChange={e => setRoleDesc(e.target.value)}
+            />
           </div>
           <div className={styles.fieldGroup}>
             <label className={styles.fieldLabel}>Business unit restricted by:</label>
             <div className={styles.checkboxRow}>
               <label className={styles.checkboxLabel}>
-                <Checkbox checked={false} onChange={() => {}} />
+                <Checkbox checked={restrictTP} onChange={() => isEditing && setRestrictTP(v => !v)} disabled={!isEditing} />
                 Third parties
               </label>
               <label className={styles.checkboxLabel}>
-                <Checkbox checked={false} onChange={() => {}} />
+                <Checkbox checked={restrictEmp} onChange={() => isEditing && setRestrictEmp(v => !v)} disabled={!isEditing} />
                 Employees
               </label>
             </div>
@@ -295,7 +357,9 @@ export default function RoleDetails() {
                                   </tr>
                                 </thead>
                                 <tbody>
-                                  {section.rows.map((r, i) => (
+                                  {section.rows.map((r, i) => {
+                                    const permRow = tpPerms[section.title]?.[i] ?? r.perms;
+                                    return (
                                     <tr key={i}>
                                       <td className={styles.tdName}>
                                         <div className={`${styles.tdNameInner}${r.indent ? ' ' + styles.tdNameIndent : ''}`}>
@@ -304,13 +368,18 @@ export default function RoleDetails() {
                                           <span className={`material-icons-outlined ${styles.rowInfoIcon}`}>info</span>
                                         </div>
                                       </td>
-                                      {r.perms.map((val, j) => (
+                                      {permRow.map((val, j) => (
                                         <td key={j} className={styles.tdPerm}>
-                                          <Checkbox checked={val} disabled onChange={() => {}} />
+                                          <Checkbox
+                                            checked={val}
+                                            disabled={!isEditing}
+                                            onChange={() => toggleTpPerm(section.title, i, j)}
+                                          />
                                         </td>
                                       ))}
                                     </tr>
-                                  ))}
+                                    );
+                                  })}
                                 </tbody>
                               </table>
                             </div>
@@ -336,7 +405,9 @@ export default function RoleDetails() {
                 </tr>
               </thead>
               <tbody>
-                {rows.map((r, i) => (
+                {rows.map((r, i) => {
+                  const fp = flatPerms[activeTab]?.[i] ?? r;
+                  return (
                   <tr key={i}>
                     <td className={styles.tdName}>
                       <div className={styles.tdNameInner}>
@@ -345,13 +416,14 @@ export default function RoleDetails() {
                       </div>
                     </td>
                     <td className={styles.tdPerm}>
-                      <Checkbox checked={r.view} disabled onChange={() => {}} />
+                      <Checkbox checked={fp.view} disabled={!isEditing} onChange={() => toggleFlatPerm(activeTab, i, 'view')} />
                     </td>
                     <td className={styles.tdPerm}>
-                      <Checkbox checked={r.export} disabled onChange={() => {}} />
+                      <Checkbox checked={fp.export} disabled={!isEditing} onChange={() => toggleFlatPerm(activeTab, i, 'export')} />
                     </td>
                   </tr>
-                ))}
+                  );
+                })}
               </tbody>
             </table>
           </div>
