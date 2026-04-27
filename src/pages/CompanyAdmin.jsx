@@ -328,8 +328,8 @@ const INITIAL_TAB_SLOTS = {
 };
 
 const DETAIL_TABS = [
-  { key: 'entity',  label: 'Entity / Organisation' },
-  { key: 'person',  label: 'Individual / Person'   },
+  { key: 'entity',  label: 'Entity'  },
+  { key: 'person',  label: 'Person'  },
   { key: 'unknown', label: 'Unknown'               },
 ];
 
