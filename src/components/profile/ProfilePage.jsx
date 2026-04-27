@@ -443,7 +443,7 @@ export default function ProfilePage({ profile: profileProp, embedded = false }) 
                     </div>
                   </div>
 
-                  <div className={styles.connTableWrap}>
+                  <div className={styles.connTableWrap} style={{ marginBottom: 16 }}>
                     <table className={styles.table}>
                       <thead>
                         <tr>
