@@ -199,25 +199,26 @@
 }
 
 .tableWrap {
-  padding: 16px;
+  overflow-x: auto;
+  padding: 0 16px;
+  margin-bottom: 12px;
 }
 
 .table {
   width: 100%;
   border-collapse: collapse;
   font-size: 13px;
-  border: 1px solid var(--neutral-100);
 }
 
 .table thead th {
   background: var(--neutral-25);
   border: 1px solid var(--neutral-50);
-  border-bottom: 2px solid var(--neutral-100);
+  border-bottom: 1px solid var(--neutral-100);
   padding: 10px 12px;
   text-align: left;
   font-size: 11px;
   font-weight: 600;
-  color: var(--text-normal);
+  color: var(--text-light);
   text-transform: uppercase;
   letter-spacing: 0.5px;
   white-space: nowrap;
@@ -231,19 +232,24 @@
   width: 120px;
 }
 
-.table tbody tr {
-  border-bottom: 1px solid var(--neutral-50);
-}
+.table tbody tr:nth-child(odd)  { background: var(--primary-08); }
+.table tbody tr:nth-child(even) { background: var(--neutral-00); }
+.table tbody tr:hover { background: var(--primary-50); }
 
-.table tbody tr:last-child {
-  border-bottom: none;
+.table tbody td {
+  border: 1px solid var(--neutral-50);
+  padding: 10px 12px;
+  vertical-align: middle;
+  color: var(--text-light);
+  font-size: 13px;
 }
 
 .tdName {
-  padding: 14px 12px;
-  color: var(--text-light);
   font-size: 14px;
-  border-right: 1px solid var(--neutral-50);
+  color: var(--text-light);
+}
+
+.tdNameInner {
   display: flex;
   align-items: center;
   gap: 6px;
@@ -253,15 +259,10 @@
   font-size: 14px;
   color: var(--primary-500);
   cursor: help;
+  flex-shrink: 0;
 }
 
 .tdPerm {
-  padding: 14px 12px;
-  border-right: 1px solid var(--neutral-50);
-  vertical-align: middle;
-}
-
-.tdPerm:last-child {
-  border-right: none;
+  text-align: left;
 }
 

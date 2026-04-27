@@ -149,8 +149,10 @@ export default function RoleDetails() {
               {rows.map((r, i) => (
                 <tr key={i}>
                   <td className={styles.tdName}>
-                    {r.name}
-                    <span className={`material-icons-outlined ${styles.rowInfoIcon}`}>info</span>
+                    <div className={styles.tdNameInner}>
+                      {r.name}
+                      <span className={`material-icons-outlined ${styles.rowInfoIcon}`}>info</span>
+                    </div>
                   </td>
                   <td className={styles.tdPerm}>
                     <Checkbox checked={r.view} disabled onChange={() => {}} />
