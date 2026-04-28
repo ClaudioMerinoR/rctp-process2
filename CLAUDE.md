@@ -41,15 +41,15 @@ Key routes:
 - `src/App.jsx` — all routes
 - `src/pages/AddThirdParty.jsx` — multi-step TP creation wizard (most complex page); contains a local `ObSelect` combobox component at the bottom of the file
 - `src/pages/AddThirdParty.module.css` — wizard styles
-- `src/components/profile/ProfilePage.jsx` — full TP profile view with tabbed sections, side panels, inline editing; also used embedded inside AddThirdParty to show the newly created profile
-- `src/components/profile/profile.module.css` — all profile styles (~1 600 lines)
+- `src/components/profile/ProfilePage.jsx` — full TP profile view with tabbed sections, side panels, inline editing; also used embedded inside AddThirdParty to show the newly created profile. Contains `STATUS_CONFIG` map, `StatusPanel` (current status + renewal date + Decline button), and `DeclinePanel` (decline reason textarea + file upload) as local functions at the bottom of the file.
+- `src/components/profile/profile.module.css` — all profile styles (~1 800 lines)
 - `src/pages/CompanyAdmin.jsx` — field configuration UI + Summary + Roles panels; defines canonical field label lists (`INITIAL_ENTITY_OVERVIEW`, `INITIAL_PERSON_OVERVIEW`, etc.) that ProfilePage reads to render field slots; exports `ROLES_DATA`
 - `src/pages/RoleDetails.jsx` — View/Edit Company Role page; tab bar with animated indicator, Third parties accordion (grouped under Standard RCTP), per-section column sets, `null` perms for N/A cells, column-header toggle-all in edit mode
 - `src/pages/Settings.jsx` — Settings page with General/Process top tabs (animated motion indicator) and left sidebar nav; General default-loads Currency & Approval Groups; Process sidebar has a process-picker select and default-loads Stages
 - `src/pages/Settings.module.css` — Settings page styles; `adminNav`/`adminNavItem`/`adminNavItemActive` pattern is the canonical sidebar nav style — reused by CompanyAdmin
 - `src/pages/RenewalEdit.jsx` — Renewal configuration editor; reached from the edit icon in Settings → Renewals. Contains: draggable left/right panel split (50–80%), dynamic columns with per-column context menus (add/delete/move), drag-to-reorder rows, column picker side panel, Active/Inactive toggle per row
 - `src/components/ui/Checkbox.jsx` — shared Checkbox component; props: `checked`, `indeterminate`, `disabled`, `error`, `size` (`'default'`|`'small'`), `onChange`. All filled states use `border: 2px solid transparent` to match the empty state's 2px border and keep vertical alignment consistent.
-- `src/data/profiles/` — static mock profile objects; `index.js` exports all profiles as named exports and as a `profiles` object keyed by id
+- `src/data/profiles/` — static mock profile objects (`piedpiper`, `brucewayne`, `gazprom`, `initech`, `dundermifflin`, `lumon`, `waystar`); `index.js` exports all as named exports and as a `profiles` object keyed by id. To add a new profile: create the file, add to `index.js`, and add to the `ROWS` array in `ThirdParties.jsx`.
 - `src/styles/globals.css` — all CSS variables
 - `src/utils/motion.js` — Framer Motion transition presets
 
@@ -83,12 +83,25 @@ Scroll behaviour: each section reveal scrolls to that section using `ref.scrollI
 Each profile in `src/data/profiles/` exports an object with:
 - `id`, `name`, `shortName`, `entityType` (`'entity'` | `'person'`)
 - `riskLevel: { label, icon, level }` — level drives CSS class on the top strip
-- `currentStatus: { label, icon }`
+- `currentStatus: { label }` — **no `icon` field**; icon is derived at render time from `STATUS_CONFIG` in `ProfilePage.jsx`
 - `sidebarSteps` — workflow progress dots shown in the left sidebar
 - `sidebarSections` — extra sidebar nav links (Properties, Documents, etc.)
 - `overviewFields` / `additionalFields` — arrays of `{ label, value }` rendered by ProfilePage
 - `suggestedRows` — rows shown in the "Suggested Connections" risk table
 - Feature flags: `embedded`, `deleteModal`, `alertBanners` — control which UI chrome is shown
+
+**Current status values** (canonical — must match `STATUS_CONFIG` keys in `ProfilePage.jsx`):
+
+| Label | Background | Text | Icon |
+|---|---|---|---|
+| `Pending Approval` | `--neutral-50` | `--text-normal` | `pending` |
+| `Approved` | `--success-100` | `--success-900` | `check_circle` |
+| `Not Approved` | `--alert-100` | `--alert-700` | `dangerous` |
+| `Declined` | `--alert-100` | `--alert-700` | `feedback` |
+| `Approved*` | `--warning-100` | `--warning-900` | `history_toggle_off` |
+| `Approved! (Renewal Required)` | `--warning-100` | `--warning-900` | `history_toggle_off` |
+
+The `Third Party Renewal Date` field is shown in the status panel only when the status is `Approved*` or `Approved! (Renewal Required)`.
 
 ## Field Label Convention
 
@@ -97,7 +110,7 @@ Labels in `overviewFields` / `additionalFields` are prefixed by entity type to m
 - **Entity:** `Entity Third Party Legal Name`, `Entity Registered Country`, `Entity ID Type`, etc.
 - **Person:** `Person Third Party Legal Name`, `Person Country of Residence`, `Person ID Type`, etc.
 - **Unknown:** `Unknown Third Party Legal Name`, `Unknown Registered Country`, etc.
-- **Shared (all types):** `Third Party Owner`, `Process Name`, `Business Unit`, `Screening & Monitoring Policy`, `Third Party Legal Structure`, `Commercial Significance of Product or Service`, `Third Party Expiry Date`, `Tags`, `Responsible Client Unit`, `Internal Reference or ID`, `All Relevant Client Units`, `Third Party Contact Email Address`
+- **Shared (all types):** `Third Party Owner`, `Process Name`, `Business Unit`, `Screening & Monitoring Policy`, `Third Party Legal Structure`, `Commercial Significance of Product or Service`, `Third Party Renewal Date`, `Tags`, `Responsible Client Unit`, `Internal Reference or ID`, `All Relevant Client Units`, `Third Party Contact Email Address`
 
 The canonical lists are the `INITIAL_*` constants in `CompanyAdmin.jsx`.
 
@@ -114,9 +127,10 @@ URL-driven nav — `activeNav` derived from `pathname`, not `useState`. `ROUTED_
 
 - Header card: view/edit title, Back/Edit or Cancel/Delete/Save and close/Save buttons, role name + description inputs, business unit checkboxes
 - Tab bar: Framer Motion `layoutId="role-tab-indicator"` animated underline
-- **Third parties tab**: two-level accordion — top-level group (Standard RCTP, darker header), children are collapsible sections each with their own column set. `null` in `perms` arrays = N/A cell (renders `—`, always disabled). In edit mode: checkboxes become interactive, column headers show a toggle-all checkbox.
+- **Third parties tab**: two-level accordion — top-level group (Standard RCTP, darker header) starts open; children start closed. Sections have their own column set. `null` in `perms` arrays = N/A cell (renders `—`, always disabled). In edit mode: checkboxes become interactive, column headers show a toggle-all checkbox.
+- **Process Section sub-accordion**: the Due Diligence row uses `subAccordion: true` + `subRows` instead of `perms`; rendered with a separate `openDueDiligence` state (defaults open). `buildPermState` flattens sub-rows via `flatMap` — the flat index must be tracked when rendering to map `tpPerms` correctly.
 - **Other tabs**: flat table (Name, View, Export columns)
-- Permission state: `tpPerms` (keyed by section title) for Third parties; `flatPerms` (keyed by tab name) for all others
+- Permission state: `tpPerms` (keyed by section title, flat array including sub-rows) for Third parties; `flatPerms` (keyed by tab name) for all others
 
 ## Settings & RenewalEdit Architecture
 
@@ -157,6 +171,26 @@ All tab bars in the app use the same pattern — do not use `<button>` with `::a
 Key implementation detail: all filled box states (`.boxChecked`, `.boxDisabledChecked`, `.boxError`) use `border: 2px solid transparent` — same width as the empty border — so checked and unchecked boxes are identical total size and align vertically.
 
 `null` as a `checked` value is not valid — use the `disabled` prop for non-interactive cells, and render `—` (dash) instead of a Checkbox for N/A cells.
+
+## Status Panel & Decline Panel
+
+Clicking the current status badge in the profile header opens `StatusPanel` (slides in from right):
+- Shows the current status chip (read-only)
+- Shows `Third Party Renewal Date` + Renewal button only when status is `Approved*` or `Approved! (Renewal Required)`
+- Footer has a single "Decline" button which opens `DeclinePanel` on top (higher z-index, no additional overlay)
+
+`DeclinePanel` contains:
+- "DECLINE" chip (dimmed, read-only)
+- **Decline Reason** textarea (required, `*`)
+- Warning: "Once declined Third Party can't be reinstated."
+- Support Documents section (Choose Files / Browse / Upload)
+- Cancel / Save footer — Save disabled until reason is filled; on save sets `currentStatus` to `'Declined'` and closes both panels
+
+Both panels use `motion.div` with `initial/animate/exit x: '100%'/'0'/'100%'` for the slide animation.
+
+## Tags in ThirdParties Table
+
+Tags are stored as comma-separated strings in profile `overviewFields` (e.g. `'Paper, Regional, Scranton'`). `ThirdParties.jsx` splits on `,`, trims, and renders each as a `<span className={styles.tag}>` inside a `.tagList` flex wrapper.
 
 ## CSS Patterns
 
