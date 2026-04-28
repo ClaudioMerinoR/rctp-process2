@@ -83,7 +83,7 @@ const PROPERTIES = [
   { name: 'Responsible Client Unit',            category: 'RISKCENTER Third Party' },
   { name: 'Screening & Monitoring Policy',      category: 'RISKCENTER Third Party' },
   { name: 'Third Party Contact Email Address',  category: 'RISKCENTER Third Party' },
-  { name: 'Third Party Expiry Date',            category: 'RISKCENTER Third Party' },
+  { name: 'Third Party Renewal Date',            category: 'RISKCENTER Third Party' },
   { name: 'Third Party Legal Structure',        category: 'RISKCENTER Third Party' },
   { name: 'Third Party Owner',                  category: 'RISKCENTER Third Party' },
 ];
@@ -379,7 +379,7 @@ export default function RenewalEdit() {
           <div className={styles.detailsTable}>
             {/* Header */}
             <div className={styles.detailsHeader}>
-              <div className={styles.detailsColPeriod}>Expiry Period</div>
+              <div className={styles.detailsColPeriod}>Renewal Period</div>
               <div className={styles.detailsColStatus}>Status</div>
               <div className={styles.detailsColActions} />
             </div>

@@ -4,7 +4,7 @@ export default {
   shortName: 'Gazprom',
   entityType: 'entity',
   verifiedText: 'Entity Verified',
-  currentStatus: { label: 'Pending Approval', icon: 'pending' },
+  currentStatus: { label: 'Pending Approval' },
   riskLevel: { label: 'High', icon: 'warning', level: 'high' },
 
   embedded: false,
@@ -39,7 +39,7 @@ export default {
     { label: 'Screening & Monitoring Policy', value: 'Default Screening & Monitoring Policy' },
     { label: 'Third Party Legal Structure', value: 'Entity' },
     { label: 'Commercial Significance of Product or Service', value: '[Between 1 and 5%] / Significant / Not in top 10' },
-    { label: 'Third Party Expiry Date', value: '\u2014' },
+    { label: 'Third Party Renewal Date', value: '\u2014' },
     { label: 'Tags', value: '\u2014' },
   ],
 

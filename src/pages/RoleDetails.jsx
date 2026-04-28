@@ -55,8 +55,8 @@ const THIRD_PARTIES_SECTIONS = [
           { name: 'Business Unit',                    perms: [true,  true,  null,  null,  null ] },
           { name: 'Active / Inactive',                perms: [true,  true,  null,  null,  null ] },
           { name: 'Tags',                             perms: [true,  true,  null,  null,  null ] },
-          { name: 'Third Party Expiry Date',          perms: [true,  true,  null,  null,  null ] },
-          { name: 'Expiry Date Rationale',            perms: [true,  true,  null,  null,  null ] },
+          { name: 'Third Party Renewal Date',          perms: [true,  true,  null,  null,  null ] },
+          { name: 'Renewal Date Rationale',            perms: [true,  true,  null,  null,  null ] },
           { name: 'Screening & Monitoring Policy',    perms: [true,  false, null,  null,  null ] },
           { name: 'Pre-Onboarding Entity Verification', perms: [true, null,  null,  null,  null ] },
         ],
@@ -80,17 +80,25 @@ const THIRD_PARTIES_SECTIONS = [
       },
       {
         title: 'Process Section',
-        cols: ['View', 'Start', 'Admin/Re-Assign', 'Re-Send/Write', 'View History', 'Cancel', 'Skip'],
+        cols: ['View', 'Start', 'Admin/Re-Assign', 'Re-Send Invite', 'View History', 'Cancel', 'Skip'],
         rows: [
-          { name: 'Onboarding',                       perms: [true,  true,  false, false, true,  true,  false] },
-          { name: 'Risk Assessment',                  perms: [true,  true,  true,  false, false, true,  false] },
-          { name: 'Due Diligence',                    perms: [true,  true,  false, false, false, false, false], expandable: true },
-          { name: 'Enhanced Due Diligence Reports',   perms: [true,  true,  false, true,  false, false, false], indent: true },
-          { name: 'Enhanced Due Diligence Report Review Task', perms: [true, false, true, false, false, false, false], indent: true },
-          { name: 'Integrity Check',                  perms: [true,  true,  false, false, false, true,  false], indent: true },
-          { name: 'UBO',                              perms: [true,  true,  false, false, false, true,  false], indent: true },
-          { name: 'Risk Mitigation',                  perms: [true,  true,  true,  false, false, true,  false], indent: true },
-          { name: 'Red Flag Cancellation Request Task', perms: [true, false, false, true, false, false, false], indent: true },
+          { name: 'Onboarding',                       perms: [true,  true,  true,  false, false, true,  false] },
+          { name: 'Risk Assessment',                  perms: [true,  true,  true,  false, true,  true,  false] },
+          {
+            name: 'Due Diligence',
+            perms: null,
+            subAccordion: true,
+            subRows: [
+              { name: 'Internal Due Diligence',       perms: [true,  true,  true,  false, true,  true,  false] },
+              { name: 'External Due Diligence',       perms: [true,  true,  true,  true,  true,  true,  false] },
+            ],
+          },
+          { name: 'Enhanced Due Diligence Reports',   perms: [true,  true,  false, false, false, true,  false] },
+          { name: 'Enhanced Due Diligence Report Review Task', perms: [true, false, true, false, false, false, false] },
+          { name: 'Integrity Check',                  perms: [true,  true,  false, false, false, true,  false] },
+          { name: 'UBO',                              perms: [true,  true,  false, false, false, false, true ] },
+          { name: 'Risk Mitigation',                  perms: [true,  true,  true,  false, false, true,  false] },
+          { name: 'Red Flag Cancellation Request Task', perms: [true, false, true, false, false, false, false] },
         ],
       },
       {
@@ -155,8 +163,10 @@ function buildPermState(sections) {
   const state = {};
   sections.forEach(g => {
     if (g.children) g.children.forEach(s => {
-      // null = N/A (always disabled), true/false = editable
-      state[s.title] = s.rows.map(r => [...r.perms]);
+      state[s.title] = s.rows.flatMap(r => {
+        if (r.subAccordion) return r.subRows.map(sr => [...sr.perms]);
+        return [r.perms ? [...r.perms] : []];
+      });
     });
   });
   return state;
@@ -214,16 +224,18 @@ export default function RoleDetails() {
   const [activeTab, setActiveTab] = useState('Dashboard');
   const [openGroups, setOpenGroups] = useState(() => {
     const init = {};
-    THIRD_PARTIES_SECTIONS.forEach(g => { init[g.title] = true; });
+    THIRD_PARTIES_SECTIONS.forEach(g => { init[g.title] = g.title === 'Standard RCTP'; });
     return init;
   });
   const [openSections, setOpenSections] = useState(() => {
     const init = {};
     THIRD_PARTIES_SECTIONS.forEach(g => {
-      if (g.children) g.children.forEach(s => { init[s.title] = true; });
+      if (g.children) g.children.forEach(s => { init[s.title] = false; });
     });
     return init;
   });
+
+  const [openDueDiligence, setOpenDueDiligence] = useState(true);
 
   function toggleGroup(title) {
     setOpenGroups(prev => ({ ...prev, [title]: !prev[title] }));
@@ -384,33 +396,79 @@ export default function RoleDetails() {
                                   </tr>
                                 </thead>
                                 <tbody>
-                                  {section.rows.map((r, i) => {
-                                    const permRow = tpPerms[section.title]?.[i] ?? r.perms;
-                                    return (
-                                    <tr key={i}>
-                                      <td className={styles.tdName}>
-                                        <div className={`${styles.tdNameInner}${r.indent ? ' ' + styles.tdNameIndent : ''}`}>
-                                          {r.indent && <span className={styles.indentBar} />}
-                                          {r.name}
-                                          <span className={`material-icons-outlined ${styles.rowInfoIcon}`}>info</span>
-                                        </div>
-                                      </td>
-                                      {permRow.map((val, j) => (
-                                        <td key={j} className={styles.tdPerm}>
-                                          {val === null ? (
-                                            <span className={styles.naCell}>—</span>
-                                          ) : (
-                                            <Checkbox
-                                              checked={val}
-                                              disabled={!isEditing}
-                                              onChange={() => toggleTpPerm(section.title, i, j)}
-                                            />
-                                          )}
-                                        </td>
-                                      ))}
-                                    </tr>
-                                    );
-                                  })}
+                                  {(() => {
+                                    let flatIdx = 0;
+                                    return section.rows.map((r, i) => {
+                                      if (r.subAccordion) {
+                                        const subStart = flatIdx;
+                                        flatIdx += r.subRows.length;
+                                        return [
+                                          <tr key={`${i}-header`} className={styles.subAccordionRow} onClick={() => setOpenDueDiligence(v => !v)}>
+                                            <td className={styles.tdName} colSpan={section.cols.length + 1}>
+                                              <div className={styles.subAccordionHeader}>
+                                                {r.name}
+                                                <span className={`material-icons-outlined ${styles.rowInfoIcon}`}>info</span>
+                                                <span className={`material-icons-outlined ${styles.accordionChevron}${openDueDiligence ? ' ' + styles.accordionChevronOpen : ''}`} style={{ marginLeft: 'auto' }}>expand_more</span>
+                                              </div>
+                                            </td>
+                                          </tr>,
+                                          openDueDiligence && r.subRows.map((sr, si) => {
+                                            const idx = subStart + si;
+                                            const permRow = tpPerms[section.title]?.[idx] ?? sr.perms;
+                                            return (
+                                              <tr key={`${i}-sub-${si}`}>
+                                                <td className={styles.tdName}>
+                                                  <div className={`${styles.tdNameInner} ${styles.tdNameIndent}`}>
+                                                    <span className={styles.indentBar} />
+                                                    {sr.name}
+                                                    <span className={`material-icons-outlined ${styles.rowInfoIcon}`}>info</span>
+                                                  </div>
+                                                </td>
+                                                {permRow.map((val, j) => (
+                                                  <td key={j} className={styles.tdPerm}>
+                                                    {val === null ? (
+                                                      <span className={styles.naCell}>—</span>
+                                                    ) : (
+                                                      <Checkbox
+                                                        checked={val}
+                                                        disabled={!isEditing}
+                                                        onChange={() => toggleTpPerm(section.title, idx, j)}
+                                                      />
+                                                    )}
+                                                  </td>
+                                                ))}
+                                              </tr>
+                                            );
+                                          }),
+                                        ];
+                                      }
+                                      const idx = flatIdx++;
+                                      const permRow = tpPerms[section.title]?.[idx] ?? r.perms;
+                                      return (
+                                        <tr key={i}>
+                                          <td className={styles.tdName}>
+                                            <div className={styles.tdNameInner}>
+                                              {r.name}
+                                              <span className={`material-icons-outlined ${styles.rowInfoIcon}`}>info</span>
+                                            </div>
+                                          </td>
+                                          {permRow.map((val, j) => (
+                                            <td key={j} className={styles.tdPerm}>
+                                              {val === null ? (
+                                                <span className={styles.naCell}>—</span>
+                                              ) : (
+                                                <Checkbox
+                                                  checked={val}
+                                                  disabled={!isEditing}
+                                                  onChange={() => toggleTpPerm(section.title, idx, j)}
+                                                />
+                                              )}
+                                            </td>
+                                          ))}
+                                        </tr>
+                                      );
+                                    });
+                                  })()}
                                 </tbody>
                               </table>
                             </div>

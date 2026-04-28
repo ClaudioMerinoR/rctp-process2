@@ -21,7 +21,7 @@ const FIELD_LABELS = [
   'Legal Name', 'Industry / Sector', 'Third Party Owner', 'Process Name',
   'Country of Registration', 'Third Party Contact Email', 'Business Unit',
   'Screening & Monitoring Policy', 'Entity Type', 'Commercial Significance',
-  'Expiry Date', 'Tags', 'Also Known As', 'Company Number',
+  'Renewal Date', 'Tags', 'Also Known As', 'Company Number',
   'Identification Type', 'Identification Value', 'Registered Address',
   'Internal Reference or ID', 'Company Website', 'Company Telephone',
   'ABC Policy Applies to', 'ABC Risk Assess', 'Active Date', 'Adequate housing',
@@ -183,7 +183,7 @@ const FIELD_LABELS = [
   'Third Party Contract Description', 'Third Party Contract Name',
   'Third Party Country of Operation', 'Third Party Country of Operation - EDD',
   'Third Party Country of Sourcing', 'Third Party Country of Sourcing - EDD',
-  'Third Party Email Address', 'Third Party Expiry Date',
+  'Third Party Email Address', 'Third Party Renewal Date',
   'Third Party Interaction with Public Officials',
   'Third Party Interaction with Public Officials Details',
   'Third Party Legal Structure', 'Third Party Product Type', 'Third Party Service Type Other',
@@ -237,7 +237,7 @@ const INITIAL_ENTITY_OVERVIEW = [
   { value: slugify('Screening & Monitoring Policy'),                 readonly: true  },
   { value: slugify('Third Party Legal Structure'),                   readonly: false },
   { value: slugify('Commercial Significance of Product or Service'), readonly: false },
-  { value: slugify('Third Party Expiry Date'),                       readonly: false },
+  { value: slugify('Third Party Renewal Date'),                       readonly: false },
   { value: slugify('Tags'),                                          readonly: true  },
 ];
 
@@ -271,7 +271,7 @@ const INITIAL_PERSON_OVERVIEW = [
   { value: slugify('Screening & Monitoring Policy'),                 readonly: true  },
   { value: slugify('Third Party Legal Structure'),                   readonly: false },
   { value: slugify('Commercial Significance of Product or Service'), readonly: false },
-  { value: slugify('Third Party Expiry Date'),                       readonly: false },
+  { value: slugify('Third Party Renewal Date'),                       readonly: false },
   { value: slugify('Tags'),                                          readonly: true  },
 ];
 
@@ -305,7 +305,7 @@ const INITIAL_UNKNOWN_OVERVIEW = [
   { value: slugify('Screening & Monitoring Policy'),                 readonly: true  },
   { value: slugify('Third Party Legal Structure'),                   readonly: false },
   { value: slugify('Commercial Significance of Product or Service'), readonly: false },
-  { value: slugify('Third Party Expiry Date'),                       readonly: false },
+  { value: slugify('Third Party Renewal Date'),                       readonly: false },
   { value: slugify('Tags'),                                          readonly: true  },
 ];
 

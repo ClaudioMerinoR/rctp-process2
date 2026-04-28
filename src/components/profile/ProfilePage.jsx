@@ -19,6 +19,19 @@ import styles from './profile.module.css';
 const TASK_ICONS = { iconFlag, iconInactiveOrder, iconFactCheck, iconFinanceMode, iconFrame9, iconArmingCountdown };
 const PARTNER_ICONS = { integrity: partnerIconIntegrity, ubo: partnerIconUbo };
 
+const STATUS_CONFIG = {
+  'Pending Approval':            { cls: 'statusPendingApproval', icon: 'pending' },
+  'Approved':                    { cls: 'statusApproved',        icon: 'check_circle' },
+  'Not Approved':                { cls: 'statusNotApproved',     icon: 'dangerous' },
+  'Declined':                    { cls: 'statusDeclined',        icon: 'feedback' },
+  'Approved*':                   { cls: 'statusExpired',         icon: 'history_toggle_off' },
+  'Approved! (Renewal Required)':{ cls: 'statusExpired',         icon: 'history_toggle_off' },
+};
+
+function getStatusConfig(label) {
+  return STATUS_CONFIG[label] ?? { cls: 'statusPendingApproval', icon: 'pending' };
+}
+
 function riskBadge(level) {
   if (level === 'high')   return { className: styles.badgeHigh,   icon: 'error_outline',       label: 'High'   };
   if (level === 'medium') return { className: styles.badgeMedium, icon: 'error_outline',        label: 'Medium' };
@@ -152,6 +165,11 @@ export default function ProfilePage({ profile: profileProp, embedded = false }) 
   const someChecked = checked.some(Boolean) && !allChecked;
   const anyChecked  = checked.some(Boolean);
 
+  // Current status panel
+  const [statusPanelOpen, setStatusPanelOpen] = useState(false);
+  const [declinePanelOpen, setDeclinePanelOpen] = useState(false);
+  const [currentStatus, setCurrentStatus] = useState(profile?.currentStatus?.label || 'Pending Approval');
+
   // Connect panel state
   const [connectPanelRow, setConnectPanelRow] = useState(null);
   const [connectedRows, setConnectedRows] = useState(profile?.connectedRows || []);
@@ -267,10 +285,18 @@ export default function ProfilePage({ profile: profileProp, embedded = false }) 
             <div className={styles.tpBadges}>
               <div className={styles.tpBadgeGroup}>
                 <div className={styles.tpBadgeLabel}>Current status:</div>
-                <div className={`${styles.badge} ${styles.badgePending} ${styles.badgeBtn}`}>
-                  {profile.currentStatus.label}
-                  <span className="material-icons-outlined" style={{ fontSize: 16 }}>{profile.currentStatus.icon}</span>
-                </div>
+                {(() => {
+                  const { cls, icon } = getStatusConfig(currentStatus);
+                  return (
+                    <div
+                      className={`${styles.badge} ${styles[cls]} ${styles.badgeBtn}`}
+                      onClick={() => setStatusPanelOpen(true)}
+                    >
+                      {currentStatus}
+                      <span className="material-icons-outlined" style={{ fontSize: 16 }}>{icon}</span>
+                    </div>
+                  );
+                })()}
               </div>
               <div className={styles.tpBadgeGroup}>
                 <div className={styles.tpBadgeLabel}>Risk level:</div>
@@ -698,6 +724,34 @@ export default function ProfilePage({ profile: profileProp, embedded = false }) 
       )}
       </AnimatePresence>
 
+      {/* Current status side panel */}
+      <AnimatePresence>
+      {statusPanelOpen && (
+        <StatusPanel
+          key="status-panel"
+          currentStatus={currentStatus}
+          renewalDate={profile.overviewFields.find(f => f.label === 'Third Party Renewal Date')?.value}
+          onClose={() => setStatusPanelOpen(false)}
+          onDecline={() => setDeclinePanelOpen(true)}
+        />
+      )}
+      </AnimatePresence>
+
+      {/* Decline panel */}
+      <AnimatePresence>
+      {declinePanelOpen && (
+        <DeclinePanel
+          key="decline-panel"
+          onClose={() => setDeclinePanelOpen(false)}
+          onSave={() => {
+            setCurrentStatus('Declined');
+            setDeclinePanelOpen(false);
+            setStatusPanelOpen(false);
+          }}
+        />
+      )}
+      </AnimatePresence>
+
       {/* Notes side panel */}
       <AnimatePresence>
       {showNotes && (
@@ -1099,6 +1153,135 @@ function LookMorePanel({ onClose, onSelect }) {
           <button className={`${styles.btn} ${styles.btnOutline}`} onClick={onClose}>Cancel</button>
         </div>
       </motion.div></div>
+    </>
+  );
+}
+
+/* ─────────────────────── Status panel ─────────────────────── */
+
+function StatusPanel({ currentStatus, renewalDate, onClose, onDecline }) {
+  useEffect(() => {
+    document.body.style.overflow = 'hidden';
+    return () => { document.body.style.overflow = ''; };
+  }, []);
+
+  const { cls, icon } = getStatusConfig(currentStatus);
+
+  return (
+    <>
+      <div className={styles.deleteModalOverlay} style={{ background: 'rgba(0,0,0,0.2)' }} onClick={onClose} />
+      <motion.div
+        className={styles.statusPanel}
+        initial={{ x: '100%' }}
+        animate={{ x: 0 }}
+        exit={{ x: '100%' }}
+        transition={{ duration: 0.22, ease: [0.32, 0.72, 0, 1] }}
+      >
+        <div className={styles.statusPanelHeader}>
+          <span className={styles.statusPanelTitle}>Current Status:</span>
+          <button className={styles.statusPanelClose} onClick={onClose}>CLOSE</button>
+        </div>
+        <div className={styles.statusPanelAccent} />
+
+        <div className={styles.statusPanelBody}>
+          <div className={styles.statusPanelSectionLabel}>Current Status</div>
+          <div className={styles.statusPanelOptions}>
+            <div className={styles.statusOption}>
+              <div className={`${styles.badge} ${styles[cls]}`}>
+                {currentStatus}
+                <span className="material-icons-outlined" style={{ fontSize: 16 }}>{icon}</span>
+              </div>
+            </div>
+          </div>
+
+          {renewalDate && (currentStatus === 'Approved*' || currentStatus === 'Approved! (Renewal Required)') && (
+            <div className={styles.statusPanelRenewal}>
+              <div className={styles.statusPanelSectionLabel} style={{ marginTop: 20 }}>Third Party Renewal Date</div>
+              <div className={styles.statusPanelRenewalRow}>
+                <span className={styles.statusPanelRenewalDate}>{renewalDate}</span>
+                <button className={`${styles.btn} ${styles.btnFilled}`}>Renewal</button>
+              </div>
+            </div>
+          )}
+        </div>
+
+        <div className={styles.statusPanelFooter}>
+          <button className={`${styles.btn} ${styles.btnFilled}`} onClick={onDecline}>Decline</button>
+        </div>
+      </motion.div>
+    </>
+  );
+}
+
+/* ─────────────────────── Decline panel ─────────────────────── */
+
+function DeclinePanel({ onClose, onSave }) {
+  const [reason, setReason] = useState('');
+  const [fileName, setFileName] = useState('');
+  const fileRef = useRef(null);
+
+  return (
+    <>
+      <motion.div
+        className={styles.statusPanel}
+        style={{ zIndex: 'calc(var(--z-panel) + 1)' }}
+        initial={{ x: '100%' }}
+        animate={{ x: 0 }}
+        exit={{ x: '100%' }}
+        transition={{ duration: 0.22, ease: [0.32, 0.72, 0, 1] }}
+      >
+        <div className={styles.statusPanelHeader}>
+          <span className={styles.statusPanelTitle}>Current Status:</span>
+          <button className={styles.statusPanelClose} onClick={onClose}>CLOSE</button>
+        </div>
+        <div className={styles.statusPanelAccent} />
+
+        <div className={styles.statusPanelBody}>
+          <div className={styles.statusPanelSectionLabel}>Current Status</div>
+          <div className={styles.declineStatusChip}>
+            <span>DECLINE</span>
+          </div>
+
+          <div className={styles.declineFieldLabel}>
+            Decline Reason <span className={styles.declineRequired}>*</span>
+          </div>
+          <textarea
+            className={styles.declineTextarea}
+            value={reason}
+            onChange={e => setReason(e.target.value)}
+          />
+          <div className={styles.declineWarning}>Once declined Third Party can't be reinstated.</div>
+
+          <div className={styles.statusPanelSectionLabel} style={{ marginTop: 20 }}>Support Documents</div>
+          <div className={styles.declineFileRow}>
+            <span className={styles.declineFileLabel}>{fileName || 'Choose Files'}</span>
+            <button className={styles.declineBrowseBtn} onClick={() => fileRef.current?.click()}>Browse</button>
+          </div>
+          <input
+            ref={fileRef}
+            type="file"
+            accept=".csv,.pdf,.doc,.docx"
+            multiple
+            style={{ display: 'none' }}
+            onChange={e => setFileName(e.target.files?.[0]?.name || '')}
+          />
+          <p className={styles.declineFileHint}>
+            Click the 'Choose Files' button to browse for a file and then click the 'Upload'. Uploaded files will appear below. Allowed file types include: <strong>.csv,.pdf,.doc,.docx</strong><br />Multiple uploads are permitted.
+          </p>
+          <button className={styles.declineUploadBtn}>Upload</button>
+        </div>
+
+        <div className={styles.statusPanelFooter}>
+          <button className={`${styles.btn} ${styles.btnOutline}`} onClick={onClose}>Cancel</button>
+          <button
+            className={`${styles.btn} ${styles.btnFilled}`}
+            disabled={!reason.trim()}
+            onClick={onSave}
+          >
+            Save
+          </button>
+        </div>
+      </motion.div>
     </>
   );
 }

@@ -3,7 +3,7 @@ import PageLayout from '../components/layout/PageLayout';
 import Breadcrumb from '../components/layout/Breadcrumb';
 import RiskBadge from '../components/ui/RiskBadge';
 import Button from '../components/ui/Button';
-import { piedpiper, brucewayne, gazprom, initech } from '../data/profiles';
+import { piedpiper, brucewayne, gazprom, initech, dundermifflin, lumon, waystar } from '../data/profiles';
 import styles from './ThirdParties.module.css';
 
 function getOwner(p) { return p.overviewFields.find(f => f.label === 'Third Party Owner')?.value || ''; }
@@ -20,10 +20,13 @@ function getStage(p) {
 }
 
 const ROWS = [
-  { profile: piedpiper,   id: 'piedpiper' },
-  { profile: brucewayne,  id: 'brucewayne' },
-  { profile: gazprom,     id: 'gazprom' },
-  { profile: initech,     id: 'initech' },
+  { profile: piedpiper,      id: 'piedpiper' },
+  { profile: brucewayne,     id: 'brucewayne' },
+  { profile: gazprom,        id: 'gazprom' },
+  { profile: initech,        id: 'initech' },
+  { profile: dundermifflin,  id: 'dundermifflin' },
+  { profile: lumon,          id: 'lumon' },
+  { profile: waystar,        id: 'waystar' },
 ].map(({ profile, id }) => ({
   id,
   name:   profile.name,
@@ -91,7 +94,15 @@ export default function ThirdParties() {
                   <td><Link to={`/profile/${row.id}`} className={styles.cellLink}>{row.name}</Link></td>
                   <td>{row.owner}</td>
                   <td>{row.bu}</td>
-                  <td>{row.tag && <span className={styles.tag}>{row.tag}</span>}</td>
+                  <td>
+                    {row.tag && (
+                      <div className={styles.tagList}>
+                        {row.tag.split(',').map(t => t.trim()).filter(Boolean).map(t => (
+                          <span key={t} className={styles.tag}>{t}</span>
+                        ))}
+                      </div>
+                    )}
+                  </td>
                   <td>{row.stage}</td>
                   <td><RiskBadge level={row.risk} /></td>
                   <td>{row.ref || ''}</td>

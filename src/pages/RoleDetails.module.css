@@ -387,6 +387,25 @@
   padding-left: 8px;
 }
 
+.subAccordionRow {
+  background: var(--neutral-25);
+  cursor: pointer;
+}
+
+.subAccordionRow:hover {
+  background: var(--primary-08) !important;
+}
+
+.subAccordionHeader {
+  display: flex;
+  align-items: center;
+  gap: 6px;
+  font-size: 14px;
+  font-weight: 500;
+  color: var(--text-light);
+  padding: 2px 0;
+}
+
 .indentBar {
   display: inline-block;
   width: 3px;

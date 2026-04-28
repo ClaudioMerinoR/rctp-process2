@@ -67,6 +67,10 @@ tbody td {
 .cellLink { color: var(--primary-600); font-weight: 500; }
 .cellLink:hover { text-decoration: underline; }
 
+.tagList {
+  display: flex; flex-wrap: wrap; gap: 4px;
+}
+
 .tag {
   display: inline-flex; align-items: center;
   padding: 2px 8px; border-radius: 3px;
