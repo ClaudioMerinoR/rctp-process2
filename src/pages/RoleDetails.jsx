@@ -351,9 +351,25 @@ export default function RoleDetails() {
               <div key={group.title} className={styles.accordionGroup}>
                 <div className={styles.accordionGroupHeader} onClick={() => toggleGroup(group.title)}>
                   <span className={styles.accordionGroupTitle}>{group.title}</span>
-                  <span className={`material-icons-outlined ${styles.accordionChevron}${groupOpen ? ' ' + styles.accordionChevronOpen : ''}`}>
-                    expand_more
-                  </span>
+                  <div className={styles.accordionGroupActions}>
+                    {groupOpen && group.children && (
+                      <span
+                        className={styles.accordionExpandAll}
+                        onClick={e => {
+                          e.stopPropagation();
+                          const allOpen = group.children.every(s => openSections[s.title]);
+                          const next = {};
+                          group.children.forEach(s => { next[s.title] = !allOpen; });
+                          setOpenSections(prev => ({ ...prev, ...next }));
+                        }}
+                      >
+                        {group.children.every(s => openSections[s.title]) ? 'Collapse All' : 'Expand All'}
+                      </span>
+                    )}
+                    <span className={`material-icons-outlined ${styles.accordionChevron}${groupOpen ? ' ' + styles.accordionChevronOpen : ''}`}>
+                      expand_more
+                    </span>
+                  </div>
                 </div>
                 {groupOpen && (
                   <div className={styles.accordionGroupBody}>
