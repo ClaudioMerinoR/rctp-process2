@@ -6,7 +6,17 @@ import PageLayout from '../layout/PageLayout';
 import Breadcrumb from '../layout/Breadcrumb';
 import { profiles } from '../../data/profiles';
 import { Sidebar, riskBadge } from './ProfilePage';
+import Badge from '../ui/Badge';
+import Flag from '../ui/Flag';
 import styles from './profile.module.css';
+
+const BG_TO_STYLE = {
+  '#E34C53': 'action-required',
+  '#13DF81': 'completed',
+  '#F0C043': 'incomplete',
+  '#9A3438': 'confirmed',
+  '#016F91': 'cleared',
+};
 
 function RiskBadge({ level }) {
   const cls = level === 'high' ? styles.badgeHigh
@@ -109,14 +119,16 @@ function Accordion({ section, defaultOpen = true }) {
   );
 }
 
-function AmendPanel({ currentLevel, onClose, onSave }) {
+function AmendPanel({ currentLevel, riskReport, onClose, onSave }) {
   const [selectedLevel, setSelectedLevel] = useState(null);
   const [reason, setReason] = useState('');
-  const [fileName, setFileName] = useState('Choose file');
+  const [fileName, setFileName] = useState('');
 
   function handleFileChange(e) {
-    setFileName(e.target.files.length ? e.target.files[0].name : 'Choose file');
+    setFileName(e.target.files.length ? e.target.files[0].name : '');
   }
+
+  const otherLevels = ['low', 'medium', 'high'].filter(lv => lv !== currentLevel);
 
   return (
     <div className={styles.amendCard}>
@@ -128,34 +140,42 @@ function AmendPanel({ currentLevel, onClose, onSave }) {
         </div>
       </div>
       <div className={styles.amendBody}>
+        {/* LEFT column */}
         <div>
           <div className={styles.amendField}>
             <div className={styles.amendLabel}>Current Risk Level :</div>
             <div>
-              <span className={`${styles.amendCurrentBadge} ${styles['amendBadge_' + currentLevel]}`}>
-                {currentLevel.charAt(0).toUpperCase() + currentLevel.slice(1)}
+              <span className={`${styles.amendCurrentBadge} ${styles['amendBadgeSolid_' + currentLevel]}`}>
+                {currentLevel.toUpperCase()}
               </span>
             </div>
           </div>
           <div className={styles.amendField}>
             <div className={styles.amendLabel}>Current Reason :</div>
-            <div className={styles.amendValue}>Final Risk Score: 25</div>
-            <div className={styles.amendValue}>Final Risk Level: High</div>
+            <div className={styles.amendReasonBlock}>
+              <p className={styles.amendReasonLine}>Current Risk Level: {currentLevel.charAt(0).toUpperCase() + currentLevel.slice(1)}</p>
+              <p className={styles.amendReasonLine}>Current Risk Score: {riskReport?.currentScore ?? 0}</p>
+              {(riskReport?.accordionSections || []).map((s, i) => (
+                <p key={i} className={styles.amendReasonLine}>{s.label} – {s.totalScore} – {s.level.charAt(0).toUpperCase() + s.level.slice(1)}</p>
+              ))}
+            </div>
           </div>
         </div>
+
+        {/* RIGHT column */}
         <div>
           <div className={styles.amendField}>
             <div className={styles.amendLabel}>
               New Current Risk Level <span className={styles.req}>*</span>
             </div>
             <div className={styles.amendLevelGroup}>
-              {['low', 'medium', 'high'].map(lv => (
+              {otherLevels.map((lv, idx) => (
                 <button
                   key={lv}
-                  className={`${styles.amendLevelBtn} ${selectedLevel === lv ? styles.amendLevelBtnActive : ''}`}
+                  className={`${styles.amendLevelBtn} ${selectedLevel === lv ? styles.amendLevelBtnActive : ''} ${idx === 0 ? styles.amendLevelBtnFirst : ''} ${idx === otherLevels.length - 1 ? styles.amendLevelBtnLast : ''}`}
                   onClick={() => setSelectedLevel(lv)}
                 >
-                  {lv.charAt(0).toUpperCase() + lv.slice(1)}
+                  {lv.toUpperCase()}
                 </button>
               ))}
             </div>
@@ -173,7 +193,7 @@ function AmendPanel({ currentLevel, onClose, onSave }) {
           </div>
           <div className={styles.amendField}>
             <div className={styles.amendFileRow}>
-              <span className={styles.amendFileName}>{fileName}</span>
+              <span className={styles.amendFileName}>{fileName || 'CHOOSE FILE'}</span>
               <label className={styles.amendBrowseBtn}>
                 Browse
                 <input type="file" accept=".csv,.pdf,.doc,.docx" style={{ display: 'none' }} onChange={handleFileChange} />
@@ -181,11 +201,10 @@ function AmendPanel({ currentLevel, onClose, onSave }) {
             </div>
             <p className={styles.amendHelper}>
               Click the &apos;Choose Files&apos; button to browse for a file and then click the &apos;Upload&apos;.
-              Uploaded files will appear below. Allowed file types include:{' '}
-              <strong>.csv,.pdf,.doc,.docx</strong>
-              <br />Multiple uploads are permitted.
+              Uploaded files will appear below. Allowed file types include: .csv,.pdf,.doc,.docx<br />
+              Multiple uploads are permitted.
             </p>
-            <button className={`${styles.btn} ${styles.btnOutline}`}>Upload</button>
+            <button className={`${styles.btn} ${styles.btnOutline} ${styles.amendUploadBtn}`}>Upload</button>
           </div>
         </div>
       </div>
@@ -277,7 +296,7 @@ export default function ProfileRiskReport() {
 
         <main className={styles.mainContent}>
           {showAmend && (
-            <AmendPanel currentLevel={riskLevel} onClose={() => setShowAmend(false)} onSave={handleSave} />
+            <AmendPanel currentLevel={riskLevel} riskReport={rr} onClose={() => setShowAmend(false)} onSave={handleSave} />
           )}
 
           {!showAmend && (
@@ -364,11 +383,12 @@ export default function ProfileRiskReport() {
                         <table className={styles.screeningTable}>
                           <thead>
                             <tr>
-                              <th style={{ width: '30%' }}>Association Name</th>
-                              <th style={{ width: '14%' }}>Type</th>
-                              <th style={{ width: '28%' }}>Match Results</th>
-                              <th style={{ width: '13%' }}>Risk Level</th>
-                              <th style={{ width: '15%' }}>Red Flags</th>
+                              <th style={{ width: '26%' }}>Association Name</th>
+                              <th style={{ width: '12%' }}>Type</th>
+                              <th style={{ width: '24%' }}>Match Results</th>
+                              <th style={{ width: '16%' }}>Category</th>
+                              <th style={{ width: '11%' }}>Risk Level</th>
+                              <th style={{ width: '11%' }}>Red Flags</th>
                             </tr>
                           </thead>
                           <tbody>
@@ -379,12 +399,22 @@ export default function ProfileRiskReport() {
                                 <td className={styles.screeningMatchCell}>
                                   {matchResults.map((m, j) => (
                                     <div key={j} className={styles.matchResultLine}>
-                                      <span className={styles.matchSquare} style={{ background: m.bg, color: m.color }}>
-                                        {m.count}
-                                      </span>
+                                      <Badge
+                                        label={String(m.count)}
+                                        style={BG_TO_STYLE[m.bg] || 'no-action'}
+                                        size="large"
+                                        shape="square"
+                                      />
                                       <span>{m.label}</span>
                                     </div>
                                   ))}
+                                </td>
+                                <td className={styles.screeningCell}>
+                                  <div className={styles.screeningFlagCell}>
+                                    {(row.categories || []).map((c, j) => (
+                                      <Flag key={j} type={c.type} icon={c.icon} />
+                                    ))}
+                                  </div>
                                 </td>
                                 <td className={styles.screeningCell}><RiskBadge level={row.level} /></td>
                                 <td className={styles.screeningCell}>{row.redFlags}</td>
@@ -405,9 +435,10 @@ export default function ProfileRiskReport() {
                         <table className={styles.genericTable}>
                           <thead>
                             <tr>
-                              <th style={{ width: '66%' }}>Title</th>
-                              <th style={{ width: '18%' }}>Status</th>
-                              <th style={{ width: '16%' }}>Categorization</th>
+                              <th style={{ width: '52%' }}>Title</th>
+                              <th style={{ width: '10%' }}>Status</th>
+                              <th style={{ width: '26%' }}>Risk Category</th>
+                              <th style={{ width: '12%' }}>Property</th>
                             </tr>
                           </thead>
                           <tbody>
@@ -419,8 +450,9 @@ export default function ProfileRiskReport() {
                                     : <span>{row.title}</span>
                                   }
                                 </td>
-                                <td><StatusPill status={row.status} /></td>
-                                <td>{row.cat}</td>
+                                <td>{row.status}</td>
+                                <td>{row.riskCategory || row.cat}</td>
+                                <td>{row.property || ''}</td>
                               </tr>
                             ))}
                           </tbody>
@@ -439,9 +471,10 @@ export default function ProfileRiskReport() {
                     <thead>
                       <tr>
                         <th style={{ width: '28%' }}>Process Steps</th>
-                        <th style={{ width: '22%' }}>Status</th>
-                        <th style={{ width: '25%' }}>Completed By</th>
-                        <th style={{ width: '25%' }}>Completed Date</th>
+                        <th style={{ width: '18%' }}>Status</th>
+                        <th style={{ width: '16%' }}>Start Date</th>
+                        <th style={{ width: '16%' }}>Completed Date</th>
+                        <th style={{ width: '22%' }}>Completed By</th>
                       </tr>
                     </thead>
                     <tbody>
@@ -453,9 +486,10 @@ export default function ProfileRiskReport() {
                               : <span>{row.step}</span>
                             }
                           </td>
-                          <td><StatusPill status={row.status} /></td>
-                          <td>{row.by}</td>
+                          <td>{row.status}</td>
+                          <td>{row.startDate}</td>
                           <td>{row.date}</td>
+                          <td>{row.by}</td>
                         </tr>
                       ))}
                     </tbody>
