@@ -320,12 +320,14 @@ export default function ProfilePage({ profile: profileProp, embedded = false }) 
                     <span className="material-icons-outlined" style={{ fontSize: 16 }}>help_outline</span>
                   </motion.div>
                 ) : (
-                  <motion.div key="loaded-badge" initial={{ opacity: 0 }} animate={{ opacity: 1 }} exit={{ opacity: 0 }} transition={{ duration: 0.4 }}
-                    className={`${styles.badge} ${styles['badge' + profile.riskLevel.level.charAt(0).toUpperCase() + profile.riskLevel.level.slice(1)]} ${styles.badgeBtn}`}
-                  >
-                    {profile.riskLevel.label}
-                    <span className="material-icons-outlined" style={{ fontSize: 16 }}>{profile.riskLevel.icon}</span>
-                  </motion.div>
+                  <Link to={`/profile/${profile.id}/risk-report`} style={{ textDecoration: 'none' }}>
+                    <motion.div key="loaded-badge" initial={{ opacity: 0 }} animate={{ opacity: 1 }} exit={{ opacity: 0 }} transition={{ duration: 0.4 }}
+                      className={`${styles.badge} ${styles['badge' + profile.riskLevel.level.charAt(0).toUpperCase() + profile.riskLevel.level.slice(1)]} ${styles.badgeBtn}`}
+                    >
+                      {profile.riskLevel.label}
+                      <span className="material-icons-outlined" style={{ fontSize: 16 }}>{profile.riskLevel.icon}</span>
+                    </motion.div>
+                  </Link>
                 )}
                 </AnimatePresence>
               </div>
