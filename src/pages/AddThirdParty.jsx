@@ -1089,7 +1089,7 @@ function LanguagePanel({ selected, onSelect, onClose }) {
       <motion.div className={styles.panelOverlay} initial={{ opacity: 0 }} animate={{ opacity: 1 }} exit={{ opacity: 0 }} transition={mot.overlay} onClick={onClose} />
       <div className={styles.langPanel}><motion.div initial={{ x: '100%' }} animate={{ x: 0 }} exit={{ x: '100%' }} transition={mot.panel} style={{ height: '100%', display: 'flex', flexDirection: 'column', flex: 1 }}>
         <div className={styles.langPanelHeader}>
-          <span className={styles.langPanelTitle}>Choose Language</span>
+          <h5 className={styles.langPanelTitle}>Choose Language</h5>
           <button className={styles.btnOutline} onClick={onClose}>Close</button>
         </div>
         <div className={styles.langSearchRow}>
