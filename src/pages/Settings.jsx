@@ -89,22 +89,22 @@ const ROWS = [
 ];
 
 /* ── Stages data ── */
-const STAGES_COLS = ['Enabled', 'Low Risk', 'Medium Risk', 'High Risk', 'Renewal Set / Period'];
-// perms: [enabled, lowRisk, medRisk, highRisk, renewalPeriod]
-// null = N/A, true/false = checkable, string = text value
+const STAGES_COLS = ['Enabled', 'Low Risk', 'Medium Risk', 'High Risk'];
+// perms: [enabled, lowRisk, medRisk, highRisk]
+// null = N/A, true/false = checkable
 const STAGES_ROWS = [
-  { name: 'Risk Assessment',             info: true, perms: [true,  null,  null,  null,  null ] },
-  { name: 'Due Diligence',               info: true, perms: [null,  null,  null,  null,  null ], expandable: true,
+  { name: 'Risk Assessment',             info: true, perms: [true,  null,  null,  null ] },
+  { name: 'Due Diligence',               info: true, perms: [null,  null,  null,  null ], expandable: true,
     children: [
-      { name: 'Internal Due Diligence',  info: true, perms: [null,  null,  true,  null,  null ] },
-      { name: 'External Due Diligence',  info: true, perms: [null,  null,  true,  null,  null ] },
+      { name: 'Internal Due Diligence',  info: true, perms: [null,  null,  true,  null ] },
+      { name: 'External Due Diligence',  info: true, perms: [null,  null,  true,  null ] },
     ],
   },
-  { name: 'Enhanced Due Diligence Report', info: true, perms: [null, null, null,  null,  null ] },
-  { name: 'Integrity Check',             info: true, perms: [null,  null,  null,  null,  null ] },
-  { name: 'UBO',                         info: true, perms: [null,  null,  null,  true,  '20 Day(s)'] },
-  { name: 'Monitoring Required',         info: true, perms: [true,  null,  null,  null,  null ] },
-  { name: 'Auto Approval',               info: true, perms: [null,  null,  null,  null,  null ] },
+  { name: 'Enhanced Due Diligence Report', info: true, perms: [null, null, null,  null ] },
+  { name: 'Integrity Check',             info: true, perms: [null,  null,  null,  null ] },
+  { name: 'UBO',                         info: true, perms: [null,  null,  null,  true ] },
+  { name: 'Monitoring Required',         info: true, perms: [true,  null,  null,  null ] },
+  { name: 'Auto Approval',               info: true, perms: [null,  null,  null,  null ] },
 ];
 
 function buildStagesState(rows) {
