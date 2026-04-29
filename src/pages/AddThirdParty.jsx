@@ -1264,7 +1264,7 @@ function PropertiesPanel({ name, onClose }) {
                     {p.value
                       ? (
                         <span className={styles.propWarningWrap}>
-                          <span className="material-icons-outlined" style={{ fontSize: 16, color: 'var(--warning-500)', display: 'block' }}>warning</span>
+                          <span className="material-icons-outlined" style={{ fontSize: 16, color: 'var(--primary-500)', display: 'block' }}>warning</span>
                           <span className={styles.propTooltip}>High Risk Factors</span>
                         </span>
                       )
