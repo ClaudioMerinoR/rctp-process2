@@ -1,6 +1,17 @@
 import { useState, useEffect, useRef } from 'react';
 import { motion, AnimatePresence } from 'motion/react';
 import Checkbox from '../ui/Checkbox';
+import Flag from '../ui/Flag';
+import Badge from '../ui/Badge';
+
+const MATCH_BG_TO_STYLE = {
+  'var(--alert-500)':   'action-required',
+  'var(--success-500)': 'completed',
+  'var(--warning-500)': 'incomplete',
+  'var(--warning-300)': 'incomplete',
+  'var(--neutral-200)': 'not-initiated',
+  'var(--text-light)':  'no-action',
+};
 import { transition as mot } from '../../utils/motion';
 import { Link, useParams, useNavigate, useLocation } from 'react-router-dom';
 import PageLayout from '../layout/PageLayout';
@@ -645,7 +656,7 @@ export default function ProfilePage({ profile: profileProp, embedded = false }) 
                       <td>
                         <div className={styles.matchBadges}>
                           {r.matches.map((m, j) => (
-                            <span key={j} className={styles.mbadge} style={{ background: m.bg, color: m.color }}>{m.val}</span>
+                            <Badge key={j} label={m.val} style={MATCH_BG_TO_STYLE[m.bg] || 'no-action'} size="large" shape="square" />
                           ))}
                         </div>
                       </td>
@@ -660,7 +671,7 @@ export default function ProfilePage({ profile: profileProp, embedded = false }) 
                       <td>
                         <div className={styles.categoryCell}>
                           {r.categories.map((c, j) => (
-                            <span key={j} className={styles.catTag} style={{ background: c.bg, color: c.color }}>{c.label}</span>
+                            <Flag key={j} type={c.label.toLowerCase()} icon={c.label === 'AM' ? 'entity' : c.label === 'SOC' ? 'entity' : 'person'} />
                           ))}
                           <span className="material-icons-outlined" style={{ fontSize: 16, color: 'var(--text-light)' }}>{r.categoryIcon}</span>
                         </div>
@@ -971,7 +982,7 @@ function NotesPanel({ profileName, notes, noteText, onNoteTextChange, onAddNote,
       <motion.div className={styles.connectOverlay} initial={{ opacity: 0 }} animate={{ opacity: 1 }} exit={{ opacity: 0 }} transition={mot.overlay} onClick={onClose} />
       <div className={styles.notesPanel}><motion.div initial={{ x: '100%' }} animate={{ x: 0 }} exit={{ x: '100%' }} transition={mot.panel} style={{ height: '100%', display: 'flex', flexDirection: 'column', flex: 1 }}>
         <div className={styles.notesPanelHeader}>
-          <span className={styles.notesPanelTitle}>Note - {profileName} / Available Threads</span>
+          <h5 className={styles.notesPanelTitle}>Note - {profileName} / Available Threads</h5>
           <button className={`${styles.btn} ${styles.btnOutline}`} onClick={onClose}>Close</button>
         </div>
         <div className={styles.notesPanelContent}>
@@ -1000,18 +1011,9 @@ function NotesPanel({ profileName, notes, noteText, onNoteTextChange, onAddNote,
             onChange={e => onNoteTextChange(e.target.value)}
           />
           <div className={styles.notesActions}>
-            <button className={`${styles.btn} ${styles.btnOutline}`} type="button">
-              <span className="material-icons-outlined" style={{ fontSize: 16 }}>person_add</span>
-              Include Internal User
-            </button>
-            <button className={`${styles.btn} ${styles.btnOutline}`} type="button">
-              <span className="material-icons-outlined" style={{ fontSize: 16 }}>person_add_alt</span>
-              Include External User
-            </button>
-            <button className={`${styles.btn} ${styles.btnOutline}`} type="button">
-              <span className="material-icons-outlined" style={{ fontSize: 16 }}>attach_file</span>
-              Add Attachment
-            </button>
+            <button className={`${styles.btn} ${styles.btnOutline}`} type="button">Include Internal User</button>
+            <button className={`${styles.btn} ${styles.btnOutline}`} type="button">Include External User</button>
+            <button className={`${styles.btn} ${styles.btnOutline}`} type="button">Add Attachment</button>
             <button className={`${styles.btn} ${styles.btnFilled}`} type="button" onClick={onAddNote}>
               Add Note
             </button>

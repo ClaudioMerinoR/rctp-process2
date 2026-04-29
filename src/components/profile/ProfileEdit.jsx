@@ -136,22 +136,11 @@ export default function ProfileEdit() {
         <Sidebar profile={profile} activePage="summary" />
 
         <main className={profileStyles.mainContent}>
-          {/* Details card header */}
-          <section className={`${profileStyles.card} ${profileStyles.detailsCard}`}>
-            <div className={styles.headerRow}>
-              <h2 className={profileStyles.cardTitle}>{profile.shortName} Details</h2>
-              <div className={styles.statusRight}>
-                <span className={styles.statusLabel}>THIRD PARTY STATUS:</span>
-                <span className={styles.statusActive}>ACTIVE</span>
-                <span className="material-icons-outlined" style={{ fontSize: 16, color: 'var(--success-700)' }}>verified</span>
-              </div>
-            </div>
-          </section>
-
-          {/* Summary form */}
-          <div className={styles.section}>
-            <div className={styles.sectionHeading}>Summary</div>
-            <div className={styles.summaryGrid}>
+          <div className={styles.adminContent}>
+            {/* Summary section */}
+            <div className={styles.contentSection}>
+              <div className={styles.contentTitle}>Summary</div>
+              <div className={styles.summaryGrid}>
 
               {/* LEFT COLUMN */}
               <div className={styles.summaryCol}>
@@ -331,13 +320,16 @@ export default function ProfileEdit() {
 
               </div>
             </div>
-          </div>
+            </div>
 
-          {/* Footer */}
-          <div className={styles.formFooter}>
-            <button className={styles.btnOutline} onClick={handleCancel}>Cancel</button>
-            <button className={styles.btnOutline}>Delete</button>
-            <button className={styles.btnFilled} onClick={handleSave}>Save</button>
+            <div className={styles.contentDivider} />
+
+            {/* Footer */}
+            <div className={styles.formFooter}>
+              <button className={`${profileStyles.btn} ${profileStyles.btnOutline} ${profileStyles.btnDanger}`}>Delete</button>
+              <button className={`${profileStyles.btn} ${profileStyles.btnOutline}`} onClick={handleCancel}>Cancel</button>
+              <button className={`${profileStyles.btn} ${profileStyles.btnFilled}`} onClick={handleSave}>Save</button>
+            </div>
           </div>
         </main>
       </div>

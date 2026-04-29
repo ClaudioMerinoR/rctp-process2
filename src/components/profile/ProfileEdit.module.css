@@ -1,28 +1,24 @@
-/* ── Header row (inside details card) ── */
-.headerRow { display: flex; align-items: center; justify-content: space-between; padding: 20px 20px 16px; }
-.statusRight { display: flex; align-items: center; gap: 6px; }
-.statusLabel { font-size: 12px; font-weight: 500; text-transform: uppercase; letter-spacing: 0.5px; color: var(--text-light); }
-.statusActive { font-size: 13px; font-weight: 700; color: var(--success-700); text-transform: uppercase; }
-
-/* ── Section card (same pattern as AddThirdParty .section) ── */
-.section {
+/* ── Admin-style content card (matches CompanyAdmin .adminContent) ── */
+.adminContent {
+  flex: 1;
+  min-width: 0;
   background: var(--neutral-00);
-  border-radius: 4px;
-  box-shadow: 0 2px 4px rgba(0,0,0,0.08);
-  margin-top: 8px;
-  padding: 20px 20px 24px;
+  border: 1px solid var(--neutral-100);
+  border-top: 4px solid var(--primary-500);
+  box-shadow: var(--shadow-card);
 }
 
-/* ── Section heading (same as AddThirdParty .sectionHeading) ── */
-.sectionHeading {
-  font-size: 11px; font-weight: 600; text-transform: uppercase;
-  letter-spacing: 1px; color: var(--text-light);
-  margin-bottom: 16px; padding-bottom: 10px;
-  border-bottom: 1px solid var(--neutral-50);
-}
+/* ── Content section ── */
+.contentSection { padding: 20px 20px 0; }
 
-/* ── Two-column grid (same as AddThirdParty .summaryGrid / .summaryCol) ── */
-.summaryGrid { display: grid; grid-template-columns: 1fr 1fr; gap: 0 40px; margin-top: 16px; align-items: start; }
+/* ── Content title ── */
+.contentTitle { font-size: 18px; font-weight: 500; color: var(--text-normal); font-family: var(--font-heading); margin-bottom: 16px; }
+
+/* ── Divider ── */
+.contentDivider { height: 1px; background: var(--neutral-50); margin: 0 16px; }
+
+/* ── Two-column grid ── */
+.summaryGrid { display: grid; grid-template-columns: 1fr 1fr; gap: 0 40px; align-items: start; }
 .summaryCol { display: flex; flex-direction: column; gap: 20px; }
 
 /* ── Form field (same as AddThirdParty .editField / .editLabel / .editInput) ── */
@@ -30,12 +26,12 @@
 .editLabel { font-size: 12px; font-weight: 500; color: var(--primary-500); text-transform: uppercase; letter-spacing: 0.5px; display: flex; align-items: center; gap: 4px; }
 .req { color: var(--alert-500); }
 .editInput {
-  height: 40px; border: 1px solid var(--neutral-200); border-radius: 2px;
-  padding: 0 9px; font-size: 14px; font-family: inherit;
+  height: 34px; border: 1px solid var(--neutral-300); border-radius: 2px;
+  padding: 0 10px; font-size: 14px; font-family: inherit;
   color: var(--text-normal); background: var(--neutral-00); outline: none;
   transition: border-color 0.15s; width: 100%; box-sizing: border-box;
 }
-.editInput:focus { border-color: var(--neutral-500); }
+.editInput:focus { border-color: var(--primary-500); }
 
 /* ── Info tooltip (same as AddThirdParty .infoTip) ── */
 .infoTip { display: inline-flex; align-items: center; margin-left: 4px; color: var(--text-light); vertical-align: middle; cursor: help; }
@@ -55,14 +51,14 @@
 .ownerInputRow { display: flex; align-items: center; gap: 8px; }
 .ownerInputRow .ownerToggle { margin-bottom: 0; flex-shrink: 0; }
 .ownerToggle { display: inline-flex; margin-bottom: 6px; }
-.ownerBtn { height: 40px; padding: 0 16px; font-size: 12px; font-weight: 600; text-transform: uppercase; letter-spacing: 0.5px; cursor: pointer; background: var(--neutral-00); color: var(--text-light); border: 1px solid var(--neutral-300); border-right: none; transition: background 0.15s, color 0.15s, border-color 0.15s; font-family: inherit; }
+.ownerBtn { height: 34px; padding: 0 16px; font-size: 12px; font-weight: 600; text-transform: uppercase; letter-spacing: 0.5px; cursor: pointer; background: var(--neutral-00); color: var(--text-light); border: 1px solid var(--neutral-300); border-right: none; transition: background 0.15s, color 0.15s, border-color 0.15s; font-family: inherit; }
 .ownerBtn:first-child { border-radius: 4px 0 0 4px; }
 .ownerBtn:last-child { border-right: 1px solid var(--neutral-300); border-radius: 0 4px 4px 0; }
 .ownerBtnActive { background: var(--primary-500); color: var(--neutral-25); border-color: var(--primary-500); }
 
 /* ── Generic dropdown (same as AddThirdParty) ── */
 .dropdownWrap { position: relative; }
-.dropdownTrigger { display: flex; align-items: center; justify-content: space-between; height: 40px; border: 1px solid var(--neutral-200); border-radius: 2px; padding: 0 10px; cursor: pointer; background: var(--neutral-00); }
+.dropdownTrigger { display: flex; align-items: center; justify-content: space-between; height: 34px; border: 1px solid var(--neutral-300); border-radius: 2px; padding: 0 10px; cursor: pointer; background: var(--neutral-00); }
 .dropdownTrigger:hover { border-color: var(--primary-500); }
 .dropdownPlaceholder { font-size: 14px; color: var(--neutral-400); }
 .dropdownValueSelected { font-size: 14px; color: var(--text-normal); }
@@ -76,23 +72,16 @@
 
 /* ── Tag select (same as AddThirdParty .tagSelectWrap / .tagChip) ── */
 .tagSelectWrap { position: relative; }
-.tagSelectTrigger { display: flex; align-items: center; justify-content: space-between; height: 40px; border: 1px solid var(--neutral-200); border-radius: 2px; padding: 0 10px; cursor: pointer; background: var(--neutral-00); }
+.tagSelectTrigger { display: flex; align-items: center; justify-content: space-between; height: 34px; border: 1px solid var(--neutral-300); border-radius: 2px; padding: 0 10px; cursor: pointer; background: var(--neutral-00); }
 .tagSelectTrigger:hover { border-color: var(--primary-500); }
 .tagChips { display: flex; flex-wrap: wrap; gap: 6px; margin-top: 8px; }
 .tagChip { display: inline-flex; align-items: center; background: var(--text-light); border: 1px solid var(--neutral-800); border-radius: 4px; height: 24px; overflow: hidden; padding: 0 4px 0 8px; gap: 8px; font-size: 14px; font-weight: 400; color: var(--neutral-00); }
 .tagChip button { background: none; border: none; color: var(--neutral-00); cursor: pointer; font-size: 14px; line-height: 1; padding: 0; opacity: 0.8; display: flex; align-items: center; }
 .tagChip button:hover { opacity: 1; }
 
-/* ── Form footer (same as AddThirdParty .formFooter) ── */
+/* ── Form footer ── */
 .formFooter {
-  display: flex; align-items: center; justify-content: flex-end; gap: 12px;
-  margin-top: 8px; padding: 16px 20px;
-  background: var(--neutral-00); border-radius: 4px;
-  box-shadow: 0 2px 4px rgba(0,0,0,0.08);
+  display: flex; align-items: center; justify-content: flex-end; gap: 8px;
+  padding: 16px 20px;
 }
 
-/* ── Buttons (same as AddThirdParty .btnFilled / .btnOutline) ── */
-.btnFilled { display: inline-flex; align-items: center; gap: 4px; height: 32px; padding: 0 12px; background: var(--primary-500); color: var(--neutral-00); border: none; border-radius: 4px; font-size: 12px; font-weight: 500; text-transform: uppercase; letter-spacing: 0.5px; cursor: pointer; font-family: inherit; transition: background 0.2s; white-space: nowrap; }
-.btnFilled:hover { background: var(--primary-600); }
-.btnOutline { display: inline-flex; align-items: center; gap: 4px; height: 32px; padding: 0 12px; background: var(--neutral-00); border: 1px solid var(--neutral-300); color: var(--text-normal); border-radius: 4px; font-size: 12px; font-weight: 500; text-transform: uppercase; letter-spacing: 0.5px; cursor: pointer; font-family: inherit; white-space: nowrap; }
-.btnOutline:hover { background: var(--neutral-25); border-color: var(--neutral-400); }

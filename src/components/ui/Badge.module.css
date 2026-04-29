@@ -1,0 +1,58 @@
+/* ── Base ── */
+.badge {
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+  font-size: 11px;
+  font-weight: 500;
+  font-family: inherit;
+  text-transform: uppercase;
+  letter-spacing: 0.5px;
+  line-height: 16px;
+  white-space: nowrap;
+  overflow: hidden;
+}
+
+/* ── Text colors ── */
+.textLight { color: var(--neutral-00); }
+.textDark  { color: var(--text-normal); }
+
+/* ── Style variants ── */
+.actionRequired { background: var(--alert-500); }
+.noAction       { background: var(--text-light); }
+.incomplete     { background: var(--warning-500); }
+.notInitiated   { background: var(--neutral-300); }
+.completed      { background: var(--success-500); }
+.confirmed      { background: #9A3438; }
+.cleared        { background: #016F91; }
+
+/* ── Size + shape variants ── */
+.largeRound {
+  min-width: 19px;
+  max-width: 34px;
+  height: 16px;
+  padding: 4px;
+  border-radius: 100px;
+}
+
+.largeSquare {
+  min-width: 16px;
+  max-width: 34px;
+  height: 16px;
+  padding: 4px 2px;
+  border-radius: 2px;
+}
+
+.small {
+  width: 6px;
+  height: 6px;
+  border-radius: 100px;
+  padding: 0;
+}
+
+.medium {
+  width: 10px;
+  height: 10px;
+  border-radius: 100px;
+  padding: 0;
+}

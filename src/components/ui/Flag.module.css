@@ -1,0 +1,33 @@
+.flag {
+  display: inline-flex;
+  align-items: center;
+  gap: 2px;
+  height: 15px;
+  width: 40px;
+  border-radius: 2px;
+  overflow: hidden;
+  flex-shrink: 0;
+}
+
+.icon {
+  font-size: 10px;
+  width: 11px;
+  flex-shrink: 0;
+  margin-left: 3px;
+  line-height: 1;
+  color: rgba(0, 0, 0, 0.55);
+}
+
+.label {
+  flex: 1;
+  font-size: 10px;
+  font-weight: 700;
+  font-family: 'Roboto', sans-serif;
+  text-align: center;
+  line-height: 10px;
+  letter-spacing: 0;
+  white-space: nowrap;
+}
+
+.textDark  { color: #000; }
+.textLight { color: #fff; }
