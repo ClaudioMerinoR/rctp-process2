@@ -1142,7 +1142,7 @@ function NotesPanel({ notes, noteText, onNoteTextChange, onAddNote, onClose }) {
       <motion.div className={styles.panelOverlay} initial={{ opacity: 0 }} animate={{ opacity: 1 }} exit={{ opacity: 0 }} transition={mot.overlay} onClick={onClose} />
       <div className={styles.notesPanel}><motion.div initial={{ x: '100%' }} animate={{ x: 0 }} exit={{ x: '100%' }} transition={mot.panel} style={{ height: '100%', display: 'flex', flexDirection: 'column', flex: 1 }}>
         <div className={styles.notesPanelHeader}>
-          <span className={styles.notesPanelTitle}>Note - Onboarding / Available Threads</span>
+          <h5 className={styles.notesPanelTitle}>Note - Onboarding / Available Threads</h5>
           <button className={styles.btnOutline} onClick={onClose}>Close</button>
         </div>
         <div className={styles.notesPanelContent}>
@@ -1174,7 +1174,9 @@ function NotesPanel({ notes, noteText, onNoteTextChange, onAddNote, onClose }) {
             <button className={styles.btnOutline} type="button">Include Internal User</button>
             <button className={styles.btnOutline} type="button">Include External User</button>
             <button className={styles.btnOutline} type="button">Add Attachment</button>
-            <button className={styles.btnFilled} type="button" onClick={onAddNote}>Add Note</button>
+            <button className={styles.btnFilled} type="button" onClick={onAddNote}>
+              Add Note
+            </button>
           </div>
         </div>
       </motion.div></div>
