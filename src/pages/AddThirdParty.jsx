@@ -607,7 +607,7 @@ export default function AddThirdParty() {
           </div>
           <div className={styles.summaryPrepopNote}>
             <span className="material-icons-outlined" style={{ fontSize: 16 }}>info</span>
-            The fields below have been pre-populated with default values. Please review and update them as needed before proceeding.
+            The fields below have been pre-populated with default values from your profile. Please review and update them if needed before proceeding.
           </div>
           <div className={styles.summaryGrid}>
 
@@ -618,7 +618,7 @@ export default function AddThirdParty() {
               <div className={`${styles.editField} ${errors.owner ? styles.hasError : ''}`} ref={ownerRef}>
                 <label className={styles.editLabel}>
                   Third Party Owner <span className={styles.req}>*</span>
-                  <span className={styles.infoTip} data-tooltip="Each third party requires a group or user owner">
+                  <span className={styles.infoTip} data-tooltip="This person or group will be the representative of the third party relationship and can receive notifications and actions.">
                     <span className="material-icons-outlined" style={{ fontSize: 16 }}>info</span>
                   </span>
                 </label>
@@ -644,7 +644,12 @@ export default function AddThirdParty() {
 
               {/* Business Unit */}
               <div className={`${styles.editField} ${errors.bu ? styles.hasError : ''}`} ref={buRef}>
-                <label className={styles.editLabel}>Business Unit <span className={styles.req}>*</span></label>
+                <label className={styles.editLabel}>
+                  Business Unit <span className={styles.req}>*</span>
+                  <span className={styles.infoTip} data-tooltip="The Business Unit defines where the Third Party sits within your organisational structure.">
+                    <span className="material-icons-outlined" style={{ fontSize: 16 }}>info</span>
+                  </span>
+                </label>
                 <div className={styles.dropdownWrap}>
                   <div className={styles.dropdownTrigger} style={{ padding: '0 10px', gap: 4 }}>
                     <input className={styles.comboInput} value={buOpen ? buQuery : businessUnit} placeholder="Select a business unit" onChange={e => { setBuQuery(e.target.value); setBuOpen(true); }} onFocus={() => { setBuOpen(true); setBuQuery(''); }} />
@@ -668,7 +673,7 @@ export default function AddThirdParty() {
               <div className={styles.editField} ref={tagsRef}>
                 <label className={styles.editLabel}>
                   Third Party Tags
-                  <span className={styles.infoTip} data-tooltip="Tag your Third Party to allow for faster searching.">
+                  <span className={styles.infoTip} data-tooltip="Tag your Third Party to allow for faster searching or to allocate further relevant attributes.">
                     <span className="material-icons-outlined" style={{ fontSize: 16 }}>info</span>
                   </span>
                 </label>
@@ -707,6 +712,9 @@ export default function AddThirdParty() {
               <div className={`${styles.editField} ${errors.process ? styles.hasError : ''}`} ref={processRef}>
                 <label className={styles.editLabel}>
                   <span>Process <span className={styles.req}>*</span></span>
+                  <span className={styles.infoTip} data-tooltip="The process defines the mandatory stages and actions within the Third Party workflow.">
+                    <span className="material-icons-outlined" style={{ fontSize: 16 }}>info</span>
+                  </span>
                 </label>
                 <div className={styles.dropdownWrap}>
                   <div className={styles.dropdownTrigger} style={{ padding: '0 10px', gap: 4 }}>
