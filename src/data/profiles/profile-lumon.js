@@ -17,7 +17,7 @@ export default {
     { label: 'Integrity Check', dot: 'green', partner: 'integrity', tooltip: 'Powered by Xapiens' },
     { label: 'Enhanced Due Diligence Reports', dot: 'grey' },
     { label: 'UBO', dot: 'green', partner: 'ubo', tooltip: 'Powered by Duns & Bradstreet' },
-    { label: 'Risk Mitigation', dot: 'green' },
+    { label: 'Risk Mitigation', dot: 'red' },
     { label: 'Approval', dot: 'green' },
     { label: 'Screening & Monitoring', dot: 'amber' },
   ],
@@ -39,7 +39,7 @@ export default {
     { label: 'Screening & Monitoring Policy', value: 'Default Standard KYBP Policy' },
     { label: 'Third Party Legal Structure', value: 'Entity' },
     { label: 'Commercial Significance of Product or Service', value: '[Between 1 and 5%] / Significant / Not in top 10' },
-    { label: 'Third Party Renewal Date', value: '31 Dec 2025' },
+    { label: 'Third Party Renewal Date', value: '15 Jun 2026' },
     { label: 'Tags', value: 'Biotech, Severance, Kier' },
   ],
 
