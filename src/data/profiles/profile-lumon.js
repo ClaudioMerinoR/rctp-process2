@@ -19,7 +19,7 @@ export default {
     { label: 'UBO', dot: 'green', partner: 'ubo', tooltip: 'Powered by Duns & Bradstreet' },
     { label: 'Risk Mitigation', dot: 'red' },
     { label: 'Approval', dot: 'green' },
-    { label: 'Screening & Monitoring', dot: 'amber' },
+    { label: 'Screening & Monitoring', dot: 'green' },
   ],
   sidebarSections: [
     { label: 'Properties' },
