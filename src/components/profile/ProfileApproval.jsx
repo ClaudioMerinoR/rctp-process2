@@ -81,7 +81,6 @@ export default function ProfileApproval() {
                     <th>Start Date</th>
                     <th>Completed Date</th>
                     <th>Cancelled Date</th>
-                    <th>Renewal Date</th>
                     <th style={{ width: 48 }}></th>
                   </tr>
                 </thead>
@@ -92,10 +91,9 @@ export default function ProfileApproval() {
                     <td>{ap.startDate || '—'}</td>
                     <td>{ap.completedDate || '—'}</td>
                     <td>{ap.cancelledDate || '—'}</td>
-                    <td>{ap.renewalDate || '—'}</td>
                     <td style={{ textAlign: 'center' }}>
-                      <button className={apStyles.playBtn} title="Start approval">
-                        <span className="material-icons-outlined" style={{ fontSize: 16 }}>play_arrow</span>
+                      <button className={apStyles.playBtn}>
+                        <span className="material-icons-outlined" style={{ fontSize: 18 }}>more_vert</span>
                       </button>
                     </td>
                   </tr>
