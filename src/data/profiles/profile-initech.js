@@ -182,11 +182,10 @@ export default {
     ],
   },
   riskMitigation: {
-    openRisks: [
-      { id: 1, title: 'Embezzlement Allegation — Salami Slicing Scheme', owner: 'Claudio Merino', status: 'In Progress', createdDate: '02 Jan 2026', lastEditedBy: 'Claudio Merino', dueDate: '31 Mar 2026', source: 'Risk Assessment', comments: 0 },
-      { id: 2, title: 'Mass Redundancy — Downsizing Consultants Engaged', owner: 'Claudio Merino', status: 'In Progress', createdDate: '15 Jan 2026', lastEditedBy: 'Claudio Merino', dueDate: '28 Feb 2026', source: 'Due Diligence', comments: 1 },
-    ],
+    openRisks: [],
     mitigatedRisks: [
+      { id: 1, title: 'Embezzlement Allegation — Salami Slicing Scheme', owner: 'Claudio Merino', status: 'Mitigated', createdDate: '02 Jan 2026', lastEditedBy: 'Claudio Merino', dueDate: '31 Mar 2026', source: 'Risk Assessment', comments: 0 },
+      { id: 2, title: 'Mass Redundancy — Downsizing Consultants Engaged', owner: 'Claudio Merino', status: 'Mitigated', createdDate: '15 Jan 2026', lastEditedBy: 'Claudio Merino', dueDate: '28 Feb 2026', source: 'Due Diligence', comments: 1 },
       { id: 3, title: 'Workplace Environment Complaints', owner: 'Claudio Merino', status: 'Mitigated', createdDate: '06 Jan 2025', lastEditedBy: 'Claudio Merino', dueDate: '20 Jan 2025', source: 'Risk Assessment', comments: 0 },
     ],
     cancelledRisks: [],
