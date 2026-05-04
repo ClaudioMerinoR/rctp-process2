@@ -31,7 +31,7 @@ export default {
   overviewFields: [
     { label: 'Entity Third Party Legal Name', value: 'Dunder Mifflin Paper Company, Inc.' },
     { label: 'Entity Industry Sector - onboarding', value: 'Office Supplies & Paper Products' },
-    { label: 'Third Party Owner', value: 'Michael Scott' },
+    { label: 'Third Party Owner', value: 'Tamara Knoetschke' },
     { label: 'Process Name', value: 'Standard RCTP' },
     { label: 'Entity Registered Country', value: 'United States', flag: '🇺🇸' },
     { label: 'Third Party Contact Email Address', value: 'angela@scranton.dundermifflin.com' },
@@ -40,7 +40,7 @@ export default {
     { label: 'Third Party Legal Structure', value: 'Entity' },
     { label: 'Commercial Significance of Product or Service', value: '[Between 5 and 10%] / Significant / Top 10' },
     { label: 'Third Party Renewal Date', value: '31 Dec 2025' },
-    { label: 'Tags', value: 'Paper, Regional, Scranton' },
+    { label: 'Tags', value: 'Paper, Regional' },
   ],
 
   additionalFields: [

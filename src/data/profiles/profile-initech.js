@@ -31,7 +31,7 @@ export default {
   overviewFields: [
     { label: 'Entity Third Party Legal Name', value: 'Initech Corporation' },
     { label: 'Entity Industry Sector - onboarding', value: 'Software & Financial Technology' },
-    { label: 'Third Party Owner', value: 'Bill Lumbergh' },
+    { label: 'Third Party Owner', value: 'Claudio Merino' },
     { label: 'Process Name', value: 'Standard RCTP' },
     { label: 'Entity Registered Country', value: 'United States', flag: '🇺🇸' },
     { label: 'Third Party Contact Email Address', value: 'tom.smykowski@initech.com' },
@@ -40,7 +40,7 @@ export default {
     { label: 'Third Party Legal Structure', value: 'Entity' },
     { label: 'Commercial Significance of Product or Service', value: '[Between 5 and 10%] / Significant / Not in top 10' },
     { label: 'Third Party Renewal Date', value: '31 Dec 2026' },
-    { label: 'Tags', value: 'Software, Finance, Y2K' },
+    { label: 'Tags', value: 'Software, Finance' },
   ],
 
   additionalFields: [

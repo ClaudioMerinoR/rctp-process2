@@ -31,7 +31,7 @@ export default {
   overviewFields: [
     { label: 'Entity Third Party Legal Name', value: 'Waystar Royco, Inc.' },
     { label: 'Entity Industry Sector - onboarding', value: 'Media, Entertainment & Broadcasting' },
-    { label: 'Third Party Owner', value: 'Gerri Kellman' },
+    { label: 'Third Party Owner', value: 'Claudio Merino' },
     { label: 'Process Name', value: 'Standard RCTP' },
     { label: 'Entity Registered Country', value: 'United States', flag: '🇺🇸' },
     { label: 'Third Party Contact Email Address', value: 'greg.hirsch@waystarroyco.com' },
@@ -40,7 +40,7 @@ export default {
     { label: 'Third Party Legal Structure', value: 'Entity' },
     { label: 'Commercial Significance of Product or Service', value: '[Greater than 10%] / Critical / Top 10' },
     { label: 'Third Party Renewal Date', value: '—' },
-    { label: 'Tags', value: 'Media, ATN, Conglomerate, High Risk' },
+    { label: 'Tags', value: 'Media, ATN' },
   ],
 
   additionalFields: [

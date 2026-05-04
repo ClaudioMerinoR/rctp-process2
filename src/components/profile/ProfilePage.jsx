@@ -86,13 +86,28 @@ function Sidebar({ profile, activePage = 'summary', profileLoading = false }) {
         const dotCls = effectiveDot === 'red' ? styles.dotRed
           : effectiveDot === 'green' ? styles.dotGreen
           : effectiveDot === 'amber' ? styles.dotAmber
+          : effectiveDot === 'blocked' ? styles.dotBlocked
           : styles.dotGrey;
+        const DOT_LABELS = {
+          green: 'Complete',
+          amber: 'Required — In Progress',
+          red: 'Required — Not Started',
+          grey: 'Not Required',
+          blocked: 'Blocked by another activity',
+        };
+        const dotTooltip = DOT_LABELS[effectiveDot] ?? DOT_LABELS.grey;
+        const dotEl = (
+          <span className={styles.dotWrap}>
+            <span className={`${styles.dot} ${dotCls}`} />
+            <span className={styles.dotTooltip}>{dotTooltip}</span>
+          </span>
+        );
 
         if (step.tooltip || step.newTag) {
           return (
             <div key={i} className={styles.navItem}>
               <div className={styles.navItemWrap}>
-                <span className={`${styles.dot} ${dotCls}`} />
+                {dotEl}
                 {step.label}
                 {step.partner && <PartnerIcon partner={step.partner} tooltip={step.tooltip} />}
                 {step.newTag && <span className={styles.navNewTag}>New</span>}
@@ -103,7 +118,7 @@ function Sidebar({ profile, activePage = 'summary', profileLoading = false }) {
 
         return (
           <div key={i} className={styles.navItem}>
-            <span className={`${styles.dot} ${dotCls}`} />
+            {dotEl}
             {step.label}
             {step.partner && <PartnerIcon partner={step.partner} />}
           </div>

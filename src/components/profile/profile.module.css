@@ -252,16 +252,51 @@
   gap: 6px;
 }
 
+.dotWrap {
+  position: relative;
+  display: inline-flex;
+  align-items: center;
+  flex-shrink: 0;
+}
+.dotWrap:hover .dotTooltip { display: block; }
+
+.dotTooltip {
+  display: none;
+  position: absolute;
+  bottom: calc(100% + 6px);
+  left: 50%;
+  transform: translateX(-50%);
+  background: var(--text-normal);
+  color: var(--neutral-00);
+  font-size: 11px;
+  font-weight: 400;
+  white-space: nowrap;
+  padding: 4px 8px;
+  border-radius: 4px;
+  pointer-events: none;
+  z-index: var(--z-tooltip);
+}
+.dotTooltip::after {
+  content: '';
+  position: absolute;
+  top: 100%;
+  left: 50%;
+  transform: translateX(-50%);
+  border: 5px solid transparent;
+  border-top-color: var(--text-normal);
+}
+
 .dot {
   width: 16px;
   height: 16px;
   border-radius: 50%;
   flex-shrink: 0;
 }
-.dotRed   { background: var(--alert-500); }
-.dotGreen { background: var(--success-500); }
-.dotGrey  { background: var(--text-light); }
-.dotAmber { background: var(--warning-500); }
+.dotRed     { background: var(--alert-500); }
+.dotGreen   { background: var(--success-500); }
+.dotGrey    { background: var(--text-light); }
+.dotAmber   { background: var(--warning-500); }
+.dotBlocked { background: var(--neutral-200); }
 
 /* Nav item with wrapped content (tooltip, new tag) */
 .navItemWrap {

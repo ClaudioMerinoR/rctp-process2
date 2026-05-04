@@ -31,7 +31,7 @@ export default {
   overviewFields: [
     { label: 'Entity Third Party Legal Name', value: 'Los Pollos Hermanos LLC' },
     { label: 'Entity Industry Sector - onboarding', value: 'Food & Beverage / Restaurant Chain' },
-    { label: 'Third Party Owner', value: 'Gustavo Fring' },
+    { label: 'Third Party Owner', value: 'Tamara Knoetschke' },
     { label: 'Process Name', value: 'Enhanced Due Diligence' },
     { label: 'Entity Registered Country', value: 'United States', flag: '🇺🇸' },
     { label: 'Third Party Contact Email Address', value: 'g.fring@lospolloschickens.com' },
@@ -40,7 +40,7 @@ export default {
     { label: 'Third Party Legal Structure', value: 'Entity' },
     { label: 'Commercial Significance of Product or Service', value: '[Greater than 10%] / Critical / Top 10' },
     { label: 'Third Party Renewal Date', value: '—' },
-    { label: 'Tags', value: 'Food Services, High Risk, Organized Crime, DEA Flagged' },
+    { label: 'Tags', value: 'Food Services, High Risk' },
   ],
 
   additionalFields: [

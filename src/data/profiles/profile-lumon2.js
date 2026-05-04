@@ -31,7 +31,7 @@ export default {
   overviewFields: [
     { label: 'Entity Third Party Legal Name', value: 'Lumon Technologies 2' },
     { label: 'Entity Industry Sector - onboarding', value: 'Biotech & Pharmaceutical Research' },
-    { label: 'Third Party Owner', value: 'Harmony Cobel' },
+    { label: 'Third Party Owner', value: 'Tamara Knoetschke' },
     { label: 'Process Name', value: 'Standard RCTP' },
     { label: 'Entity Registered Country', value: 'United States', flag: '🇺🇸' },
     { label: 'Third Party Contact Email Address', value: 'irving.b@kier.lumontechnologies.com' },
@@ -40,7 +40,7 @@ export default {
     { label: 'Third Party Legal Structure', value: 'Entity' },
     { label: 'Commercial Significance of Product or Service', value: '[Between 1 and 5%] / Significant / Not in top 10' },
     { label: 'Third Party Renewal Date', value: '15 Jun 2026' },
-    { label: 'Tags', value: 'Biotech, Severance, Kier' },
+    { label: 'Tags', value: 'Biotech, Severance' },
   ],
 
   additionalFields: [

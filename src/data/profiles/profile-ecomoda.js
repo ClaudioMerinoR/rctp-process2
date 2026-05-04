@@ -31,7 +31,7 @@ export default {
   overviewFields: [
     { label: 'Entity Third Party Legal Name', value: 'Ecomoda S.A.' },
     { label: 'Entity Industry Sector - onboarding', value: 'Fashion & Apparel Manufacturing' },
-    { label: 'Third Party Owner', value: 'Armando Mendoza' },
+    { label: 'Third Party Owner', value: 'Claudio Merino' },
     { label: 'Process Name', value: 'Standard RCTP' },
     { label: 'Entity Registered Country', value: 'Colombia', flag: '🇨🇴' },
     { label: 'Third Party Contact Email Address', value: 'betty.pinzon@ecomoda.com.co' },
@@ -40,7 +40,7 @@ export default {
     { label: 'Third Party Legal Structure', value: 'Entity' },
     { label: 'Commercial Significance of Product or Service', value: '[Between 5 and 10%] / Significant / Top 10' },
     { label: 'Third Party Renewal Date', value: '30 Jun 2026' },
-    { label: 'Tags', value: 'Fashion, Colombia, Apparel' },
+    { label: 'Tags', value: 'Fashion, Colombia' },
   ],
 
   additionalFields: [

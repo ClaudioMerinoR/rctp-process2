@@ -31,7 +31,7 @@ export default {
   overviewFields: [
     { label: 'Person Third Party Legal Name', value: 'Bruce Thomas Wayne' },
     { label: 'Person Industry Sector - onboarding', value: 'Philanthropy & Vigilante Justice' },
-    { label: 'Third Party Owner', value: 'Lucius Fox' },
+    { label: 'Third Party Owner', value: 'Claudio Merino' },
     { label: 'Process Name', value: 'Standard RCTP' },
     { label: 'Person Country of Residence', value: 'United States', flag: '🇺🇸' },
     { label: 'Third Party Contact Email Address', value: 'alfred.pennyworth@waynemanor.gotham.com' },
@@ -40,7 +40,7 @@ export default {
     { label: 'Third Party Legal Structure', value: 'Individual / Person' },
     { label: 'Commercial Significance of Product or Service', value: '[Greater than 10%] / Critical / Top 10' },
     { label: 'Third Party Renewal Date', value: 'Unknown' },
-    { label: 'Tags', value: 'Billionaire, Gotham, Philanthropy' },
+    { label: 'Tags', value: 'Billionaire, Gotham' },
   ],
 
   additionalFields: [

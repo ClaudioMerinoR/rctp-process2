@@ -31,7 +31,7 @@ export default {
   overviewFields: [
     { label: 'Entity Third Party Legal Name', value: 'Pied Piper, Inc.' },
     { label: 'Entity Industry Sector - onboarding', value: 'Technology — Data Compression & Decentralised Internet' },
-    { label: 'Third Party Owner', value: 'Monica Hall' },
+    { label: 'Third Party Owner', value: 'Tamara Knoetschke' },
     { label: 'Process Name', value: 'Standard RCTP' },
     { label: 'Entity Registered Country', value: 'United States', flag: '🇺🇸' },
     { label: 'Third Party Contact Email Address', value: 'richard.hendricks@piedpiper.com' },
@@ -40,7 +40,7 @@ export default {
     { label: 'Third Party Legal Structure', value: 'Entity' },
     { label: 'Commercial Significance of Product or Service', value: '[Between 1 and 5%] / Significant / Not in top 10' },
     { label: 'Third Party Renewal Date', value: 'Unknown' },
-    { label: 'Tags', value: 'Tech, Compression, Silicon Valley' },
+    { label: 'Tags', value: 'Tech, Compression' },
   ],
 
   additionalFields: [
