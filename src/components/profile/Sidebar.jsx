@@ -66,22 +66,33 @@ export default function Sidebar({ profile, profileLoading = false }) {
           </span>
         );
 
+        const stepPath = step.path ? `/profile/${profile.id}/${step.path}` : null;
+        const stepActive = stepPath && currentPath === stepPath;
+        const inner = step.tooltip || step.newTag ? (
+          <div className={styles.navItemWrap}>
+            {dotEl}
+            {step.label}
+            {step.partner && <PartnerIcon partner={step.partner} tooltip={step.tooltip} />}
+            {step.newTag && <span className={styles.navNewTag}>New</span>}
+          </div>
+        ) : (
+          <>
+            {dotEl}
+            {step.label}
+            {step.partner && <PartnerIcon partner={step.partner} />}
+          </>
+        );
+
+        if (stepPath && !stepActive) {
+          return (
+            <Link key={i} to={stepPath} className={styles.navItem} style={{ textDecoration: 'none' }}>
+              {inner}
+            </Link>
+          );
+        }
         return (
-          <div key={i} className={styles.navItem}>
-            {step.tooltip || step.newTag ? (
-              <div className={styles.navItemWrap}>
-                {dotEl}
-                {step.label}
-                {step.partner && <PartnerIcon partner={step.partner} tooltip={step.tooltip} />}
-                {step.newTag && <span className={styles.navNewTag}>New</span>}
-              </div>
-            ) : (
-              <>
-                {dotEl}
-                {step.label}
-                {step.partner && <PartnerIcon partner={step.partner} />}
-              </>
-            )}
+          <div key={i} className={stepActive ? styles.navItemActive : styles.navItem}>
+            {inner}
           </div>
         );
       })}
