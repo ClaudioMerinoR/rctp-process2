@@ -24,6 +24,7 @@ export default {
   sidebarSections: [
     { label: 'Properties' },
     { label: 'Documents', isDocuments: true },
+    { label: 'Risk Mitigation', isRiskMitigation: true },
     { label: 'Entity Verification', partner: 'ubo', tooltip: 'Powered by Duns & Bradstreet' },
     { label: 'Audit' },
   ],
@@ -186,5 +187,10 @@ export default {
       { step: 'Approval', isLink: true, status: 'Not Started', startDate: '', by: '', date: '' },
       { step: 'Screening and Monitoring', isLink: true, status: 'Not Started', startDate: '', by: '', date: '' },
     ],
+  },
+  riskMitigation: {
+    openRisks: [],
+    mitigatedRisks: [],
+    cancelledRisks: [],
   },
 };

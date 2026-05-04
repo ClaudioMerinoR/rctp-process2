@@ -24,6 +24,7 @@ export default {
   sidebarSections: [
     { label: 'Properties' },
     { label: 'Documents', isDocuments: true },
+    { label: 'Risk Mitigation', isRiskMitigation: true },
     { label: 'Entity Verification', partner: 'ubo', tooltip: 'Powered by Duns & Bradstreet' },
     { label: 'Audit' },
   ],
@@ -180,5 +181,15 @@ export default {
       { step: 'Approval', isLink: true, status: 'Completed', startDate: '25 Jan 2025', by: 'Bill Lumbergh', date: '1 Feb 2025' },
       { step: 'Screening and Monitoring', isLink: true, status: 'In Progress', startDate: '15 Jan 2026', by: '', date: '' },
     ],
+  },
+  riskMitigation: {
+    openRisks: [
+      { id: 1, title: 'Embezzlement Allegation — Salami Slicing Scheme', owner: 'Claudio Merino', status: 'In Progress', createdDate: '02 Jan 2026', lastEditedBy: 'Claudio Merino', dueDate: '31 Mar 2026', source: 'Risk Assessment', comments: 0 },
+      { id: 2, title: 'Mass Redundancy — Downsizing Consultants Engaged', owner: 'Claudio Merino', status: 'In Progress', createdDate: '15 Jan 2026', lastEditedBy: 'Claudio Merino', dueDate: '28 Feb 2026', source: 'Due Diligence', comments: 1 },
+    ],
+    mitigatedRisks: [
+      { id: 3, title: 'Workplace Environment Complaints', owner: 'Claudio Merino', status: 'Mitigated', createdDate: '06 Jan 2025', lastEditedBy: 'Claudio Merino', dueDate: '20 Jan 2025', source: 'Risk Assessment', comments: 0 },
+    ],
+    cancelledRisks: [],
   },
 };

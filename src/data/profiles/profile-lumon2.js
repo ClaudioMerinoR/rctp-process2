@@ -24,6 +24,7 @@ export default {
   sidebarSections: [
     { label: 'Properties' },
     { label: 'Documents', isDocuments: true },
+    { label: 'Risk Mitigation', isRiskMitigation: true },
     { label: 'Entity Verification', partner: 'ubo', tooltip: 'Powered by Duns & Bradstreet' },
     { label: 'Audit' },
   ],
@@ -146,5 +147,12 @@ export default {
       { step: 'Approval', isLink: true, status: 'Completed', startDate: '14 Jan 2025', by: 'Natalie Herbst', date: '15 Jan 2025' },
       { step: 'Screening and Monitoring', isLink: true, status: 'In Progress', startDate: '2 Jan 2026', by: '', date: '' },
     ],
+  },
+  riskMitigation: {
+    openRisks: [
+      { id: 1, title: 'Severance Programme — Regulatory Compliance', owner: 'Tamara Knoetschke', status: 'Open', createdDate: '05 Jan 2025', lastEditedBy: '', dueDate: '', source: '', comments: 0 },
+    ],
+    mitigatedRisks: [],
+    cancelledRisks: [],
   },
 };

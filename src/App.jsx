@@ -11,7 +11,8 @@ const CompanyAdmin       = lazy(() => import('./pages/CompanyAdmin'));
 const RoleDetails        = lazy(() => import('./pages/RoleDetails'));
 const ProfileDocuments   = lazy(() => import('./components/profile/ProfileDocuments'));
 const ProfileRiskReport  = lazy(() => import('./components/profile/ProfileRiskReport'));
-const ProfileEdit        = lazy(() => import('./components/profile/ProfileEdit'));
+const ProfileEdit            = lazy(() => import('./components/profile/ProfileEdit'));
+const ProfileRiskMitigation  = lazy(() => import('./components/profile/ProfileRiskMitigation'));
 
 const PASSWORD = 'RCTPTeam';
 const SESSION_KEY = 'rctp_auth';
@@ -95,6 +96,7 @@ export default function App() {
           <Route path="/profile/:profileId/documents" element={<ProfileDocuments />} />
           <Route path="/profile/:profileId/risk-report" element={<ProfileRiskReport />} />
           <Route path="/profile/:profileId/edit" element={<ProfileEdit />} />
+          <Route path="/profile/:profileId/risk-mitigation" element={<ProfileRiskMitigation />} />
           <Route path="/company-admin" element={<Navigate to="/company-admin/summary" replace />} />
           <Route path="/company-admin/summary" element={<CompanyAdmin />} />
           <Route path="/company-admin/third-party-details" element={<CompanyAdmin />} />

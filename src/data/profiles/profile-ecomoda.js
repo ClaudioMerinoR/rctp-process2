@@ -24,6 +24,7 @@ export default {
   sidebarSections: [
     { label: 'Properties' },
     { label: 'Documents', isDocuments: true },
+    { label: 'Risk Mitigation', isRiskMitigation: true },
     { label: 'Entity Verification', partner: 'ubo', tooltip: 'Powered by Duns & Bradstreet' },
     { label: 'Audit' },
   ],
@@ -164,5 +165,13 @@ export default {
       { step: 'Approval', isLink: true, status: 'Completed', startDate: '24 Feb 2025', by: 'Armando Mendoza', date: '25 Feb 2025' },
       { step: 'Screening and Monitoring', isLink: true, status: 'Completed', startDate: '1 Mar 2025', by: '', date: '1 Mar 2025' },
     ],
+  },
+  riskMitigation: {
+    openRisks: [],
+    mitigatedRisks: [
+      { id: 1, title: 'Country Risk — Colombia Corruption Perception Index', owner: 'Claudio Merino', status: 'Mitigated', createdDate: '10 Feb 2025', lastEditedBy: 'Claudio Merino', dueDate: '24 Feb 2025', source: 'Risk Assessment', comments: 0 },
+      { id: 2, title: 'Labour Practices — Supplier Code of Conduct', owner: 'Claudio Merino', status: 'Mitigated', createdDate: '14 Feb 2025', lastEditedBy: 'Claudio Merino', dueDate: '24 Feb 2025', source: 'Due Diligence', comments: 0 },
+    ],
+    cancelledRisks: [],
   },
 };

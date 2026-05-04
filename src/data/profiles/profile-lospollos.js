@@ -24,6 +24,7 @@ export default {
   sidebarSections: [
     { label: 'Properties' },
     { label: 'Documents', isDocuments: true },
+    { label: 'Risk Mitigation', isRiskMitigation: true },
     { label: 'Entity Verification', partner: 'ubo', tooltip: 'Powered by Duns & Bradstreet' },
     { label: 'Audit' },
   ],
@@ -204,5 +205,16 @@ export default {
       { step: 'Approval', isLink: true, status: 'Not Approved', startDate: '15 Apr 2026', by: 'Compliance Group', date: '15 Apr 2026' },
       { step: 'Screening and Monitoring', isLink: true, status: 'Action Required', startDate: '15 Apr 2026', by: '', date: '' },
     ],
+  },
+  riskMitigation: {
+    openRisks: [
+      { id: 1, title: 'DEA Investigation — Suspected Distribution Operations', owner: 'Tamara Knoetschke', status: 'Open', createdDate: '10 Jan 2026', lastEditedBy: '', dueDate: '', source: '', comments: 0 },
+      { id: 2, title: 'Cartel Connections — Juárez Cartel Links', owner: 'Tamara Knoetschke', status: 'Open', createdDate: '15 Jan 2026', lastEditedBy: '', dueDate: '', source: '', comments: 0 },
+      { id: 3, title: 'Money Laundering — Unusual Cash Flow Patterns', owner: 'Tamara Knoetschke', status: 'Open', createdDate: '18 Jan 2026', lastEditedBy: '', dueDate: '', source: '', comments: 0 },
+      { id: 4, title: 'UBO Discrepancy — Undisclosed Beneficial Owners', owner: 'Tamara Knoetschke', status: 'Open', createdDate: '25 Jan 2026', lastEditedBy: '', dueDate: '', source: '', comments: 0 },
+      { id: 5, title: 'Adverse Media — 38 Potential Matches', owner: 'Claudio Merino', status: 'Open', createdDate: '01 Feb 2026', lastEditedBy: '', dueDate: '', source: '', comments: 1 },
+    ],
+    mitigatedRisks: [],
+    cancelledRisks: [],
   },
 };

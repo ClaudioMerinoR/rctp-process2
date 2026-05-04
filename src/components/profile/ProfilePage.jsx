@@ -138,6 +138,16 @@ function Sidebar({ profile, activePage = 'summary', profileLoading = false }) {
             </Link>
           );
         }
+        if (sec.isRiskMitigation && activePage === 'risk-mitigation') {
+          return <div key={i} className={styles.navSectionLabelActive}>{sec.label}</div>;
+        }
+        if (sec.isRiskMitigation) {
+          return (
+            <Link key={i} to={`/profile/${profile.id}/risk-mitigation`} className={styles.navSectionLabel} style={{ textDecoration: 'none' }}>
+              {sec.label}
+            </Link>
+          );
+        }
         return (
           <div key={i} className={styles.navSectionLabel}>
             {sec.label}

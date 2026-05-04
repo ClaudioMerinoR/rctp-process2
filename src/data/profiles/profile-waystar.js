@@ -24,6 +24,7 @@ export default {
   sidebarSections: [
     { label: 'Properties' },
     { label: 'Documents', isDocuments: true },
+    { label: 'Risk Mitigation', isRiskMitigation: true },
     { label: 'Entity Verification', partner: 'ubo', tooltip: 'Powered by Duns & Bradstreet' },
     { label: 'Audit' },
   ],
@@ -205,5 +206,15 @@ export default {
       { step: 'Approval', isLink: true, status: 'Not Approved', startDate: '29 Dec 2025', by: 'Compliance Group', date: '29 Dec 2025' },
       { step: 'Screening and Monitoring', isLink: true, status: 'Action Required', startDate: '29 Dec 2025', by: '', date: '' },
     ],
+  },
+  riskMitigation: {
+    openRisks: [
+      { id: 1, title: 'DOJ Investigation — Brightstar Cruises Cover-Up', owner: 'Claudio Merino', status: 'Open', createdDate: '05 Nov 2025', lastEditedBy: '', dueDate: '', source: '', comments: 0 },
+      { id: 2, title: 'ATN — Federal Election Interference Allegations', owner: 'Claudio Merino', status: 'Open', createdDate: '12 Nov 2025', lastEditedBy: '', dueDate: '', source: '', comments: 0 },
+      { id: 3, title: 'Exec Misconduct — Multiple Senior Officers', owner: 'Claudio Merino', status: 'Open', createdDate: '20 Nov 2025', lastEditedBy: '', dueDate: '', source: '', comments: 1 },
+      { id: 4, title: 'PEP Match — Kendall Roy (Politically Exposed)', owner: 'Claudio Merino', status: 'Open', createdDate: '29 Dec 2025', lastEditedBy: '', dueDate: '', source: '', comments: 0 },
+    ],
+    mitigatedRisks: [],
+    cancelledRisks: [],
   },
 };

@@ -24,6 +24,7 @@ export default {
   sidebarSections: [
     { label: 'Properties' },
     { label: 'Documents', isDocuments: true },
+    { label: 'Risk Mitigation', isRiskMitigation: true },
     { label: 'Entity Verification', partner: 'ubo', tooltip: 'Powered by Duns & Bradstreet' },
     { label: 'Audit' },
   ],
@@ -203,5 +204,16 @@ export default {
       { step: 'Entity Verification', isLink: true, status: 'Completed', startDate: '16 Apr 2024', date: '16 Apr 2024', by: 'Angela Martin' },
       { step: 'Approval', isLink: true, status: 'Not Started', startDate: '', date: '', by: '' },
     ],
+  },
+  riskMitigation: {
+    openRisks: [
+      { id: 1, title: 'Public or Foreign Officials Interaction', owner: 'Tamara Knoetschke', status: 'Open', createdDate: '13 Nov 2025', lastEditedBy: '', dueDate: '', source: '', comments: 0 },
+      { id: 2, title: 'High Risk Country — Russia Sanctions Exposure', owner: 'Tamara Knoetschke', status: 'Open', createdDate: '29 Nov 2025', lastEditedBy: '', dueDate: '', source: '', comments: 0 },
+      { id: 3, title: 'Wetlands Impact — Business Operations', owner: 'Tamara Knoetschke', status: 'Open', createdDate: '03 Dec 2025', lastEditedBy: '', dueDate: '', source: '', comments: 1 },
+      { id: 4, title: 'Third Party High Risk Service Type', owner: 'Tamara Knoetschke', status: 'Open', createdDate: '04 Dec 2025', lastEditedBy: '', dueDate: '', source: '', comments: 0 },
+      { id: 5, title: 'Child Labour — Compliance Review Required', owner: 'Tamara Knoetschke', status: 'Open', createdDate: '18 Dec 2025', lastEditedBy: '', dueDate: '', source: '', comments: 0 },
+    ],
+    mitigatedRisks: [],
+    cancelledRisks: [],
   },
 };

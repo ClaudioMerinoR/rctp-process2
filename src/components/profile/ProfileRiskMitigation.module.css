@@ -1,0 +1,194 @@
+/* ── Card ── */
+.card {
+  background: var(--neutral-00);
+  border-top: 4px solid var(--primary-500);
+  box-shadow: var(--shadow-card);
+  margin: 16px;
+}
+
+.cardHeader {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  padding: 16px 20px;
+  border-bottom: 1px solid var(--neutral-50);
+}
+
+.cardTitleRow {
+  display: flex;
+  align-items: center;
+  gap: 6px;
+}
+
+.createBtn {
+  gap: 2px;
+  padding: 0 10px 0 12px;
+}
+
+/* ── Warning Banner ── */
+.warningBanner {
+  display: flex;
+  align-items: flex-start;
+  gap: 10px;
+  margin: 16px 20px;
+  padding: 12px 16px;
+  background: var(--alert-100);
+  border-radius: 4px;
+  color: var(--alert-700);
+  font-size: 13px;
+  line-height: 1.5;
+}
+
+/* ── Sections ── */
+.sectionsWrap {
+  display: flex;
+  flex-direction: column;
+  gap: 0;
+  padding-bottom: 8px;
+}
+
+.section {
+  padding: 20px 20px 0;
+}
+.section:last-child { padding-bottom: 20px; }
+
+.sectionTitle {
+  font-size: 14px;
+  font-weight: 600;
+  color: var(--primary-500);
+  text-transform: uppercase;
+  letter-spacing: 0.5px;
+  margin-bottom: 10px;
+}
+
+/* ── Empty Row ── */
+.emptyRow {
+  display: flex;
+  align-items: center;
+  gap: 10px;
+  background: var(--neutral-100);
+  color: var(--text-light);
+  font-size: 13px;
+  padding: 12px 16px;
+  border-radius: 4px;
+}
+
+/* ── Table ── */
+.tableWrap {
+  overflow-x: auto;
+  border-radius: 4px;
+  border: 1px solid var(--neutral-50);
+}
+
+.table {
+  width: 100%;
+  border-collapse: collapse;
+  font-size: 13px;
+}
+
+.table thead th {
+  background: var(--neutral-00);
+  font-size: 11px;
+  font-weight: 600;
+  text-transform: uppercase;
+  letter-spacing: 0.5px;
+  color: var(--text-light);
+  padding: 10px 12px;
+  text-align: left;
+  border-bottom: 1px solid var(--neutral-50);
+  white-space: nowrap;
+}
+
+.table tbody tr {
+  border-bottom: 1px solid var(--neutral-50);
+  transition: background 0.15s ease;
+}
+.table tbody tr:last-child { border-bottom: none; }
+.table tbody tr:nth-child(odd)  { background: var(--primary-08); }
+.table tbody tr:nth-child(even) { background: var(--neutral-00); }
+.table tbody tr:hover           { background: var(--primary-50); }
+.rowSelected { background: var(--primary-50) !important; }
+
+.table tbody td {
+  padding: 10px 12px;
+  color: var(--text-normal);
+  vertical-align: middle;
+}
+
+.titleCell {
+  font-weight: 500;
+  color: var(--primary-600) !important;
+  cursor: pointer;
+}
+.titleCell:hover { text-decoration: underline; }
+
+.empty { color: var(--text-light); }
+
+/* ── Checkbox ── */
+.checkbox {
+  width: 16px;
+  height: 16px;
+  accent-color: var(--primary-500);
+  cursor: pointer;
+}
+
+/* ── Actions cell ── */
+.actionsCell {
+  display: flex;
+  align-items: center;
+  gap: 4px;
+  justify-content: flex-end;
+  white-space: nowrap;
+}
+
+.iconBtn {
+  position: relative;
+  background: none;
+  border: none;
+  cursor: pointer;
+  padding: 4px;
+  border-radius: 4px;
+  color: var(--text-light);
+  display: inline-flex;
+  align-items: center;
+  transition: background 0.15s ease, color 0.15s ease;
+}
+.iconBtn:hover {
+  background: var(--neutral-50);
+  color: var(--text-normal);
+}
+
+.commentBadge {
+  position: absolute;
+  top: 0;
+  right: 0;
+  width: 14px;
+  height: 14px;
+  border-radius: 50%;
+  background: var(--success-500);
+  color: var(--neutral-00);
+  font-size: 9px;
+  font-weight: 700;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  pointer-events: none;
+}
+
+/* ── Status Pills ── */
+.statusPill {
+  display: inline-flex;
+  align-items: center;
+  height: 22px;
+  padding: 0 8px;
+  border-radius: 100px;
+  font-size: 11px;
+  font-weight: 600;
+  white-space: nowrap;
+}
+
+.statusOpen        { background: var(--neutral-50);    color: var(--text-normal); }
+.statusInProgress  { background: var(--warning-100);   color: var(--warning-900); }
+.statusMitigated   { background: var(--success-100);   color: var(--success-900); }
+.statusCancelled   { background: var(--neutral-100);   color: var(--text-light); }
+.statusPostApproval { background: var(--primary-50);   color: var(--primary-600); }
