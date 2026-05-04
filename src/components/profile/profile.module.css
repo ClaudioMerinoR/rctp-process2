@@ -743,7 +743,6 @@
 .detailsCard {
   border-top: 3px solid var(--primary-600);
   padding: 16px;
-  min-height: 600px;
 }
 
 .cardHeader {
