@@ -375,6 +375,7 @@
 .mainContent {
   flex: 1;
   min-width: 0;
+  min-height: 600px;
   display: flex;
   flex-direction: column;
   gap: 0;
