@@ -4,26 +4,14 @@ import PageLayout from '../layout/PageLayout';
 import Breadcrumb from '../layout/Breadcrumb';
 import { profiles } from '../../data/profiles';
 import { Sidebar } from './ProfilePage';
+import Checkbox from '../ui/Checkbox';
 import styles from './profile.module.css';
 import rmStyles from './ProfileRiskMitigation.module.css';
-
-const STATUS_CONFIG = {
-  Open:        { cls: rmStyles.statusOpen,       label: 'Open' },
-  'In Progress': { cls: rmStyles.statusInProgress, label: 'In Progress' },
-  Mitigated:   { cls: rmStyles.statusMitigated,  label: 'Mitigated' },
-  Cancelled:   { cls: rmStyles.statusCancelled,  label: 'Cancelled' },
-  'Post Approval': { cls: rmStyles.statusPostApproval, label: 'Post Approval' },
-};
-
-function StatusPill({ status }) {
-  const cfg = STATUS_CONFIG[status] || STATUS_CONFIG.Open;
-  return <span className={`${rmStyles.statusPill} ${cfg.cls}`}>{cfg.label}</span>;
-}
 
 function RiskTable({ rows, onMenuClick }) {
   const [checked, setChecked] = useState({});
   const allChecked = rows.length > 0 && rows.every(r => checked[r.id]);
-  const someChecked = rows.some(r => checked[r.id]);
+  const someChecked = rows.some(r => checked[r.id]) && !allChecked;
 
   function toggleAll() {
     if (allChecked) setChecked({});
@@ -31,17 +19,11 @@ function RiskTable({ rows, onMenuClick }) {
   }
 
   return (
-    <table className={rmStyles.table} style={{ minWidth: 0 }}>
+    <table className={styles.table} style={{ minWidth: 0 }}>
       <thead>
         <tr>
           <th style={{ width: 36 }}>
-            <input
-              type="checkbox"
-              checked={allChecked}
-              ref={el => el && (el.indeterminate = someChecked && !allChecked)}
-              onChange={toggleAll}
-              className={rmStyles.checkbox}
-            />
+            <Checkbox checked={allChecked} indeterminate={someChecked} onChange={toggleAll} />
           </th>
           <th>Title</th>
           <th>Owner</th>
@@ -57,20 +39,18 @@ function RiskTable({ rows, onMenuClick }) {
         {rows.map(row => (
           <tr key={row.id} className={checked[row.id] ? rmStyles.rowSelected : ''}>
             <td>
-              <input
-                type="checkbox"
+              <Checkbox
                 checked={!!checked[row.id]}
                 onChange={e => setChecked(p => ({ ...p, [row.id]: e.target.checked }))}
-                className={rmStyles.checkbox}
               />
             </td>
-            <td className={rmStyles.titleCell}>{row.title}</td>
-            <td>{row.owner || <span className={rmStyles.empty}>—</span>}</td>
-            <td><StatusPill status={row.status} /></td>
-            <td>{row.createdDate || <span className={rmStyles.empty}>—</span>}</td>
-            <td>{row.lastEditedBy || <span className={rmStyles.empty}>—</span>}</td>
-            <td>{row.dueDate || <span className={rmStyles.empty}>—</span>}</td>
-            <td>{row.source || <span className={rmStyles.empty}>—</span>}</td>
+            <td className={styles.cellLink}>{row.title}</td>
+            <td>{row.owner || '—'}</td>
+            <td>{row.status || '—'}</td>
+            <td>{row.createdDate || '—'}</td>
+            <td>{row.lastEditedBy || '—'}</td>
+            <td>{row.dueDate || '—'}</td>
+            <td>{row.source || '—'}</td>
             <td className={rmStyles.actionsCell}>
               <button className={rmStyles.iconBtn} onClick={() => onMenuClick(row)}>
                 <span className="material-icons-outlined" style={{ fontSize: 18 }}>more_vert</span>
@@ -177,7 +157,7 @@ export default function ProfileRiskMitigation() {
           <section className={rmStyles.card}>
 
             {/* Header */}
-            <div className={rmStyles.cardHeader}>
+            <div className={`${styles.cardHeader} ${rmStyles.cardHeader}`}>
               <div className={rmStyles.cardTitleRow}>
                 <h2 className={styles.cardTitle}>Risk Mitigation</h2>
                 <span className="material-icons-outlined" style={{ fontSize: 18, color: 'var(--text-light)', cursor: 'pointer' }}>info</span>
