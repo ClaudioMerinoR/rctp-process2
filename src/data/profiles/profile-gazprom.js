@@ -215,4 +215,10 @@ export default {
     mitigatedRisks: [],
     cancelledRisks: [],
   },
+  approval: {
+    startDate: '15 Feb 2025',
+    completedDate: '',
+    cancelledDate: '',
+    renewalDate: '',
+  },
 };

@@ -13,6 +13,7 @@ const ProfileDocuments   = lazy(() => import('./components/profile/ProfileDocume
 const ProfileRiskReport  = lazy(() => import('./components/profile/ProfileRiskReport'));
 const ProfileEdit            = lazy(() => import('./components/profile/ProfileEdit'));
 const ProfileRiskMitigation  = lazy(() => import('./components/profile/ProfileRiskMitigation'));
+const ProfileApproval        = lazy(() => import('./components/profile/ProfileApproval'));
 const ProfilePlaceholder     = lazy(() => import('./components/profile/ProfilePlaceholder'));
 
 const PASSWORD = 'RCTPTeam';
@@ -103,7 +104,7 @@ export default function App() {
           <Route path="/profile/:profileId/integrity-check" element={<ProfilePlaceholder title="Integrity Check" />} />
           <Route path="/profile/:profileId/enhanced-due-diligence" element={<ProfilePlaceholder title="Enhanced Due Diligence Reports" />} />
           <Route path="/profile/:profileId/ubo" element={<ProfilePlaceholder title="UBO" />} />
-          <Route path="/profile/:profileId/approval" element={<ProfilePlaceholder title="Approval" />} />
+          <Route path="/profile/:profileId/approval" element={<ProfileApproval />} />
           <Route path="/profile/:profileId/screening-monitoring" element={<ProfilePlaceholder title="Screening & Monitoring" />} />
           <Route path="/company-admin" element={<Navigate to="/company-admin/summary" replace />} />
           <Route path="/company-admin/summary" element={<CompanyAdmin />} />

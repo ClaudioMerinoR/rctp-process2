@@ -164,4 +164,10 @@ export default {
     mitigatedRisks: [],
     cancelledRisks: [],
   },
+  approval: {
+    startDate: '',
+    completedDate: '',
+    cancelledDate: '',
+    renewalDate: '',
+  },
 };

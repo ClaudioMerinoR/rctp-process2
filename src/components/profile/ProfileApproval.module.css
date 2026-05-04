@@ -1,0 +1,86 @@
+/* ── Card ── */
+.card {
+  background: var(--neutral-00);
+  border-top: 3px solid var(--primary-600);
+  padding: 16px;
+}
+
+.cardHeader {
+  border-bottom: 1px solid var(--neutral-50);
+  padding-bottom: 16px;
+}
+
+/* ── Blocker banner ── */
+.blocker {
+  margin-top: 16px;
+  background: var(--alert-500);
+  border-radius: 4px;
+  overflow: hidden;
+}
+
+.blockerHeader {
+  display: flex;
+  align-items: center;
+  gap: 8px;
+  padding: 10px 16px;
+  color: #fff;
+  font-size: 13px;
+  font-weight: 500;
+  cursor: pointer;
+  user-select: none;
+}
+
+.blockerTitle {
+  flex: 1;
+}
+
+.blockerChevron {
+  transition: transform 0.2s ease;
+  transform: rotate(0deg);
+}
+.blockerChevronOpen {
+  transform: rotate(180deg);
+}
+
+.blockerList {
+  margin: 0 12px 12px;
+  border: 1px solid var(--alert-500);
+  border-radius: 4px;
+  overflow: hidden;
+}
+
+.blockerItem {
+  background: var(--neutral-00);
+  padding: 14px 16px;
+  font-size: 13px;
+  font-weight: 500;
+  color: var(--text-normal);
+  border-bottom: 1px solid var(--neutral-50);
+}
+.blockerItem:last-child {
+  border-bottom: none;
+}
+
+/* ── Table ── */
+.tableWrap {
+  overflow-x: auto;
+  margin-top: 16px;
+}
+
+/* ── Play button ── */
+.playBtn {
+  background: none;
+  border: none;
+  cursor: pointer;
+  color: var(--text-light);
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+  padding: 4px;
+  border-radius: 4px;
+  transition: background 0.15s ease, color 0.15s ease;
+}
+.playBtn:hover {
+  background: var(--neutral-50);
+  color: var(--text-normal);
+}

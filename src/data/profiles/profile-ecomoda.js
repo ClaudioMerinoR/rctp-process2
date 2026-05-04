@@ -173,4 +173,10 @@ export default {
     ],
     cancelledRisks: [],
   },
+  approval: {
+    startDate: '03 Mar 2025',
+    completedDate: '28 Mar 2025',
+    cancelledDate: '',
+    renewalDate: '28 Mar 2026',
+  },
 };
