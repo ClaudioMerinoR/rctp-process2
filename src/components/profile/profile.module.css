@@ -375,7 +375,6 @@
 .mainContent {
   flex: 1;
   min-width: 0;
-  min-height: 600px;
   display: flex;
   flex-direction: column;
   gap: 0;
@@ -744,6 +743,7 @@
 .detailsCard {
   border-top: 3px solid var(--primary-600);
   padding: 16px;
+  min-height: 600px;
 }
 
 .cardHeader {
@@ -1151,6 +1151,7 @@
   background: var(--neutral-00);
   border-top: 3px solid var(--primary-600);
   border-bottom: 1px solid var(--neutral-200);
+  min-height: 600px;
 }
 
 .uploadArea {
@@ -1306,6 +1307,7 @@
   border-top: 4px solid var(--primary-500);
   box-shadow: var(--shadow-card);
   padding: 16px;
+  min-height: 600px;
 }
 .rlrRow1 {
   display: flex;

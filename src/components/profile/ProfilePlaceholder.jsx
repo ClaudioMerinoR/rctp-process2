@@ -23,7 +23,7 @@ export default function ProfilePlaceholder({ title }) {
       <div className={styles.pageBody}>
         <Sidebar profile={profile} />
         <main className={styles.mainContent}>
-          <div style={{ padding: '60px 0', textAlign: 'center', color: 'var(--text-light)' }}>
+          <div style={{ background: 'var(--neutral-00)', borderTop: '3px solid var(--primary-600)', minHeight: 600, padding: '60px 0', textAlign: 'center', color: 'var(--text-light)' }}>
             <span className="material-icons-outlined" style={{ fontSize: 48, display: 'block', marginBottom: 12 }}>construction</span>
             <h2 style={{ fontSize: 20, fontWeight: 500, color: 'var(--text-primary)' }}>{title}</h2>
             <p style={{ marginTop: 8, fontSize: 13 }}>This page is under construction.</p>
