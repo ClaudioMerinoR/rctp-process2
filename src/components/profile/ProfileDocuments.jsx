@@ -1,9 +1,10 @@
 import { useState } from 'react';
-import { Link, useParams } from 'react-router-dom';
+import { useParams } from 'react-router-dom';
 import PageLayout from '../layout/PageLayout';
 import Breadcrumb from '../layout/Breadcrumb';
 import { profiles } from '../../data/profiles';
 import { Sidebar } from './ProfilePage';
+import ProfilePageHeader from './ProfilePageHeader';
 import styles from './profile.module.css';
 
 function UploadArea() {
@@ -42,39 +43,7 @@ export default function ProfileDocuments() {
         { label: profile.name },
       ]} />
 
-      {/* Top Strip */}
-      <div className={`${styles.tpTopStrip}${profile.riskLevel.level === 'high' ? ' ' + styles.tpTopStripHigh : profile.riskLevel.level === 'medium' ? ' ' + styles.tpTopStripMedium : profile.riskLevel.level === 'low' ? ' ' + styles.tpTopStripLow : ''}`}>
-        <div className={styles.tpPageHeader}>
-          <Link to="/third-parties" className={styles.tpBack}>
-            <span className="material-icons-outlined">chevron_left</span> Back
-          </Link>
-          <div className={styles.tpTitleRow}>
-            <div className={styles.tpNameGroup}>
-              <h1>{profile.name}</h1>
-              <span className={styles.tpVerified}>
-                <span className="material-icons-outlined">verified</span>
-                {profile.verifiedText}
-              </span>
-            </div>
-            <div className={styles.tpBadges}>
-              <div className={styles.tpBadgeGroup}>
-                <div className={styles.tpBadgeLabel}>Current status:</div>
-                <div className={`${styles.badge} ${styles.badgePending} ${styles.badgeBtn}`}>
-                  {profile.currentStatus.label}
-                  <span className="material-icons-outlined" style={{ fontSize: 16 }}>{profile.currentStatus.icon}</span>
-                </div>
-              </div>
-              <div className={styles.tpBadgeGroup}>
-                <div className={styles.tpBadgeLabel}>Risk level:</div>
-                <div className={`${styles.badge} ${styles['badge' + profile.riskLevel.level.charAt(0).toUpperCase() + profile.riskLevel.level.slice(1)]} ${styles.badgeBtn}`}>
-                  {profile.riskLevel.label}
-                  <span className="material-icons-outlined" style={{ fontSize: 16 }}>{profile.riskLevel.icon}</span>
-                </div>
-              </div>
-            </div>
-          </div>
-        </div>
-      </div>
+      <ProfilePageHeader profile={profile} />
 
       {/* Page Body */}
       <div className={styles.pageBody}>
