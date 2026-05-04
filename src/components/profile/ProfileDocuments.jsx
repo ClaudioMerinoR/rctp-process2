@@ -1,4 +1,3 @@
-import { useState } from 'react';
 import { useParams } from 'react-router-dom';
 import PageLayout from '../layout/PageLayout';
 import Breadcrumb from '../layout/Breadcrumb';
@@ -7,28 +6,9 @@ import { Sidebar } from './ProfilePage';
 import ProfilePageHeader from './ProfilePageHeader';
 import styles from './profile.module.css';
 
-function UploadArea() {
-  const [dragging, setDragging] = useState(false);
-  return (
-    <div
-      className={`${styles.uploadArea} ${dragging ? styles.uploadAreaDragging : ''}`}
-      onDragOver={e => { e.preventDefault(); setDragging(true); }}
-      onDragLeave={() => setDragging(false)}
-      onDrop={e => { e.preventDefault(); setDragging(false); }}
-    >
-      <span className="material-icons-outlined" style={{ fontSize: 32, color: 'var(--neutral-300)' }}>upload_file</span>
-      <div className={styles.uploadText}>
-        Drag and drop files here, or{' '}
-        <span className={styles.uploadLink}>browse</span>
-      </div>
-      <div className={styles.uploadHint}>Supported formats: PDF, XLSX, DOCX, JPG, PNG — Max 50 MB</div>
-    </div>
-  );
-}
-
 export default function ProfileDocuments() {
-  const params = useParams();
-  const profile = profiles[params.profileId];
+  const { profileId } = useParams();
+  const profile = profiles[profileId];
 
   if (!profile) return <div style={{ padding: 40, textAlign: 'center' }}>Profile not found</div>;
 
@@ -45,26 +25,17 @@ export default function ProfileDocuments() {
 
       <ProfilePageHeader profile={profile} />
 
-      {/* Page Body */}
       <div className={styles.pageBody}>
-        <Sidebar profile={profile} activePage="documents" />
+        <Sidebar profile={profile} />
 
         <main className={styles.mainContent}>
           <section className={styles.documentsCard}>
-            <div className={styles.cardHeader}>
+            <div className={`${styles.cardHeader} ${styles.documentsCardHeader}`}>
               <h2 className={styles.cardTitle}>Documents</h2>
-              <div className={styles.cardHeaderRight}>
-                <button className={`${styles.btn} ${styles.btnOutline}`}>
-                  <span className="material-icons-outlined" style={{ fontSize: 16 }}>file_upload</span>
-                  Upload
-                </button>
-              </div>
             </div>
 
-            <UploadArea />
-
             <div className={styles.tableWrap}>
-              <table className={styles.table}>
+              <table className={styles.table} style={{ minWidth: 0 }}>
                 <thead>
                   <tr>
                     <th>Name <span className="material-icons-outlined" style={{ fontSize: 14, verticalAlign: 'middle' }}>arrow_upward</span></th>
