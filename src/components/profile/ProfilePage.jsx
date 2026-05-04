@@ -17,18 +17,8 @@ import { Link, useParams, useNavigate, useLocation } from 'react-router-dom';
 import PageLayout from '../layout/PageLayout';
 import Breadcrumb from '../layout/Breadcrumb';
 import { profiles } from '../../data/profiles';
-import partnerIconIntegrity from '../../assets/partner-icon-integrity.png';
-import partnerIconUbo from '../../assets/partner-icon-ubo.png';
-import iconFlag from '../../assets/icon-flag.svg';
-import iconInactiveOrder from '../../assets/icon-inactive-order.svg';
-import iconFactCheck from '../../assets/icon-fact-check.svg';
-import iconFinanceMode from '../../assets/icon-finance-mode.svg';
-import iconFrame9 from '../../assets/icon-frame9.svg';
-import iconArmingCountdown from '../../assets/icon-arming-countdown.svg';
 import styles from './profile.module.css';
-
-const TASK_ICONS = { iconFlag, iconInactiveOrder, iconFactCheck, iconFinanceMode, iconFrame9, iconArmingCountdown };
-const PARTNER_ICONS = { integrity: partnerIconIntegrity, ubo: partnerIconUbo };
+import { PARTNER_ICONS, TASK_ICONS, riskBadge as riskBadgeFn } from './profileAssets';
 
 const STATUS_CONFIG = {
   'Pending Approval':            { cls: 'statusPendingApproval', icon: 'pending' },
@@ -43,11 +33,6 @@ function getStatusConfig(label) {
   return STATUS_CONFIG[label] ?? { cls: 'statusPendingApproval', icon: 'pending' };
 }
 
-function riskBadge(level) {
-  if (level === 'high')   return { className: styles.badgeHigh,   icon: 'error_outline',       label: 'High'   };
-  if (level === 'medium') return { className: styles.badgeMedium, icon: 'error_outline',        label: 'Medium' };
-  return                         { className: styles.badgeLow,    icon: 'check_circle_outline', label: 'LOW'    };
-}
 
 function PartnerIcon({ partner, tooltip }) {
   const img = PARTNER_ICONS[partner];
@@ -165,7 +150,7 @@ function Sidebar({ profile, activePage = 'summary', profileLoading = false }) {
   );
 }
 
-export { Sidebar, PartnerIcon, PARTNER_ICONS, TASK_ICONS, riskBadge };
+export { Sidebar, PartnerIcon };
 
 export default function ProfilePage({ profile: profileProp, embedded = false }) {
   const params = useParams();
@@ -571,7 +556,7 @@ export default function ProfilePage({ profile: profileProp, embedded = false }) 
             ) : (
               <motion.div key="risk-loaded" className={styles.riskRow} initial={{ opacity: 0 }} animate={{ opacity: 1 }} exit={{ opacity: 0 }} transition={{ duration: 0.4 }}>
                 {profile.riskCards.map((rc, i) => {
-                  const b = riskBadge(rc.level);
+                  const b = riskBadgeFn(rc.level);
                   const sectionId = (profile.riskReport?.accordionSections || []).find(
                     s => s.label.toLowerCase().includes(rc.title.toLowerCase())
                   )?.id || rc.title.toLowerCase().replace(/[^a-z]+/g, '-');
