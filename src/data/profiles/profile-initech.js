@@ -23,8 +23,8 @@ export default {
   ],
   sidebarSections: [
     { label: 'Properties' },
-    { label: 'Documents', isDocuments: true },
-    { label: 'Risk Mitigation', isRiskMitigation: true },
+    { label: 'Documents', path: 'documents' },
+    { label: 'Risk Mitigation', path: 'risk-mitigation' },
     { label: 'Entity Verification', partner: 'ubo', tooltip: 'Powered by Duns & Bradstreet' },
     { label: 'Audit' },
   ],
