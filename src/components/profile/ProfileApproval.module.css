@@ -64,8 +64,8 @@
 
 /* ── Table ── */
 .tableWrap {
-  overflow-x: auto;
   margin-top: 16px;
+  overflow: visible;
 }
 
 /* ── Row menu ── */

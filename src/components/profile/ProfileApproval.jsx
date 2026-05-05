@@ -19,7 +19,7 @@ const STEPS_BEFORE_APPROVAL = [
   'Risk Mitigation',
 ];
 
-function ApprovalRowMenu({ canApprove, onApprove }) {
+function ApprovalRowMenu({ onApprove }) {
   const [open, setOpen] = useState(false);
   const ref = useRef(null);
 
@@ -49,9 +49,7 @@ function ApprovalRowMenu({ canApprove, onApprove }) {
           >
             <button
               className={apStyles.menuItem}
-              disabled={!canApprove}
-              style={!canApprove ? { opacity: 0.4, cursor: 'default' } : {}}
-              onClick={() => { if (!canApprove) return; setOpen(false); onApprove(); }}
+              onClick={() => { setOpen(false); onApprove(); }}
             >
               <span className="material-icons-outlined" style={{ fontSize: 16 }}>check_circle</span>
               Approve
@@ -149,7 +147,9 @@ export default function ProfileApproval() {
                     <td>{isCompleted ? ap.completedDate || '—' : '—'}</td>
                     <td>{ap.cancelledDate || '—'}</td>
                     <td style={{ textAlign: 'center' }}>
-                      <ApprovalRowMenu canApprove={isReady || isCompleted} onApprove={handleApprove} />
+                      {(isReady || isCompleted) && (
+                        <ApprovalRowMenu onApprove={handleApprove} />
+                      )}
                     </td>
                   </tr>
                 </tbody>
