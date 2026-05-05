@@ -1,4 +1,5 @@
 import { Link, useLocation } from 'react-router-dom';
+import { patchInitechProfile } from '../../utils/initechFlow';
 import { PARTNER_ICONS } from './profileAssets';
 import styles from './profile.module.css';
 
@@ -32,7 +33,8 @@ function PartnerIcon({ partner, tooltip }) {
   return icon;
 }
 
-export default function Sidebar({ profile, profileLoading = false }) {
+export default function Sidebar({ profile: profileProp, profileLoading = false }) {
+  const profile = patchInitechProfile(profileProp);
   const location = useLocation();
   const currentPath = location.pathname;
 

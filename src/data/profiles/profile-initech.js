@@ -4,7 +4,7 @@ export default {
   shortName: 'Initech',
   entityType: 'entity',
   verifiedText: 'Entity Verified',
-  currentStatus: { label: 'Approved' },
+  currentStatus: { label: 'Approved*' },
   riskLevel: { label: 'Medium', icon: 'error_outline', level: 'medium' },
 
   embedded: false,
@@ -14,12 +14,12 @@ export default {
   sidebarSteps: [
     { label: 'Risk Assessment', dot: 'green', path: 'risk-assessment' },
     { label: 'Due Diligence', dot: 'green', path: 'due-diligence' },
-    { label: 'Integrity Check', dot: 'amber', partner: 'integrity', tooltip: 'Powered by Xapiens' , path: 'integrity-check'},
+    { label: 'Integrity Check', dot: 'green', partner: 'integrity', tooltip: 'Powered by Xapiens' , path: 'integrity-check'},
     { label: 'Enhanced Due Diligence Reports', dot: 'grey', path: 'enhanced-due-diligence' },
     { label: 'UBO', dot: 'green', partner: 'ubo', tooltip: 'Powered by Duns & Bradstreet' , path: 'ubo'},
-    { label: 'Risk Mitigation', dot: 'amber' , path: 'risk-mitigation'},
-    { label: 'Approval', dot: 'green', path: 'approval' },
-    { label: 'Screening & Monitoring', dot: 'amber', path: 'screening-monitoring' },
+    { label: 'Risk Mitigation', dot: 'red' , path: 'risk-mitigation'},
+    { label: 'Approval', dot: 'red', path: 'approval' },
+    { label: 'Screening & Monitoring', dot: 'green', path: 'screening-monitoring' },
   ],
   sidebarSections: [
     { label: 'Properties' },
@@ -182,7 +182,9 @@ export default {
     ],
   },
   riskMitigation: {
-    openRisks: [],
+    openRisks: [
+      { id: 4, title: 'Y2K Legacy System Exposure — Critical Infrastructure Risk', owner: 'Tom Smykowski', status: 'Open', createdDate: '02 Jan 2026', lastEditedBy: 'Bill Lumbergh', dueDate: '30 Jun 2026', source: 'Risk Assessment', comments: 0 },
+    ],
     mitigatedRisks: [
       { id: 1, title: 'Embezzlement Allegation — Salami Slicing Scheme', owner: 'Claudio Merino', status: 'Mitigated', createdDate: '02 Jan 2026', lastEditedBy: 'Claudio Merino', dueDate: '31 Mar 2026', source: 'Risk Assessment', comments: 0 },
       { id: 2, title: 'Mass Redundancy — Downsizing Consultants Engaged', owner: 'Claudio Merino', status: 'Mitigated', createdDate: '15 Jan 2026', lastEditedBy: 'Claudio Merino', dueDate: '28 Feb 2026', source: 'Due Diligence', comments: 1 },

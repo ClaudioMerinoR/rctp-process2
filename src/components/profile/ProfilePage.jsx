@@ -13,6 +13,7 @@ const MATCH_BG_TO_STYLE = {
   'var(--text-light)':  'no-action',
 };
 import { transition as mot } from '../../utils/motion';
+import { patchInitechProfile } from '../../utils/initechFlow';
 import { Link, useParams, useNavigate, useLocation } from 'react-router-dom';
 import PageLayout from '../layout/PageLayout';
 import Breadcrumb from '../layout/Breadcrumb';
@@ -41,7 +42,7 @@ export default function ProfilePage({ profile: profileProp, embedded = false }) 
   const params = useParams();
   const navigate = useNavigate();
   const location = useLocation();
-  const profile = profileProp || profiles[params.profileId];
+  const profile = patchInitechProfile(profileProp || profiles[params.profileId]);
 
   // New profile loading state (8s simulation after creation)
   const [profileLoading, setProfileLoading] = useState(

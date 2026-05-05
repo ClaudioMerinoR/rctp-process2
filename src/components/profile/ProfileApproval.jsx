@@ -1,5 +1,6 @@
-import { useState } from 'react';
-import { useParams } from 'react-router-dom';
+import { useState, useRef, useEffect } from 'react';
+import { useParams, useNavigate } from 'react-router-dom';
+import { motion, AnimatePresence } from 'motion/react';
 import PageLayout from '../layout/PageLayout';
 import Breadcrumb from '../layout/Breadcrumb';
 import { profiles } from '../../data/profiles';
@@ -7,6 +8,7 @@ import { Sidebar } from './ProfilePage';
 import ProfilePageHeader from './ProfilePageHeader';
 import styles from './profile.module.css';
 import apStyles from './ProfileApproval.module.css';
+import { getFlow, setFlow, patchInitechProfile } from '../../utils/initechFlow';
 
 const STEPS_BEFORE_APPROVAL = [
   'Risk Assessment',
@@ -17,32 +19,85 @@ const STEPS_BEFORE_APPROVAL = [
   'Risk Mitigation',
 ];
 
+function ApprovalRowMenu({ onApprove }) {
+  const [open, setOpen] = useState(false);
+  const ref = useRef(null);
+
+  useEffect(() => {
+    if (!open) return;
+    function handleClick(e) {
+      if (ref.current && !ref.current.contains(e.target)) setOpen(false);
+    }
+    document.addEventListener('mousedown', handleClick);
+    return () => document.removeEventListener('mousedown', handleClick);
+  }, [open]);
+
+  return (
+    <div className={apStyles.menuWrap} ref={ref}>
+      <button className={apStyles.playBtn} onClick={() => setOpen(o => !o)}>
+        <span className="material-icons-outlined" style={{ fontSize: 18 }}>more_vert</span>
+      </button>
+      <AnimatePresence>
+        {open && (
+          <motion.div
+            className={apStyles.menuDropdown}
+            initial={{ opacity: 0, scale: 0.92, y: -4 }}
+            animate={{ opacity: 1, scale: 1, y: 0 }}
+            exit={{ opacity: 0, scale: 0.92, y: -4 }}
+            transition={{ duration: 0.15 }}
+            style={{ transformOrigin: 'top right' }}
+          >
+            <button
+              className={apStyles.menuItem}
+              onClick={() => { setOpen(false); onApprove(); }}
+            >
+              <span className="material-icons-outlined" style={{ fontSize: 16 }}>check_circle</span>
+              Approve
+            </button>
+          </motion.div>
+        )}
+      </AnimatePresence>
+    </div>
+  );
+}
+
 export default function ProfileApproval() {
   const { profileId } = useParams();
-  const profile = profiles[profileId];
+  const navigate = useNavigate();
+  const rawProfile = profiles[profileId];
+  const [tick, setTick] = useState(0);
   const [blockerOpen, setBlockerOpen] = useState(true);
 
-  if (!profile) return <div style={{ padding: 40, textAlign: 'center' }}>Profile not found</div>;
+  if (!rawProfile) return <div style={{ padding: 40, textAlign: 'center' }}>Profile not found</div>;
+
+  const profile = patchInitechProfile(rawProfile);
+  const { riskMitigated, approved } = getFlow();
 
   const approvalDot = profile.sidebarSteps?.find(s => s.label === 'Approval')?.dot;
   const isCompleted = approvalDot === 'green';
+  const isReady = approvalDot === 'amber';
 
   const blockedSteps = isCompleted ? [] : (profile.sidebarSteps || [])
     .filter(s => STEPS_BEFORE_APPROVAL.includes(s.label) && s.dot !== 'green' && s.dot !== 'grey');
 
-  const ap = profile.approval || {};
+  const ap = rawProfile.approval || {};
+
+  function handleApprove() {
+    setFlow({ approved: true });
+    navigate(`/profile/${profileId}`);
+  }
 
   return (
     <PageLayout>
       <Breadcrumb items={[
         { label: 'Third Parties', to: '/third-parties' },
-        { label: profile.name },
+        { label: rawProfile.name },
       ]} />
 
-      <ProfilePageHeader profile={profile} />
+      <ProfilePageHeader profile={rawProfile} />
 
       <div className={styles.pageBody}>
-        <Sidebar profile={profile} />
+        <Sidebar profile={rawProfile} />
 
         <main className={styles.mainContent}>
           <section className={apStyles.card}>
@@ -89,12 +144,12 @@ export default function ProfileApproval() {
                     <td>Approval</td>
                     <td>{ap.owner || '—'}</td>
                     <td>{ap.startDate || '—'}</td>
-                    <td>{ap.completedDate || '—'}</td>
+                    <td>{isCompleted ? ap.completedDate || '—' : '—'}</td>
                     <td>{ap.cancelledDate || '—'}</td>
                     <td style={{ textAlign: 'center' }}>
-                      <button className={apStyles.playBtn}>
-                        <span className="material-icons-outlined" style={{ fontSize: 18 }}>more_vert</span>
-                      </button>
+                      {(isReady || isCompleted) && (
+                        <ApprovalRowMenu onApprove={handleApprove} />
+                      )}
                     </td>
                   </tr>
                 </tbody>

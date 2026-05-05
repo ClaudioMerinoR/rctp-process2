@@ -1,4 +1,5 @@
 import { Link } from 'react-router-dom';
+import { patchInitechProfile } from '../../utils/initechFlow';
 import styles from './profile.module.css';
 
 const STATUS_CONFIG = {
@@ -10,7 +11,8 @@ const STATUS_CONFIG = {
   'Approved! (Renewal Required)': { cls: 'statusExpired',         icon: 'history_toggle_off' },
 };
 
-export default function ProfilePageHeader({ profile }) {
+export default function ProfilePageHeader({ profile: profileProp }) {
+  const profile = patchInitechProfile(profileProp);
   const statusLabel = profile.currentStatus?.label ?? 'Pending Approval';
   const { cls, icon } = STATUS_CONFIG[statusLabel] ?? STATUS_CONFIG['Pending Approval'];
 

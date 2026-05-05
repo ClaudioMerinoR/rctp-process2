@@ -68,7 +68,12 @@
   margin-top: 16px;
 }
 
-/* ── Play button ── */
+/* ── Row menu ── */
+.menuWrap {
+  position: relative;
+  display: inline-flex;
+}
+
 .playBtn {
   background: none;
   border: none;
@@ -84,4 +89,36 @@
 .playBtn:hover {
   background: var(--neutral-50);
   color: var(--text-normal);
+}
+
+.menuDropdown {
+  position: absolute;
+  right: 0;
+  top: calc(100% + 4px);
+  background: var(--neutral-00);
+  border: 1px solid var(--neutral-50);
+  border-radius: 6px;
+  box-shadow: 0 4px 16px rgba(0,0,0,0.12);
+  z-index: 100;
+  min-width: 140px;
+  overflow: hidden;
+}
+
+.menuItem {
+  display: flex;
+  align-items: center;
+  gap: 8px;
+  width: 100%;
+  padding: 10px 14px;
+  background: none;
+  border: none;
+  font-size: 13px;
+  font-family: inherit;
+  color: var(--text-normal);
+  cursor: pointer;
+  text-align: left;
+  transition: background 0.12s ease;
+}
+.menuItem:hover {
+  background: var(--primary-50);
 }
