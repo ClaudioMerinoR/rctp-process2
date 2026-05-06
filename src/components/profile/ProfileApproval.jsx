@@ -129,7 +129,13 @@ export default function ProfileApproval() {
                   <div className={apStyles.blockerList}>
                     {blockedSteps.map((step, i) => (
                       <div key={i} className={apStyles.blockerItem}>
-                        {step.label} has not been Completed.
+                        <a
+                          href={`#/profile/${profileId}/${step.path}`}
+                          className={apStyles.blockerLink}
+                        >
+                          {step.label}
+                        </a>
+                        {' '}has not been Completed.
                       </div>
                     ))}
                   </div>
