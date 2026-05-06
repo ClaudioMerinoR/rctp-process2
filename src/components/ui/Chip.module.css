@@ -1,0 +1,90 @@
+/* Input Chip — Figma node 90:1605 */
+
+.chip {
+  display: inline-flex;
+  align-items: center;
+  gap: 8px;
+  height: 32px;
+  padding: 0 12px;
+  border-radius: 8px;
+  font-size: 14px;         /* Body/Medium */
+  font-family: inherit;
+  font-weight: 400;
+  line-height: 20px;
+  white-space: nowrap;
+  cursor: pointer;
+  user-select: none;
+  transition: background 0.15s ease;
+  outline: none;
+}
+
+/* ── Unselected ── */
+.unselected {
+  background: transparent;
+  border: 1px solid var(--neutral-300);  /* #B1BCC5 */
+  color: var(--text-light);              /* #516267 */
+}
+.unselected:hover:not(:disabled) {
+  background: rgba(73, 69, 79, 0.08);   /* M3 on-surface-variant/0.08 */
+}
+.unselected:focus-visible {
+  background: rgba(73, 69, 79, 0.12);
+}
+
+/* ── Selected ── */
+.selected {
+  background: var(--neutral-100);        /* #D6DBE0 */
+  border: 1px solid transparent;
+  color: var(--text-normal);             /* #0C2A31 */
+}
+.selected:hover:not(:disabled) {
+  background: #c8ced4;                   /* slightly darker than neutral-100 */
+}
+.selected:focus-visible {
+  background: #bdc3c9;
+}
+
+/* ── Disabled ── */
+.disabled {
+  opacity: 0.38;
+  cursor: not-allowed;
+}
+
+/* ── Label ── */
+.label {
+  flex-shrink: 0;
+}
+
+/* ── Trailing count badge ── */
+.countBadge {
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+  min-width: 16px;
+  max-width: 34px;
+  height: 16px;
+  padding: 0 4px;
+  border-radius: 100px;
+  background: var(--text-light);         /* #516267 */
+  color: #fff;
+  font-size: 11px;                       /* Label/Small */
+  font-weight: 500;
+  letter-spacing: 0.5px;
+  text-transform: uppercase;
+  line-height: 16px;
+}
+
+/* ── Trailing close icon ── */
+.closeIcon {
+  font-size: 18px !important;
+  color: var(--text-light);
+  display: inline-flex;
+  align-items: center;
+  border-radius: 50%;
+  transition: background 0.12s ease;
+  padding: 1px;
+  margin-right: -4px;
+}
+.closeIcon:hover {
+  background: rgba(73, 69, 79, 0.12);
+}

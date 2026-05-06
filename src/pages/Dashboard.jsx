@@ -5,6 +5,7 @@ import PageLayout from '../components/layout/PageLayout';
 import Breadcrumb from '../components/layout/Breadcrumb';
 import Badge from '../components/ui/Badge';
 import Flag from '../components/ui/Flag';
+import Chip from '../components/ui/Chip';
 import styles from './Dashboard.module.css';
 
 const TABS = ['Actions', 'Screening & Monitoring', 'Screening & Monitoring Tasks', 'Enhanced Due Diligence Reports'];
@@ -666,24 +667,20 @@ export default function Dashboard() {
 
             {/* Sub-tab chips */}
             <div className={styles.chipRow}>
-              <button
-                className={`${styles.chip} ${activeChip === 'dueNow' ? styles.chipActive : ''}`}
+              <Chip
+                label="Actions Due Now"
+                selected={activeChip === 'dueNow'}
+                count={ACTIONS_ROWS.filter(r => r.dueNow).length}
+                showClose
                 onClick={() => setActiveChip(v => v === 'dueNow' ? null : 'dueNow')}
-              >
-                Actions Due Now
-                {activeChip === 'dueNow'
-                  ? <span className={styles.chipBadge}>{ACTIONS_ROWS.filter(r => r.dueNow).length}</span>
-                  : <span className={`material-icons-outlined ${styles.chipClose}`}>close</span>}
-              </button>
-              <button
-                className={`${styles.chip} ${activeChip === 'upcoming' ? styles.chipActive : ''}`}
+              />
+              <Chip
+                label="Upcoming Actions"
+                selected={activeChip === 'upcoming'}
+                count={ACTIONS_ROWS.filter(r => r.upcoming).length}
+                showClose
                 onClick={() => setActiveChip(v => v === 'upcoming' ? null : 'upcoming')}
-              >
-                Upcoming Actions
-                {activeChip === 'upcoming'
-                  ? <span className={styles.chipBadge}>{ACTIONS_ROWS.filter(r => r.upcoming).length}</span>
-                  : <span className={`material-icons-outlined ${styles.chipClose}`}>close</span>}
-              </button>
+              />
               <div style={{ flex: 1 }} />
               <button className={styles.reassignBtn}>
                 <span className="material-icons-outlined" style={{ fontSize: 14 }}>swap_horiz</span>
