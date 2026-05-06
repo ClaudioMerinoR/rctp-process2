@@ -8,7 +8,7 @@ import { Sidebar } from './ProfilePage';
 import ProfilePageHeader from './ProfilePageHeader';
 import styles from './profile.module.css';
 import apStyles from './ProfileApproval.module.css';
-import { getFlow, setFlow, patchInitechProfile } from '../../utils/initechFlow';
+import { getFlow, setFlow, getDMFlow, setDMFlow, patchInitechProfile } from '../../utils/initechFlow';
 
 const STEPS_BEFORE_APPROVAL = [
   'Risk Assessment',
@@ -71,19 +71,27 @@ export default function ProfileApproval() {
   if (!rawProfile) return <div style={{ padding: 40, textAlign: 'center' }}>Profile not found</div>;
 
   const profile = patchInitechProfile(rawProfile);
-  const { riskMitigated, approved } = getFlow();
+
+  const isDM = profileId === 'dundermifflin';
+  const { riskMitigated, approved: initechApproved } = getFlow();
+  const { renewed: dmRenewed, approved: dmApproved } = getDMFlow();
 
   const approvalDot = profile.sidebarSteps?.find(s => s.label === 'Approval')?.dot;
   const isCompleted = approvalDot === 'green';
-  const isReady = approvalDot === 'amber';
+  const isReady = isDM ? (dmRenewed && !dmApproved) : approvalDot === 'amber';
 
   const blockedSteps = isCompleted ? [] : (profile.sidebarSteps || [])
     .filter(s => STEPS_BEFORE_APPROVAL.includes(s.label) && s.dot !== 'green' && s.dot !== 'grey');
 
   const ap = rawProfile.approval || {};
+  const tpOwner = rawProfile.overviewFields?.find(f => f.label === 'Third Party Owner')?.value || '—';
 
   function handleApprove() {
-    setFlow({ approved: true });
+    if (isDM) {
+      setDMFlow({ approved: true });
+    } else {
+      setFlow({ approved: true });
+    }
     navigate(`/profile/${profileId}`);
   }
 
@@ -142,7 +150,7 @@ export default function ProfileApproval() {
                 <tbody>
                   <tr>
                     <td>Approval</td>
-                    <td>{ap.owner || '—'}</td>
+                    <td>{ap.owner || tpOwner}</td>
                     <td>{ap.startDate || '—'}</td>
                     <td>{isCompleted ? ap.completedDate || '—' : '—'}</td>
                     <td>{ap.cancelledDate || '—'}</td>

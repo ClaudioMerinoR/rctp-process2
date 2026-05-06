@@ -11,7 +11,13 @@ export function setFlow(updates) {
 }
 
 export function patchInitechProfile(profile) {
-  if (!profile || profile.id !== 'initech') return profile;
+  if (!profile) return profile;
+  if (profile.id === 'initech') return _patchInitech(profile);
+  if (profile.id === 'dundermifflin') return _patchDunderMifflin(profile);
+  return profile;
+}
+
+function _patchInitech(profile) {
   const { riskMitigated, approved } = getFlow();
   const steps = profile.sidebarSteps.map(s => {
     if (s.label === 'Risk Mitigation') return { ...s, dot: riskMitigated ? 'green' : 'red' };
@@ -26,5 +32,51 @@ export function patchInitechProfile(profile) {
     ...profile,
     sidebarSteps: steps,
     currentStatus: { label: approved ? 'Approved' : 'Approved*' },
+  };
+}
+
+// ── Dunder Mifflin renewal flow ──────────────────────────────────────────────
+
+let _dmRenewed = false;
+let _dmApproved = false;
+
+export function getDMFlow() {
+  return { renewed: _dmRenewed, approved: _dmApproved };
+}
+
+export function setDMFlow(updates) {
+  if ('renewed'  in updates) _dmRenewed   = updates.renewed;
+  if ('approved' in updates) _dmApproved  = updates.approved;
+}
+
+function _patchDunderMifflin(profile) {
+  const { renewed, approved } = getDMFlow();
+  if (!renewed && !approved) return profile;
+
+  const nextYear = new Date();
+  nextYear.setFullYear(nextYear.getFullYear() + 1);
+  const renewedDateStr = nextYear.toLocaleDateString('en-GB', { day: '2-digit', month: 'short', year: 'numeric' });
+
+  const steps = profile.sidebarSteps.map(s => {
+    if (s.label === 'Approval') {
+      return { ...s, dot: approved ? 'green' : 'red' };
+    }
+    if (['Risk Assessment', 'Due Diligence', 'UBO', 'Screening & Monitoring'].includes(s.label)) {
+      return { ...s, dot: 'green' };
+    }
+    return s;
+  });
+
+  const overviewFields = profile.overviewFields.map(f =>
+    f.label === 'Third Party Renewal Date'
+      ? { ...f, value: renewedDateStr, overdue: false }
+      : f
+  );
+
+  return {
+    ...profile,
+    sidebarSteps: steps,
+    overviewFields,
+    currentStatus: { label: approved ? 'Approved' : 'Approved! (Renewal Required)' },
   };
 }

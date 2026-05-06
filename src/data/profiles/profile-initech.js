@@ -197,5 +197,6 @@ export default {
     completedDate: '14 Dec 2024',
     cancelledDate: '',
     renewalDate: '14 Dec 2025',
+    owner: 'Claudio Merino',
   },
 };

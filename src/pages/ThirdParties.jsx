@@ -3,7 +3,7 @@ import PageLayout from '../components/layout/PageLayout';
 import Breadcrumb from '../components/layout/Breadcrumb';
 import RiskBadge from '../components/ui/RiskBadge';
 import Button from '../components/ui/Button';
-import { piedpiper, brucewayne, gazprom, initech, dundermifflin, lumon, lumon2, waystar, ecomoda, lospollos } from '../data/profiles';
+import { piedpiper, brucewayne, gazprom, initech, dundermifflin, lumon, waystar, ecomoda, lospollos } from '../data/profiles';
 import styles from './ThirdParties.module.css';
 
 function getOwner(p) { return p.overviewFields.find(f => f.label === 'Third Party Owner')?.value || ''; }
@@ -26,7 +26,6 @@ const ROWS = [
   { profile: initech,        id: 'initech' },
   { profile: dundermifflin,  id: 'dundermifflin' },
   { profile: lumon,          id: 'lumon' },
-  { profile: lumon2,         id: 'lumon2' },
   { profile: waystar,        id: 'waystar' },
   { profile: ecomoda,        id: 'ecomoda' },
   { profile: lospollos,      id: 'lospollos' },

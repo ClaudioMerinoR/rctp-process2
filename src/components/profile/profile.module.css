@@ -804,6 +804,19 @@
   gap: 6px;
 }
 
+.fieldValueOverdue {
+  display: inline-flex;
+  align-items: center;
+  gap: 5px;
+  background: var(--alert-500);
+  color: #fff;
+  border-radius: 4px;
+  padding: 2px 8px 2px 5px;
+  font-size: 14px;
+  font-weight: 500;
+  line-height: 20px;
+}
+
 .fieldLink {
   color: var(--primary-500);
   text-decoration: none;

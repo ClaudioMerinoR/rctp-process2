@@ -12,14 +12,14 @@ export default {
   alertBanners: false,
 
   sidebarSteps: [
-    { label: 'Risk Assessment', dot: 'green', path: 'risk-assessment' },
-    { label: 'Due Diligence', dot: 'amber', path: 'due-diligence' },
+    { label: 'Risk Assessment', dot: 'red', path: 'risk-assessment' },
+    { label: 'Due Diligence', dot: 'red', path: 'due-diligence' },
     { label: 'Integrity Check', dot: 'grey', path: 'integrity-check' },
     { label: 'Enhanced Due Diligence Reports', dot: 'grey', path: 'enhanced-due-diligence' },
-    { label: 'UBO', dot: 'grey', path: 'ubo' },
-    { label: 'Risk Mitigation', dot: 'grey' , path: 'risk-mitigation'},
-    { label: 'Approval', dot: 'grey', path: 'approval' },
-    { label: 'Screening & Monitoring', dot: 'grey', path: 'screening-monitoring' },
+    { label: 'UBO', dot: 'red', path: 'ubo' },
+    { label: 'Risk Mitigation', dot: 'green', path: 'risk-mitigation' },
+    { label: 'Approval', dot: 'red', path: 'approval' },
+    { label: 'Screening & Monitoring', dot: 'green', path: 'screening-monitoring' },
   ],
   sidebarSections: [
     { label: 'Properties' },
@@ -39,7 +39,7 @@ export default {
     { label: 'Screening & Monitoring Policy', value: 'Default Standard KYBP Policy' },
     { label: 'Third Party Legal Structure', value: 'Entity' },
     { label: 'Commercial Significance of Product or Service', value: '[Between 5 and 10%] / Significant / Top 10' },
-    { label: 'Third Party Renewal Date', value: '31 Dec 2025' },
+    { label: 'Third Party Renewal Date', value: '31 Dec 2025', overdue: true },
     { label: 'Tags', value: 'Paper, Regional' },
   ],
 

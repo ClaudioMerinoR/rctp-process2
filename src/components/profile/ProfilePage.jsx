@@ -13,7 +13,7 @@ const MATCH_BG_TO_STYLE = {
   'var(--text-light)':  'no-action',
 };
 import { transition as mot } from '../../utils/motion';
-import { patchInitechProfile } from '../../utils/initechFlow';
+import { patchInitechProfile, setDMFlow } from '../../utils/initechFlow';
 import { Link, useParams, useNavigate, useLocation } from 'react-router-dom';
 import PageLayout from '../layout/PageLayout';
 import Breadcrumb from '../layout/Breadcrumb';
@@ -75,6 +75,7 @@ export default function ProfilePage({ profile: profileProp, embedded = false }) 
   // Current status panel
   const [statusPanelOpen, setStatusPanelOpen] = useState(false);
   const [declinePanelOpen, setDeclinePanelOpen] = useState(false);
+  const [renewalModalOpen, setRenewalModalOpen] = useState(false);
   const [currentStatus, setCurrentStatus] = useState(profile?.currentStatus?.label || 'Pending Approval');
 
   // Connect panel state
@@ -292,6 +293,17 @@ export default function ProfilePage({ profile: profileProp, embedded = false }) 
                         {f.flag ? (
                           <div className={`${styles.fieldValue} ${styles.fieldValueFlag}`}>
                             <span style={{ fontSize: 20 }}>{f.flag}</span> {f.value}
+                          </div>
+                        ) : f.overdue ? (
+                          <div className={styles.fieldValue}>
+                            <span
+                              className={styles.fieldValueOverdue}
+                              style={{ cursor: 'pointer' }}
+                              onClick={() => setRenewalModalOpen(true)}
+                            >
+                              <span className="material-icons-outlined" style={{ fontSize: 14 }}>warning</span>
+                              {f.value}
+                            </span>
                           </div>
                         ) : (
                           <div className={styles.fieldValue}>{f.value}</div>
@@ -642,6 +654,7 @@ export default function ProfilePage({ profile: profileProp, embedded = false }) 
           renewalDate={profile.overviewFields.find(f => f.label === 'Third Party Renewal Date')?.value}
           onClose={() => setStatusPanelOpen(false)}
           onDecline={() => setDeclinePanelOpen(true)}
+          onRenewal={() => { setStatusPanelOpen(false); setRenewalModalOpen(true); }}
         />
       )}
       </AnimatePresence>
@@ -658,6 +671,53 @@ export default function ProfilePage({ profile: profileProp, embedded = false }) 
             setStatusPanelOpen(false);
           }}
         />
+      )}
+      </AnimatePresence>
+
+      {/* Renewal confirmation modal */}
+      <AnimatePresence>
+      {renewalModalOpen && (
+        <motion.div
+          key="renewal-modal-overlay"
+          className={styles.deleteModalOverlay}
+          initial={{ opacity: 0 }} animate={{ opacity: 1 }} exit={{ opacity: 0 }}
+          transition={mot.overlay}
+          onClick={() => setRenewalModalOpen(false)}
+        >
+          <motion.div
+            className={styles.deleteModal}
+            initial={{ scale: 0.92, opacity: 0, y: 10 }}
+            animate={{ scale: 1, opacity: 1, y: 0 }}
+            exit={{ scale: 0.92, opacity: 0, y: 10 }}
+            transition={{ duration: 0.22, ease: [0.32, 0.72, 0, 1] }}
+            onClick={e => e.stopPropagation()} role="dialog" aria-modal="true"
+          >
+            <div className={styles.deleteModalHeader}>
+              <span className={styles.deleteModalTitle}>Start Renewal</span>
+              <button className={styles.deleteModalClose} aria-label="Close" onClick={() => setRenewalModalOpen(false)} />
+            </div>
+            <div className={styles.deleteModalBody}>
+              <p className={styles.deleteModalQuestion}>This action cannot be undone.</p>
+              <p className={styles.deleteModalName}>{profile.shortName}</p>
+              <p className={styles.deleteModalConfirm}>Are you sure you want to start the renewal process for this Third Party?</p>
+            </div>
+            <div className={styles.deleteModalActions}>
+              <button
+                className={`${styles.deleteModalBtn} ${styles.deleteModalCancel}`}
+                onClick={() => setRenewalModalOpen(false)}
+              >Cancel</button>
+              <button
+                className={`${styles.deleteModalBtn} ${styles.deleteModalContinue}`}
+                style={{ background: 'var(--primary-500)' }}
+                onClick={() => {
+                  setDMFlow({ renewed: true, approved: false });
+                  setCurrentStatus('Approved! (Renewal Required)');
+                  setRenewalModalOpen(false);
+                }}
+              >Continue</button>
+            </div>
+          </motion.div>
+        </motion.div>
       )}
       </AnimatePresence>
 
@@ -1059,7 +1119,7 @@ function LookMorePanel({ onClose, onSelect }) {
 
 /* ─────────────────────── Status panel ─────────────────────── */
 
-function StatusPanel({ currentStatus, renewalDate, onClose, onDecline }) {
+function StatusPanel({ currentStatus, renewalDate, onClose, onDecline, onRenewal }) {
   useEffect(() => {
     document.body.style.overflow = 'hidden';
     return () => { document.body.style.overflow = ''; };
@@ -1099,7 +1159,7 @@ function StatusPanel({ currentStatus, renewalDate, onClose, onDecline }) {
               <div className={styles.statusPanelSectionLabel} style={{ marginTop: 20 }}>Third Party Renewal Date</div>
               <div className={styles.statusPanelRenewalRow}>
                 <span className={styles.statusPanelRenewalDate}>{renewalDate}</span>
-                <button className={`${styles.btn} ${styles.btnFilled}`}>Renewal</button>
+                <button className={`${styles.btn} ${styles.btnFilled}`} onClick={onRenewal}>Renewal</button>
               </div>
             </div>
           )}
