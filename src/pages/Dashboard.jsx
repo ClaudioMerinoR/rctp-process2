@@ -11,11 +11,11 @@ import styles from './Dashboard.module.css';
 const TABS = ['Actions', 'Screening & Monitoring', 'Screening & Monitoring Tasks', 'Enhanced Due Diligence Reports'];
 
 const TASK_TYPE_CONFIG = {
-  'APPROVAL':                      { icon: 'fact_check',     color: 'var(--primary-600)' },
-  'RED FLAG':                      { icon: 'flag',           color: 'var(--alert-500)' },
-  'QUESTIONNAIRE':                 { icon: 'list_alt',       color: 'var(--neutral-500)' },
-  'ENHANCED DUE DILIGENCE REPORT': { icon: 'description',   color: 'var(--primary-600)' },
-  'RISK LEVEL AMEND APPROVAL':     { icon: 'manage_history', color: 'var(--warning-600)' },
+  'APPROVAL':                      { icon: 'fact_check' },
+  'RED FLAG':                      { icon: 'flag' },
+  'QUESTIONNAIRE':                 { icon: 'grid_view' },
+  'ENHANCED DUE DILIGENCE REPORT': { icon: 'person_search' },
+  'RISK LEVEL AMEND APPROVAL':     { icon: 'manage_history' },
 };
 
 const STATUS_CONFIG = {
@@ -85,10 +85,12 @@ const EDD_ROWS = [
 const MATCH_STYLES = ['incomplete', 'completed', 'no-action', 'confirmed', 'action-required'];
 
 function TaskTypeBadge({ type }) {
-  const cfg = TASK_TYPE_CONFIG[type] || { icon: 'assignment', color: 'var(--neutral-500)' };
+  const cfg = TASK_TYPE_CONFIG[type] || { icon: 'assignment' };
   return (
     <span className={styles.typeBadge}>
-      <span className="material-icons-outlined" style={{ fontSize: 13, color: cfg.color }}>{cfg.icon}</span>
+      <span className={styles.typeIcon}>
+        <span className="material-icons-outlined" style={{ fontSize: 12 }}>{cfg.icon}</span>
+      </span>
       {type}
     </span>
   );
