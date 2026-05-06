@@ -219,7 +219,7 @@ function ActionsTable({ rows, search }) {
                     ? <Link to={`/profile/${row.tpId}`} className={styles.cellLink}>{row.tp}</Link>
                     : <span className={styles.cellLink}>{row.tp}</span>}
                 </td>
-                <td><StatusBadge status={row.status} /></td>
+                <td>{row.status}</td>
                 <td><RiskChip risk={row.risk} /></td>
                 <td>{row.owner}</td>
                 <td>{row.date}</td>
