@@ -672,8 +672,6 @@ export default function Dashboard() {
 
   return (
     <PageLayout>
-      <Breadcrumb items={[{ label: 'Dashboard' }]} />
-
       <div className={styles.card}>
         {/* Tab bar */}
         <div className={styles.tabBar}>
