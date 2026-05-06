@@ -252,6 +252,293 @@ function SMTable({ rows, search }) {
   );
 }
 
+// ── Screening & Monitoring Tasks layout ──────────────────────────────────────
+function SMTContent({ rows }) {
+  const [search, setSearch] = useState('');
+  const [category, setCategory] = useState('bel');
+
+  const filtered = search
+    ? rows.filter(r =>
+        r.name.toLowerCase().includes(search.toLowerCase()) ||
+        r.tp.toLowerCase().includes(search.toLowerCase())
+      )
+    : rows;
+
+  return (
+    <>
+      {/* Title row */}
+      <div className={styles.smtHeaderRow}>
+        <h2 className={styles.smtTitle}>Screening &amp; Monitoring Tasks</h2>
+        <div className={styles.smtHeaderRight}>
+          <span className={styles.smtCategoryKey}>
+            CATEGORY KEY
+            <span className="material-icons-outlined" style={{ fontSize: 14, verticalAlign: 'middle', marginLeft: 3 }}>help_outline</span>
+          </span>
+          <select
+            className={styles.smtSelect}
+            value={category}
+            onChange={e => setCategory(e.target.value)}
+          >
+            <option value="bel">bel</option>
+            <option value="all">all</option>
+          </select>
+          <button className={styles.smtFilterBtn}>
+            <span className="material-icons-outlined" style={{ fontSize: 16 }}>filter_list</span>
+          </button>
+        </div>
+      </div>
+
+      {/* Toolbar row */}
+      <div className={styles.smtToolbar}>
+        <div className={styles.smtToolbarLeft}>
+          <div className={styles.searchWrap} style={{ maxWidth: 396 }}>
+            <input
+              className={styles.searchInput}
+              type="text"
+              placeholder="Quick Search"
+              value={search}
+              onChange={e => setSearch(e.target.value)}
+            />
+            <span className="material-icons-outlined" style={{ position: 'absolute', right: 8, color: 'var(--text-light)', fontSize: 18, pointerEvents: 'none' }}>search</span>
+          </div>
+          <button className={styles.refreshBtn} title="Reset" onClick={() => setSearch('')}>
+            <span className="material-icons-outlined" style={{ fontSize: 18 }}>refresh</span>
+          </button>
+          <span className={styles.resultCount}>
+            Showing results {filtered.length === 0 ? '0 - 0' : `1 – ${filtered.length}`} of {filtered.length}
+          </span>
+        </div>
+        <div className={styles.smtToolbarRight}>
+          <button className={styles.smtExportBtn}>
+            Export
+            <span className="material-icons-outlined" style={{ fontSize: 16, color: 'var(--neutral-300)' }}>download</span>
+          </button>
+          <button className={`${styles.smtSaveBtn}`}>Save</button>
+          <button className={`${styles.smtSaveBtn}`}>Save As</button>
+        </div>
+      </div>
+
+      {/* Empty state or table */}
+      {filtered.length === 0 ? (
+        <div className={styles.smtEmptyBanner}>
+          <span className="material-icons-outlined" style={{ fontSize: 18, color: 'var(--text-normal)', flexShrink: 0 }}>warning</span>
+          <span>Currently we do not have records matching your search criteria.</span>
+        </div>
+      ) : (
+        <>
+          <div className={styles.tableWrap}>
+            <table className={styles.table}>
+              <thead>
+                <tr>
+                  <th><input type="checkbox" style={{ cursor: 'pointer' }} /></th>
+                  <th>Task Type <span className="material-icons-outlined" style={{ fontSize: 12, verticalAlign: 'middle' }}>arrow_drop_down</span></th>
+                  <th>Task Name <span className="material-icons-outlined" style={{ fontSize: 12, verticalAlign: 'middle' }}>arrow_drop_down</span></th>
+                  <th>Third Party Name <span className="material-icons-outlined" style={{ fontSize: 12, verticalAlign: 'middle' }}>arrow_drop_down</span></th>
+                  <th>Task Status <span className="material-icons-outlined" style={{ fontSize: 12, verticalAlign: 'middle' }}>arrow_drop_down</span></th>
+                  <th>Current Risk Level <span className="material-icons-outlined" style={{ fontSize: 12, verticalAlign: 'middle' }}>arrow_drop_down</span></th>
+                  <th>Owner <span className="material-icons-outlined" style={{ fontSize: 12, verticalAlign: 'middle' }}>arrow_drop_down</span></th>
+                  <th>Date Created <span className="material-icons-outlined" style={{ fontSize: 12, verticalAlign: 'middle' }}>arrow_drop_down</span></th>
+                  <th>Age <span className="material-icons-outlined" style={{ fontSize: 12, verticalAlign: 'middle' }}>arrow_drop_down</span></th>
+                </tr>
+              </thead>
+              <tbody>
+                {filtered.map((row, i) => (
+                  <tr key={i}>
+                    <td style={{ width: 40, textAlign: 'center' }}><input type="checkbox" style={{ cursor: 'pointer' }} /></td>
+                    <td><TaskTypeBadge type={row.type} /></td>
+                    <td>
+                      {row.tpId
+                        ? <Link to={`/profile/${row.tpId}`} className={styles.cellLink}>{row.name}</Link>
+                        : <span className={styles.cellLink}>{row.name}</span>}
+                    </td>
+                    <td>
+                      {row.tpId
+                        ? <Link to={`/profile/${row.tpId}`} className={styles.cellLink}>{row.tp}</Link>
+                        : <span className={styles.cellLink}>{row.tp}</span>}
+                    </td>
+                    <td><StatusBadge status={row.status} /></td>
+                    <td><RiskChip risk={row.risk} /></td>
+                    <td>{row.owner}</td>
+                    <td>{row.date}</td>
+                    <td>{row.age}</td>
+                  </tr>
+                ))}
+              </tbody>
+            </table>
+          </div>
+          <div className={styles.divider} />
+          <TablePagination count={filtered.length} />
+        </>
+      )}
+    </>
+  );
+}
+
+// ── Enhanced Due Diligence Reports layout ────────────────────────────────────
+const EDD_STATUS_CONFIG = {
+  draft:      { bg: 'var(--neutral-50)',    color: 'var(--text-normal)' },
+  submitted:  { bg: 'var(--primary-500)',   color: '#fff' },
+  delivered:  { bg: 'var(--success-500)',   color: '#fff' },
+  cancelled:  { bg: 'var(--neutral-300)',   color: 'var(--text-normal)' },
+};
+
+const EDD_TABLE_ROWS = [
+  { tp: 'ADIDAS ITALY SPA',              tpId: null,          subject: 'fdjhsabfbjsa FKJHSADKLFHA',                   bu: 'Entity Verification', type: 'level1',  date: '02 Apr 2024', status: 'draft',      owner: 'Nataly Baez',           ref: 'kdjnfklsad' },
+  { tp: 'Apparel Empire',                tpId: null,          subject: 'Utilities Allowances',                         bu: 'Europe',              type: 'redflag', date: '14 Mar 2024', status: 'cancelled',  owner: 'Darren 1 Schafer',      ref: 'Volkswagen AG - 001' },
+  { tp: 'Apparel Empire',                tpId: null,          subject: 'Vladimir Putin',                               bu: 'Europe',              type: 'redflag', date: '01 Jul 2024', status: 'submitted',  owner: 'Darren 1 Schafer',      ref: 'Vladimir' },
+  { tp: 'Apparel Empire',                tpId: null,          subject: 'KJASHDKa',                                     bu: 'Europe',              type: 'level1',  date: '02 Apr 2024', status: 'draft',      owner: 'Darren 1 Schafer',      ref: 'v.mns.adnf' },
+  { tp: 'Dundler Mifflin',               tpId: 'dundermifflin', subject: 'Creed Bratton',                              bu: 'test',                type: 'redflag', date: '23 Oct 2025', status: 'submitted',  owner: 'Claudio Merino',        ref: 'Dundler Mifflin', comments: true },
+  { tp: 'Dundler Mifflin',               tpId: 'dundermifflin', subject: 'Michael Scott',                              bu: 'test',                type: 'redflag', date: '23 Oct 2025', status: 'draft',      owner: 'Claudio Merino',        ref: 'Dundler Mifflin' },
+  { tp: 'GAZPROM, PAO',                  tpId: 'gazprom',     subject: 'GAZPROM, PAO',                                 bu: 'Entity Verification', type: 'redflag', date: '04 Nov 2025', status: 'submitted',  owner: 'Miruna Menzopol (Admin)', ref: "Roadrunner's enemies" },
+  { tp: 'Gazprom',                       tpId: 'gazprom',     subject: 'Test',                                         bu: 'Europe',              type: 'redflag', date: '04 Apr 2023', status: 'submitted',  owner: 'Darren 2 Schafer',      ref: '09098' },
+  { tp: 'Gazprom',                       tpId: 'gazprom',     subject: 'Gazprom',                                      bu: 'Europe',              type: 'redflag', date: '13 Jan 2026', status: 'draft',      owner: 'Darren 2 Schafer',      ref: 'Dundler Mifflin' },
+  { tp: 'volkswagen',                    tpId: null,          subject: 'VOLKSWAGEN',                                   bu: 'Europe',              type: 'level1',  date: '09 Oct 2023', status: 'submitted',  owner: 'Darren 2 Schafer',      ref: 'VW1' },
+  { tp: 'volkswagen',                    tpId: null,          subject: 'Oliver Blume',                                 bu: 'Europe',              type: 'redflag', date: '09 Oct 2023', status: 'submitted',  owner: 'Darren 2 Schafer',      ref: 'vw2' },
+  { tp: 'volkswagen',                    tpId: null,          subject: 'Test',                                         bu: 'Europe',              type: 'level1',  date: '11 Oct 2023', status: 'submitted',  owner: 'Darren 2 Schafer',      ref: 'test 1' },
+  { tp: 'volkswagen',                    tpId: null,          subject: 'Volkswagen',                                   bu: 'Europe',              type: 'redflag', date: '13 Oct 2023', status: 'draft',      owner: 'Darren 2 Schafer',      ref: 'Not Approver Group Requestor' },
+  { tp: 'volkswagen',                    tpId: null,          subject: 'Test Submit Report',                           bu: 'Europe',              type: 'redflag', date: '12 Oct 2023', status: 'submitted',  owner: 'Darren 2 Schafer',      ref: 'Test Submit Report' },
+  { tp: 'volkswagen',                    tpId: null,          subject: 'Test',                                         bu: 'Europe',              type: 'level1',  date: '17 Oct 2023', status: 'draft',      owner: 'Darren 2 Schafer',      ref: 'Test', comments: true, commentCount: 2 },
+];
+
+function EDDStatusBadge({ status }) {
+  const cfg = EDD_STATUS_CONFIG[status] || EDD_STATUS_CONFIG.draft;
+  return (
+    <span style={{
+      display: 'inline-flex', alignItems: 'center',
+      padding: '2px 8px', borderRadius: 2,
+      fontSize: 11, fontWeight: 600,
+      background: cfg.bg, color: cfg.color,
+      textTransform: 'uppercase', letterSpacing: '0.3px',
+    }}>
+      {status}
+    </span>
+  );
+}
+
+function EDDContent({ rows }) {
+  const [search, setSearch] = useState('');
+  const [view, setView] = useState('Standard');
+
+  const filtered = search
+    ? rows.filter(r =>
+        r.tp.toLowerCase().includes(search.toLowerCase()) ||
+        r.subject.toLowerCase().includes(search.toLowerCase()) ||
+        r.owner.toLowerCase().includes(search.toLowerCase())
+      )
+    : rows;
+
+  return (
+    <>
+      {/* Title row */}
+      <div className={styles.smtHeaderRow}>
+        <h2 className={styles.smtTitle}>Enhanced Due Diligence Reports</h2>
+        <div className={styles.smtHeaderRight}>
+          <select
+            className={styles.smtSelect}
+            value={view}
+            onChange={e => setView(e.target.value)}
+            style={{ minWidth: 140 }}
+          >
+            <option value="Standard">Standard</option>
+            <option value="Compact">Compact</option>
+          </select>
+          <button className={styles.smtFilterBtn}>
+            <span className="material-icons-outlined" style={{ fontSize: 16 }}>filter_list</span>
+          </button>
+        </div>
+      </div>
+
+      {/* Toolbar row */}
+      <div className={styles.smtToolbar}>
+        <div className={styles.smtToolbarLeft}>
+          <div className={styles.searchWrap} style={{ maxWidth: 396 }}>
+            <input
+              className={styles.searchInput}
+              type="text"
+              placeholder="Quick Search"
+              value={search}
+              onChange={e => setSearch(e.target.value)}
+            />
+            <span className="material-icons-outlined" style={{ position: 'absolute', right: 8, color: 'var(--text-light)', fontSize: 18, pointerEvents: 'none' }}>search</span>
+          </div>
+          <button className={styles.refreshBtn} title="Reset" onClick={() => setSearch('')}>
+            <span className="material-icons-outlined" style={{ fontSize: 18 }}>refresh</span>
+          </button>
+          <span className={styles.resultCount}>
+            Showing results {filtered.length === 0 ? '0 - 0' : `1 – ${filtered.length}`} of {filtered.length}
+          </span>
+        </div>
+        <div className={styles.smtToolbarRight}>
+          <button className={styles.smtExportBtn}>
+            Export
+            <span className="material-icons-outlined" style={{ fontSize: 16, color: 'var(--neutral-300)' }}>download</span>
+          </button>
+          <button className={styles.smtSaveBtn}>Save</button>
+          <button className={styles.smtSaveBtn}>Save As</button>
+        </div>
+      </div>
+
+      {/* Table */}
+      {filtered.length === 0 ? (
+        <div className={styles.smtEmptyBanner}>
+          <span className="material-icons-outlined" style={{ fontSize: 18, flexShrink: 0 }}>warning</span>
+          <span>Currently we do not have records matching your search criteria.</span>
+        </div>
+      ) : (
+        <>
+          <div className={styles.tableWrap}>
+            <table className={styles.table} style={{ minWidth: 0 }}>
+              <thead>
+                <tr>
+                  <th>Third Party Name <span className="material-icons-outlined" style={{ fontSize: 12, verticalAlign: 'middle' }}>arrow_drop_down</span></th>
+                  <th>Report Subject <span className="material-icons-outlined" style={{ fontSize: 12, verticalAlign: 'middle' }}>arrow_drop_down</span></th>
+                  <th>Business Unit <span className="material-icons-outlined" style={{ fontSize: 12, verticalAlign: 'middle' }}>arrow_drop_down</span></th>
+                  <th>Report Type <span className="material-icons-outlined" style={{ fontSize: 12, verticalAlign: 'middle' }}>arrow_drop_down</span></th>
+                  <th>Date Created <span className="material-icons-outlined" style={{ fontSize: 12, verticalAlign: 'middle' }}>arrow_drop_down</span></th>
+                  <th>Status <span className="material-icons-outlined" style={{ fontSize: 12, verticalAlign: 'middle' }}>arrow_drop_down</span></th>
+                  <th>Owner <span className="material-icons-outlined" style={{ fontSize: 12, verticalAlign: 'middle' }}>arrow_drop_down</span></th>
+                  <th>Reference <span className="material-icons-outlined" style={{ fontSize: 12, verticalAlign: 'middle' }}>arrow_drop_down</span></th>
+                  <th style={{ width: 44 }} />
+                </tr>
+              </thead>
+              <tbody>
+                {filtered.map((row, i) => (
+                  <tr key={i}>
+                    <td>
+                      {row.tpId
+                        ? <Link to={`/profile/${row.tpId}`} className={styles.cellLink}>{row.tp}</Link>
+                        : <span className={styles.cellLink}>{row.tp}</span>}
+                    </td>
+                    <td>
+                      {row.tpId
+                        ? <Link to={`/profile/${row.tpId}`} className={styles.cellLink}>{row.subject}</Link>
+                        : <span className={styles.cellLink}>{row.subject}</span>}
+                    </td>
+                    <td>{row.bu}</td>
+                    <td>{row.type}</td>
+                    <td>{row.date}</td>
+                    <td><EDDStatusBadge status={row.status} /></td>
+                    <td>{row.owner}</td>
+                    <td>{row.ref}</td>
+                    <td style={{ textAlign: 'center' }}>
+                      <button className={styles.eddCommentBtn} title="Comments">
+                        <span className="material-icons-outlined" style={{ fontSize: 16 }}>chat_bubble_outline</span>
+                        {row.commentCount > 0 && <span className={styles.alertBadge}>{row.commentCount}</span>}
+                      </button>
+                    </td>
+                  </tr>
+                ))}
+              </tbody>
+            </table>
+          </div>
+          <div className={styles.divider} />
+          <TablePagination count={filtered.length} total={rows.length} />
+        </>
+      )}
+    </>
+  );
+}
+
 function TablePagination({ count }) {
   return (
     <div className={styles.pagination}>
@@ -282,10 +569,12 @@ export default function Dashboard() {
   const [filterDueNow, setFilterDueNow] = useState(false);
   const [filterUpcoming, setFilterUpcoming] = useState(false);
 
-  const isSM = activeTab === 'Screening & Monitoring';
+  const isSM  = activeTab === 'Screening & Monitoring';
+  const isSMT = activeTab === 'Screening & Monitoring Tasks';
+  const isEDD = activeTab === 'Enhanced Due Diligence Reports';
   const currentRows = isSM ? SM_ROWS
-    : activeTab === 'Screening & Monitoring Tasks' ? SMT_ROWS
-    : activeTab === 'Enhanced Due Diligence Reports' ? EDD_ROWS
+    : isSMT ? SMT_ROWS
+    : isEDD ? EDD_TABLE_ROWS
     : ACTIONS_ROWS;
 
   const visibleCount = search
@@ -322,70 +611,83 @@ export default function Dashboard() {
           ))}
         </div>
 
-        {/* Header row */}
-        <div className={styles.headerRow}>
-          <h1 className={styles.title}>
-            {activeTab} Dashboard
-            <span className="material-icons-outlined" style={{ fontSize: 16, color: 'var(--primary-500)', marginLeft: 6, verticalAlign: 'middle' }}>info</span>
-          </h1>
-          <div className={styles.headerRight}>
-            <span className={styles.recentLabel}>
-              <span className="material-icons-outlined" style={{ fontSize: 14, verticalAlign: 'middle', marginRight: 4 }}>history</span>
-              RECENT ACTIVITY
-            </span>
+        {/* SMT / EDD tabs have their own full layout */}
+        {isSMT ? (
+          <div className={styles.smtWrap}>
+            <SMTContent rows={SMT_ROWS} />
           </div>
-        </div>
-
-        {/* Toolbar */}
-        <div className={styles.toolbar}>
-          <div className={styles.searchWrap}>
-            <input
-              className={styles.searchInput}
-              type="text"
-              placeholder="Quick search across all available columns"
-              value={search}
-              onChange={e => setSearch(e.target.value)}
-            />
-            <span className="material-icons-outlined" style={{ position: 'absolute', right: 8, color: 'var(--text-light)', fontSize: 18, pointerEvents: 'none' }}>search</span>
+        ) : isEDD ? (
+          <div className={styles.smtWrap}>
+            <EDDContent rows={EDD_TABLE_ROWS} />
           </div>
-          <button className={styles.refreshBtn} title="Refresh" onClick={() => setSearch('')}>
-            <span className="material-icons-outlined" style={{ fontSize: 18 }}>refresh</span>
-          </button>
-          <span className={styles.resultCount}>Showing results 1 – {visibleCount} of {visibleCount}</span>
-        </div>
+        ) : (
+          <>
+            {/* Header row */}
+            <div className={styles.headerRow}>
+              <h1 className={styles.title}>
+                {activeTab} Dashboard
+                <span className="material-icons-outlined" style={{ fontSize: 16, color: 'var(--primary-500)', marginLeft: 6, verticalAlign: 'middle' }}>info</span>
+              </h1>
+              <div className={styles.headerRight}>
+                <span className={styles.recentLabel}>
+                  <span className="material-icons-outlined" style={{ fontSize: 14, verticalAlign: 'middle', marginRight: 4 }}>history</span>
+                  RECENT ACTIVITY
+                </span>
+              </div>
+            </div>
 
-        {/* Filter chips */}
-        <div className={styles.chipRow}>
-          <button
-            className={`${styles.chip} ${filterDueNow ? styles.chipActive : ''}`}
-            onClick={() => setFilterDueNow(v => !v)}
-          >
-            Actions Due Now
-            {filterDueNow
-              ? <span className={styles.chipBadge}>!</span>
-              : <span className={`material-icons-outlined ${styles.chipClose}`}>close</span>}
-          </button>
-          <button
-            className={`${styles.chip} ${filterUpcoming ? styles.chipActive : ''}`}
-            onClick={() => setFilterUpcoming(v => !v)}
-          >
-            Upcoming Actions
-            {filterUpcoming
-              ? <span className={styles.chipBadge}>!</span>
-              : <span className={`material-icons-outlined ${styles.chipClose}`}>close</span>}
-          </button>
-          <div style={{ flex: 1 }} />
-          <button className={styles.reassignBtn}>
-            <span className="material-icons-outlined" style={{ fontSize: 14 }}>swap_horiz</span>
-            REASSIGN
-          </button>
-        </div>
+            {/* Toolbar */}
+            <div className={styles.toolbar}>
+              <div className={styles.searchWrap}>
+                <input
+                  className={styles.searchInput}
+                  type="text"
+                  placeholder="Quick search across all available columns"
+                  value={search}
+                  onChange={e => setSearch(e.target.value)}
+                />
+                <span className="material-icons-outlined" style={{ position: 'absolute', right: 8, color: 'var(--text-light)', fontSize: 18, pointerEvents: 'none' }}>search</span>
+              </div>
+              <button className={styles.refreshBtn} title="Refresh" onClick={() => setSearch('')}>
+                <span className="material-icons-outlined" style={{ fontSize: 18 }}>refresh</span>
+              </button>
+              <span className={styles.resultCount}>Showing results 1 – {visibleCount} of {visibleCount}</span>
+            </div>
 
-        {/* Table — switches by tab */}
-        {isSM
-          ? <SMTable rows={SM_ROWS} search={search} />
-          : <ActionsTable rows={currentRows} search={search} />
-        }
+            {/* Filter chips */}
+            <div className={styles.chipRow}>
+              <button
+                className={`${styles.chip} ${filterDueNow ? styles.chipActive : ''}`}
+                onClick={() => setFilterDueNow(v => !v)}
+              >
+                Actions Due Now
+                {filterDueNow
+                  ? <span className={styles.chipBadge}>!</span>
+                  : <span className={`material-icons-outlined ${styles.chipClose}`}>close</span>}
+              </button>
+              <button
+                className={`${styles.chip} ${filterUpcoming ? styles.chipActive : ''}`}
+                onClick={() => setFilterUpcoming(v => !v)}
+              >
+                Upcoming Actions
+                {filterUpcoming
+                  ? <span className={styles.chipBadge}>!</span>
+                  : <span className={`material-icons-outlined ${styles.chipClose}`}>close</span>}
+              </button>
+              <div style={{ flex: 1 }} />
+              <button className={styles.reassignBtn}>
+                <span className="material-icons-outlined" style={{ fontSize: 14 }}>swap_horiz</span>
+                REASSIGN
+              </button>
+            </div>
+
+            {/* Table */}
+            {isSM
+              ? <SMTable rows={SM_ROWS} search={search} />
+              : <ActionsTable rows={currentRows} search={search} />
+            }
+          </>
+        )}
       </div>
     </PageLayout>
   );

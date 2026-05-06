@@ -285,6 +285,146 @@
 .riskLow     { background: var(--success-100); color: var(--success-900); }
 .riskUnknown { background: var(--neutral-50);  color: var(--text-light); }
 
+/* ── Screening & Monitoring Tasks layout ── */
+.smtWrap {
+  padding: 0 16px 0;
+}
+
+.smtHeaderRow {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  padding: 14px 0 12px;
+  border-bottom: 1px solid var(--neutral-100);
+}
+
+.smtTitle {
+  font-size: 20px;
+  font-weight: 500;
+  color: var(--text-normal);
+  font-family: var(--font-heading);
+}
+
+.smtHeaderRight {
+  display: flex;
+  align-items: center;
+  gap: 8px;
+}
+
+.smtCategoryKey {
+  font-size: 11px;
+  font-weight: 600;
+  color: var(--primary-600);
+  text-transform: uppercase;
+  letter-spacing: 0.5px;
+  cursor: pointer;
+  display: flex;
+  align-items: center;
+}
+.smtCategoryKey:hover { text-decoration: underline; }
+
+.smtSelect {
+  height: 30px;
+  padding: 0 28px 0 10px;
+  border: 1px solid var(--neutral-200);
+  border-radius: 2px;
+  font-size: 13px;
+  font-family: inherit;
+  color: var(--text-normal);
+  background: var(--neutral-00);
+  cursor: pointer;
+  appearance: auto;
+}
+.smtSelect:focus { outline: none; border-color: var(--primary-400); }
+
+.smtFilterBtn {
+  width: 30px;
+  height: 30px;
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+  border: 1px solid var(--neutral-200);
+  border-radius: 4px;
+  background: none;
+  color: var(--text-light);
+  cursor: pointer;
+  transition: background 0.15s ease, color 0.15s ease;
+}
+.smtFilterBtn:hover { background: var(--neutral-50); color: var(--text-normal); }
+
+.smtToolbar {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  padding: 10px 0 12px;
+  gap: 8px;
+}
+
+.smtToolbarLeft {
+  display: flex;
+  align-items: center;
+  gap: 8px;
+  flex: 1;
+}
+
+.smtToolbarRight {
+  display: flex;
+  align-items: center;
+  gap: 6px;
+}
+
+.smtExportBtn {
+  display: inline-flex;
+  align-items: center;
+  gap: 6px;
+  height: 32px;
+  padding: 0 12px;
+  border: 1px solid var(--neutral-200);
+  border-radius: 4px;
+  background: none;
+  font-size: 12px;
+  font-weight: 500;
+  font-family: inherit;
+  color: var(--text-light);
+  text-transform: uppercase;
+  letter-spacing: 0.3px;
+  cursor: pointer;
+  transition: background 0.15s ease;
+}
+.smtExportBtn:hover { background: var(--neutral-50); }
+
+.smtSaveBtn {
+  height: 32px;
+  padding: 0 14px;
+  border: none;
+  border-radius: 4px;
+  background: var(--primary-500);
+  color: #fff;
+  font-size: 12px;
+  font-weight: 500;
+  font-family: inherit;
+  text-transform: uppercase;
+  letter-spacing: 0.3px;
+  cursor: pointer;
+  opacity: 0.65;
+  transition: opacity 0.15s ease;
+}
+.smtSaveBtn:hover { opacity: 1; }
+
+.smtEmptyBanner {
+  display: flex;
+  align-items: center;
+  gap: 10px;
+  padding: 10px 16px;
+  background: var(--neutral-100);
+  border: 1px solid var(--neutral-200);
+  border-radius: 2px;
+  font-size: 14px;
+  font-weight: 500;
+  color: var(--text-normal);
+  margin-bottom: 16px;
+}
+
 /* ── Screening & Monitoring table (horizontal scroll + fixed last col) ── */
 .smTableWrap {
   overflow-x: auto;
@@ -357,6 +497,20 @@
   transition: background 0.15s ease, color 0.15s ease;
 }
 .smAlertBtn:hover { background: var(--neutral-50); color: var(--text-normal); }
+
+.eddCommentBtn {
+  position: relative;
+  background: none;
+  border: none;
+  cursor: pointer;
+  padding: 4px;
+  border-radius: 4px;
+  color: var(--text-light);
+  display: inline-flex;
+  align-items: center;
+  transition: background 0.15s ease, color 0.15s ease;
+}
+.eddCommentBtn:hover { background: var(--neutral-50); color: var(--text-normal); }
 
 .alertBadge {
   position: absolute;
