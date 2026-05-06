@@ -76,6 +76,7 @@ export default function ProfilePage({ profile: profileProp, embedded = false }) 
   const [statusPanelOpen, setStatusPanelOpen] = useState(false);
   const [declinePanelOpen, setDeclinePanelOpen] = useState(false);
   const [renewalModalOpen, setRenewalModalOpen] = useState(false);
+  const [cancelRenewalModalOpen, setCancelRenewalModalOpen] = useState(false);
   const [currentStatus, setCurrentStatus] = useState(profile?.currentStatus?.label || 'Pending Approval');
 
   // Connect panel state
@@ -653,9 +654,11 @@ export default function ProfilePage({ profile: profileProp, embedded = false }) 
           currentStatus={currentStatus}
           renewalDate={profile.overviewFields.find(f => f.label === 'Third Party Renewal Date')?.value}
           canRenew={['Approved', 'Approved*', 'Approved! (Renewal Required)'].includes(currentStatus)}
+          renewalInProgress={currentStatus === 'Approved! (Renewal Required)'}
           onClose={() => setStatusPanelOpen(false)}
           onDecline={() => setDeclinePanelOpen(true)}
           onRenewal={() => { setStatusPanelOpen(false); setRenewalModalOpen(true); }}
+          onCancelRenewal={() => { setStatusPanelOpen(false); setCancelRenewalModalOpen(true); }}
         />
       )}
       </AnimatePresence>
@@ -717,6 +720,54 @@ export default function ProfilePage({ profile: profileProp, embedded = false }) 
                   setRenewalModalOpen(false);
                 }}
               >Continue</button>
+            </div>
+          </motion.div>
+        </motion.div>
+      )}
+      </AnimatePresence>
+
+      {/* Cancel renewal confirmation modal */}
+      <AnimatePresence>
+      {cancelRenewalModalOpen && (
+        <motion.div
+          key="cancel-renewal-modal-overlay"
+          className={styles.deleteModalOverlay}
+          initial={{ opacity: 0 }} animate={{ opacity: 1 }} exit={{ opacity: 0 }}
+          transition={mot.overlay}
+          onClick={() => setCancelRenewalModalOpen(false)}
+        >
+          <motion.div
+            className={styles.deleteModal}
+            initial={{ scale: 0.92, opacity: 0, y: 10 }}
+            animate={{ scale: 1, opacity: 1, y: 0 }}
+            exit={{ scale: 0.92, opacity: 0, y: 10 }}
+            transition={{ duration: 0.22, ease: [0.32, 0.72, 0, 1] }}
+            onClick={e => e.stopPropagation()} role="dialog" aria-modal="true"
+          >
+            <div className={styles.deleteModalHeader}>
+              <span className={styles.deleteModalTitle}>Cancel Renewal</span>
+              <button className={styles.deleteModalClose} aria-label="Close" onClick={() => setCancelRenewalModalOpen(false)} />
+            </div>
+            <div className={styles.deleteModalBody}>
+              <p className={styles.deleteModalQuestion}>This action cannot be undone.</p>
+              <p className={styles.deleteModalName}>{profile.shortName}</p>
+              <p className={styles.deleteModalConfirm}>Are you sure you want to cancel the renewal process for this Third Party?</p>
+            </div>
+            <div className={styles.deleteModalActions}>
+              <button
+                className={`${styles.deleteModalBtn} ${styles.deleteModalCancel}`}
+                onClick={() => setCancelRenewalModalOpen(false)}
+              >Cancel</button>
+              <button
+                className={`${styles.deleteModalBtn} ${styles.deleteModalContinue}`}
+                style={{ background: 'var(--alert-500)' }}
+                onClick={() => {
+                  if (profile.id === 'dundermifflin') { setDMFlow({ renewed: false, approved: false }); setCurrentStatus('Approved! (Renewal Required)'); }
+                  else if (profile.id === 'lumon') { setLumonFlow({ renewed: false, approved: false }); setCurrentStatus('Approved'); }
+                  else if (profile.id === 'initech') { setCurrentStatus('Approved*'); }
+                  setCancelRenewalModalOpen(false);
+                }}
+              >Confirm</button>
             </div>
           </motion.div>
         </motion.div>
@@ -1121,7 +1172,7 @@ function LookMorePanel({ onClose, onSelect }) {
 
 /* ─────────────────────── Status panel ─────────────────────── */
 
-function StatusPanel({ currentStatus, renewalDate, canRenew, onClose, onDecline, onRenewal }) {
+function StatusPanel({ currentStatus, renewalDate, canRenew, renewalInProgress, onClose, onDecline, onRenewal, onCancelRenewal }) {
   useEffect(() => {
     document.body.style.overflow = 'hidden';
     return () => { document.body.style.overflow = ''; };
@@ -1161,7 +1212,10 @@ function StatusPanel({ currentStatus, renewalDate, canRenew, onClose, onDecline,
               <div className={styles.statusPanelSectionLabel} style={{ marginTop: 20 }}>Third Party Renewal Date</div>
               <div className={styles.statusPanelRenewalRow}>
                 <span className={styles.statusPanelRenewalDate}>{renewalDate}</span>
-                <button className={`${styles.btn} ${styles.btnFilled}`} onClick={onRenewal}>Renewal</button>
+                {renewalInProgress
+                  ? <button className={`${styles.btn} ${styles.btnFilled}`} style={{ background: 'var(--alert-500)' }} onClick={onCancelRenewal}>Cancel Renewal</button>
+                  : <button className={`${styles.btn} ${styles.btnFilled}`} onClick={onRenewal}>Renewal</button>
+                }
               </div>
             </div>
           )}
