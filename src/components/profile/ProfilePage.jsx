@@ -13,7 +13,7 @@ const MATCH_BG_TO_STYLE = {
   'var(--text-light)':  'no-action',
 };
 import { transition as mot } from '../../utils/motion';
-import { patchInitechProfile, setDMFlow } from '../../utils/initechFlow';
+import { patchInitechProfile, setDMFlow, setLumonFlow } from '../../utils/initechFlow';
 import { Link, useParams, useNavigate, useLocation } from 'react-router-dom';
 import PageLayout from '../layout/PageLayout';
 import Breadcrumb from '../layout/Breadcrumb';
@@ -652,6 +652,7 @@ export default function ProfilePage({ profile: profileProp, embedded = false }) 
           key="status-panel"
           currentStatus={currentStatus}
           renewalDate={profile.overviewFields.find(f => f.label === 'Third Party Renewal Date')?.value}
+          canRenew={['Approved', 'Approved*', 'Approved! (Renewal Required)'].includes(currentStatus)}
           onClose={() => setStatusPanelOpen(false)}
           onDecline={() => setDeclinePanelOpen(true)}
           onRenewal={() => { setStatusPanelOpen(false); setRenewalModalOpen(true); }}
@@ -710,7 +711,8 @@ export default function ProfilePage({ profile: profileProp, embedded = false }) 
                 className={`${styles.deleteModalBtn} ${styles.deleteModalContinue}`}
                 style={{ background: 'var(--primary-500)' }}
                 onClick={() => {
-                  setDMFlow({ renewed: true, approved: false });
+                  if (profile.id === 'dundermifflin') setDMFlow({ renewed: true, approved: false });
+                  if (profile.id === 'lumon') setLumonFlow({ renewed: true, approved: false });
                   setCurrentStatus('Approved! (Renewal Required)');
                   setRenewalModalOpen(false);
                 }}
@@ -1119,7 +1121,7 @@ function LookMorePanel({ onClose, onSelect }) {
 
 /* ─────────────────────── Status panel ─────────────────────── */
 
-function StatusPanel({ currentStatus, renewalDate, onClose, onDecline, onRenewal }) {
+function StatusPanel({ currentStatus, renewalDate, canRenew, onClose, onDecline, onRenewal }) {
   useEffect(() => {
     document.body.style.overflow = 'hidden';
     return () => { document.body.style.overflow = ''; };
@@ -1154,7 +1156,7 @@ function StatusPanel({ currentStatus, renewalDate, onClose, onDecline, onRenewal
             </div>
           </div>
 
-          {renewalDate && (currentStatus === 'Approved*' || currentStatus === 'Approved! (Renewal Required)') && (
+          {renewalDate && canRenew && (
             <div className={styles.statusPanelRenewal}>
               <div className={styles.statusPanelSectionLabel} style={{ marginTop: 20 }}>Third Party Renewal Date</div>
               <div className={styles.statusPanelRenewalRow}>

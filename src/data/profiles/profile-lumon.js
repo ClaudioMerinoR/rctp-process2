@@ -4,7 +4,7 @@ export default {
   shortName: 'Lumon Industries',
   entityType: 'entity',
   verifiedText: 'Entity Verified',
-  currentStatus: { label: 'Approved*' },
+  currentStatus: { label: 'Approved' },
   riskLevel: { label: 'Low', icon: 'check_circle_outline', level: 'low' },
 
   embedded: false,
@@ -17,7 +17,7 @@ export default {
     { label: 'Integrity Check', dot: 'green', partner: 'integrity', tooltip: 'Powered by Xapiens' , path: 'integrity-check'},
     { label: 'Enhanced Due Diligence Reports', dot: 'grey', path: 'enhanced-due-diligence' },
     { label: 'UBO', dot: 'green', partner: 'ubo', tooltip: 'Powered by Duns & Bradstreet' , path: 'ubo'},
-    { label: 'Risk Mitigation', dot: 'red' , path: 'risk-mitigation'},
+    { label: 'Risk Mitigation', dot: 'green', path: 'risk-mitigation' },
     { label: 'Approval', dot: 'green', path: 'approval' },
     { label: 'Screening & Monitoring', dot: 'green', path: 'screening-monitoring' },
   ],
@@ -148,11 +148,11 @@ export default {
     ],
   },
   riskMitigation: {
-    openRisks: [
-      { id: 1, title: 'Severance Programme — Regulatory Compliance', owner: 'Claudio Merino', status: 'Open', createdDate: '05 Jan 2025', lastEditedBy: '', dueDate: '', source: '', comments: 0 },
-      { id: 2, title: 'Employee Autonomy Violations — Labour Practices', owner: 'Claudio Merino', status: 'Open', createdDate: '06 Jan 2025', lastEditedBy: '', dueDate: '', source: '', comments: 0 },
+    openRisks: [],
+    mitigatedRisks: [
+      { id: 1, title: 'Severance Programme — Regulatory Compliance', owner: 'Claudio Merino', status: 'Mitigated', createdDate: '05 Jan 2025', lastEditedBy: 'Claudio Merino', dueDate: '28 Feb 2025', source: 'Risk Assessment', comments: 0 },
+      { id: 2, title: 'Employee Autonomy Violations — Labour Practices', owner: 'Claudio Merino', status: 'Mitigated', createdDate: '06 Jan 2025', lastEditedBy: 'Claudio Merino', dueDate: '14 Mar 2025', source: 'Risk Assessment', comments: 0 },
     ],
-    mitigatedRisks: [],
     cancelledRisks: [],
   },
   approval: {

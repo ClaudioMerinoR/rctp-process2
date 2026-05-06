@@ -8,7 +8,7 @@ import { Sidebar } from './ProfilePage';
 import ProfilePageHeader from './ProfilePageHeader';
 import styles from './profile.module.css';
 import apStyles from './ProfileApproval.module.css';
-import { getFlow, setFlow, getDMFlow, setDMFlow, patchInitechProfile } from '../../utils/initechFlow';
+import { getFlow, setFlow, getDMFlow, setDMFlow, getLumonFlow, setLumonFlow, patchInitechProfile } from '../../utils/initechFlow';
 
 const STEPS_BEFORE_APPROVAL = [
   'Risk Assessment',
@@ -72,13 +72,17 @@ export default function ProfileApproval() {
 
   const profile = patchInitechProfile(rawProfile);
 
-  const isDM = profileId === 'dundermifflin';
+  const isDM    = profileId === 'dundermifflin';
+  const isLumon = profileId === 'lumon';
   const { riskMitigated, approved: initechApproved } = getFlow();
-  const { renewed: dmRenewed, approved: dmApproved } = getDMFlow();
+  const { renewed: dmRenewed,    approved: dmApproved    } = getDMFlow();
+  const { renewed: lumonRenewed, approved: lumonApproved } = getLumonFlow();
 
   const approvalDot = profile.sidebarSteps?.find(s => s.label === 'Approval')?.dot;
   const isCompleted = approvalDot === 'green';
-  const isReady = isDM ? (dmRenewed && !dmApproved) : approvalDot === 'amber';
+  const isReady = isDM    ? (dmRenewed    && !dmApproved)
+    : isLumon  ? (lumonRenewed && !lumonApproved)
+    : approvalDot === 'amber';
 
   const blockedSteps = isCompleted ? [] : (profile.sidebarSteps || [])
     .filter(s => STEPS_BEFORE_APPROVAL.includes(s.label) && s.dot !== 'green' && s.dot !== 'grey');
@@ -87,11 +91,9 @@ export default function ProfileApproval() {
   const tpOwner = rawProfile.overviewFields?.find(f => f.label === 'Third Party Owner')?.value || '—';
 
   function handleApprove() {
-    if (isDM) {
-      setDMFlow({ approved: true });
-    } else {
-      setFlow({ approved: true });
-    }
+    if (isDM)        setDMFlow({ approved: true });
+    else if (isLumon) setLumonFlow({ approved: true });
+    else             setFlow({ approved: true });
     navigate(`/profile/${profileId}`);
   }
 
