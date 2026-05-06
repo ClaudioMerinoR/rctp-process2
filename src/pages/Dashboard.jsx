@@ -117,7 +117,7 @@ function RiskChip({ risk }) {
 const RISK_LABELS = { high: 'High', medium: 'Medium', low: 'Low' };
 
 // ── Upcoming Actions table — matches Figma node 6606-142461 ─────────────────
-function UpcomingTable({ rows, search }) {
+function UpcomingTable({ rows, search, selected, onSelect }) {
   const filtered = search
     ? rows.filter(r =>
         r.name.toLowerCase().includes(search.toLowerCase()) ||
@@ -126,13 +126,29 @@ function UpcomingTable({ rows, search }) {
       )
     : rows;
 
+  const allChecked = filtered.length > 0 && filtered.every((_, i) => selected.has(i));
+
+  function toggleAll() {
+    if (allChecked) {
+      onSelect(new Set());
+    } else {
+      onSelect(new Set(filtered.map((_, i) => i)));
+    }
+  }
+
+  function toggleRow(i) {
+    const next = new Set(selected);
+    next.has(i) ? next.delete(i) : next.add(i);
+    onSelect(next);
+  }
+
   return (
     <>
       <div className={styles.tableWrap}>
         <table className={styles.table}>
           <thead>
             <tr>
-              <th style={{ width: 40 }}><input type="checkbox" style={{ cursor: 'pointer' }} /></th>
+              <th style={{ width: 40 }}><input type="checkbox" checked={allChecked} onChange={toggleAll} style={{ cursor: 'pointer' }} /></th>
               <th>Task Type <span className="material-icons-outlined" style={{ fontSize: 12, verticalAlign: 'middle' }}>arrow_drop_down</span></th>
               <th>Task Name <span className="material-icons-outlined" style={{ fontSize: 12, verticalAlign: 'middle' }}>arrow_drop_down</span></th>
               <th>Third Party Name <span className="material-icons-outlined" style={{ fontSize: 12, verticalAlign: 'middle' }}>arrow_drop_down</span></th>
@@ -150,7 +166,7 @@ function UpcomingTable({ rows, search }) {
               <tr><td colSpan={8} style={{ textAlign: 'center', color: 'var(--text-light)', padding: '32px 0' }}>No actions found.</td></tr>
             ) : filtered.map((row, i) => (
               <tr key={i}>
-                <td style={{ textAlign: 'center' }}><input type="checkbox" style={{ cursor: 'pointer' }} /></td>
+                <td style={{ textAlign: 'center' }}><input type="checkbox" checked={selected.has(i)} onChange={() => toggleRow(i)} style={{ cursor: 'pointer' }} /></td>
                 <td><TaskTypeBadge type={row.type} /></td>
                 <td>
                   {row.tpId
@@ -178,7 +194,7 @@ function UpcomingTable({ rows, search }) {
 }
 
 // ── Actions / SMT / EDD table (shared layout) ────────────────────────────────
-function ActionsTable({ rows, search }) {
+function ActionsTable({ rows, search, selected, onSelect }) {
   const filtered = search
     ? rows.filter(r =>
         r.name.toLowerCase().includes(search.toLowerCase()) ||
@@ -187,13 +203,29 @@ function ActionsTable({ rows, search }) {
       )
     : rows;
 
+  const allChecked = filtered.length > 0 && filtered.every((_, i) => selected.has(i));
+
+  function toggleAll() {
+    if (allChecked) {
+      onSelect(new Set());
+    } else {
+      onSelect(new Set(filtered.map((_, i) => i)));
+    }
+  }
+
+  function toggleRow(i) {
+    const next = new Set(selected);
+    next.has(i) ? next.delete(i) : next.add(i);
+    onSelect(next);
+  }
+
   return (
     <>
       <div className={styles.tableWrap}>
         <table className={styles.table}>
           <thead>
             <tr>
-              <th style={{ width: 40 }}><input type="checkbox" style={{ cursor: 'pointer' }} /></th>
+              <th style={{ width: 40 }}><input type="checkbox" checked={allChecked} onChange={toggleAll} style={{ cursor: 'pointer' }} /></th>
               <th>Task Type <span className="material-icons-outlined" style={{ fontSize: 12, verticalAlign: 'middle' }}>arrow_drop_down</span></th>
               <th>Task Name <span className="material-icons-outlined" style={{ fontSize: 12, verticalAlign: 'middle' }}>arrow_drop_down</span></th>
               <th>Third Party Name <span className="material-icons-outlined" style={{ fontSize: 12, verticalAlign: 'middle' }}>arrow_drop_down</span></th>
@@ -209,7 +241,7 @@ function ActionsTable({ rows, search }) {
               <tr><td colSpan={9} style={{ textAlign: 'center', color: 'var(--text-light)', padding: '32px 0' }}>No actions found.</td></tr>
             ) : filtered.map((row, i) => (
               <tr key={i}>
-                <td style={{ textAlign: 'center' }}><input type="checkbox" style={{ cursor: 'pointer' }} /></td>
+                <td style={{ textAlign: 'center' }}><input type="checkbox" checked={selected.has(i)} onChange={() => toggleRow(i)} style={{ cursor: 'pointer' }} /></td>
                 <td><TaskTypeBadge type={row.type} /></td>
                 <td>
                   {row.tpId
@@ -643,6 +675,7 @@ export default function Dashboard() {
   const [activeTab, setActiveTab] = useState('Actions');
   const [search, setSearch] = useState('');
   const [activeChip, setActiveChip] = useState('dueNow'); // null | 'dueNow' | 'upcoming'
+  const [selectedIndices, setSelectedIndices] = useState(new Set());
 
   const isSM  = activeTab === 'Screening & Monitoring';
   const isSMT = activeTab === 'Screening & Monitoring Tasks';
@@ -679,7 +712,7 @@ export default function Dashboard() {
             <div
               key={tab}
               className={`${styles.tab} ${activeTab === tab ? styles.tabActive : ''}`}
-              onClick={() => { setActiveTab(tab); setSearch(''); setActiveChip(null); }}
+              onClick={() => { setActiveTab(tab); setSearch(''); setActiveChip(null); setSelectedIndices(new Set()); }}
               style={{ position: 'relative' }}
             >
               {tab}
@@ -743,17 +776,20 @@ export default function Dashboard() {
                 label="Actions Due Now"
                 selected={activeChip === 'dueNow'}
                 count={ACTIONS_ROWS.filter(r => r.dueNow).length}
-                onClick={() => setActiveChip(v => v === 'dueNow' ? null : 'dueNow')}
+                onClick={() => { setActiveChip(v => v === 'dueNow' ? null : 'dueNow'); setSelectedIndices(new Set()); }}
               />
               <Chip
                 label="Upcoming Actions"
                 selected={activeChip === 'upcoming'}
                 count={ACTIONS_ROWS.filter(r => r.upcoming).length}
-                onClick={() => setActiveChip(v => v === 'upcoming' ? null : 'upcoming')}
+                onClick={() => { setActiveChip(v => v === 'upcoming' ? null : 'upcoming'); setSelectedIndices(new Set()); }}
               />
               <div style={{ flex: 1 }} />
-              <button className={styles.reassignBtn}>
-                <span className="material-icons-outlined" style={{ fontSize: 14 }}>swap_horiz</span>
+              <button
+                className={styles.reassignBtn}
+                disabled={selectedIndices.size === 0}
+                style={{ opacity: selectedIndices.size === 0 ? 0.4 : 1, cursor: selectedIndices.size === 0 ? 'not-allowed' : 'pointer' }}
+              >
                 REASSIGN
               </button>
             </div>
@@ -762,8 +798,8 @@ export default function Dashboard() {
             {isSM
               ? <SMTable rows={SM_ROWS} search={search} />
               : activeChip === 'upcoming'
-              ? <UpcomingTable rows={currentRows} search={search} />
-              : <ActionsTable rows={currentRows} search={search} />
+              ? <UpcomingTable rows={currentRows} search={search} selected={selectedIndices} onSelect={setSelectedIndices} />
+              : <ActionsTable rows={currentRows} search={search} selected={selectedIndices} onSelect={setSelectedIndices} />
             }
 
           </>
