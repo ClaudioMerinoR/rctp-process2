@@ -6,6 +6,7 @@ import ProfilePage from './components/profile/ProfilePage';
 import Settings from './pages/Settings';
 import RenewalEdit from './pages/RenewalEdit';
 import Placeholder from './pages/Placeholder';
+import Dashboard from './pages/Dashboard';
 
 const CompanyAdmin       = lazy(() => import('./pages/CompanyAdmin'));
 const RoleDetails        = lazy(() => import('./pages/RoleDetails'));
@@ -100,7 +101,7 @@ export default function App() {
     <HashRouter>
       <Suspense fallback={<Loading />}>
         <Routes>
-          <Route path="/" element={<Navigate to="/third-parties" replace />} />
+          <Route path="/" element={<Dashboard />} />
           <Route path="/third-parties" element={<ThirdParties />} />
           <Route path="/add-third-party" element={<AddThirdParty />} />
           <Route path="/profile/:profileId" element={<ProfilePage />} />
