@@ -13,13 +13,6 @@
 }
 .title { font-size: 20px; font-weight: 500; color: var(--text-normal); font-family: var(--font-heading); }
 .titleActions { display: flex; align-items: center; gap: 8px; }
-.btnView {
-  display: inline-flex; align-items: center; justify-content: space-between;
-  gap: 4px; height: 32px; padding: 0 10px;
-  background: var(--neutral-00); border: 1px solid var(--neutral-200);
-  color: var(--text-light-alt); border-radius: 4px; cursor: pointer;
-  font-size: 14px; font-family: inherit; width: 204px;
-}
 .btnAdd {
   display: inline-flex; align-items: center; gap: 4px; height: 32px; padding: 0 12px;
   background: var(--primary-500); color: var(--neutral-25); border: none; border-radius: 4px;

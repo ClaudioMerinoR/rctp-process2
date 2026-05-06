@@ -50,10 +50,7 @@ export default function ThirdParties() {
         <div className={styles.titleRow}>
           <h1 className={styles.title}>Third parties</h1>
           <div className={styles.titleActions}>
-            <button className={styles.btnView}>
-              Standard View
-              <span className="material-icons-outlined" style={{ fontSize: 18 }}>arrow_drop_down</span>
-            </button>
+            <Button variant="outline" icon="arrow_drop_down">Standard View</Button>
             <Button variant="outline" icon="tune" />
             <Button variant="outline" icon="file_upload">Bulk Import</Button>
             <Link to="/add-third-party" className={styles.btnAdd}>Add New</Link>
