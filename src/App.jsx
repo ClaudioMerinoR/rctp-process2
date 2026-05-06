@@ -6,6 +6,7 @@ import ProfilePage from './components/profile/ProfilePage';
 import Settings from './pages/Settings';
 import RenewalEdit from './pages/RenewalEdit';
 import Placeholder from './pages/Placeholder';
+import Employees from './pages/Employees';
 import Dashboard from './pages/Dashboard';
 
 const CompanyAdmin       = lazy(() => import('./pages/CompanyAdmin'));
@@ -124,7 +125,7 @@ export default function App() {
           <Route path="/company-admin/third-party-details" element={<CompanyAdmin />} />
           <Route path="/company-admin/roles" element={<CompanyAdmin />} />
           <Route path="/company-admin/roles/:roleIndex" element={<RoleDetails />} />
-          <Route path="/employees" element={<Placeholder title="Employees" />} />
+          <Route path="/employees" element={<Employees />} />
           <Route path="/risk-search" element={<Placeholder title="Risk Search" />} />
           <Route path="/settings" element={<Navigate to="/settings/general/currency_approval_groups" replace />} />
           <Route path="/settings/:tab/:section" element={<Settings />} />
