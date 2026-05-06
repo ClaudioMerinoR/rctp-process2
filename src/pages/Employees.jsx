@@ -5,36 +5,36 @@ import Button from '../components/ui/Button';
 import styles from './Employees.module.css';
 
 const ROWS = [
-  { name: 'Antonella Sassu',             tags: '',  ref: '', bu: 'Europe',              restricted: false, active: true,  status: 'Registered' },
-  { name: 'Barry Marbles',               tags: '',  ref: '', bu: 'Europe',              restricted: false, active: true,  status: 'Registered' },
-  { name: 'Bianka Grimm',                tags: '',  ref: '', bu: 'Entity Verification', restricted: false, active: true,  status: 'Registered' },
-  { name: 'Calvin Kang',                 tags: '',  ref: '', bu: 'test',                restricted: false, active: true,  status: 'Registered' },
-  { name: 'Calvin Kang (Test 2)',         tags: '',  ref: '', bu: 'test',                restricted: false, active: true,  status: 'Registered' },
-  { name: 'Calvin Kang NotPartOfApproveGroup', tags: '', ref: '', bu: 'test',           restricted: false, active: true,  status: 'Registered' },
-  { name: 'Carmela Monllor Llorens',     tags: '',  ref: '', bu: 'Europe',              restricted: false, active: true,  status: 'Registered' },
-  { name: 'Chris Eadie',                 tags: '',  ref: '', bu: 'Europe',              restricted: false, active: true,  status: 'Registered' },
-  { name: 'Claudio Merino',              tags: '',  ref: '', bu: 'Entity Verification', restricted: false, active: true,  status: 'Not Registered' },
-  { name: 'Claudio Merino',              tags: '',  ref: '', bu: 'Europe',              restricted: false, active: true,  status: 'Registered' },
-  { name: 'DJ Service Desk',             tags: '',  ref: '', bu: 'Europe',              restricted: false, active: true,  status: 'Registered' },
-  { name: 'DJ Support',                  tags: '',  ref: '', bu: 'Europe',              restricted: false, active: true,  status: 'Registered' },
-  { name: 'David Robayo',                tags: '',  ref: '', bu: 'Europe',              restricted: false, active: true,  status: 'Registered' },
-  { name: 'Davide Contini',              tags: '',  ref: '', bu: 'Europe',              restricted: false, active: true,  status: 'Registered' },
-  { name: 'E W',                         tags: '',  ref: '', bu: 'Europe',              restricted: false, active: true,  status: 'Registered' },
-  { name: 'Jorge Sneij',                 tags: '',  ref: '', bu: 'test',                restricted: false, active: true,  status: 'Registered' },
-  { name: 'Maria Joao Cruz',             tags: '',  ref: '', bu: 'Entity Verification', restricted: false, active: true,  status: 'Registered' },
-  { name: 'Min Chung',                   tags: '',  ref: '', bu: 'test',                restricted: false, active: true,  status: 'Registered' },
-  { name: 'Miruna Menzopol',             tags: '',  ref: '', bu: 'Europe',              restricted: false, active: true,  status: 'Registered' },
-  { name: 'Miruna Menzopol (Admin)',     tags: '',  ref: '', bu: 'Entity Verification', restricted: false, active: true,  status: 'Registered' },
-  { name: 'Nataly Baez',                 tags: '',  ref: '', bu: 'test',                restricted: false, active: true,  status: 'Registered' },
-  { name: 'Oriol Gomez',                 tags: '',  ref: '', bu: 'Entity Verification', restricted: false, active: true,  status: 'Registered' },
-  { name: 'Soni Kumari',                 tags: '',  ref: '', bu: 'Europe',              restricted: false, active: true,  status: 'Registered' },
-  { name: 'Tayfun Kocak',                tags: '',  ref: '', bu: 'Europe',              restricted: false, active: true,  status: 'Registered' },
-  { name: 'Veronica Torres Troconis',    tags: '',  ref: '', bu: 'Entity Verification', restricted: false, active: true,  status: 'Registered' },
-  { name: 'Yi Zhang',                    tags: '',  ref: '', bu: 'test',                restricted: false, active: true,  status: 'Registered' },
-  { name: 'alvaro sanchez',              tags: '',  ref: '', bu: 'Europe',              restricted: false, active: true,  status: 'Registered' },
-  { name: 'alvaro sanchez',              tags: '',  ref: '', bu: 'test',                restricted: false, active: true,  status: 'Not Registered' },
-  { name: 'karolina kopacz',             tags: '',  ref: '', bu: 'Europe',              restricted: false, active: true,  status: 'Registered' },
-  { name: 'stephen davidson',            tags: '',  ref: '', bu: 'Entity Verification', restricted: false, active: true,  status: 'Registered' },
+  { name: 'Antonella Sassu',              tags: '', ref: '', bu: 'Europe',              restricted: 'No', active: 'Yes', status: 'Registered' },
+  { name: 'Barry Marbles',                tags: '', ref: '', bu: 'Europe',              restricted: 'No', active: 'Yes', status: 'Registered' },
+  { name: 'Bianka Grimm',                 tags: '', ref: '', bu: 'Entity Verification', restricted: 'No', active: 'Yes', status: 'Registered' },
+  { name: 'Calvin Kang',                  tags: '', ref: '', bu: 'test',                restricted: 'No', active: 'Yes', status: 'Registered' },
+  { name: 'Calvin Kang (Test 2)',          tags: '', ref: '', bu: 'test',                restricted: 'No', active: 'Yes', status: 'Registered' },
+  { name: 'Calvin Kang NotPartOfApproveGroup', tags: '', ref: '', bu: 'test',           restricted: 'No', active: 'Yes', status: 'Registered' },
+  { name: 'Carmela Monllor Llorens',      tags: '', ref: '', bu: 'Europe',              restricted: 'No', active: 'Yes', status: 'Registered' },
+  { name: 'Chris Eadie',                  tags: '', ref: '', bu: 'Europe',              restricted: 'No', active: 'Yes', status: 'Registered' },
+  { name: 'Claudio Merino',               tags: '', ref: '', bu: 'Entity Verification', restricted: 'No', active: 'Yes', status: 'Not Registered' },
+  { name: 'Claudio Merino',               tags: '', ref: '', bu: 'Europe',              restricted: 'No', active: 'Yes', status: 'Registered' },
+  { name: 'DJ Service Desk',              tags: '', ref: '', bu: 'Europe',              restricted: 'No', active: 'Yes', status: 'Registered' },
+  { name: 'DJ Support',                   tags: '', ref: '', bu: 'Europe',              restricted: 'No', active: 'Yes', status: 'Registered' },
+  { name: 'David Robayo',                 tags: '', ref: '', bu: 'Europe',              restricted: 'No', active: 'Yes', status: 'Registered' },
+  { name: 'Davide Contini',               tags: '', ref: '', bu: 'Europe',              restricted: 'No', active: 'Yes', status: 'Registered' },
+  { name: 'E W',                          tags: '', ref: '', bu: 'Europe',              restricted: 'No', active: 'Yes', status: 'Registered' },
+  { name: 'Jorge Sneij',                  tags: '', ref: '', bu: 'test',                restricted: 'No', active: 'Yes', status: 'Registered' },
+  { name: 'Maria Joao Cruz',              tags: '', ref: '', bu: 'Entity Verification', restricted: 'No', active: 'Yes', status: 'Registered' },
+  { name: 'Min Chung',                    tags: '', ref: '', bu: 'test',                restricted: 'No', active: 'Yes', status: 'Registered' },
+  { name: 'Miruna Menzopol',              tags: '', ref: '', bu: 'Europe',              restricted: 'No', active: 'Yes', status: 'Registered' },
+  { name: 'Miruna Menzopol (Admin)',      tags: '', ref: '', bu: 'Entity Verification', restricted: 'No', active: 'Yes', status: 'Registered' },
+  { name: 'Nataly Baez',                  tags: '', ref: '', bu: 'test',                restricted: 'No', active: 'Yes', status: 'Registered' },
+  { name: 'Oriol Gomez',                  tags: '', ref: '', bu: 'Entity Verification', restricted: 'No', active: 'Yes', status: 'Registered' },
+  { name: 'Soni Kumari',                  tags: '', ref: '', bu: 'Europe',              restricted: 'No', active: 'Yes', status: 'Registered' },
+  { name: 'Tayfun Kocak',                 tags: '', ref: '', bu: 'Europe',              restricted: 'No', active: 'Yes', status: 'Registered' },
+  { name: 'Veronica Torres Troconis',     tags: '', ref: '', bu: 'Entity Verification', restricted: 'No', active: 'Yes', status: 'Registered' },
+  { name: 'Yi Zhang',                     tags: '', ref: '', bu: 'test',                restricted: 'No', active: 'Yes', status: 'Registered' },
+  { name: 'alvaro sanchez',               tags: '', ref: '', bu: 'Europe',              restricted: 'No', active: 'Yes', status: 'Registered' },
+  { name: 'alvaro sanchez',               tags: '', ref: '', bu: 'test',                restricted: 'No', active: 'Yes', status: 'Not Registered' },
+  { name: 'karolina kopacz',              tags: '', ref: '', bu: 'Europe',              restricted: 'No', active: 'Yes', status: 'Registered' },
+  { name: 'stephen davidson',             tags: '', ref: '', bu: 'Entity Verification', restricted: 'No', active: 'Yes', status: 'Registered' },
 ];
 
 function StatusBadge({ status }) {
@@ -48,10 +48,12 @@ function StatusBadge({ status }) {
 
 export default function Employees() {
   const [search, setSearch] = useState('');
-  const [view, setView] = useState('Standard');
 
   const filtered = search
-    ? ROWS.filter(r => r.name.toLowerCase().includes(search.toLowerCase()) || r.bu.toLowerCase().includes(search.toLowerCase()))
+    ? ROWS.filter(r =>
+        r.name.toLowerCase().includes(search.toLowerCase()) ||
+        r.bu.toLowerCase().includes(search.toLowerCase())
+      )
     : ROWS;
 
   return (
@@ -59,23 +61,17 @@ export default function Employees() {
       <Breadcrumb items={[{ label: 'Employees' }]} />
 
       <div className={styles.card}>
-
-        {/* Title row */}
         <div className={styles.titleRow}>
           <h1 className={styles.title}>Employees</h1>
           <div className={styles.titleActions}>
-            <select className={styles.viewSelect} value={view} onChange={e => setView(e.target.value)}>
-              <option>Standard</option>
-              <option>Compact</option>
-            </select>
-            <button className={styles.filterBtn}>
-              <span className="material-icons-outlined" style={{ fontSize: 18 }}>filter_list</span>
-            </button>
+            <Button variant="outline" icon="arrow_drop_down">Standard</Button>
+            <Button variant="outline" icon="filter_list" />
             <Button variant="filled">Add Employee</Button>
           </div>
         </div>
 
-        {/* Toolbar */}
+        <div className={styles.divider} />
+
         <div className={styles.toolbar}>
           <div className={styles.toolbarLeft}>
             <div className={styles.searchWrap}>
@@ -88,10 +84,9 @@ export default function Employees() {
               />
               <span className="material-icons-outlined" style={{ position: 'absolute', right: 8, color: 'var(--text-light)', fontSize: 18, pointerEvents: 'none' }}>search</span>
             </div>
-            <button className={styles.refreshBtn} onClick={() => setSearch('')} title="Reset">
-              <span className="material-icons-outlined" style={{ fontSize: 18 }}>refresh</span>
-            </button>
-            <span className={styles.resultCount}>Showing results 1 – {filtered.length} of {filtered.length}</span>
+            <span style={{ fontSize: 13, color: 'var(--text-light)', whiteSpace: 'nowrap' }}>
+              Showing results 1 – {filtered.length} of {filtered.length}
+            </span>
           </div>
           <div className={styles.toolbarRight}>
             <Button variant="outline" icon="file_download">Export</Button>
@@ -100,7 +95,6 @@ export default function Employees() {
           </div>
         </div>
 
-        {/* Table */}
         <div className={styles.tableWrap}>
           <table className={styles.table}>
             <thead>
@@ -123,8 +117,8 @@ export default function Employees() {
                   <td>{row.tags}</td>
                   <td>{row.ref}</td>
                   <td>{row.bu}</td>
-                  <td>{row.restricted ? 'Yes' : 'No'}</td>
-                  <td>{row.active ? 'Yes' : 'No'}</td>
+                  <td>{row.restricted}</td>
+                  <td>{row.active}</td>
                   <td><StatusBadge status={row.status} /></td>
                 </tr>
               ))}
@@ -132,27 +126,24 @@ export default function Employees() {
           </table>
         </div>
 
-        {/* Pagination */}
         <div className={styles.divider} />
         <div className={styles.pagination}>
           <div className={styles.paginationLeft}>
+            <select className={styles.pageSize}>
+              <option>20</option><option>50</option><option>100</option>
+            </select>
+            <span>Showing results 1 – {filtered.length} of {filtered.length}</span>
+          </div>
+          <div className={styles.paginationRight}>
             <button className={styles.pageBtn} disabled><span className="material-icons-outlined">first_page</span></button>
             <button className={styles.pageBtn} disabled><span className="material-icons-outlined">chevron_left</span></button>
-          </div>
-          <div className={styles.paginationCenter}>
             <span>Page</span>
             <input className={styles.pageInput} type="number" defaultValue={1} min={1} max={1} />
             <span>of 1</span>
-          </div>
-          <div className={styles.paginationRight}>
             <button className={styles.pageBtn} disabled><span className="material-icons-outlined">chevron_right</span></button>
             <button className={styles.pageBtn} disabled><span className="material-icons-outlined">last_page</span></button>
           </div>
         </div>
-        <div className={styles.paginationBottom}>
-          <span>Showing results 1 – {filtered.length} of {filtered.length}</span>
-        </div>
-
       </div>
     </PageLayout>
   );
