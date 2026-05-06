@@ -43,15 +43,15 @@ const ACTIONS_ROWS = [
   { type: 'RED FLAG',                  name: 'Adverse Media — Los Pollos Hermanos Distribution Network', tp: 'LOS POLLOS HERMANOS',           tpId: 'lospollos',    status: 'Not Started',  risk: 'high',   owner: 'Compliance Group',  date: '28 Apr 2026', age: '8 Days',    dueNow: true },
 
   // ── Upcoming Actions (9) ──
-  { type: 'APPROVAL',                  name: 'Approval Stage 1 — Pending Background Clearance',        tp: 'BRUCE WAYNE',                     tpId: 'brucewayne',   status: 'Not Started',  risk: 'low',    owner: 'Lucius Fox',        date: '15 Dec 2025', age: '14 Days',   upcoming: true },
-  { type: 'QUESTIONNAIRE',             name: 'Integrity Check — Dual Identity Verification',           tp: 'BRUCE WAYNE',                     tpId: 'brucewayne',   status: 'In Progress',  risk: 'low',    owner: 'Alfred Pennyworth', date: '01 Dec 2025', age: '29 Days',   upcoming: true },
-  { type: 'QUESTIONNAIRE',             name: 'Risk Assessment',                                         tp: 'GAZPROM, PAO',                    tpId: 'gazprom',      status: 'Not Started',  risk: 'high',   owner: 'Emily Forbes',      date: '03 Dec 2025', age: '11 Days',   upcoming: true },
-  { type: 'ENHANCED DUE DILIGENCE REPORT', name: 'Enhanced Due Diligence — Brightstar Cruises Cover-Up', tp: 'WAYSTAR ROYCO',                tpId: 'waystar',      status: 'In Progress',  risk: 'high',   owner: 'Emily Forbes',      date: '01 Dec 2025', age: '28 Days',   upcoming: true },
-  { type: 'RISK LEVEL AMEND APPROVAL', name: 'Risk Level Escalation — General Risk',                   tp: 'WAYSTAR ROYCO',                   tpId: 'waystar',      status: 'Not Started',  risk: 'high',   owner: 'Compliance Group',  date: '20 Dec 2025', age: '9 Days',    upcoming: true },
-  { type: 'QUESTIONNAIRE',             name: 'Annual Screening Review',                                 tp: 'LUMON INDUSTRIES, INC.',          tpId: 'lumon',        status: 'In Progress',  risk: 'low',    owner: 'Seth Milchick',     date: '02 Jan 2026', age: '26 Days',   upcoming: true },
-  { type: 'QUESTIONNAIRE',             name: 'Risk Assessment',                                         tp: 'LOS POLLOS HERMANOS',             tpId: 'lospollos',    status: 'Not Started',  risk: 'high',   owner: 'Claudio Merino',    date: '10 Apr 2026', age: '26 Days',   upcoming: true },
-  { type: 'RED FLAG',                  name: 'Exec Misconduct — Multiple Senior Officers',              tp: 'WAYSTAR ROYCO',                   tpId: 'waystar',      status: 'In Progress',  risk: 'high',   owner: 'Compliance Group',  date: '20 Nov 2025', age: '39 Days',   upcoming: true },
-  { type: 'APPROVAL',                  name: 'Renewal Approval — Annual Review',                        tp: 'DUNDER MIFFLIN PAPER COMPANY',    tpId: 'dundermifflin', status: 'Not Started', risk: 'medium', owner: 'Claudio Merino',    date: '28 Apr 2026', age: '8 Days',    upcoming: true },
+  { type: 'QUESTIONNAIRE',             name: 'Risk Assessment',                                         tp: 'LOS POLLOS HERMANOS',             tpId: 'lospollos',    status: 'Not Started',  risk: 'high',   owner: 'Claudio Merino',    date: '10 Apr 2026', age: '26 Days',   upcoming: true, dueDate: '28 May 2026' },
+  { type: 'APPROVAL',                  name: 'Renewal Approval — Annual Review',                        tp: 'DUNDER MIFFLIN PAPER COMPANY',    tpId: 'dundermifflin', status: 'Not Started', risk: 'medium', owner: 'Claudio Merino',    date: '28 Apr 2026', age: '8 Days',    upcoming: true, dueDate: '20 May 2026' },
+  { type: 'QUESTIONNAIRE',             name: 'Annual Screening Review',                                 tp: 'LUMON INDUSTRIES, INC.',          tpId: 'lumon',        status: 'In Progress',  risk: 'low',    owner: 'Seth Milchick',     date: '02 Jan 2026', age: '26 Days',   upcoming: true, dueDate: '15 May 2026' },
+  { type: 'RISK LEVEL AMEND APPROVAL', name: 'Risk Level Escalation — General Risk',                   tp: 'WAYSTAR ROYCO',                   tpId: 'waystar',      status: 'Not Started',  risk: 'high',   owner: 'Compliance Group',  date: '20 Dec 2025', age: '9 Days',    upcoming: true, dueDate: '10 May 2026' },
+  { type: 'RED FLAG',                  name: 'Exec Misconduct — Multiple Senior Officers',              tp: 'WAYSTAR ROYCO',                   tpId: 'waystar',      status: 'In Progress',  risk: 'high',   owner: 'Compliance Group',  date: '20 Nov 2025', age: '39 Days',   upcoming: true, dueDate: '10 May 2026' },
+  { type: 'ENHANCED DUE DILIGENCE REPORT', name: 'Enhanced Due Diligence — Brightstar Cruises Cover-Up', tp: 'WAYSTAR ROYCO',                tpId: 'waystar',      status: 'In Progress',  risk: 'high',   owner: 'Emily Forbes',      date: '01 Dec 2025', age: '28 Days',   upcoming: true, dueDate: '08 May 2026' },
+  { type: 'QUESTIONNAIRE',             name: 'Integrity Check — Dual Identity Verification',           tp: 'BRUCE WAYNE',                     tpId: 'brucewayne',   status: 'In Progress',  risk: 'low',    owner: 'Alfred Pennyworth', date: '01 Dec 2025', age: '29 Days',   upcoming: true, dueDate: '07 May 2026' },
+  { type: 'APPROVAL',                  name: 'Approval Stage 1 — Pending Background Clearance',        tp: 'BRUCE WAYNE',                     tpId: 'brucewayne',   status: 'Not Started',  risk: 'low',    owner: 'Lucius Fox',        date: '15 Dec 2025', age: '14 Days',   upcoming: true, dueDate: '07 May 2026' },
+  { type: 'QUESTIONNAIRE',             name: 'Risk Assessment',                                         tp: 'GAZPROM, PAO',                    tpId: 'gazprom',      status: 'Not Started',  risk: 'high',   owner: 'Emily Forbes',      date: '03 Dec 2025', age: '11 Days',   upcoming: true, dueDate: '07 May 2026' },
 ];
 
 // ── Screening & Monitoring tab data ─────────────────────────────────────────
@@ -109,6 +109,69 @@ function RiskChip({ risk }) {
       {labels[risk]}
       <span className="material-icons-outlined" style={{ fontSize: 13 }}>{icons[risk]}</span>
     </span>
+  );
+}
+
+const RISK_LABELS = { high: 'High', medium: 'Medium', low: 'Low' };
+
+// ── Upcoming Actions table — matches Figma node 6606-142461 ─────────────────
+function UpcomingTable({ rows, search }) {
+  const filtered = search
+    ? rows.filter(r =>
+        r.name.toLowerCase().includes(search.toLowerCase()) ||
+        r.tp.toLowerCase().includes(search.toLowerCase()) ||
+        r.type.toLowerCase().includes(search.toLowerCase())
+      )
+    : rows;
+
+  return (
+    <>
+      <div className={styles.tableWrap}>
+        <table className={styles.table}>
+          <thead>
+            <tr>
+              <th style={{ width: 40 }}><input type="checkbox" style={{ cursor: 'pointer' }} /></th>
+              <th>Task Type <span className="material-icons-outlined" style={{ fontSize: 12, verticalAlign: 'middle' }}>arrow_drop_down</span></th>
+              <th>Task Name <span className="material-icons-outlined" style={{ fontSize: 12, verticalAlign: 'middle' }}>arrow_drop_down</span></th>
+              <th>Third Party Name <span className="material-icons-outlined" style={{ fontSize: 12, verticalAlign: 'middle' }}>arrow_drop_down</span></th>
+              <th>Task Status <span className="material-icons-outlined" style={{ fontSize: 12, verticalAlign: 'middle' }}>arrow_drop_down</span></th>
+              <th>Current Risk Level <span className="material-icons-outlined" style={{ fontSize: 12, verticalAlign: 'middle' }}>arrow_drop_down</span></th>
+              <th>Owner <span className="material-icons-outlined" style={{ fontSize: 12, verticalAlign: 'middle' }}>arrow_drop_down</span></th>
+              <th>
+                Due Date{' '}
+                <span className="material-icons-outlined" style={{ fontSize: 12, verticalAlign: 'middle', color: 'var(--primary-600)' }}>arrow_drop_up</span>
+              </th>
+            </tr>
+          </thead>
+          <tbody>
+            {filtered.length === 0 ? (
+              <tr><td colSpan={8} style={{ textAlign: 'center', color: 'var(--text-light)', padding: '32px 0' }}>No actions found.</td></tr>
+            ) : filtered.map((row, i) => (
+              <tr key={i}>
+                <td style={{ textAlign: 'center' }}><input type="checkbox" style={{ cursor: 'pointer' }} /></td>
+                <td><TaskTypeBadge type={row.type} /></td>
+                <td>
+                  {row.tpId
+                    ? <Link to={`/profile/${row.tpId}`} className={styles.cellLink}>{row.name}</Link>
+                    : <span className={styles.cellLink}>{row.name}</span>}
+                </td>
+                <td>
+                  {row.tpId
+                    ? <Link to={`/profile/${row.tpId}`} className={styles.cellLink}>{row.tp}</Link>
+                    : <span className={styles.cellLink}>{row.tp}</span>}
+                </td>
+                <td>{row.status}</td>
+                <td>{RISK_LABELS[row.risk] ?? row.risk}</td>
+                <td>{row.owner}</td>
+                <td>{row.dueDate}</td>
+              </tr>
+            ))}
+          </tbody>
+        </table>
+      </div>
+      <div className={styles.divider} />
+      <TablePagination count={filtered.length} />
+    </>
   );
 }
 
@@ -698,6 +761,8 @@ export default function Dashboard() {
             {/* Table */}
             {isSM
               ? <SMTable rows={SM_ROWS} search={search} />
+              : activeChip === 'upcoming'
+              ? <UpcomingTable rows={currentRows} search={search} />
               : <ActionsTable rows={currentRows} search={search} />
             }
 
