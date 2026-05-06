@@ -25,12 +25,13 @@ const STATUS_CONFIG = {
 };
 
 // ── Actions tab data ────────────────────────────────────────────────────────
+// dueNow: overdue / urgent; upcoming: due within ~30 days
 const ACTIONS_ROWS = [
-  { type: 'APPROVAL',    name: 'Approval Stage 1',                                    tp: 'Apparel Empire',    tpId: null,           status: 'Not Started',  risk: 'high',   owner: 'Claudio Merino', date: '04 May 2026', age: '2 Days' },
-  { type: 'RED FLAG',    name: 'Adverse Media',                                        tp: 'GAZPROM, PAO',      tpId: 'gazprom',      status: 'Not Started',  risk: 'high',   owner: 'Claudio Merino', date: '30 Apr 2026', age: '6 Days' },
-  { type: 'QUESTIONNAIRE', name: 'Onboarding',                                         tp: 'Coinbase',          tpId: null,           status: 'In Progress',  risk: 'low',    owner: 'Claudio Merino', date: '13 Apr 2026', age: '23 Days' },
-  { type: 'RED FLAG',    name: 'Anti-bribery policy does not apply to Third Parties',  tp: 'Pied Piper',        tpId: 'piedpiper',    status: 'Not Started',  risk: 'medium', owner: 'Claudio Merino', date: '09 Apr 2026', age: '27 Days' },
-  { type: 'RED FLAG',    name: 'Anti-bribery policy does not apply to Third Parties',  tp: 'fds',               tpId: null,           status: 'Not Started',  risk: 'medium', owner: 'Claudio Merino', date: '01 Apr 2026', age: '1 Month' },
+  { type: 'APPROVAL',    name: 'Approval Stage 1',                                    tp: 'Apparel Empire',    tpId: null,           status: 'Not Started',  risk: 'high',   owner: 'Claudio Merino', date: '04 May 2026', age: '2 Days',    dueNow: true },
+  { type: 'RED FLAG',    name: 'Adverse Media',                                        tp: 'GAZPROM, PAO',      tpId: 'gazprom',      status: 'Not Started',  risk: 'high',   owner: 'Claudio Merino', date: '30 Apr 2026', age: '6 Days',    dueNow: true },
+  { type: 'QUESTIONNAIRE', name: 'Onboarding',                                         tp: 'Coinbase',          tpId: null,           status: 'In Progress',  risk: 'low',    owner: 'Claudio Merino', date: '13 Apr 2026', age: '23 Days',   upcoming: true },
+  { type: 'RED FLAG',    name: 'Anti-bribery policy does not apply to Third Parties',  tp: 'Pied Piper',        tpId: 'piedpiper',    status: 'Not Started',  risk: 'medium', owner: 'Claudio Merino', date: '09 Apr 2026', age: '27 Days',   upcoming: true },
+  { type: 'RED FLAG',    name: 'Anti-bribery policy does not apply to Third Parties',  tp: 'fds',               tpId: null,           status: 'Not Started',  risk: 'medium', owner: 'Claudio Merino', date: '01 Apr 2026', age: '1 Month',   upcoming: true },
   { type: 'QUESTIONNAIRE', name: 'Onboarding',                                         tp: 'Pied Piper Inc',    tpId: 'piedpiper',    status: 'In Progress',  risk: null,     owner: 'Claudio Merino', date: '26 Mar 2026', age: '1 Month' },
   { type: 'QUESTIONNAIRE', name: 'Onboarding',                                         tp: 'Bruce Wayne',       tpId: 'brucewayne',   status: 'In Progress',  risk: null,     owner: 'Claudio Merino', date: '25 Mar 2026', age: '1 Month' },
   { type: 'QUESTIONNAIRE', name: 'Onboarding',                                         tp: 'agence grateau',    tpId: null,           status: 'In Progress',  risk: null,     owner: 'Claudio Merino', date: '24 Mar 2026', age: '1 Month' },
@@ -566,16 +567,25 @@ function TablePagination({ count }) {
 export default function Dashboard() {
   const [activeTab, setActiveTab] = useState('Actions');
   const [search, setSearch] = useState('');
-  const [filterDueNow, setFilterDueNow] = useState(false);
-  const [filterUpcoming, setFilterUpcoming] = useState(false);
+  const [activeChip, setActiveChip] = useState(null); // null | 'dueNow' | 'upcoming'
 
   const isSM  = activeTab === 'Screening & Monitoring';
   const isSMT = activeTab === 'Screening & Monitoring Tasks';
   const isEDD = activeTab === 'Enhanced Due Diligence Reports';
-  const currentRows = isSM ? SM_ROWS
+
+  const baseRows = isSM ? SM_ROWS
     : isSMT ? SMT_ROWS
     : isEDD ? EDD_TABLE_ROWS
     : ACTIONS_ROWS;
+
+  // chip sub-tab filtering only applies on Actions tab
+  const chipFiltered = (activeTab === 'Actions' && activeChip === 'dueNow')
+    ? baseRows.filter(r => r.dueNow)
+    : (activeTab === 'Actions' && activeChip === 'upcoming')
+    ? baseRows.filter(r => r.upcoming)
+    : baseRows;
+
+  const currentRows = chipFiltered;
 
   const visibleCount = search
     ? currentRows.filter(r =>
@@ -596,7 +606,7 @@ export default function Dashboard() {
             <div
               key={tab}
               className={`${styles.tab} ${activeTab === tab ? styles.tabActive : ''}`}
-              onClick={() => { setActiveTab(tab); setSearch(''); }}
+              onClick={() => { setActiveTab(tab); setSearch(''); setActiveChip(null); }}
               style={{ position: 'relative' }}
             >
               {tab}
@@ -654,24 +664,24 @@ export default function Dashboard() {
               <span className={styles.resultCount}>Showing results 1 – {visibleCount} of {visibleCount}</span>
             </div>
 
-            {/* Filter chips */}
+            {/* Sub-tab chips */}
             <div className={styles.chipRow}>
               <button
-                className={`${styles.chip} ${filterDueNow ? styles.chipActive : ''}`}
-                onClick={() => setFilterDueNow(v => !v)}
+                className={`${styles.chip} ${activeChip === 'dueNow' ? styles.chipActive : ''}`}
+                onClick={() => setActiveChip(v => v === 'dueNow' ? null : 'dueNow')}
               >
                 Actions Due Now
-                {filterDueNow
-                  ? <span className={styles.chipBadge}>!</span>
+                {activeChip === 'dueNow'
+                  ? <span className={styles.chipBadge}>{ACTIONS_ROWS.filter(r => r.dueNow).length}</span>
                   : <span className={`material-icons-outlined ${styles.chipClose}`}>close</span>}
               </button>
               <button
-                className={`${styles.chip} ${filterUpcoming ? styles.chipActive : ''}`}
-                onClick={() => setFilterUpcoming(v => !v)}
+                className={`${styles.chip} ${activeChip === 'upcoming' ? styles.chipActive : ''}`}
+                onClick={() => setActiveChip(v => v === 'upcoming' ? null : 'upcoming')}
               >
                 Upcoming Actions
-                {filterUpcoming
-                  ? <span className={styles.chipBadge}>!</span>
+                {activeChip === 'upcoming'
+                  ? <span className={styles.chipBadge}>{ACTIONS_ROWS.filter(r => r.upcoming).length}</span>
                   : <span className={`material-icons-outlined ${styles.chipClose}`}>close</span>}
               </button>
               <div style={{ flex: 1 }} />
@@ -686,6 +696,7 @@ export default function Dashboard() {
               ? <SMTable rows={SM_ROWS} search={search} />
               : <ActionsTable rows={currentRows} search={search} />
             }
+
           </>
         )}
       </div>
