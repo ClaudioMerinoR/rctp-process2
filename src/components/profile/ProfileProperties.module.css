@@ -1,0 +1,59 @@
+.headerRight {
+  display: flex;
+  align-items: center;
+  gap: 12px;
+}
+
+.resultCount {
+  font-size: 13px;
+  color: var(--text-light);
+}
+
+.filterBtn {
+  display: flex;
+  align-items: center;
+  gap: 6px;
+}
+
+/* Chip style — matches AddThirdParty duplicate check "Current Status" badge exactly */
+.statusBadge {
+  display: inline-flex;
+  align-items: center;
+  padding: 4px 8px;
+  border-radius: 2px;
+  font-size: 11px;
+  font-weight: 600;
+  background: var(--neutral-50);
+  color: var(--text-normal);
+  white-space: nowrap;
+}
+
+.emptyValue {
+  color: var(--text-light);
+}
+
+/* Key Risk / Red Flag icon columns — centred */
+.iconCell {
+  text-align: center;
+}
+
+/* Edit pencil button */
+.editCell {
+  text-align: center;
+}
+
+.editBtn {
+  background: none;
+  border: none;
+  cursor: pointer;
+  padding: 4px;
+  border-radius: 4px;
+  color: var(--primary-600);
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+  transition: background 0.15s ease;
+}
+.editBtn:hover {
+  background: var(--primary-50);
+}

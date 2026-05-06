@@ -12,9 +12,18 @@ const RoleDetails        = lazy(() => import('./pages/RoleDetails'));
 const ProfileDocuments   = lazy(() => import('./components/profile/ProfileDocuments'));
 const ProfileRiskReport  = lazy(() => import('./components/profile/ProfileRiskReport'));
 const ProfileEdit            = lazy(() => import('./components/profile/ProfileEdit'));
-const ProfileRiskMitigation  = lazy(() => import('./components/profile/ProfileRiskMitigation'));
-const ProfileApproval        = lazy(() => import('./components/profile/ProfileApproval'));
-const ProfilePlaceholder     = lazy(() => import('./components/profile/ProfilePlaceholder'));
+const ProfileRiskMitigation       = lazy(() => import('./components/profile/ProfileRiskMitigation'));
+const ProfileApproval             = lazy(() => import('./components/profile/ProfileApproval'));
+const ProfilePlaceholder          = lazy(() => import('./components/profile/ProfilePlaceholder'));
+const ProfileRiskAssessment       = lazy(() => import('./components/profile/ProfileRiskAssessment'));
+const ProfileIntegrityCheck       = lazy(() => import('./components/profile/ProfileIntegrityCheck'));
+const ProfileDueDiligence         = lazy(() => import('./components/profile/ProfileDueDiligence'));
+const ProfileEnhancedDueDiligence = lazy(() => import('./components/profile/ProfileEnhancedDueDiligence'));
+const ProfileUBO                        = lazy(() => import('./components/profile/ProfileUBO'));
+const ProfileScreeningMonitoring        = lazy(() => import('./components/profile/ProfileScreeningMonitoring'));
+const ProfileProperties                 = lazy(() => import('./components/profile/ProfileProperties'));
+const ProfileEntityVerification         = lazy(() => import('./components/profile/ProfileEntityVerification'));
+const ProfileAudit                      = lazy(() => import('./components/profile/ProfileAudit'));
 
 const PASSWORD = 'RCTPTeam';
 const SESSION_KEY = 'rctp_auth';
@@ -99,13 +108,16 @@ export default function App() {
           <Route path="/profile/:profileId/risk-report" element={<ProfileRiskReport />} />
           <Route path="/profile/:profileId/edit" element={<ProfileEdit />} />
           <Route path="/profile/:profileId/risk-mitigation" element={<ProfileRiskMitigation />} />
-          <Route path="/profile/:profileId/risk-assessment" element={<ProfilePlaceholder title="Risk Assessment" />} />
-          <Route path="/profile/:profileId/due-diligence" element={<ProfilePlaceholder title="Due Diligence" />} />
-          <Route path="/profile/:profileId/integrity-check" element={<ProfilePlaceholder title="Integrity Check" />} />
-          <Route path="/profile/:profileId/enhanced-due-diligence" element={<ProfilePlaceholder title="Enhanced Due Diligence Reports" />} />
-          <Route path="/profile/:profileId/ubo" element={<ProfilePlaceholder title="UBO" />} />
+          <Route path="/profile/:profileId/risk-assessment" element={<ProfileRiskAssessment />} />
+          <Route path="/profile/:profileId/due-diligence" element={<ProfileDueDiligence />} />
+          <Route path="/profile/:profileId/integrity-check" element={<ProfileIntegrityCheck />} />
+          <Route path="/profile/:profileId/enhanced-due-diligence" element={<ProfileEnhancedDueDiligence />} />
+          <Route path="/profile/:profileId/ubo" element={<ProfileUBO />} />
           <Route path="/profile/:profileId/approval" element={<ProfileApproval />} />
-          <Route path="/profile/:profileId/screening-monitoring" element={<ProfilePlaceholder title="Screening & Monitoring" />} />
+          <Route path="/profile/:profileId/screening-monitoring" element={<ProfileScreeningMonitoring />} />
+          <Route path="/profile/:profileId/properties" element={<ProfileProperties />} />
+          <Route path="/profile/:profileId/entity-verification" element={<ProfileEntityVerification />} />
+          <Route path="/profile/:profileId/audit" element={<ProfileAudit />} />
           <Route path="/company-admin" element={<Navigate to="/company-admin/summary" replace />} />
           <Route path="/company-admin/summary" element={<CompanyAdmin />} />
           <Route path="/company-admin/third-party-details" element={<CompanyAdmin />} />

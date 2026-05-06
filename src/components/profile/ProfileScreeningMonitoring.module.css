@@ -1,0 +1,107 @@
+/* Only styles not already covered by profile.module.css or ProfileRiskMitigation.module.css */
+
+.headerActions {
+  display: flex;
+  align-items: center;
+  gap: 12px;
+}
+
+/* "Policy ?" and "Category Key ?" inline text links */
+.policyLink {
+  display: flex;
+  align-items: center;
+  gap: 4px;
+  font-size: 11px;
+  font-weight: 600;
+  text-transform: uppercase;
+  letter-spacing: 1px;
+  color: var(--primary-600);
+  cursor: pointer;
+  user-select: none;
+}
+
+.helpIcon {
+  width: 14px;
+  height: 14px;
+  border-radius: 50%;
+  border: 1px solid var(--primary-600);
+  background: var(--primary-600);
+  color: var(--neutral-00);
+  font-size: 9px;
+  font-weight: 700;
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+}
+
+/* Canonical active/inactive toggle — matches Settings / RenewalEdit pattern exactly */
+.activeToggle {
+  position: relative;
+  width: 96px;
+  height: 32px;
+  border-radius: 2px;
+  overflow: hidden;
+  border: 1px solid var(--success-500);
+  background: var(--success-500);
+  cursor: pointer;
+  user-select: none;
+  transition: background 0.2s, border-color 0.2s;
+}
+.activeToggleOff {
+  background: var(--alert-500);
+  border-color: var(--alert-500);
+}
+.activeToggleTrack {
+  position: absolute;
+  inset: 0;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  font-size: 12px;
+  font-weight: 500;
+  text-transform: uppercase;
+  color: var(--text-normal);
+  padding-right: 14px;
+}
+.activeToggleOff .activeToggleTrack {
+  color: var(--neutral-00);
+  padding-right: 0;
+  padding-left: 14px;
+}
+.activeToggleThumb {
+  position: absolute;
+  top: -2px;
+  bottom: -2px;
+  width: 26px;
+  background: var(--neutral-00);
+  right: -13px;
+  transition: right 0.15s, left 0.15s;
+}
+.activeToggleOff .activeToggleThumb {
+  right: auto;
+  left: -13px;
+}
+
+/* Table wrapper with top padding (card already has 16px, this adds space after the header divider) */
+.tableWrap {
+  margin-top: 16px;
+  overflow-x: auto;
+}
+
+/* Three-dot menu button in last table column */
+.menuBtn {
+  background: none;
+  border: none;
+  cursor: pointer;
+  padding: 4px;
+  border-radius: 4px;
+  color: var(--text-light);
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+  transition: background 0.15s ease, color 0.15s ease;
+}
+.menuBtn:hover {
+  background: var(--neutral-50);
+  color: var(--text-normal);
+}

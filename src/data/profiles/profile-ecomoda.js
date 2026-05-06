@@ -22,10 +22,10 @@ export default {
     { label: 'Screening & Monitoring', dot: 'green', path: 'screening-monitoring' },
   ],
   sidebarSections: [
-    { label: 'Properties' },
+    { label: 'Properties', path: 'properties' },
     { label: 'Documents', path: 'documents' },
-    { label: 'Entity Verification', partner: 'ubo', tooltip: 'Powered by Duns & Bradstreet' },
-    { label: 'Audit' },
+    { label: 'Entity Verification', partner: 'ubo', tooltip: 'Powered by Duns & Bradstreet', path: 'entity-verification' },
+    { label: 'Audit', path: 'audit' },
   ],
 
   overviewFields: [

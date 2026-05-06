@@ -1,0 +1,143 @@
+.resultCount {
+  font-size: 13px;
+  color: var(--text-light);
+}
+
+.printBtn {
+  display: flex;
+  align-items: center;
+  gap: 6px;
+  height: 32px;
+  font-size: 12px;
+  padding: 0 14px;
+  text-transform: uppercase;
+  font-weight: 500;
+  letter-spacing: 0.3px;
+}
+
+/* Filter toolbar */
+.filterBar {
+  display: flex;
+  align-items: center;
+  gap: 8px;
+  padding: 12px 0 16px;
+  flex-wrap: wrap;
+}
+
+.filterSelect {
+  height: 32px;
+  padding: 0 10px;
+  border: 1px solid var(--neutral-100);
+  border-radius: 4px;
+  font-size: 13px;
+  font-family: inherit;
+  color: var(--text-normal);
+  background: var(--neutral-00);
+  cursor: pointer;
+  min-width: 120px;
+}
+.filterSelect:focus {
+  outline: none;
+  border-color: var(--primary-400);
+}
+
+.filterInput {
+  height: 32px;
+  padding: 0 10px;
+  border: 1px solid var(--neutral-100);
+  border-radius: 4px;
+  font-size: 13px;
+  font-family: inherit;
+  color: var(--text-normal);
+  background: var(--neutral-00);
+  flex: 1;
+  min-width: 160px;
+}
+.filterInput::placeholder {
+  color: var(--text-light);
+}
+.filterInput:focus {
+  outline: none;
+  border-color: var(--primary-400);
+}
+
+.resetBtn {
+  background: none;
+  border: none;
+  cursor: pointer;
+  padding: 4px;
+  border-radius: 4px;
+  color: var(--text-light);
+  display: inline-flex;
+  align-items: center;
+  transition: background 0.15s ease, color 0.15s ease;
+}
+.resetBtn:hover {
+  background: var(--neutral-50);
+  color: var(--text-normal);
+}
+
+/* Pagination */
+.pagination {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  padding: 12px 0 4px;
+  border-top: 1px solid var(--neutral-50);
+  margin-top: 4px;
+  gap: 12px;
+}
+
+.paginationLeft {
+  display: flex;
+  align-items: center;
+  gap: 8px;
+}
+
+.paginationRight {
+  display: flex;
+  align-items: center;
+  gap: 4px;
+}
+
+.perPageSelect {
+  height: 30px;
+  padding: 0 8px;
+  border: 1px solid var(--neutral-100);
+  border-radius: 4px;
+  font-size: 13px;
+  font-family: inherit;
+  color: var(--text-normal);
+  background: var(--neutral-00);
+  cursor: pointer;
+}
+.perPageSelect:focus {
+  outline: none;
+  border-color: var(--primary-400);
+}
+
+.pageInfo {
+  font-size: 13px;
+  color: var(--text-light);
+  padding: 0 6px;
+}
+
+.pageBtn {
+  background: none;
+  border: none;
+  cursor: pointer;
+  padding: 4px;
+  border-radius: 4px;
+  color: var(--text-light);
+  display: inline-flex;
+  align-items: center;
+  transition: background 0.15s ease, color 0.15s ease;
+}
+.pageBtn:hover:not(:disabled) {
+  background: var(--neutral-50);
+  color: var(--text-normal);
+}
+.pageBtn:disabled {
+  opacity: 0.4;
+  cursor: default;
+}

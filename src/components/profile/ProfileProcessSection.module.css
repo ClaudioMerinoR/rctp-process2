@@ -1,0 +1,142 @@
+/* Shared styles for process section pages (Risk Assessment, Integrity Check, Due Diligence, Enhanced DD) */
+
+.card {
+  background: var(--neutral-00);
+  border-top: 3px solid var(--primary-600);
+  padding: 16px;
+  min-height: 600px;
+}
+
+.cardHeader {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  padding-bottom: 16px;
+  border-bottom: 1px solid var(--neutral-50);
+}
+
+.cardTitleRow {
+  display: flex;
+  align-items: center;
+  gap: 12px;
+}
+
+/* "POWERED BY xapien" badge next to title */
+.poweredBy {
+  font-size: 11px;
+  font-weight: 600;
+  color: var(--neutral-500);
+  letter-spacing: 0.5px;
+  text-transform: uppercase;
+  display: flex;
+  align-items: center;
+  gap: 6px;
+}
+
+.poweredByLogo {
+  font-size: 16px;
+  font-weight: 700;
+  font-style: italic;
+  color: var(--text-normal);
+  text-transform: none;
+  letter-spacing: 0;
+}
+
+/* "Items marked with * are required." subtitle */
+.requiredNote {
+  font-size: 11px;
+  font-weight: 500;
+  color: var(--neutral-500);
+  text-transform: uppercase;
+  letter-spacing: 1px;
+  margin: 12px 0 0;
+}
+
+.requiredStar {
+  color: red;
+}
+
+.tableWrap {
+  margin-top: 16px;
+  overflow: visible;
+}
+
+/* Play / start button in table action cell */
+.playBtn {
+  background: none;
+  border: none;
+  cursor: pointer;
+  color: var(--primary-600);
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+  padding: 4px;
+  border-radius: 4px;
+  transition: background 0.15s ease;
+}
+.playBtn:hover {
+  background: var(--primary-50);
+}
+
+/* View / copy / delete icon buttons row */
+.actionBtns {
+  display: flex;
+  align-items: center;
+  gap: 4px;
+}
+
+.iconBtn {
+  background: none;
+  border: none;
+  cursor: pointer;
+  color: var(--neutral-500);
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+  padding: 4px;
+  border-radius: 4px;
+  transition: background 0.15s ease, color 0.15s ease;
+}
+.iconBtn:hover {
+  background: var(--primary-50);
+  color: var(--text-normal);
+}
+
+/* Generic empty state (used in Integrity Check table) */
+.emptyState {
+  display: flex;
+  align-items: center;
+  gap: 8px;
+  margin-top: 16px;
+  padding: 14px 16px;
+  background: var(--neutral-50);
+  border-radius: 4px;
+  font-size: 13px;
+  color: var(--text-light);
+}
+
+/* Enhanced DD sub-section groups */
+.reportGroup {
+  margin-top: 24px;
+}
+
+.reportGroupTitle {
+  font-size: 16px;
+  font-weight: 500;
+  color: var(--primary-500);
+  margin: 0 0 10px;
+}
+
+/* Grey "currently there are no X reports" banner */
+.reportEmptyBanner {
+  display: flex;
+  align-items: center;
+  gap: 10px;
+  padding: 14px 16px;
+  background: var(--neutral-500);
+  border: 1px solid var(--neutral-50);
+  border-radius: 0;
+  font-size: 14px;
+  font-weight: 500;
+  color: #fff;
+}
