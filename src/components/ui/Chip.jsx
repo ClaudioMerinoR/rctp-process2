@@ -34,13 +34,13 @@ export default function Chip({
     >
       <span className={styles.label}>{label}</span>
 
-      {/* selected + count badge */}
-      {selected && count != null && count > 0 && (
+      {/* count badge — shown whenever count > 0, regardless of selected state */}
+      {count != null && count > 0 && (
         <span className={styles.countBadge}>{count}</span>
       )}
 
-      {/* unselected + close icon */}
-      {!selected && showClose && (
+      {/* close icon — only shown when unselected, no count, and showClose=true */}
+      {!selected && showClose && count == null && (
         <span
           className={`material-icons-outlined ${styles.closeIcon}`}
           onClick={e => {

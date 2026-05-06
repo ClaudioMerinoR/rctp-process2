@@ -671,14 +671,12 @@ export default function Dashboard() {
                 label="Actions Due Now"
                 selected={activeChip === 'dueNow'}
                 count={ACTIONS_ROWS.filter(r => r.dueNow).length}
-                showClose
                 onClick={() => setActiveChip(v => v === 'dueNow' ? null : 'dueNow')}
               />
               <Chip
                 label="Upcoming Actions"
                 selected={activeChip === 'upcoming'}
                 count={ACTIONS_ROWS.filter(r => r.upcoming).length}
-                showClose
                 onClick={() => setActiveChip(v => v === 'upcoming' ? null : 'upcoming')}
               />
               <div style={{ flex: 1 }} />
