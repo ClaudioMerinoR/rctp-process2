@@ -433,7 +433,10 @@ export default function Settings() {
             <h2 className={styles.contentTitle}>Renewals</h2>
             <div className={styles.contentHeaderRight}>
               <span className={styles.renewalsStateLabel}>Renewals current state</span>
-              <span className={`material-icons-outlined ${styles.infoIcon}`}>info</span>
+              <span className={styles.infoIconWrap}>
+                <span className={`material-icons-outlined ${styles.infoIcon}`}>info</span>
+                <span className={styles.infoTooltip}>If set to Enabled renewal dates will be calculated for any records approved after the setting was set to enabled.</span>
+              </span>
               <div
                 className={`${styles.activeToggle}${!renewalsEnabled ? ' ' + styles.activeToggleOff : ''}`}
                 onClick={() => setRenewalsEnabled(v => !v)}

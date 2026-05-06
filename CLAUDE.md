@@ -14,7 +14,27 @@ npm run preview      # Preview the production build locally
 
 No tests exist in this project.
 
-After any change: commit and push to the current branch first. Run `npm run deploy` only when deploying to GitHub Pages (builds from whatever is checked out). GitHub Pages repo: `ClaudioMerinoR/rctp-process2`.
+After any change: commit and push to the current branch first.
+
+## Deployment
+
+This project deploys to **two independent targets** — they coexist and don't interfere.
+
+### GitHub Pages
+URL: `https://claudiomerinor.github.io/rctp-process2/`
+Repo: `ClaudioMerinoR/rctp-process2`
+Command: `npm run deploy` (builds with `base: '/rctp-process2/'` and publishes via gh-pages)
+
+### Hatch (internal DJ service mesh)
+URL: `https://rctp-process.hatch.internal.ai.dowjones.io`
+Auth: none (publicly accessible, no login required)
+Command: build with `base: '/'` then upload to Hatch:
+```bash
+npx vite build --base=/
+tar czf /tmp/_hatch_deploy.tar.gz --exclude='./.git' --exclude='./.DS_Store' -C dist .
+# Then upload via Hatch MCP tools (authenticate → get_deploy_token → curl upload)
+```
+The `vite.config.js` base path must NOT be changed — the `--base=/` flag overrides it at build time for Hatch only.
 
 ## Architecture
 

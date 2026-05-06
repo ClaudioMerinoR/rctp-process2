@@ -193,6 +193,42 @@
   margin-right: 4px;
 }
 
+.infoIconWrap {
+  position: relative;
+  display: flex;
+  align-items: center;
+}
+
+.infoTooltip {
+  display: none;
+  position: absolute;
+  bottom: calc(100% + 6px);
+  left: 50%;
+  transform: translateX(-50%);
+  background: var(--neutral-900);
+  color: var(--neutral-00);
+  font-size: 12px;
+  line-height: 1.4;
+  white-space: normal;
+  width: 220px;
+  padding: 6px 10px;
+  border-radius: 4px;
+  pointer-events: none;
+  z-index: 10;
+}
+
+.infoTooltip::after {
+  content: '';
+  position: absolute;
+  top: 100%;
+  left: 50%;
+  transform: translateX(-50%);
+  border: 5px solid transparent;
+  border-top-color: var(--neutral-900);
+}
+
+.infoIconWrap:hover .infoTooltip { display: block; }
+
 /* ── Active/Inactive toggle (same as AddThirdParty summary) ── */
 .activeToggle { position: relative; width: 96px; height: 32px; border-radius: 2px; overflow: hidden; border: 1px solid var(--success-500); background: var(--success-500); cursor: pointer; user-select: none; transition: background 0.2s, border-color 0.2s; }
 .activeToggleOff { background: var(--alert-500); border-color: var(--alert-500); }
