@@ -568,7 +568,7 @@ function TablePagination({ count }) {
 export default function Dashboard() {
   const [activeTab, setActiveTab] = useState('Actions');
   const [search, setSearch] = useState('');
-  const [activeChip, setActiveChip] = useState(null); // null | 'dueNow' | 'upcoming'
+  const [activeChip, setActiveChip] = useState('dueNow'); // null | 'dueNow' | 'upcoming'
 
   const isSM  = activeTab === 'Screening & Monitoring';
   const isSMT = activeTab === 'Screening & Monitoring Tasks';

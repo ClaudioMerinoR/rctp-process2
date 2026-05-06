@@ -65,7 +65,7 @@
   height: 16px;
   padding: 0 4px;
   border-radius: 100px;
-  background: var(--text-light);         /* #516267 */
+  background: var(--alert-500);
   color: #fff;
   font-size: 11px;                       /* Label/Small */
   font-weight: 500;
