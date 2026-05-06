@@ -47,8 +47,8 @@
 }
 
 .tableWrap { overflow-x: auto; padding: 0 16px; margin-bottom: 12px; }
-table { width: 100%; border-collapse: collapse; font-size: 13px; min-width: 900px; }
-thead th {
+.table { width: 100%; border-collapse: collapse; font-size: 13px; min-width: 900px; }
+.table thead th {
   background: var(--neutral-25);
   border: 1px solid var(--neutral-50);
   border-bottom: 1px solid var(--neutral-100);
@@ -56,10 +56,10 @@ thead th {
   font-size: 11px; font-weight: 600; color: var(--text-light);
   text-transform: uppercase; letter-spacing: 0.5px; white-space: nowrap;
 }
-tbody tr:nth-child(odd)  { background: var(--primary-08); }
-tbody tr:nth-child(even) { background: var(--neutral-00); }
-tbody tr:hover { background: var(--primary-50); }
-tbody td {
+.table tbody tr:nth-child(odd)  { background: var(--primary-08); }
+.table tbody tr:nth-child(even) { background: var(--neutral-00); }
+.table tbody tr:hover { background: var(--primary-50); }
+.table tbody td {
   padding: 10px 12px; vertical-align: middle;
   color: var(--text-light); border: 1px solid var(--neutral-50);
 }
@@ -74,9 +74,21 @@ tbody td {
 .tag {
   display: inline-flex; align-items: center;
   padding: 2px 8px; border-radius: 3px;
-  background: var(--neutral-900); color: var(--neutral-00);
+  background: var(--neutral-100); color: var(--text-normal);
   font-size: 11px; font-weight: 500; white-space: nowrap;
 }
+
+/* ── Status badge ── */
+.statusBadge {
+  display: inline-flex; align-items: center;
+  padding: 3px 8px; border-radius: 2px;
+  font-size: 11px; font-weight: 600; white-space: nowrap;
+}
+.statusApproved         { background: var(--success-100);  color: var(--success-900); }
+.statusPending          { background: var(--neutral-50);   color: var(--text-normal); }
+.statusNotApproved      { background: var(--alert-100);    color: var(--alert-700); }
+.statusDeclined         { background: var(--alert-100);    color: var(--alert-700); }
+.statusExpired          { background: var(--warning-100);  color: var(--warning-900); }
 
 .pagination {
   display: flex; align-items: center; justify-content: space-between;
