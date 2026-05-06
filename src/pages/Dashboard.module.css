@@ -258,9 +258,10 @@
   justify-content: center;
   width: 20px;
   height: 20px;
-  border-radius: 3px;
-  background: var(--neutral-700, #2c3e45);
-  color: #fff;
+  border-radius: 50%;
+  background: var(--neutral-25, #efefef);
+  border: 1px solid var(--neutral-200, #c4ccd2);
+  color: var(--text-light);
   flex-shrink: 0;
 }
 
