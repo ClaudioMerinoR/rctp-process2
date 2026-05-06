@@ -11,7 +11,7 @@ export default function RiskBadge({ level }) {
   return (
     <span className={`${styles.badge} ${cls}`}>
       {label}
-      <span className="material-icons-outlined" style={{ fontSize: 14 }}>{icon}</span>
+      <span className="material-icons-outlined" style={{ fontSize: 16 }}>{icon}</span>
     </span>
   );
 }
