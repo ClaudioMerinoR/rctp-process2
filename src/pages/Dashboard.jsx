@@ -672,7 +672,7 @@ export default function Dashboard() {
 
   return (
     <PageLayout>
-      <div className={styles.card}>
+      <div className={styles.card} style={{ marginTop: 16 }}>
         {/* Tab bar */}
         <div className={styles.tabBar}>
           {TABS.map(tab => (
