@@ -6,18 +6,6 @@ import Button from '../components/ui/Button';
 import { piedpiper, brucewayne, gazprom, initech, dundermifflin, lumon, waystar, ecomoda, lospollos } from '../data/profiles';
 import styles from './ThirdParties.module.css';
 
-const STATUS_CLS = {
-  'Approved':                     'statusApproved',
-  'Not Approved':                 'statusNotApproved',
-  'Declined':                     'statusDeclined',
-  'Approved*':                    'statusExpired',
-  'Approved! (Renewal Required)': 'statusExpired',
-};
-function StatusBadge({ status }) {
-  const cls = STATUS_CLS[status] || 'statusPending';
-  return <span className={`${styles.statusBadge} ${styles[cls]}`}>{status}</span>;
-}
-
 function getOwner(p) { return p.overviewFields.find(f => f.label === 'Third Party Owner')?.value || ''; }
 function getBU(p) { return p.overviewFields.find(f => f.label === 'Business Unit')?.value || ''; }
 function getTags(p) { const t = p.overviewFields.find(f => f.label === 'Tags')?.value; return t && t !== '—' ? t : ''; }
@@ -120,7 +108,7 @@ export default function ThirdParties() {
                   <td>{row.stage}</td>
                   <td><RiskBadge level={row.risk} /></td>
                   <td>{row.ref || ''}</td>
-                  <td><StatusBadge status={row.status} /></td>
+                  <td>{row.status}</td>
                 </tr>
               ))}
             </tbody>
