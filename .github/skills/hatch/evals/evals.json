@@ -1,0 +1,160 @@
+{
+  "skill_name": "hatch-deploy",
+  "evals": [
+    {
+      "id": 1,
+      "prompt": "deploy this app to hatch",
+      "expected_output": "Skill triggers, runs Step 0 (get_deploy_token for identity), analyzes the project directory, detects Dockerfile/HTML, gathers deploy settings with smart defaults, presents confirmation, then proceeds with tar+curl upload workflow.",
+      "files": [],
+      "expectations": [
+        "Calls get_deploy_token before asking the user for any information",
+        "Does NOT ask the user for their email address",
+        "Analyzes the current directory for Dockerfile, HTML files, .gitignore, and project type",
+        "Presents deploy settings (name, URL, size, port, auth, env vars) for confirmation before uploading",
+        "Defaults to huddle size and okta auth"
+      ]
+    },
+    {
+      "id": 2,
+      "prompt": "list my apps",
+      "expected_output": "Skill calls get_deploy_token first to establish identity, then calls list_deployed_apps. Presents results in a clean table format without raw JSON.",
+      "files": [],
+      "expectations": [
+        "Calls get_deploy_token first to identify the user — does NOT ask for email",
+        "Calls list_deployed_apps after getting the token",
+        "Presents apps in a formatted table, not raw JSON",
+        "Shows app name, status, and URL at minimum"
+      ]
+    },
+    {
+      "id": 3,
+      "prompt": "my app sample-app keeps crashing, can you check whats going on?",
+      "expected_output": "Skill calls get_deploy_token, then get_status to check the app. If pods show CrashLoopBackOff or errors, auto-calls get_deploy_logs without being asked. Extracts the relevant error from logs and explains in plain language what's wrong and how to fix it.",
+      "files": [],
+      "expectations": [
+        "Calls get_deploy_token first",
+        "Calls get_status for the named app",
+        "Auto-calls get_deploy_logs when status shows failure — does NOT wait for user to ask for logs",
+        "Extracts and highlights the actionable error from logs, not a full log dump",
+        "Explains the error in plain non-developer language",
+        "Suggests a specific fix or offers to fix it",
+        "Provides the dashboard URL"
+      ]
+    },
+    {
+      "id": 4,
+      "prompt": "I want to put my react project online so my team can see it. the code is in ~/projects/dashboard-prototype and I built it already, the output is in the dist folder",
+      "expected_output": "Skill recognizes this as a deploy request even though the user didn't say 'deploy' or 'hatch'. Detects the dist/ directory with index.html, creates a Dockerfile pointing at dist/, gathers settings, and deploys.",
+      "files": [],
+      "expectations": [
+        "Triggers the skill even though user didn't mention 'hatch' or 'deploy' explicitly",
+        "Calls get_deploy_token for identity",
+        "Checks for Dockerfile first, then looks for index.html in dist/",
+        "Creates or confirms a Dockerfile that copies dist/ to nginx",
+        "Sets port to 80 for static site",
+        "Presents deploy settings for confirmation before proceeding"
+      ]
+    },
+    {
+      "id": 5,
+      "prompt": "delete testinabc",
+      "expected_output": "Skill calls get_deploy_token, confirms the user wants to destroy the app, then calls destroy_app. Reports success with the list of deleted resources.",
+      "files": [],
+      "expectations": [
+        "Calls get_deploy_token first",
+        "Confirms with the user before destroying — doesn't delete immediately",
+        "Calls destroy_app with the correct app name",
+        "Reports which resources were deleted"
+      ]
+    },
+    {
+      "id": 6,
+      "prompt": "i tried to deploy my-new-app but it says something about a limit?? I have too many apps or something",
+      "expected_output": "Skill recognizes this as a quota/limit issue. Explains the 7-app limit in plain language. Lists the user's apps so they can choose which to delete. Offers to delete one and retry the deploy.",
+      "files": [],
+      "expectations": [
+        "Calls get_deploy_token for identity",
+        "Explains the 7-app-per-owner limit in plain language",
+        "Calls list_deployed_apps to show the user's current apps",
+        "Offers to help delete an app to make room",
+        "Does NOT use jargon like 'HTTP 429' without explaining it"
+      ]
+    },
+    {
+      "id": 7,
+      "prompt": "add alice@dowjones.com as co-owner on sample-org-modeling and also give bob@dowjones.com access to use the app",
+      "expected_output": "Skill calls get_deploy_token, then add_coowner for alice and add_app_user for bob. Explains the difference between co-owner (can manage the app) and app user (can access the deployed URL).",
+      "files": [],
+      "expectations": [
+        "Calls get_deploy_token first",
+        "Calls add_coowner for alice@dowjones.com",
+        "Calls add_app_user for bob@dowjones.com",
+        "Distinguishes between co-owner and app user roles in the response"
+      ]
+    },
+    {
+      "id": 8,
+      "prompt": "deploy this to hatch",
+      "expected_output": "When hatch MCP tools are not available, the skill detects this and auto-configures .mcp.json with the hatch server entry. Tells the user to approve the MCP connection.",
+      "files": [],
+      "expectations": [
+        "Detects that hatch MCP tools are not available",
+        "Checks for .mcp.json in the project root",
+        "Creates or updates .mcp.json with the hatch server configuration",
+        "The hatch entry uses type 'http' and URL 'https://hatch.ai.build.pib.dowjones.io/'",
+        "Tells the user to approve the MCP connection and try again"
+      ]
+    },
+    {
+      "id": 9,
+      "prompt": "im getting an error when i deploy, it says something about secrets detected in my code. i have a .env file with my API keys, how do i deploy with those?",
+      "expected_output": "Skill explains that .env files are blocked for security. Offers to read the .env file and convert the values to the env_vars parameter, which stores them securely as K8s Secrets.",
+      "files": [],
+      "expectations": [
+        "Explains why .env files are blocked — they would be pushed to GitHub",
+        "Offers to read the .env file and extract the values",
+        "Explains that env_vars are stored as Kubernetes Secrets, never in the repo",
+        "Shows how the values will be passed via the env_vars parameter",
+        "Does NOT tell the user to just remove the .env and figure it out themselves"
+      ]
+    },
+    {
+      "id": 10,
+      "prompt": "my app got deployed but when i open the URL it just shows a blank page or nginx 404. its a next.js app",
+      "expected_output": "Skill diagnoses this as a likely port or build output issue. Checks app status and logs. Explains that Next.js needs to be built (npm run build) and the server typically runs on port 3000, or if using static export, the output directory needs to be served correctly.",
+      "files": [],
+      "expectations": [
+        "Calls get_deploy_token and get_status to check the app",
+        "Calls get_deploy_logs to check for runtime errors",
+        "Considers common Next.js issues: wrong port, missing build step, static vs server mode",
+        "Suggests checking the Dockerfile for correct build commands and port",
+        "Provides actionable steps to fix, not just a diagnosis"
+      ]
+    },
+    {
+      "id": 11,
+      "prompt": "whats the status of all my stuff",
+      "expected_output": "Skill interprets 'my stuff' as deployed apps. Calls get_deploy_token, then list_deployed_apps. Shows a summary table of all apps with their status.",
+      "files": [],
+      "expectations": [
+        "Triggers the skill for this informal/vague request",
+        "Calls get_deploy_token first",
+        "Calls list_deployed_apps",
+        "Presents results clearly — not raw JSON"
+      ]
+    },
+    {
+      "id": 12,
+      "prompt": "the archive is 80MB and the upload is failing. i already excluded node_modules. what else can i do?",
+      "expected_output": "Skill helps diagnose the oversized archive. Suggests inspecting contents with tar tzf, looks for common culprits (.git, build outputs, media files, python venvs). Offers to check .gitignore for missing excludes.",
+      "files": [],
+      "expectations": [
+        "Suggests running tar tzf to inspect archive contents",
+        "Lists common culprits beyond node_modules: .git, dist, build, .next, venv, __pycache__, media files",
+        "Offers to read .gitignore and generate missing --exclude flags",
+        "Mentions the 50MB limit",
+        "Does NOT just say 'exclude more files' — gives specific actionable items"
+      ]
+    }
+  ]
+}
