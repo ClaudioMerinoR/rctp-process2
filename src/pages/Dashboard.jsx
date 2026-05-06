@@ -30,6 +30,7 @@ const STATUS_CONFIG = {
 // dueNow: overdue / urgent (12 rows); upcoming: due within ~30 days (9 rows)
 const ACTIONS_ROWS = [
   // ── Actions Due Now (12) ──
+  { type: 'APPROVAL',                  name: 'Renewal Approval',                                            tp: 'DUNDER MIFFLIN PAPER COMPANY',    tpId: 'dundermifflin', status: 'Not Started', risk: 'medium', owner: 'Claudio Merino',    date: '06 May 2026', age: '0 Days',    dueNow: true },
   { type: 'APPROVAL',                  name: 'Approval Stage 1',                                        tp: 'GAZPROM, PAO',                    tpId: 'gazprom',      status: 'Not Started',  risk: 'high',   owner: 'Claudio Merino',    date: '04 May 2026', age: '2 Days',    dueNow: true },
   { type: 'RED FLAG',                  name: 'Public or Foreign Officials Interaction',                 tp: 'GAZPROM, PAO',                    tpId: 'gazprom',      status: 'In Progress',  risk: 'high',   owner: 'Compliance Group',  date: '13 Nov 2025', age: '37 Days',   dueNow: true },
   { type: 'RED FLAG',                  name: 'High Risk Third Party Service Type',                      tp: 'GAZPROM, PAO',                    tpId: 'gazprom',      status: 'In Progress',  risk: 'high',   owner: 'Compliance Group',  date: '29 Nov 2025', age: '14 Days',   dueNow: true },
