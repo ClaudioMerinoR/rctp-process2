@@ -493,13 +493,12 @@
 
 .table tbody tr:nth-child(odd) td {
   background: var(--primary-08);
-  transition: background 0.3s ease;
 }
 .table tbody tr:nth-child(even) td {
   background: var(--neutral-00);
-  transition: background 0.3s ease;
 }
-.table tbody tr:hover td { background: var(--primary-50) !important; }
+.table tbody tr td { transition: background 100ms ease; }
+.table tbody tr:hover td { background: var(--row-hover) !important; }
 
 /* Checkbox styling */
 .table input[type="checkbox"] {
@@ -1464,7 +1463,8 @@
 }
 .riskTable tbody tr:nth-child(odd) td  { background: var(--primary-08); }
 .riskTable tbody tr:nth-child(even) td { background: var(--neutral-00); }
-.riskTable tbody tr:hover td { background: var(--primary-50); }
+.riskTable tbody tr td { transition: background 100ms ease; }
+.riskTable tbody tr:hover td { background: var(--row-hover); }
 .cellDark { color: var(--text-normal) !important; }
 .riskTableFooter {
   display: flex;
@@ -1514,7 +1514,8 @@
 }
 .genericTable tbody tr:nth-child(odd) td  { background: var(--primary-08); }
 .genericTable tbody tr:nth-child(even) td { background: var(--neutral-00); }
-.genericTable tbody tr:hover td { background: var(--primary-50) !important; }
+.genericTable tbody tr td { transition: background 100ms ease; }
+.genericTable tbody tr:hover td { background: var(--row-hover) !important; }
 
 /* ── Screening Results ── */
 .screeningSection {
@@ -1550,7 +1551,8 @@
 }
 .screeningTable tbody tr:nth-child(odd) td  { background: var(--primary-08); }
 .screeningTable tbody tr:nth-child(even) td { background: var(--neutral-00); }
-.screeningTable tbody tr:hover td { background: var(--primary-50) !important; }
+.screeningTable tbody tr td { transition: background 100ms ease; }
+.screeningTable tbody tr:hover td { background: var(--row-hover) !important; }
 .screeningCell {
   border: 1px solid var(--neutral-50);
   padding: 12px 8px;

@@ -99,6 +99,7 @@ const THIRD_PARTIES_SECTIONS = [
           { name: 'UBO',                              perms: [true,  true,  false, false, false, false, true ] },
           { name: 'Risk Mitigation',                  perms: [true,  true,  true,  false, false, true,  false] },
           { name: 'Red Flag Cancellation Request Task', perms: [true, false, true, false, false, false, false] },
+          { name: 'Renewal Cancellation Request Task',  perms: [true, false, true, false, false, false, false] },
         ],
       },
       {

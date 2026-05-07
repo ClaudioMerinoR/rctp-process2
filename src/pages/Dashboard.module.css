@@ -225,7 +225,8 @@
 
 .table tbody tr:nth-child(odd)  { background: var(--primary-08); }
 .table tbody tr:nth-child(even) { background: var(--neutral-00); }
-.table tbody tr:hover { background: var(--primary-50); }
+.table tbody tr { transition: background 100ms ease; }
+.table tbody tr:hover { background: var(--row-hover); }
 .table tbody td {
   padding: 10px 12px;
   vertical-align: middle;
@@ -256,8 +257,8 @@
   display: inline-flex;
   align-items: center;
   justify-content: center;
-  width: 20px;
-  height: 20px;
+  width: 24px;
+  height: 24px;
   border-radius: 50%;
   background: var(--neutral-25, #efefef);
   border: 1px solid var(--neutral-200, #c4ccd2);
@@ -467,7 +468,8 @@
 }
 .smTable tbody tr:nth-child(odd) td.smFixedCol  { background: var(--primary-08); }
 .smTable tbody tr:nth-child(even) td.smFixedCol { background: var(--neutral-00); }
-.smTable tbody tr:hover td.smFixedCol           { background: var(--primary-50); }
+.smTable tbody tr { transition: background 100ms ease; }
+.smTable tbody tr:hover td.smFixedCol           { background: var(--row-hover); }
 
 .flagsCell {
   display: flex;

@@ -47,7 +47,8 @@
 }
 .table tbody tr:nth-child(odd)  { background: var(--primary-08); }
 .table tbody tr:nth-child(even) { background: var(--neutral-00); }
-.table tbody tr:hover { background: var(--primary-50); }
+.table tbody tr { transition: background 100ms ease; }
+.table tbody tr:hover { background: var(--row-hover); }
 .table tbody td {
   padding: 10px 12px; vertical-align: middle;
   color: var(--text-light); border: 1px solid var(--neutral-50);

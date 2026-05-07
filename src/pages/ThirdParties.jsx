@@ -3,7 +3,7 @@ import PageLayout from '../components/layout/PageLayout';
 import Breadcrumb from '../components/layout/Breadcrumb';
 import RiskBadge from '../components/ui/RiskBadge';
 import Button from '../components/ui/Button';
-import { piedpiper, brucewayne, gazprom, initech, dundermifflin, lumon, waystar, ecomoda, lospollos } from '../data/profiles';
+import { piedpiper, brucewayne, gazprom, initech, dundermifflin, lumon, waystar, ecomoda, lospollos, gringotts } from '../data/profiles';
 import styles from './ThirdParties.module.css';
 
 function getOwner(p) { return p.overviewFields.find(f => f.label === 'Third Party Owner')?.value || ''; }
@@ -29,6 +29,7 @@ const ROWS = [
   { profile: waystar,        id: 'waystar' },
   { profile: ecomoda,        id: 'ecomoda' },
   { profile: lospollos,      id: 'lospollos' },
+  { profile: gringotts,     id: 'gringotts' },
 ].map(({ profile, id }) => ({
   id,
   name:   profile.name,
@@ -81,10 +82,11 @@ export default function ThirdParties() {
                 <th>Owner Name</th>
                 <th>Business Unit</th>
                 <th>Tags</th>
-                <th>Approval Stage</th>
+                <th>Process Stage</th>
                 <th>Current Risk Level</th>
                 <th>Internal Reference</th>
                 <th>Current Status</th>
+                <th>Active</th>
               </tr>
             </thead>
             <tbody>
@@ -106,6 +108,7 @@ export default function ThirdParties() {
                   <td><RiskBadge level={row.risk} /></td>
                   <td>{row.ref || ''}</td>
                   <td>{row.status}</td>
+                  <td>Yes</td>
                 </tr>
               ))}
             </tbody>

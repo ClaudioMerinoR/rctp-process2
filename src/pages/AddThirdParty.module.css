@@ -103,7 +103,8 @@
 .propsTable thead th { background: var(--neutral-25); padding: 8px 12px; text-align: left; font-size: 11px; font-weight: 600; text-transform: uppercase; letter-spacing: 0.8px; color: var(--text-light); border: 1px solid var(--neutral-50); position: sticky; top: 0; }
 .propsTable tbody td { padding: 9px 12px; border: 1px solid var(--neutral-50); vertical-align: middle; font-size: 13px; }
 .propsTable tbody tr:nth-child(odd) td { background: var(--primary-08); }
-.propsTable tbody tr:hover td { background: var(--primary-50) !important; }
+.propsTable tbody tr { transition: background 100ms ease; }
+.propsTable tbody tr:hover td { background: var(--row-hover) !important; }
 .propName { color: var(--text-normal); font-weight: 500; }
 .propVal { color: var(--text-light); }
 .propIndicator { text-align: center; }
@@ -200,6 +201,7 @@
   display: flex; align-items: center; justify-content: center;
   color: var(--neutral-400); transition: background 0.2s;
 }
+.typeIconWrap .material-icons-outlined { font-size: 24px; }
 .typeCard:hover .typeIconWrap,
 .selected .typeIconWrap { background: var(--primary-500); color: var(--neutral-00); }
 .typeTitle { font-size: 16px; font-weight: 600; color: var(--text-normal); }
@@ -248,7 +250,8 @@
 .dupTable thead th { background: var(--neutral-25); padding: 8px 12px; text-align: left; font-size: 11px; font-weight: 600; text-transform: uppercase; letter-spacing: 0.6px; color: var(--text-light); border: 1px solid var(--neutral-50); white-space: nowrap; }
 .dupTable tbody td { padding: 10px 12px; border: 1px solid var(--neutral-50); color: var(--text-light); vertical-align: middle; }
 .dupTable tbody tr:nth-child(odd) td { background: var(--primary-08); }
-.dupTable tbody tr:hover td { background: var(--primary-50) !important; }
+.dupTable tbody tr { transition: background 100ms ease; }
+.dupTable tbody tr:hover td { background: var(--row-hover) !important; }
 .cellLink { color: var(--primary-600); font-weight: 500; cursor: pointer; }
 .cellLink:hover { text-decoration: underline; }
 .uboCell { text-align: center; }

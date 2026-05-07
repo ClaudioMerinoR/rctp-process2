@@ -251,6 +251,7 @@ function CurrencyApprovalGroupsPanel() {
     eddGroup: 'This is the name of my default group',
     riskGroup: 'This is the name of my default group',
     redFlagGroup: 'This is the name of my default group',
+    renewalCancelGroup: 'This is the name of my default group',
   });
   const [draft, setDraft] = useState(data);
 
@@ -307,15 +308,23 @@ function CurrencyApprovalGroupsPanel() {
 
       {/* Approval group fields */}
       {[
-        { key: 'eddGroup',     label: 'Enhanced Due Diligence (EDD) Report Approval Group', required: true },
-        { key: 'riskGroup',    label: 'Manual Risk Level Amendment Approval Group',          required: true },
-        { key: 'redFlagGroup', label: 'Red Flag Cancel Approval',                            required: true },
-      ].map(({ key, label, required }) => (
+        { key: 'eddGroup',          label: 'Enhanced Due Diligence (EDD) Report Approval Group', required: true,  tooltip: null },
+        { key: 'riskGroup',         label: 'Manual Risk Level Amendment Approval Group',          required: true,  tooltip: null },
+        { key: 'redFlagGroup',      label: 'Red Flag Cancel Approval',                            required: true,  tooltip: null },
+        { key: 'renewalCancelGroup', label: 'Renewal Cancel Approval Group',                      required: true,  tooltip: 'The approval group responsible for reviewing and authorising renewal cancellation requests.' },
+      ].map(({ key, label, required, tooltip }) => (
         <div key={key} className={styles.cagSection}>
           <label className={styles.cagLabel}>
             {label}
             {required && <span className={styles.cagReq}> *</span>}
-            <span className={`material-icons-outlined ${styles.cagInfoIcon}`}>info</span>
+            {tooltip ? (
+              <span className={styles.infoIconWrap}>
+                <span className={`material-icons-outlined ${styles.cagInfoIcon}`}>info</span>
+                <span className={styles.infoTooltip}>{tooltip}</span>
+              </span>
+            ) : (
+              <span className={`material-icons-outlined ${styles.cagInfoIcon}`}>info</span>
+            )}
           </label>
           {isEditing ? (
             <select className={styles.cagSelect} value={d[key]} onChange={e => set(key, e.target.value)}>
