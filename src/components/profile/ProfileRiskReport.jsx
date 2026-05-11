@@ -54,7 +54,7 @@ function Accordion({ section, open, onToggle, hideScore = false, screeningResult
       <div className={headerCls} onClick={onToggle}>
         <div className={styles.accordionHeaderLeft}>
           <span className={styles.accordionLabel}>{section.label}</span>
-          {section.rows.length > 0 && (
+          {section.rows.length > 0 && screeningResults === null && (
             <span className={styles.accordionFactorCount}>
               {section.rows.length} {section.rows.length === 1 ? 'factor' : 'factors'}
             </span>
