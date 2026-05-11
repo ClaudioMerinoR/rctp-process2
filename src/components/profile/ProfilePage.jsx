@@ -397,7 +397,6 @@ export default function ProfilePage({ profile: profileProp, embedded = false }) 
                         <tr>
                           <th style={{ width: 32 }} />
                           <th>Third Party Name</th>
-                          {profile.suggestedHasConnType && <th>Connection Type</th>}
                           <th>ID Type</th>
                           <th>ID Value</th>
                           <th>Internal Reference or ID</th>
@@ -409,7 +408,6 @@ export default function ProfilePage({ profile: profileProp, embedded = false }) 
                           <tr key={i} onClick={() => setSelectedSuggested(i)} style={{ cursor: 'pointer' }}>
                             <td><input type="radio" className={styles.tableRadio} checked={selectedSuggested === i} onChange={() => setSelectedSuggested(i)} /></td>
                             <td><span className={styles.cellLink}>{r.name}</span></td>
-                            {profile.suggestedHasConnType && <td>{r.connType}</td>}
                             <td>{r.idType}</td>
                             <td>{r.idValue}</td>
                             <td>{r.intRef}</td>
