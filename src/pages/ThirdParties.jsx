@@ -118,12 +118,7 @@ export default function ThirdParties() {
 
         <div className={styles.divider} />
         <div className={styles.pagination}>
-          <div className={styles.paginationLeft}>
-            <select className={styles.pageSize}>
-              <option>20</option><option>50</option><option>100</option>
-            </select>
-            <span>Showing results 1 – {ROWS.length} of {ROWS.length}</span>
-          </div>
+          <span>Showing results 1 – {ROWS.length} of {ROWS.length}</span>
           <div className={styles.paginationRight}>
             <button className={styles.pageBtn} disabled><span className="material-icons-outlined">first_page</span></button>
             <button className={styles.pageBtn} disabled><span className="material-icons-outlined">chevron_left</span></button>
