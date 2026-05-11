@@ -78,7 +78,7 @@ export default function ThirdParties() {
           <table className={styles.table}>
             <thead>
               <tr>
-                <th>Name <span className="material-icons-outlined" style={{ fontSize: 14, verticalAlign: 'middle' }}>arrow_upward</span></th>
+                <th>Name <span className="material-icons-outlined" style={{ fontSize: 12 }}>arrow_drop_down</span></th>
                 <th>Owner Name</th>
                 <th>Business Unit</th>
                 <th>Tags</th>

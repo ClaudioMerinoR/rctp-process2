@@ -473,7 +473,7 @@
 .table thead th {
   background: var(--neutral-25);
   border: 1px solid var(--neutral-50);
-  padding: 8px;
+  padding: 8px 8px 8px 8px;
   text-align: left;
   font-size: 11px;
   font-weight: 500;
@@ -481,6 +481,9 @@
   text-transform: uppercase;
   letter-spacing: 0.5px;
   white-space: nowrap;
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
 }
 
 .table tbody td {
@@ -1446,6 +1449,9 @@
   text-transform: uppercase;
   letter-spacing: 0.5px;
   white-space: nowrap;
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
 }
 .riskTable tbody td {
   border: 1px solid var(--neutral-50);
@@ -1505,6 +1511,9 @@
   text-transform: uppercase;
   letter-spacing: 0.5px;
   white-space: nowrap;
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
 }
 .genericTable tbody td {
   border: 1px solid var(--neutral-50);
@@ -1548,6 +1557,9 @@
   text-transform: uppercase;
   letter-spacing: 0.5px;
   white-space: nowrap;
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
 }
 .screeningTable tbody tr:nth-child(odd) td  { background: var(--primary-08); }
 .screeningTable tbody tr:nth-child(even) td { background: var(--neutral-00); }

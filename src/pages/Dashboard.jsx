@@ -153,16 +153,13 @@ function UpcomingTable({ rows, search, selected, onSelect }) {
           <thead>
             <tr>
               <th style={{ width: 40 }}><Checkbox checked={allChecked} indeterminate={someChecked && !allChecked} onChange={toggleAll} /></th>
-              <th>Task Type <span className="material-icons-outlined" style={{ fontSize: 12, verticalAlign: 'middle' }}>arrow_drop_down</span></th>
-              <th>Task Name <span className="material-icons-outlined" style={{ fontSize: 12, verticalAlign: 'middle' }}>arrow_drop_down</span></th>
-              <th>Third Party Name <span className="material-icons-outlined" style={{ fontSize: 12, verticalAlign: 'middle' }}>arrow_drop_down</span></th>
-              <th>Task Status <span className="material-icons-outlined" style={{ fontSize: 12, verticalAlign: 'middle' }}>arrow_drop_down</span></th>
-              <th>Current Risk Level <span className="material-icons-outlined" style={{ fontSize: 12, verticalAlign: 'middle' }}>arrow_drop_down</span></th>
-              <th>Owner <span className="material-icons-outlined" style={{ fontSize: 12, verticalAlign: 'middle' }}>arrow_drop_down</span></th>
-              <th>
-                Due Date{' '}
-                <span className="material-icons-outlined" style={{ fontSize: 12, verticalAlign: 'middle', color: 'var(--primary-600)' }}>arrow_drop_up</span>
-              </th>
+              <th>Task Type <span className="material-icons-outlined" style={{ fontSize: 12 }}>arrow_drop_down</span></th>
+              <th>Task Name <span className="material-icons-outlined" style={{ fontSize: 12 }}>arrow_drop_down</span></th>
+              <th>Third Party Name <span className="material-icons-outlined" style={{ fontSize: 12 }}>arrow_drop_down</span></th>
+              <th>Task Status <span className="material-icons-outlined" style={{ fontSize: 12 }}>arrow_drop_down</span></th>
+              <th>Current Risk Level <span className="material-icons-outlined" style={{ fontSize: 12 }}>arrow_drop_down</span></th>
+              <th>Owner <span className="material-icons-outlined" style={{ fontSize: 12 }}>arrow_drop_down</span></th>
+              <th>Due Date <span className="material-icons-outlined" style={{ fontSize: 12, color: 'var(--primary-600)' }}>arrow_drop_down</span></th>
             </tr>
           </thead>
           <tbody>
@@ -231,14 +228,14 @@ function ActionsTable({ rows, search, selected, onSelect }) {
           <thead>
             <tr>
               <th style={{ width: 40 }}><Checkbox checked={allChecked} indeterminate={someChecked && !allChecked} onChange={toggleAll} /></th>
-              <th>Task Type <span className="material-icons-outlined" style={{ fontSize: 12, verticalAlign: 'middle' }}>arrow_drop_down</span></th>
-              <th>Task Name <span className="material-icons-outlined" style={{ fontSize: 12, verticalAlign: 'middle' }}>arrow_drop_down</span></th>
-              <th>Third Party Name <span className="material-icons-outlined" style={{ fontSize: 12, verticalAlign: 'middle' }}>arrow_drop_down</span></th>
-              <th>Task Status <span className="material-icons-outlined" style={{ fontSize: 12, verticalAlign: 'middle' }}>arrow_drop_down</span></th>
-              <th>Current Risk Level <span className="material-icons-outlined" style={{ fontSize: 12, verticalAlign: 'middle' }}>arrow_drop_down</span></th>
-              <th>Owner <span className="material-icons-outlined" style={{ fontSize: 12, verticalAlign: 'middle' }}>arrow_drop_down</span></th>
-              <th>Date Created <span className="material-icons-outlined" style={{ fontSize: 12, verticalAlign: 'middle' }}>arrow_drop_down</span></th>
-              <th>Age <span className="material-icons-outlined" style={{ fontSize: 12, verticalAlign: 'middle' }}>arrow_drop_down</span></th>
+              <th>Task Type <span className="material-icons-outlined" style={{ fontSize: 12 }}>arrow_drop_down</span></th>
+              <th>Task Name <span className="material-icons-outlined" style={{ fontSize: 12 }}>arrow_drop_down</span></th>
+              <th>Third Party Name <span className="material-icons-outlined" style={{ fontSize: 12 }}>arrow_drop_down</span></th>
+              <th>Task Status <span className="material-icons-outlined" style={{ fontSize: 12 }}>arrow_drop_down</span></th>
+              <th>Current Risk Level <span className="material-icons-outlined" style={{ fontSize: 12 }}>arrow_drop_down</span></th>
+              <th>Owner <span className="material-icons-outlined" style={{ fontSize: 12 }}>arrow_drop_down</span></th>
+              <th>Date Created <span className="material-icons-outlined" style={{ fontSize: 12 }}>arrow_drop_down</span></th>
+              <th>Age <span className="material-icons-outlined" style={{ fontSize: 12 }}>arrow_drop_down</span></th>
             </tr>
           </thead>
           <tbody>
@@ -292,14 +289,14 @@ function SMTable({ rows, search }) {
               <th style={{ width: 44 }}>
                 <span className="material-icons-outlined" style={{ fontSize: 16, color: 'var(--alert-500)', verticalAlign: 'middle' }}>notifications</span>
               </th>
-              <th>Third Party Name <span className="material-icons-outlined" style={{ fontSize: 12, verticalAlign: 'middle' }}>arrow_drop_down</span></th>
-              <th>Short Name <span className="material-icons-outlined" style={{ fontSize: 12, verticalAlign: 'middle' }}>arrow_drop_down</span></th>
-              <th style={{ width: 100 }}>Type <span className="material-icons-outlined" style={{ fontSize: 12, verticalAlign: 'middle' }}>arrow_drop_down</span></th>
-              <th style={{ width: 160 }}>Subtype <span className="material-icons-outlined" style={{ fontSize: 12, verticalAlign: 'middle' }}>arrow_drop_down</span></th>
-              <th style={{ width: 180 }}>Categories <span className="material-icons-outlined" style={{ fontSize: 12, verticalAlign: 'middle' }}>arrow_drop_down</span></th>
-              <th style={{ width: 180 }}>Remediation Required <span className="material-icons-outlined" style={{ fontSize: 12, verticalAlign: 'middle' }}>arrow_drop_down</span></th>
-              <th style={{ width: 200 }}>Match Results <span className="material-icons-outlined" style={{ fontSize: 12, verticalAlign: 'middle' }}>arrow_drop_down</span></th>
-              <th style={{ width: 130 }}>Last Updated <span className="material-icons-outlined" style={{ fontSize: 12, verticalAlign: 'middle' }}>arrow_drop_down</span></th>
+              <th>Third Party Name <span className="material-icons-outlined" style={{ fontSize: 12 }}>arrow_drop_down</span></th>
+              <th>Short Name <span className="material-icons-outlined" style={{ fontSize: 12 }}>arrow_drop_down</span></th>
+              <th style={{ width: 100 }}>Type <span className="material-icons-outlined" style={{ fontSize: 12 }}>arrow_drop_down</span></th>
+              <th style={{ width: 160 }}>Subtype <span className="material-icons-outlined" style={{ fontSize: 12 }}>arrow_drop_down</span></th>
+              <th style={{ width: 180 }}>Categories <span className="material-icons-outlined" style={{ fontSize: 12 }}>arrow_drop_down</span></th>
+              <th style={{ width: 180 }}>Remediation Required <span className="material-icons-outlined" style={{ fontSize: 12 }}>arrow_drop_down</span></th>
+              <th style={{ width: 200 }}>Match Results <span className="material-icons-outlined" style={{ fontSize: 12 }}>arrow_drop_down</span></th>
+              <th style={{ width: 130 }}>Last Updated <span className="material-icons-outlined" style={{ fontSize: 12 }}>arrow_drop_down</span></th>
               <th className={styles.smFixedCol}>Actions</th>
             </tr>
           </thead>
@@ -444,14 +441,14 @@ function SMTContent({ rows }) {
               <thead>
                 <tr>
                   <th><input type="checkbox" style={{ cursor: 'pointer' }} /></th>
-                  <th>Task Type <span className="material-icons-outlined" style={{ fontSize: 12, verticalAlign: 'middle' }}>arrow_drop_down</span></th>
-                  <th>Task Name <span className="material-icons-outlined" style={{ fontSize: 12, verticalAlign: 'middle' }}>arrow_drop_down</span></th>
-                  <th>Third Party Name <span className="material-icons-outlined" style={{ fontSize: 12, verticalAlign: 'middle' }}>arrow_drop_down</span></th>
-                  <th>Task Status <span className="material-icons-outlined" style={{ fontSize: 12, verticalAlign: 'middle' }}>arrow_drop_down</span></th>
-                  <th>Current Risk Level <span className="material-icons-outlined" style={{ fontSize: 12, verticalAlign: 'middle' }}>arrow_drop_down</span></th>
-                  <th>Owner <span className="material-icons-outlined" style={{ fontSize: 12, verticalAlign: 'middle' }}>arrow_drop_down</span></th>
-                  <th>Date Created <span className="material-icons-outlined" style={{ fontSize: 12, verticalAlign: 'middle' }}>arrow_drop_down</span></th>
-                  <th>Age <span className="material-icons-outlined" style={{ fontSize: 12, verticalAlign: 'middle' }}>arrow_drop_down</span></th>
+                  <th>Task Type <span className="material-icons-outlined" style={{ fontSize: 12 }}>arrow_drop_down</span></th>
+                  <th>Task Name <span className="material-icons-outlined" style={{ fontSize: 12 }}>arrow_drop_down</span></th>
+                  <th>Third Party Name <span className="material-icons-outlined" style={{ fontSize: 12 }}>arrow_drop_down</span></th>
+                  <th>Task Status <span className="material-icons-outlined" style={{ fontSize: 12 }}>arrow_drop_down</span></th>
+                  <th>Current Risk Level <span className="material-icons-outlined" style={{ fontSize: 12 }}>arrow_drop_down</span></th>
+                  <th>Owner <span className="material-icons-outlined" style={{ fontSize: 12 }}>arrow_drop_down</span></th>
+                  <th>Date Created <span className="material-icons-outlined" style={{ fontSize: 12 }}>arrow_drop_down</span></th>
+                  <th>Age <span className="material-icons-outlined" style={{ fontSize: 12 }}>arrow_drop_down</span></th>
                 </tr>
               </thead>
               <tbody>
@@ -603,14 +600,14 @@ function EDDContent({ rows }) {
             <table className={styles.table} style={{ minWidth: 0 }}>
               <thead>
                 <tr>
-                  <th>Third Party Name <span className="material-icons-outlined" style={{ fontSize: 12, verticalAlign: 'middle' }}>arrow_drop_down</span></th>
-                  <th>Report Subject <span className="material-icons-outlined" style={{ fontSize: 12, verticalAlign: 'middle' }}>arrow_drop_down</span></th>
-                  <th>Business Unit <span className="material-icons-outlined" style={{ fontSize: 12, verticalAlign: 'middle' }}>arrow_drop_down</span></th>
-                  <th>Report Type <span className="material-icons-outlined" style={{ fontSize: 12, verticalAlign: 'middle' }}>arrow_drop_down</span></th>
-                  <th>Date Created <span className="material-icons-outlined" style={{ fontSize: 12, verticalAlign: 'middle' }}>arrow_drop_down</span></th>
-                  <th>Status <span className="material-icons-outlined" style={{ fontSize: 12, verticalAlign: 'middle' }}>arrow_drop_down</span></th>
-                  <th>Owner <span className="material-icons-outlined" style={{ fontSize: 12, verticalAlign: 'middle' }}>arrow_drop_down</span></th>
-                  <th>Reference <span className="material-icons-outlined" style={{ fontSize: 12, verticalAlign: 'middle' }}>arrow_drop_down</span></th>
+                  <th>Third Party Name <span className="material-icons-outlined" style={{ fontSize: 12 }}>arrow_drop_down</span></th>
+                  <th>Report Subject <span className="material-icons-outlined" style={{ fontSize: 12 }}>arrow_drop_down</span></th>
+                  <th>Business Unit <span className="material-icons-outlined" style={{ fontSize: 12 }}>arrow_drop_down</span></th>
+                  <th>Report Type <span className="material-icons-outlined" style={{ fontSize: 12 }}>arrow_drop_down</span></th>
+                  <th>Date Created <span className="material-icons-outlined" style={{ fontSize: 12 }}>arrow_drop_down</span></th>
+                  <th>Status <span className="material-icons-outlined" style={{ fontSize: 12 }}>arrow_drop_down</span></th>
+                  <th>Owner <span className="material-icons-outlined" style={{ fontSize: 12 }}>arrow_drop_down</span></th>
+                  <th>Reference <span className="material-icons-outlined" style={{ fontSize: 12 }}>arrow_drop_down</span></th>
                   <th style={{ width: 44 }} />
                 </tr>
               </thead>

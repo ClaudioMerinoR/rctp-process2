@@ -496,12 +496,12 @@ export default function ProfilePage({ profile: profileProp, embedded = false }) 
               <table className={styles.table}>
                 <thead>
                   <tr>
-                    <th style={{ width: '20%' }}>Task Type <span className="material-icons-outlined" style={{ fontSize: 14, verticalAlign: 'middle' }}>arrow_drop_down</span></th>
-                    <th style={{ width: '26%' }}>Task Name <span className="material-icons-outlined" style={{ fontSize: 14, verticalAlign: 'middle' }}>arrow_drop_down</span></th>
-                    <th style={{ width: '12%' }}>Task Status <span className="material-icons-outlined" style={{ fontSize: 14, verticalAlign: 'middle' }}>arrow_drop_down</span></th>
-                    <th style={{ width: '16%' }}>Owner <span className="material-icons-outlined" style={{ fontSize: 14, verticalAlign: 'middle' }}>arrow_drop_down</span></th>
-                    <th style={{ width: '14%' }}>Date Created <span className="material-icons-outlined" style={{ fontSize: 14, verticalAlign: 'middle' }}>arrow_drop_down</span></th>
-                    <th style={{ width: '12%' }}>AGE <span className="material-icons-outlined" style={{ fontSize: 14, verticalAlign: 'middle' }}>arrow_drop_up</span></th>
+                    <th style={{ width: '20%' }}>Task Type <span className="material-icons-outlined" style={{ fontSize: 12 }}>arrow_drop_down</span></th>
+                    <th style={{ width: '26%' }}>Task Name <span className="material-icons-outlined" style={{ fontSize: 12 }}>arrow_drop_down</span></th>
+                    <th style={{ width: '12%' }}>Task Status <span className="material-icons-outlined" style={{ fontSize: 12 }}>arrow_drop_down</span></th>
+                    <th style={{ width: '16%' }}>Owner <span className="material-icons-outlined" style={{ fontSize: 12 }}>arrow_drop_down</span></th>
+                    <th style={{ width: '14%' }}>Date Created <span className="material-icons-outlined" style={{ fontSize: 12 }}>arrow_drop_down</span></th>
+                    <th style={{ width: '12%' }}>AGE <span className="material-icons-outlined" style={{ fontSize: 12 }}>arrow_drop_down</span></th>
                   </tr>
                 </thead>
                 <tbody>

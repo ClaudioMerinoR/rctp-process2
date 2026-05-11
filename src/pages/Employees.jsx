@@ -99,13 +99,13 @@ export default function Employees() {
           <table className={styles.table}>
             <thead>
               <tr>
-                <th>Name <span className="material-icons-outlined" style={{ fontSize: 12, verticalAlign: 'middle' }}>arrow_drop_down</span></th>
-                <th>Tags <span className="material-icons-outlined" style={{ fontSize: 12, verticalAlign: 'middle' }}>arrow_drop_down</span></th>
-                <th>Ref <span className="material-icons-outlined" style={{ fontSize: 12, verticalAlign: 'middle' }}>arrow_drop_down</span></th>
-                <th>Business Unit <span className="material-icons-outlined" style={{ fontSize: 12, verticalAlign: 'middle' }}>arrow_drop_down</span></th>
-                <th>Third Party Restricted <span className="material-icons-outlined" style={{ fontSize: 12, verticalAlign: 'middle' }}>arrow_drop_down</span></th>
-                <th>Active <span className="material-icons-outlined" style={{ fontSize: 12, verticalAlign: 'middle' }}>arrow_drop_down</span></th>
-                <th>Status <span className="material-icons-outlined" style={{ fontSize: 12, verticalAlign: 'middle' }}>arrow_drop_down</span></th>
+                <th>Name <span className="material-icons-outlined" style={{ fontSize: 12 }}>arrow_drop_down</span></th>
+                <th>Tags <span className="material-icons-outlined" style={{ fontSize: 12 }}>arrow_drop_down</span></th>
+                <th>Ref <span className="material-icons-outlined" style={{ fontSize: 12 }}>arrow_drop_down</span></th>
+                <th>Business Unit <span className="material-icons-outlined" style={{ fontSize: 12 }}>arrow_drop_down</span></th>
+                <th>Third Party Restricted <span className="material-icons-outlined" style={{ fontSize: 12 }}>arrow_drop_down</span></th>
+                <th>Active <span className="material-icons-outlined" style={{ fontSize: 12 }}>arrow_drop_down</span></th>
+                <th>Status <span className="material-icons-outlined" style={{ fontSize: 12 }}>arrow_drop_down</span></th>
               </tr>
             </thead>
             <tbody>

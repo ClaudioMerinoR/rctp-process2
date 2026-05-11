@@ -73,12 +73,12 @@ export default function ProfileScreeningMonitoring() {
               <table className={styles.table} style={{ minWidth: 0 }}>
                 <thead>
                   <tr>
-                    <th>Name <span className="material-icons-outlined" style={{ fontSize: 14, verticalAlign: 'middle' }}>arrow_drop_down</span></th>
+                    <th>Name <span className="material-icons-outlined" style={{ fontSize: 12 }}>arrow_drop_down</span></th>
                     <th>Entity/Person/Unknown</th>
                     <th>Category</th>
-                    <th>Type <span className="material-icons-outlined" style={{ fontSize: 14, verticalAlign: 'middle' }}>arrow_drop_down</span></th>
+                    <th>Type <span className="material-icons-outlined" style={{ fontSize: 12 }}>arrow_drop_down</span></th>
                     <th>Match Results</th>
-                    <th>Assoc Status <span className="material-icons-outlined" style={{ fontSize: 14, verticalAlign: 'middle' }}>arrow_drop_down</span></th>
+                    <th>Assoc Status <span className="material-icons-outlined" style={{ fontSize: 12 }}>arrow_drop_down</span></th>
                     <th><span className="material-icons-outlined" style={{ fontSize: 14, color: 'var(--alert-500)' }}>notifications</span></th>
                     <th>Inherent Risk Level</th>
                     <th>Match Titles</th>

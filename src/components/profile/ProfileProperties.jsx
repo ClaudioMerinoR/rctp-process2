@@ -55,13 +55,13 @@ export default function ProfileProperties() {
               <table className={styles.table} style={{ minWidth: 0 }}>
                 <thead>
                   <tr>
-                    <th>Field Name <span className="material-icons-outlined" style={{ fontSize: 12, verticalAlign: 'middle' }}>arrow_drop_down</span></th>
-                    <th>Value <span className="material-icons-outlined" style={{ fontSize: 12, verticalAlign: 'middle' }}>arrow_drop_down</span></th>
-                    <th>Key Risk <span className="material-icons-outlined" style={{ fontSize: 12, verticalAlign: 'middle' }}>arrow_drop_down</span></th>
-                    <th>Red Flag <span className="material-icons-outlined" style={{ fontSize: 12, verticalAlign: 'middle' }}>arrow_drop_down</span></th>
-                    <th>Score <span className="material-icons-outlined" style={{ fontSize: 12, verticalAlign: 'middle' }}>arrow_drop_down</span></th>
-                    <th>Property Tag <span className="material-icons-outlined" style={{ fontSize: 12, verticalAlign: 'middle' }}>arrow_drop_down</span></th>
-                    <th>Risk Category <span className="material-icons-outlined" style={{ fontSize: 12, verticalAlign: 'middle' }}>arrow_drop_down</span></th>
+                    <th>Field Name <span className="material-icons-outlined" style={{ fontSize: 12 }}>arrow_drop_down</span></th>
+                    <th>Value <span className="material-icons-outlined" style={{ fontSize: 12 }}>arrow_drop_down</span></th>
+                    <th>Key Risk <span className="material-icons-outlined" style={{ fontSize: 12 }}>arrow_drop_down</span></th>
+                    <th>Red Flag <span className="material-icons-outlined" style={{ fontSize: 12 }}>arrow_drop_down</span></th>
+                    <th>Score <span className="material-icons-outlined" style={{ fontSize: 12 }}>arrow_drop_down</span></th>
+                    <th>Property Tag <span className="material-icons-outlined" style={{ fontSize: 12 }}>arrow_drop_down</span></th>
+                    <th>Risk Category <span className="material-icons-outlined" style={{ fontSize: 12 }}>arrow_drop_down</span></th>
                     <th style={{ width: 48 }} />
                   </tr>
                 </thead>

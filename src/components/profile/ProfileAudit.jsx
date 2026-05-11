@@ -140,10 +140,10 @@ export default function ProfileAudit() {
               <table className={styles.table} style={{ minWidth: 0 }}>
                 <thead>
                   <tr>
-                    <th style={{ width: 130 }}>Date <span className="material-icons-outlined" style={{ fontSize: 12, verticalAlign: 'middle' }}>arrow_drop_down</span></th>
-                    <th style={{ width: 160 }}>Added By <span className="material-icons-outlined" style={{ fontSize: 12, verticalAlign: 'middle' }}>arrow_drop_down</span></th>
-                    <th style={{ width: 200 }}>Source <span className="material-icons-outlined" style={{ fontSize: 12, verticalAlign: 'middle' }}>arrow_drop_down</span></th>
-                    <th>Summary <span className="material-icons-outlined" style={{ fontSize: 12, verticalAlign: 'middle' }}>arrow_drop_down</span></th>
+                    <th style={{ width: 130 }}>Date <span className="material-icons-outlined" style={{ fontSize: 12 }}>arrow_drop_down</span></th>
+                    <th style={{ width: 160 }}>Added By <span className="material-icons-outlined" style={{ fontSize: 12 }}>arrow_drop_down</span></th>
+                    <th style={{ width: 200 }}>Source <span className="material-icons-outlined" style={{ fontSize: 12 }}>arrow_drop_down</span></th>
+                    <th>Summary <span className="material-icons-outlined" style={{ fontSize: 12 }}>arrow_drop_down</span></th>
                   </tr>
                 </thead>
                 <tbody>

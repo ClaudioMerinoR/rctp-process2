@@ -38,7 +38,7 @@ export default function ProfileDocuments() {
               <table className={styles.table} style={{ minWidth: 0 }}>
                 <thead>
                   <tr>
-                    <th>Name <span className="material-icons-outlined" style={{ fontSize: 14, verticalAlign: 'middle' }}>arrow_upward</span></th>
+                    <th>Name <span className="material-icons-outlined" style={{ fontSize: 12 }}>arrow_drop_down</span></th>
                     <th>Type <span className="material-icons-outlined" style={{ fontSize: 14, verticalAlign: 'middle' }}>unfold_more</span></th>
                     <th>Size <span className="material-icons-outlined" style={{ fontSize: 14, verticalAlign: 'middle' }}>unfold_more</span></th>
                     <th>Section <span className="material-icons-outlined" style={{ fontSize: 14, verticalAlign: 'middle' }}>unfold_more</span></th>
