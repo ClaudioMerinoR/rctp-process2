@@ -42,7 +42,7 @@ function StatusPill({ status }) {
   return <span className={`${styles.sPill} ${map[status] || styles.sPillDefault}`}>{status}</span>;
 }
 
-function Accordion({ section, defaultOpen = true }) {
+function Accordion({ section, defaultOpen = true, hideScore = false }) {
   const [open, setOpen] = useState(defaultOpen);
   const headerCls = `${styles.accordionHeader} ${
     section.level === 'high' ? styles.levelHigh
@@ -62,9 +62,11 @@ function Accordion({ section, defaultOpen = true }) {
           )}
         </div>
         <div className={styles.accordionHeaderRight}>
-          <span className={styles.accordionScoreStat}>
-            Category Risk Score: <strong>{section.totalScore}</strong>
-          </span>
+          {!hideScore && (
+            <span className={styles.accordionScoreStat}>
+              Category Risk Score: <strong>{section.totalScore}</strong>
+            </span>
+          )}
           <RiskBadge level={section.level} />
           <span className={`material-icons-outlined ${styles.accordionCaret} ${open ? '' : styles.accordionCaretCollapsed}`}>
             expand_less
@@ -341,8 +343,8 @@ export default function ProfileRiskReport() {
                   <section className={styles.contentCard}>
                     <div className={styles.riskCategorySection}>
                       <h3 className={styles.riskCategoryTitle}>Risk Category Risk Levels</h3>
-                      {(rr.accordionSections || []).map(section => (
-                        <Accordion key={section.id} section={section} defaultOpen={true} />
+                      {[...(rr.accordionSections || [])].sort((a, b) => a.id === 'screening' ? 1 : b.id === 'screening' ? -1 : 0).map(section => (
+                        <Accordion key={section.id} section={section} defaultOpen={true} hideScore={section.id === 'screening'} />
                       ))}
                     </div>
 
