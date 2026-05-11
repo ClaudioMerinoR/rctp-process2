@@ -196,7 +196,8 @@ export default function ProfilePage({ profile: profileProp, embedded = false }) 
                 <div className={styles.tpBadgeLabel}>Current status:</div>
                 {(() => {
                   const { cls, icon } = getStatusConfig(currentStatus);
-                  return (
+                  const tip = profile.currentStatus?.tooltip;
+                  const badge = (
                     <div
                       className={`${styles.badge} ${styles[cls]} ${styles.badgeBtn}`}
                       onClick={() => setStatusPanelOpen(true)}
@@ -205,6 +206,12 @@ export default function ProfilePage({ profile: profileProp, embedded = false }) 
                       <span className="material-icons-outlined" style={{ fontSize: 16 }}>{icon}</span>
                     </div>
                   );
+                  return tip ? (
+                    <div className={styles.badgeTipWrap}>
+                      {badge}
+                      <span className={styles.badgeTip}>{tip}</span>
+                    </div>
+                  ) : badge;
                 })()}
               </div>
               <div className={styles.tpBadgeGroup}>

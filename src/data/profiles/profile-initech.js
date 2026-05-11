@@ -4,7 +4,7 @@ export default {
   shortName: 'Initech',
   entityType: 'entity',
   verifiedText: 'Entity Verified',
-  currentStatus: { label: 'Approved*' },
+  currentStatus: { label: 'Approved*', tooltip: 'New red flag triggered on approved record. No risk level change' },
   riskLevel: { label: 'Medium', icon: 'error_outline', level: 'medium' },
 
   embedded: false,

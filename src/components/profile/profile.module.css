@@ -178,6 +178,38 @@
   filter: brightness(0.92);
   box-shadow: 0 1px 4px rgba(0,0,0,0.12);
 }
+.badgeTipWrap {
+  position: relative;
+  display: inline-flex;
+}
+.badgeTip {
+  display: none;
+  position: absolute;
+  bottom: calc(100% + 8px);
+  left: 50%;
+  transform: translateX(-50%);
+  background: var(--text-normal);
+  color: var(--neutral-00);
+  font-size: 11px;
+  font-weight: 400;
+  white-space: nowrap;
+  padding: 5px 10px;
+  border-radius: 4px;
+  pointer-events: none;
+  z-index: var(--z-tooltip);
+  text-transform: none;
+  letter-spacing: 0;
+}
+.badgeTip::after {
+  content: '';
+  position: absolute;
+  top: 100%;
+  left: 50%;
+  transform: translateX(-50%);
+  border: 5px solid transparent;
+  border-top-color: var(--text-normal);
+}
+.badgeTipWrap:hover .badgeTip { display: block; }
 
 /* ── Page Body ── */
 .pageBody {
