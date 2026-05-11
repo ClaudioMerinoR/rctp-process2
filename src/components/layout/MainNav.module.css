@@ -29,16 +29,6 @@
   outline-offset: -3px;
 }
 .active {
-  background: var(--primary-600);
+  background: var(--primary-700);
   color: var(--neutral-00);
-}
-.active::after {
-  content: '';
-  position: absolute;
-  bottom: 0;
-  left: 0;
-  right: 0;
-  height: 2px;
-  background: var(--neutral-00);
-  border-radius: 1px 1px 0 0;
 }

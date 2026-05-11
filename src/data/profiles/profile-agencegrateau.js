@@ -83,7 +83,9 @@ export default {
       type: 'Primary Entity',
       statusDot: 'var(--warning-500)',
       statusLabel: 'Under Review',
-      categories: [{ type: 'PEP', icon: 'warning' }],
+      categories: [
+        { label: 'PEP', bg: 'var(--warning-500)', color: 'var(--text-normal)' },
+      ],
       categoryIcon: 'warning',
       entityType: 'Entity',
     },
