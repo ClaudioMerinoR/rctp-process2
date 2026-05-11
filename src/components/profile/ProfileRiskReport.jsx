@@ -42,8 +42,7 @@ function StatusPill({ status }) {
   return <span className={`${styles.sPill} ${map[status] || styles.sPillDefault}`}>{status}</span>;
 }
 
-function Accordion({ section, defaultOpen = true, hideScore = false }) {
-  const [open, setOpen] = useState(defaultOpen);
+function Accordion({ section, open, onToggle, hideScore = false }) {
   const headerCls = `${styles.accordionHeader} ${
     section.level === 'high' ? styles.levelHigh
       : section.level === 'medium' ? styles.levelMedium
@@ -52,7 +51,7 @@ function Accordion({ section, defaultOpen = true, hideScore = false }) {
 
   return (
     <div className={styles.accordion} id={section.id}>
-      <div className={headerCls} onClick={() => setOpen(o => !o)}>
+      <div className={headerCls} onClick={onToggle}>
         <div className={styles.accordionHeaderLeft}>
           <span className={styles.accordionLabel}>{section.label}</span>
           {section.rows.length > 0 && (
@@ -225,13 +224,30 @@ export default function ProfileRiskReport() {
   const [amendSuccess, setAmendSuccess] = useState(false);
 
   const location = useLocation();
+  const targetId = location.hash ? location.hash.slice(1) : null;
+
+  const sortedSections = [...((profile?.riskReport?.accordionSections) || [])].sort(
+    (a, b) => a.id === 'screening' ? 1 : b.id === 'screening' ? -1 : 0
+  );
+
+  const [openSections, setOpenSections] = useState(() => {
+    const ids = sortedSections.map(s => s.id);
+    if (targetId && ids.includes(targetId)) {
+      return Object.fromEntries(ids.map(id => [id, id === targetId]));
+    }
+    return Object.fromEntries(ids.map(id => [id, true]));
+  });
+
+  function toggleSection(id) {
+    setOpenSections(prev => ({ ...prev, [id]: !prev[id] }));
+  }
 
   useEffect(() => {
-    if (location.hash) {
-      const el = document.getElementById(location.hash.slice(1));
+    if (targetId) {
+      const el = document.getElementById(targetId);
       if (el) setTimeout(() => el.scrollIntoView({ behavior: 'smooth', block: 'start' }), 100);
     }
-  }, [location.hash]);
+  }, [targetId]);
 
   if (!profile) return <div style={{ padding: 40, textAlign: 'center' }}>Profile not found</div>;
 
@@ -343,8 +359,8 @@ export default function ProfileRiskReport() {
                   <section className={styles.contentCard}>
                     <div className={styles.riskCategorySection}>
                       <h3 className={styles.riskCategoryTitle}>Risk Category Risk Levels</h3>
-                      {[...(rr.accordionSections || [])].sort((a, b) => a.id === 'screening' ? 1 : b.id === 'screening' ? -1 : 0).map(section => (
-                        <Accordion key={section.id} section={section} defaultOpen={true} hideScore={section.id === 'screening'} />
+                      {sortedSections.map(section => (
+                        <Accordion key={section.id} section={section} open={openSections[section.id] ?? true} onToggle={() => toggleSection(section.id)} hideScore={section.id === 'screening'} />
                       ))}
                     </div>
 
