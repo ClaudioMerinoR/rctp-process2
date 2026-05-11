@@ -15,8 +15,10 @@ export function patchInitechProfile(profile) {
   if (profile.id === 'initech') return _patchInitech(profile);
   if (profile.id === 'dundermifflin') return _patchDunderMifflin(profile);
   if (profile.id === 'lumon') return _patchLumon(profile);
+  if (profile.id === 'gringotts') return profile;
   return profile;
 }
+
 
 function _patchInitech(profile) {
   const { riskMitigated, approved } = getFlow();
