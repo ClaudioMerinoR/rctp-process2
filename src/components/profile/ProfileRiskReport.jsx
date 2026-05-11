@@ -402,7 +402,7 @@ export default function ProfileRiskReport() {
                       {sortedSections.map(section => (
                         <Accordion
                           key={section.id}
-                          section={section}
+                          section={section.id === 'screening' ? { ...section, label: 'Screening Results' } : section}
                           open={openSections[section.id] ?? true}
                           onToggle={() => toggleSection(section.id)}
                           hideScore={section.id === 'screening'}
