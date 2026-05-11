@@ -583,6 +583,35 @@
   border-bottom: 2px solid white;
 }
 
+.tableRadio {
+  appearance: none;
+  -webkit-appearance: none;
+  width: 14px;
+  height: 14px;
+  border: 1.5px solid var(--neutral-300);
+  border-radius: 50%;
+  background: var(--neutral-00);
+  cursor: pointer;
+  position: relative;
+  vertical-align: middle;
+  flex-shrink: 0;
+  transition: border-color 0.15s ease;
+}
+.tableRadio:checked {
+  border-color: var(--primary-500);
+  border-width: 2px;
+}
+.tableRadio:checked::after {
+  content: '';
+  position: absolute;
+  inset: 0;
+  margin: auto;
+  width: 6px;
+  height: 6px;
+  border-radius: 50%;
+  background: var(--primary-500);
+}
+
 .cellLink {
   color: var(--primary-700);
   cursor: pointer;

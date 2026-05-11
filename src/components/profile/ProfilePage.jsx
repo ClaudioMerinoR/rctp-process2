@@ -1,6 +1,5 @@
 import { useState, useEffect, useRef } from 'react';
 import { motion, AnimatePresence } from 'motion/react';
-import Checkbox from '../ui/Checkbox';
 import Flag from '../ui/Flag';
 import Badge from '../ui/Badge';
 
@@ -67,10 +66,7 @@ export default function ProfilePage({ profile: profileProp, embedded = false }) 
   const [notes, setNotes] = useState([]);
   const [noteText, setNoteText] = useState('');
 
-  const [checked, setChecked] = useState((profile?.suggestedRows || []).map(() => false));
-  const allChecked  = checked.length > 0 && checked.every(Boolean);
-  const someChecked = checked.some(Boolean) && !allChecked;
-  const anyChecked  = checked.some(Boolean);
+  const [selectedSuggested, setSelectedSuggested] = useState(null);
 
   // Current status panel
   const [statusPanelOpen, setStatusPanelOpen] = useState(false);
@@ -91,27 +87,23 @@ export default function ProfilePage({ profile: profileProp, embedded = false }) 
 
   if (!profile) return <div style={{ padding: 40, textAlign: 'center' }}>Profile not found</div>;
 
-  function handleSelectAll(e) { setChecked(checked.map(() => e.target.checked)); }
-  function handleRowCheck(i, val) { const next = [...checked]; next[i] = val; setChecked(next); }
-
   function handleConnect() {
-    const selectedIndex = checked.findIndex(Boolean);
-    if (selectedIndex === -1) return;
-    setConnectPanelRow(suggestedRows[selectedIndex]);
+    if (selectedSuggested === null) return;
+    setConnectPanelRow(suggestedRows[selectedSuggested]);
   }
   function handleConnectConfirm(row, connType) {
     setConnectedRows(prev => [...prev, { ...row, connType }]);
     setSuggestedRows(prev => prev.filter(r => r !== row));
     setConnectPanelRow(null);
-    setChecked(prev => prev.filter((_, i) => suggestedRows[i] !== row));
+    setSelectedSuggested(null);
     setActiveTab('connections');
     setAlert({ type: 'success', message: 'Connection added successfully' });
     setTimeout(() => setAlert(null), 5000);
   }
   function handleDiscard() {
-    const indicesToRemove = checked.map((c, i) => c ? i : -1).filter(i => i !== -1);
-    setSuggestedRows(prev => prev.filter((_, i) => !indicesToRemove.includes(i)));
-    setChecked(prev => prev.filter((_, i) => !indicesToRemove.includes(i)));
+    if (selectedSuggested === null) return;
+    setSuggestedRows(prev => prev.filter((_, i) => i !== selectedSuggested));
+    setSelectedSuggested(null);
     setAlert({ type: 'warning', message: 'Connection discarded' });
     setTimeout(() => setAlert(null), 5000);
   }
@@ -394,8 +386,8 @@ export default function ProfilePage({ profile: profileProp, embedded = false }) 
                   <div className={styles.connSubHeader}>
                     <h3 className={styles.connSectionTitle} style={{ marginBottom: 0 }}>Suggested Third Parties</h3>
                     <div className={styles.connActions}>
-                      <button className={`${styles.btn} ${styles.btnDiscard}`} disabled={!anyChecked} onClick={handleDiscard}>Discard</button>
-                      <button className={`${styles.btn} ${styles.btnConnect}`} disabled={!anyChecked} onClick={handleConnect}>Connect</button>
+                      <button className={`${styles.btn} ${styles.btnDiscard}`} disabled={selectedSuggested === null} onClick={handleDiscard}>Discard</button>
+                      <button className={`${styles.btn} ${styles.btnConnect}`} disabled={selectedSuggested === null} onClick={handleConnect}>Connect</button>
                     </div>
                   </div>
 
@@ -403,13 +395,7 @@ export default function ProfilePage({ profile: profileProp, embedded = false }) 
                     <table className={styles.table}>
                       <thead>
                         <tr>
-                          <th style={{ width: 32 }}>
-                            <Checkbox
-                              checked={allChecked}
-                              indeterminate={someChecked}
-                              onChange={handleSelectAll}
-                            />
-                          </th>
+                          <th style={{ width: 32 }} />
                           <th>Third Party Name</th>
                           {profile.suggestedHasConnType && <th>Connection Type</th>}
                           <th>ID Type</th>
@@ -420,8 +406,8 @@ export default function ProfilePage({ profile: profileProp, embedded = false }) 
                       </thead>
                       <tbody>
                         {suggestedRows.map((r, i) => (
-                          <tr key={i}>
-                            <td><Checkbox checked={checked[i] || false} onChange={e => handleRowCheck(i, e.target.checked)} /></td>
+                          <tr key={i} onClick={() => setSelectedSuggested(i)} style={{ cursor: 'pointer' }}>
+                            <td><input type="radio" className={styles.tableRadio} checked={selectedSuggested === i} onChange={() => setSelectedSuggested(i)} /></td>
                             <td><span className={styles.cellLink}>{r.name}</span></td>
                             {profile.suggestedHasConnType && <td>{r.connType}</td>}
                             <td>{r.idType}</td>
@@ -1057,7 +1043,7 @@ const SEARCH_POOL = [
 function LookMorePanel({ onClose, onSelect }) {
   const [nameQuery, setNameQuery] = useState('');
   const [results, setResults] = useState(null);
-  const [checked, setChecked] = useState([]);
+  const [selectedIndex, setSelectedIndex] = useState(null);
 
   useEffect(() => {
     document.body.style.overflow = 'hidden';
@@ -1069,24 +1055,16 @@ function LookMorePanel({ onClose, onSelect }) {
       !nameQuery.trim() || r.name.toLowerCase().includes(nameQuery.toLowerCase())
     );
     setResults(filtered);
-    setChecked(filtered.map(() => false));
+    setSelectedIndex(null);
   }
 
-  const allChecked  = checked.length > 0 && checked.every(Boolean);
-  const someChecked = checked.some(Boolean) && !allChecked;
-  const anyChecked  = checked.some(Boolean);
-
-  function handleSelectAll(e) { setChecked(checked.map(() => e.target.checked)); }
-  function handleRowCheck(i, val) { const next = [...checked]; next[i] = val; setChecked(next); }
-
   function handleConnect() {
-    const idx = checked.findIndex(Boolean);
-    if (idx === -1) return;
-    onSelect(results[idx]);
+    if (selectedIndex === null) return;
+    onSelect(results[selectedIndex]);
   }
 
   function handleDiscard() {
-    setChecked(checked.map(() => false));
+    setSelectedIndex(null);
   }
 
   return (
@@ -1128,21 +1106,15 @@ function LookMorePanel({ onClose, onSelect }) {
                 <div className={styles.searchSuggestedHeader}>
                   <span className={styles.searchSuggestedTitle}>Suggested Third Parties</span>
                   <div className={styles.connActions}>
-                    <button className={`${styles.btn} ${styles.btnDiscard}`} disabled={!anyChecked} onClick={handleDiscard}>Discard</button>
-                    <button className={`${styles.btn} ${styles.btnConnect}`} disabled={!anyChecked} onClick={handleConnect}>Connect</button>
+                    <button className={`${styles.btn} ${styles.btnDiscard}`} disabled={selectedIndex === null} onClick={handleDiscard}>Discard</button>
+                    <button className={`${styles.btn} ${styles.btnConnect}`} disabled={selectedIndex === null} onClick={handleConnect}>Connect</button>
                   </div>
                 </div>
                 <div className={styles.connTableWrap}>
                 <table className={styles.table} style={{ minWidth: 0 }}>
                   <thead>
                     <tr>
-                      <th style={{ width: 32 }}>
-                        <Checkbox
-                          checked={allChecked}
-                          indeterminate={someChecked}
-                          onChange={handleSelectAll}
-                        />
-                      </th>
+                      <th style={{ width: 32 }} />
                       <th>Third Party Name</th>
                       <th>Connection Type</th>
                       <th>ID Type</th>
@@ -1152,8 +1124,8 @@ function LookMorePanel({ onClose, onSelect }) {
                   </thead>
                   <tbody>
                     {results.map((r, i) => (
-                      <tr key={i}>
-                        <td><Checkbox checked={checked[i] || false} onChange={e => handleRowCheck(i, e.target.checked)} /></td>
+                      <tr key={i} onClick={() => setSelectedIndex(i)} style={{ cursor: 'pointer' }}>
+                        <td><input type="radio" className={styles.tableRadio} checked={selectedIndex === i} onChange={() => setSelectedIndex(i)} /></td>
                         <td><span className={styles.cellLink}>{r.name}</span></td>
                         <td>{r.connType}</td>
                         <td>{r.idType}</td>
