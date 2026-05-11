@@ -473,7 +473,7 @@
 .table thead th {
   background: var(--neutral-25);
   border: 1px solid var(--neutral-50);
-  padding: 8px 8px 8px 8px;
+  padding: 8px 28px 8px 8px;
   text-align: left;
   font-size: 11px;
   font-weight: 500;
@@ -481,9 +481,14 @@
   text-transform: uppercase;
   letter-spacing: 0.5px;
   white-space: nowrap;
-  display: flex;
-  align-items: center;
-  justify-content: space-between;
+  position: relative;
+}
+.table thead th span[class*="material-icons"] {
+  position: absolute;
+  right: 8px;
+  top: 50%;
+  transform: translateY(-50%);
+  line-height: 1;
 }
 
 .table tbody td {
@@ -1441,7 +1446,7 @@
 .riskTable thead th {
   background: var(--neutral-25);
   border: 1px solid var(--neutral-50);
-  padding: 8px;
+  padding: 8px 28px 8px 8px;
   text-align: left;
   font-size: 11px;
   font-weight: 500;
@@ -1449,9 +1454,14 @@
   text-transform: uppercase;
   letter-spacing: 0.5px;
   white-space: nowrap;
-  display: flex;
-  align-items: center;
-  justify-content: space-between;
+  position: relative;
+}
+.riskTable thead th span[class*="material-icons"] {
+  position: absolute;
+  right: 8px;
+  top: 50%;
+  transform: translateY(-50%);
+  line-height: 1;
 }
 .riskTable tbody td {
   border: 1px solid var(--neutral-50);
@@ -1503,7 +1513,7 @@
 .genericTable thead th {
   background: var(--neutral-25);
   border: 1px solid var(--neutral-50);
-  padding: 8px;
+  padding: 8px 28px 8px 8px;
   text-align: left;
   font-size: 11px;
   font-weight: 500;
@@ -1511,9 +1521,14 @@
   text-transform: uppercase;
   letter-spacing: 0.5px;
   white-space: nowrap;
-  display: flex;
-  align-items: center;
-  justify-content: space-between;
+  position: relative;
+}
+.genericTable thead th span[class*="material-icons"] {
+  position: absolute;
+  right: 8px;
+  top: 50%;
+  transform: translateY(-50%);
+  line-height: 1;
 }
 .genericTable tbody td {
   border: 1px solid var(--neutral-50);
@@ -1549,7 +1564,7 @@
 .screeningTable thead th {
   background: var(--neutral-25);
   border: 1px solid var(--neutral-50);
-  padding: 8px;
+  padding: 8px 28px 8px 8px;
   text-align: left;
   font-size: 11px;
   font-weight: 500;
@@ -1557,9 +1572,14 @@
   text-transform: uppercase;
   letter-spacing: 0.5px;
   white-space: nowrap;
-  display: flex;
-  align-items: center;
-  justify-content: space-between;
+  position: relative;
+}
+.screeningTable thead th span[class*="material-icons"] {
+  position: absolute;
+  right: 8px;
+  top: 50%;
+  transform: translateY(-50%);
+  line-height: 1;
 }
 .screeningTable tbody tr:nth-child(odd) td  { background: var(--primary-08); }
 .screeningTable tbody tr:nth-child(even) td { background: var(--neutral-00); }
