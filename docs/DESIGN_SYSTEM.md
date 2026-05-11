@@ -17,7 +17,7 @@ All design tokens are CSS custom properties defined in `src/styles/globals.css` 
 | `--primary-300` | `#53C0E2` | |
 | `--primary-400` | `#2AB2DC` | |
 | `--primary-500` | `#02A3D5` | **Brand colour** — buttons, links, active states, badges |
-| `--primary-600` | `#0289B3` | Hover on primary elements |
+| `--primary-600` | `#0289B3` | Hover on primary elements; active sort icon colour |
 | `--primary-700` | `#016F91` | |
 | `--primary-800` | `#01556F` | |
 | `--primary-900` | `#013B4D` | |
@@ -27,9 +27,9 @@ All design tokens are CSS custom properties defined in `src/styles/globals.css` 
 | Token | Hex | Usage |
 |---|---|---|
 | `--neutral-00` | `#FFFFFF` | Card backgrounds, inputs |
-| `--neutral-25` | `#EFEFEF` | Page background, table header |
+| `--neutral-25` | `#F4F4F4` | **Page background, table headers, sidebar backgrounds** |
 | `--neutral-50` | `#DFE3E7` | Dividers, borders |
-| `--neutral-100` | `#D6DBE0` | Secondary borders |
+| `--neutral-100` | `#D6DBE0` | Secondary borders, stronger dividers |
 | `--neutral-200` | `#C4CCD2` | Input borders |
 | `--neutral-300` | `#B1BCC5` | Placeholder icons |
 | `--neutral-400` | `#9FACB7` | |
@@ -43,21 +43,29 @@ All design tokens are CSS custom properties defined in `src/styles/globals.css` 
 
 | Token | Hex | Usage |
 |---|---|---|
-| `--text-normal` | `#0C2A31` | Primary body text |
+| `--text-normal` | `#0C2A31` | Primary body text; tooltip background |
 | `--text-light` | `#516267` | Secondary / muted text |
-| `--text-light-alt` | `#5A6E73` | Alternative muted text |
+| `--text-light-alt` | `#5A6E73` | Alternative muted text (e.g. badge group labels) |
 | `--text-dark` | `#061619` | High emphasis |
 
 ### Semantic
 
 | Token | Hex | Usage |
 |---|---|---|
+| `--alert-50` | — | High risk badge background (light) |
+| `--alert-100` | — | Not Approved / Declined status background |
 | `--alert-500` | `#E34C53` | High risk, errors, red flags |
-| `--alert-700` | `#9A3438` | Dark alert |
+| `--alert-700` | `#9A3438` | Not Approved / Declined status text |
+| `--success-50` | — | Low risk badge background (light) |
+| `--success-100` | — | Approved status background |
 | `--success-500` | `#13DF81` | Low risk, completed, clear |
-| `--success-700` | `#0D9858` | Dark success |
-| `--warning-500` | `#F0C043` | Medium risk, pending, in progress |
+| `--success-700` | `#0D9858` | Dark success; verified badge icon |
+| `--success-900` | — | Approved status text |
+| `--warning-50` | — | Medium risk badge background (light) |
+| `--warning-100` | — | Approved* / Approved! (Renewal Required) status background |
+| `--warning-500` | `#F0C043` | Medium risk, pending |
 | `--warning-700` | `#A3832E` | Dark warning |
+| `--warning-900` | — | Approved* / Approved! status text |
 
 ---
 
@@ -68,7 +76,7 @@ All design tokens are CSS custom properties defined in `src/styles/globals.css` 
 | Token | Value | Usage |
 |---|---|---|
 | `--font-heading` | `'Public Sans', 'Roboto', sans-serif` | H1–H6 |
-| `--font-body` | `'Roboto', sans-serif` | Body text, UI elements |
+| `--font-body` | `'Roboto', 'Inter', sans-serif` | Body text, UI elements |
 | `--font-label` | `'Public Sans', 'Roboto', sans-serif` | Labels, badges |
 
 Both fonts are loaded from Google Fonts in `globals.css`.
@@ -113,7 +121,6 @@ Both fonts are loaded from Google Fonts in `globals.css`.
 | `--shadow-700` | `0 2px 3px rgba(0,0,0,.30), 0 6px 10px 4px rgba(0,0,0,.15)` | |
 | `--shadow-900` | `0 4px 4px rgba(0,0,0,.30), 0 8px 12px 6px rgba(0,0,0,.15)` | High elevation (modals) |
 | `--shadow-card` | `0 2px 4px rgba(0,0,0,.08)` | Card resting state |
-| `--shadow-card-hover` | `0 2px 8px rgba(0,0,0,.08)` | Card hover (not used after refactor) |
 
 ---
 
@@ -121,12 +128,12 @@ Both fonts are loaded from Google Fonts in `globals.css`.
 
 | Token | Value | Usage |
 |---|---|---|
-| `--z-tooltip` | 10 | Tooltips |
+| `--z-tooltip` | 10 | Tooltips (dot tooltips, badge tooltips, nav tooltips) |
 | `--z-dropdown` | 200 | Dropdown menus, comboboxes |
 | `--z-alert` | 500 | Alert banners, row menu dropdowns |
-| `--z-modal` | 1000 | Modals (delete confirm) |
+| `--z-modal` | 1000 | Modals (delete confirm, renewal modal) |
 | `--z-overlay` | 1100 | Full-screen overlays |
-| `--z-panel` | 1101 | Side panels (notes, connect) |
+| `--z-panel` | 1101 | Side panels (Status, Decline, Notes, Connect, column picker) |
 | `--z-cancel` | 2000 | Cancel confirmation modal |
 | `--z-creating` | 3000 | "Creating…" overlay (top of stack) |
 
@@ -150,7 +157,7 @@ No spacing scale tokens are defined — spacing values are written directly in C
 |---|---|---|
 | `--corner-extra-large` | `28px` | Large pills / buttons |
 
-Most elements use smaller values (2px, 4px, 8px) written directly.
+Most elements use smaller values (2px, 4px, 8px) written directly in CSS.
 
 ---
 
@@ -158,62 +165,140 @@ Most elements use smaller values (2px, 4px, 8px) written directly.
 
 **Material Icons Outlined** loaded via Google Fonts:
 ```html
-<!-- in globals.css -->
 @import url('https://fonts.googleapis.com/icon?family=Material+Icons+Outlined');
 ```
 
 Usage in JSX:
 ```jsx
 <span className="material-icons-outlined">check_circle</span>
-<span className="material-icons-outlined" style={{ fontSize: 18 }}>info</span>
+<span className="material-icons-outlined" style={{ fontSize: 16 }}>info</span>
 ```
 
 Common icons used:
 - `check_circle`, `check_circle_outline` — success / verified
-- `warning`, `error_outline` — risk levels
-- `pending` — pending status
+- `warning`, `error_outline` — risk levels (High, Medium)
+- `pending` — Pending Approval status
+- `history_toggle_off` — Approved* / Approved! (Renewal Required) status
+- `dangerous` — Not Approved status
+- `feedback` — Declined status
+- `arrow_drop_down` — table header sort icon (12px, right-aligned)
 - `expand_less`, `expand_more` — accordion toggles
 - `chevron_left` — back navigation
-- `verified` — entity verification
-- `print`, `edit`, `delete` — actions
-- `info` — info tooltip triggers
+- `verified` — entity verification badge
+- `print`, `edit`, `delete` — action buttons
 
 ---
 
-## CSS Modules Pattern
+## CSS Patterns
 
-Each component has a co-located `.module.css`:
-
-```jsx
-// Component.jsx
-import styles from './Component.module.css';
-
-export default function Component() {
-  return <div className={styles.container}>...</div>;
-}
-```
-
+### Table Headers
+All `thead th` elements use:
 ```css
-/* Component.module.css */
-.container {
-  background: var(--neutral-00);
-  padding: 16px;
-  box-shadow: var(--shadow-card);
+position: relative;
+padding: 10px 28px 10px 12px; /* right padding reserves space for the icon */
+```
+The sort icon span inside the `th`:
+```css
+/* via CSS Modules selector: .table thead th span[class*="material-icons"] */
+position: absolute;
+right: 8px;
+top: 50%;
+transform: translateY(-50%);
+line-height: 1;
+```
+Icon in JSX: `<span className="material-icons-outlined" style={{ fontSize: 12 }}>arrow_drop_down</span>` — no `verticalAlign` or extra class needed.
+
+### Tab Bar (canonical pattern)
+All tab bars use `<div>` elements — not `<button>` with `::after` CSS:
+```jsx
+<div style={{ position: 'relative' }} onClick={() => setTab(t)}>
+  {label}
+  {activeTab === t && (
+    <motion.div layoutId="unique-id" className={styles.tabIndicator}
+      transition={{ duration: 0.25, ease: [0.32, 0.72, 0, 1] }} />
+  )}
+</div>
+```
+```css
+.tabIndicator {
+  position: absolute; bottom: -1px; left: 0; right: 0;
+  height: 2px; background: var(--primary-600); border-radius: 1px;
 }
 ```
+Tab container has `border-bottom: 1px solid var(--neutral-50)` and indicator sits at `bottom: -1px` to overlap it.
 
-Class names are locally scoped — no risk of collision across files.
+### Status Badge Tooltip
+Profiles with `currentStatus.tooltip` set render a hover tooltip above the badge:
+```jsx
+<div className={styles.badgeTipWrap}>
+  {badge}
+  <span className={styles.badgeTip}>{tip}</span>
+</div>
+```
+```css
+.badgeTipWrap { position: relative; display: inline-flex; }
+.badgeTip {
+  display: none; position: absolute;
+  bottom: calc(100% + 8px); left: 50%; transform: translateX(-50%);
+  background: var(--text-normal); color: var(--neutral-00);
+  font-size: 11px; padding: 5px 10px; border-radius: 4px;
+  white-space: nowrap; pointer-events: none; z-index: var(--z-tooltip);
+}
+.badgeTipWrap:hover .badgeTip { display: block; }
+```
+
+### Sidebar Nav (Settings / CompanyAdmin)
+`width: 226px`, `font-size: 14px`, `color: var(--text-light)` for inactive items.
+Active item: `background: var(--primary-500); color: var(--neutral-00)`.
+Class names `adminNav` / `adminNavItem` / `adminNavItemActive` — kept in sync between `Settings.module.css` and `CompanyAdmin.module.css`.
+
+### Active/Inactive Toggle
+Green/red sliding toggle used in AddThirdParty (Summary section), Settings (Renewals), and RenewalEdit (per-row Status). CSS is copy-pasted into each module file — not a shared component. Classes: `.activeToggle`, `.activeToggleOff`, `.activeToggleTrack`, `.activeToggleThumb`.
+
+### Card with Top Accent
+```css
+border-top: 4px solid var(--primary-500);
+box-shadow: var(--shadow-card);
+```
+Used on all main content cards.
+
+### Inset Section Dividers
+```css
+/* 1px solid var(--neutral-50) with margin: 0 16px */
+/* In profile.module.css: implemented as ::before pseudo-elements */
+```
+
+### Table Stripes
+```css
+tbody tr:nth-child(odd)  { background: var(--primary-08); }
+tbody tr:nth-child(even) { background: var(--neutral-00); }
+tbody tr:hover           { background: var(--primary-50); }
+```
+
+### Global Table Min-Width Leak Fix
+`ThirdParties.module.css` contains a bare `table { min-width: 900px }` that leaks to all tables in the page. Override with `style={{ minWidth: 0 }}` on any `<table>` rendered inside a component that isn't ThirdParties.
 
 ---
 
 ## Risk Level Colour Coding
 
-Risk levels are used throughout cards, badges, accordion headers, and the page top strip:
+Risk levels drive card colours, badge backgrounds, accordion headers, and the page top strip gradient:
 
-| Level | Primary colour | Token |
+| Level | Colour | Token |
 |---|---|---|
-| Low | Green | `--success-500` (#13DF81) |
-| Medium | Amber | `--warning-500` (#F0C043) |
-| High | Red | `--alert-500` (#E34C53) |
+| Low | Green | `--success-500` (`#13DF81`) |
+| Medium | Amber | `--warning-500` (`#F0C043`) |
+| High | Red | `--alert-500` (`#E34C53`) |
 
-Gradient backgrounds on risk cards use these colours at low opacity (0.10–0.20) for a subtle tint effect.
+---
+
+## Current Status Colour Coding
+
+| Status | Background | Text |
+|---|---|---|
+| Pending Approval | `--neutral-50` | `--text-normal` |
+| Approved | `--success-100` | `--success-900` |
+| Not Approved | `--alert-100` | `--alert-700` |
+| Declined | `--alert-100` | `--alert-700` |
+| Approved* | `--warning-100` | `--warning-900` |
+| Approved! (Renewal Required) | `--warning-100` | `--warning-900` |
