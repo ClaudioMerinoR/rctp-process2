@@ -31,7 +31,7 @@ export default {
   overviewFields: [
     { label: 'Entity Third Party Legal Name',              value: 'Gringotts Wizarding Bank' },
     { label: 'Entity Industry Sector - onboarding',        value: 'Financial Services — Wizarding Banking & Vault Management' },
-    { label: 'Third Party Owner',                          value: 'Minerva McGonagall' },
+    { label: 'Third Party Owner',                          value: 'Claudio Merino' },
     { label: 'Process Name',                               value: 'Standard RCTP' },
     { label: 'Entity Registered Country',                  value: 'United Kingdom', flag: '🇬🇧' },
     { label: 'Third Party Contact Email Address',          value: 'griphook@gringotts.wiz' },
