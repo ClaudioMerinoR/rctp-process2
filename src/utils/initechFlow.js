@@ -32,7 +32,7 @@ function _patchInitech(profile) {
   return {
     ...profile,
     sidebarSteps: steps,
-    currentStatus: { label: approved ? 'Approved' : 'Approved*' },
+    currentStatus: { ...profile.currentStatus, label: approved ? 'Approved' : 'Approved*' },
   };
 }
 
