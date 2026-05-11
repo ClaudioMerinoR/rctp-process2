@@ -42,7 +42,7 @@ function StatusPill({ status }) {
   return <span className={`${styles.sPill} ${map[status] || styles.sPillDefault}`}>{status}</span>;
 }
 
-function Accordion({ section, open, onToggle, hideScore = false }) {
+function Accordion({ section, open, onToggle, hideScore = false, screeningResults = null, matchResults = [] }) {
   const headerCls = `${styles.accordionHeader} ${
     section.level === 'high' ? styles.levelHigh
       : section.level === 'medium' ? styles.levelMedium
@@ -90,29 +90,69 @@ function Accordion({ section, open, onToggle, hideScore = false }) {
             }}
           >
             <div className={styles.accordionBodyInner}>
-              {section.rows.length === 0 ? (
-                <div className={styles.noRiskMessage}>No risks were found in this category</div>
-              ) : (
-                <>
-                  <table className={styles.riskTable}>
+              {screeningResults !== null ? (
+                screeningResults.length === 0 ? (
+                  <div className={styles.noRiskMessage}>No screening results found</div>
+                ) : (
+                  <table className={styles.screeningTable}>
                     <thead>
                       <tr>
-                        <th style={{ width: '74%' }}>PROPERTY</th>
-                        <th style={{ width: '12%' }}>Value</th>
-                        <th style={{ width: '14%' }}>Score</th>
+                        <th style={{ width: '26%' }}>Association Name</th>
+                        <th style={{ width: '12%' }}>Type</th>
+                        <th style={{ width: '24%' }}>Match Results</th>
+                        <th style={{ width: '16%' }}>Category</th>
+                        <th style={{ width: '11%' }}>Risk Level</th>
+                        <th style={{ width: '11%' }}>Red Flags</th>
                       </tr>
                     </thead>
                     <tbody>
-                      {section.rows.map((row, i) => (
+                      {screeningResults.map((row, i) => (
                         <tr key={i}>
-                          <td className={styles.cellDark}>{row.property}</td>
-                          <td>{row.value}</td>
-                          <td className={styles.riskScoreCol}>{row.score}</td>
+                          <td className={styles.screeningCell}><span className={styles.cellLink}>{row.name}</span></td>
+                          <td className={styles.screeningCell}>{row.type}</td>
+                          <td className={styles.screeningMatchCell}>
+                            {matchResults.map((m, j) => (
+                              <div key={j} className={styles.matchResultLine}>
+                                <Badge label={String(m.count)} style={BG_TO_STYLE[m.bg] || 'no-action'} size="large" shape="square" />
+                                <span>{m.label}</span>
+                              </div>
+                            ))}
+                          </td>
+                          <td className={styles.screeningCell}>
+                            <div className={styles.screeningFlagCell}>
+                              {(row.categories || []).map((c, j) => (
+                                <Flag key={j} type={c.type} icon={c.icon} />
+                              ))}
+                            </div>
+                          </td>
+                          <td className={styles.screeningCell}><RiskBadge level={row.level} /></td>
+                          <td className={styles.screeningCell}>{row.redFlags}</td>
                         </tr>
                       ))}
                     </tbody>
                   </table>
-                </>
+                )
+              ) : section.rows.length === 0 ? (
+                <div className={styles.noRiskMessage}>No risks were found in this category</div>
+              ) : (
+                <table className={styles.riskTable}>
+                  <thead>
+                    <tr>
+                      <th style={{ width: '74%' }}>PROPERTY</th>
+                      <th style={{ width: '12%' }}>Value</th>
+                      <th style={{ width: '14%' }}>Score</th>
+                    </tr>
+                  </thead>
+                  <tbody>
+                    {section.rows.map((row, i) => (
+                      <tr key={i}>
+                        <td className={styles.cellDark}>{row.property}</td>
+                        <td>{row.value}</td>
+                        <td className={styles.riskScoreCol}>{row.score}</td>
+                      </tr>
+                    ))}
+                  </tbody>
+                </table>
               )}
             </div>
           </motion.div>
@@ -360,58 +400,17 @@ export default function ProfileRiskReport() {
                     <div className={styles.riskCategorySection}>
                       <h3 className={styles.riskCategoryTitle}>Risk Category Risk Levels</h3>
                       {sortedSections.map(section => (
-                        <Accordion key={section.id} section={section} open={openSections[section.id] ?? true} onToggle={() => toggleSection(section.id)} hideScore={section.id === 'screening'} />
+                        <Accordion
+                          key={section.id}
+                          section={section}
+                          open={openSections[section.id] ?? true}
+                          onToggle={() => toggleSection(section.id)}
+                          hideScore={section.id === 'screening'}
+                          screeningResults={section.id === 'screening' ? (rr.screeningResults || []) : null}
+                          matchResults={section.id === 'screening' ? matchResults : []}
+                        />
                       ))}
                     </div>
-
-                    {/* Screening Results */}
-                    {(rr.screeningResults || []).length > 0 && (
-                      <div className={styles.screeningSection}>
-                        <h3 className={styles.screeningTitle}>Screening Results</h3>
-                        <table className={styles.screeningTable}>
-                          <thead>
-                            <tr>
-                              <th style={{ width: '26%' }}>Association Name</th>
-                              <th style={{ width: '12%' }}>Type</th>
-                              <th style={{ width: '24%' }}>Match Results</th>
-                              <th style={{ width: '16%' }}>Category</th>
-                              <th style={{ width: '11%' }}>Risk Level</th>
-                              <th style={{ width: '11%' }}>Red Flags</th>
-                            </tr>
-                          </thead>
-                          <tbody>
-                            {rr.screeningResults.map((row, i) => (
-                              <tr key={i}>
-                                <td className={styles.screeningCell}><span className={styles.cellLink}>{row.name}</span></td>
-                                <td className={styles.screeningCell}>{row.type}</td>
-                                <td className={styles.screeningMatchCell}>
-                                  {matchResults.map((m, j) => (
-                                    <div key={j} className={styles.matchResultLine}>
-                                      <Badge
-                                        label={String(m.count)}
-                                        style={BG_TO_STYLE[m.bg] || 'no-action'}
-                                        size="large"
-                                        shape="square"
-                                      />
-                                      <span>{m.label}</span>
-                                    </div>
-                                  ))}
-                                </td>
-                                <td className={styles.screeningCell}>
-                                  <div className={styles.screeningFlagCell}>
-                                    {(row.categories || []).map((c, j) => (
-                                      <Flag key={j} type={c.type} icon={c.icon} />
-                                    ))}
-                                  </div>
-                                </td>
-                                <td className={styles.screeningCell}><RiskBadge level={row.level} /></td>
-                                <td className={styles.screeningCell}>{row.redFlags}</td>
-                              </tr>
-                            ))}
-                          </tbody>
-                        </table>
-                      </div>
-                    )}
 
                     {/* Red Flags */}
                     {(rr.redFlags || []).length > 0 && (
