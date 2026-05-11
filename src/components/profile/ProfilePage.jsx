@@ -447,8 +447,9 @@ export default function ProfilePage({ profile: profileProp, embedded = false }) 
               </motion.div>
             ) : (
               <motion.div key="risk-loaded" className={styles.riskRow} initial={{ opacity: 0 }} animate={{ opacity: 1 }} exit={{ opacity: 0 }} transition={{ duration: 0.4 }}>
-                {profile.riskCards.map((rc, i) => {
+                {[...profile.riskCards].sort((a, b) => a.title === 'Screening & Monitoring' ? 1 : b.title === 'Screening & Monitoring' ? -1 : 0).map((rc, i) => {
                   const b = riskBadgeFn(rc.level);
+                  const isScreening = rc.title === 'Screening & Monitoring';
                   const sectionId = (profile.riskReport?.accordionSections || []).find(
                     s => s.label.toLowerCase().includes(rc.title.toLowerCase())
                   )?.id || rc.title.toLowerCase().replace(/[^a-z]+/g, '-');
@@ -458,9 +459,9 @@ export default function ProfilePage({ profile: profileProp, embedded = false }) 
                       <div className={styles.rcardTitle}>{rc.title}</div>
                       <span className={`${styles.rcardLbl} ${styles.lblRisk}`}>Risk Level</span>
                       <span className={`${styles.rcardLbl} ${styles.lblFlags}`}>Red flags</span>
-                      <span className={`${styles.rcardLbl} ${styles.lblScore}`}>Category score</span>
+                      {!isScreening && <span className={`${styles.rcardLbl} ${styles.lblScore}`}>Category score</span>}
                       <span className={`${styles.rcardVal} ${styles.valFlags}`}>{rc.flags}</span>
-                      <span className={`${styles.rcardVal} ${styles.valScore}`}>{rc.score}</span>
+                      {!isScreening && <span className={`${styles.rcardVal} ${styles.valScore}`}>{rc.score}</span>}
                       <span className={styles.rcardBadge}>
                         <span className={`${styles.badge} ${b.className}`} style={{ fontSize: 12, padding: '4px 8px' }}>
                           {b.label}
