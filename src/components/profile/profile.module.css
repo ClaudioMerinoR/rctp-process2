@@ -227,6 +227,7 @@
 }
 
 .navItemActive {
+  position: relative;
   display: flex;
   align-items: center;
   gap: 12px;
@@ -240,6 +241,7 @@
 }
 
 .navItem {
+  position: relative;
   display: flex;
   align-items: center;
   gap: 12px;
@@ -285,12 +287,13 @@
 }
 
 .dotWrap {
-  position: relative;
   display: inline-flex;
   align-items: center;
   flex-shrink: 0;
 }
-.dotWrap:hover .dotTooltip { display: block; }
+.dotWrap:hover .dotTooltip,
+.navItem:hover .dotTooltip,
+.navItemActive:hover .dotTooltip { display: block; }
 
 .dotTooltip {
   display: none;

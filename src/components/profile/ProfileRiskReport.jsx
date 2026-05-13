@@ -20,6 +20,18 @@ const BG_TO_STYLE = {
   '#016F91': 'cleared',
 };
 
+const STATUS_CONFIG = {
+  'Pending Approval':             { cls: 'statusPendingApproval', icon: 'pending' },
+  'Approved':                     { cls: 'statusApproved',        icon: 'check_circle' },
+  'Not Approved':                 { cls: 'statusNotApproved',     icon: 'dangerous' },
+  'Declined':                     { cls: 'statusDeclined',        icon: 'feedback' },
+  'Approved*':                    { cls: 'statusExpired',         icon: 'history_toggle_off' },
+  'Approved! (Renewal Required)': { cls: 'statusExpired',         icon: 'history_toggle_off' },
+};
+function getStatusConfig(label) {
+  return STATUS_CONFIG[label] ?? { cls: 'statusPendingApproval', icon: 'pending' };
+}
+
 function RiskBadge({ level }) {
   const cls = level === 'high' ? styles.badgeHigh
     : level === 'medium' ? styles.badgeMedium
@@ -343,10 +355,16 @@ export default function ProfileRiskReport() {
                 <div className={styles.rlrMetaRow}>
                   <div className={styles.rlrMetaItem}>
                     <span className={styles.rlrMetaLabel}>Current Status:</span>
-                    <span className={`${styles.badge} ${styles.badgePending}`}>
-                      <span className="material-icons-outlined" style={{ fontSize: 14 }}>pending</span>
-                      {profile.currentStatus.label}
-                    </span>
+                    {(() => {
+                      const label = profile.currentStatus?.label || 'Pending Approval';
+                      const { cls, icon } = getStatusConfig(label);
+                      return (
+                        <span className={`${styles.badge} ${styles[cls]}`}>
+                          {label}
+                          <span className="material-icons-outlined" style={{ fontSize: 16 }}>{icon}</span>
+                        </span>
+                      );
+                    })()}
                   </div>
                   <div className={styles.rlrMetaItem}>
                     <span className={styles.rlrMetaLabel}>Risk Level:</span>

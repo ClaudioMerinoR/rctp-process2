@@ -14,7 +14,7 @@ export default {
   sidebarSteps: [
     { label: 'Risk Assessment',               dot: 'green', path: 'risk-assessment' },
     { label: 'Due Diligence',                 dot: 'red',   path: 'due-diligence' },
-    { label: 'Integrity Check',               dot: 'grey',  partner: 'integrity', tooltip: 'Powered by Xapiens', path: 'integrity-check' },
+    { label: 'Integrity Check',               dot: 'grey',  partner: 'integrity', tooltip: 'Powered by Xapiens', newTag: true, path: 'integrity-check' },
     { label: 'Enhanced Due Diligence Reports',dot: 'grey',  path: 'enhanced-due-diligence' },
     { label: 'UBO',                           dot: 'red',   partner: 'ubo', tooltip: 'Powered by Duns & Bradstreet', path: 'ubo' },
     { label: 'Risk Mitigation',               dot: 'red',   path: 'risk-mitigation' },

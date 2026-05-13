@@ -95,7 +95,6 @@ export default function ProfileScreeningMonitoring() {
                           {(r.categories || []).map((c, j) => (
                             <Flag key={j} type={c.label.toLowerCase()} icon={c.label === 'AM' ? 'entity' : 'person'} />
                           ))}
-                          {r.categoryIcon && <span className="material-icons-outlined" style={{ fontSize: 16, color: 'var(--text-light)' }}>{r.categoryIcon}</span>}
                         </div>
                       </td>
                       <td><strong>{r.type}</strong></td>

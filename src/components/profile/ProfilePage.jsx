@@ -576,7 +576,6 @@ export default function ProfilePage({ profile: profileProp, embedded = false }) 
                           {r.categories.map((c, j) => (
                             <Flag key={j} type={c.label.toLowerCase()} icon={c.label === 'AM' ? 'entity' : c.label === 'SOC' ? 'entity' : 'person'} />
                           ))}
-                          <span className="material-icons-outlined" style={{ fontSize: 16, color: 'var(--text-light)' }}>{r.categoryIcon}</span>
                         </div>
                       </td>
                       <td>{r.entityType}</td>

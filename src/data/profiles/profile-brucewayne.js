@@ -13,7 +13,7 @@ export default {
 
   sidebarSteps: [
     { label: 'Risk Assessment', dot: 'green', path: 'risk-assessment' },
-    { label: 'Integrity Check', dot: 'amber', partner: 'integrity', tooltip: 'Powered by Xapiens' , path: 'integrity-check'},
+    { label: 'Integrity Check', dot: 'amber', partner: 'integrity', tooltip: 'Powered by Xapiens', newTag: true, path: 'integrity-check'},
     { label: 'Due Diligence', dot: 'amber', path: 'due-diligence' },
     { label: 'Enhanced Due Diligence Reports', dot: 'grey', path: 'enhanced-due-diligence' },
     { label: 'UBO', dot: 'green', partner: 'ubo', tooltip: 'Powered by Duns & Bradstreet' , path: 'ubo'},

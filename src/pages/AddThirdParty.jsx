@@ -788,12 +788,8 @@ export default function AddThirdParty() {
             <span>Onboarding Details</span>
             <div className={styles.sectionHeadingActions}>
               <button className={styles.btnOutline} onClick={() => setShowLanguagePanel(true)}>
-                <span className="material-icons-outlined" style={{ fontSize: 16 }}>translate</span>
                 Questionnaire Language{obLanguage ? `: ${obLanguage}` : ''}
-              </button>
-              <button className={styles.btnOutline} onClick={() => setShowNotesPanel(true)}>
-                <span className="material-icons-outlined" style={{ fontSize: 16 }}>note_add</span>
-                Add Notes
+                <span className="material-icons-outlined" style={{ fontSize: 16 }}>translate</span>
               </button>
             </div>
           </div>
@@ -993,7 +989,7 @@ export default function AddThirdParty() {
         >
           <a href="#" className={styles.btnGhost} onClick={handleCancel}>Cancel</a>
           <button className={styles.btnFilled} onClick={handleCreate}>
-            <span className="material-icons-outlined" style={{ fontSize: 16 }}>check</span> Create Third Party
+            Create Third Party
           </button>
         </motion.div>
       )}

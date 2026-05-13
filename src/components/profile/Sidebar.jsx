@@ -105,23 +105,25 @@ export default function Sidebar({ profile: profileProp, profileLoading = false }
         if (sec.path) {
           const fullPath = `/profile/${profile.id}/${sec.path}`;
           const active = currentPath === fullPath;
+          const secInner = (
+            <>
+              {sec.label}
+              {sec.partner && <PartnerIcon partner={sec.partner} tooltip={sec.tooltip} />}
+            </>
+          );
           if (active) {
-            return <div key={i} className={styles.navSectionLabelActive}>{sec.label}</div>;
+            return <div key={i} className={styles.navSectionLabelActive}>{secInner}</div>;
           }
           return (
             <Link key={i} to={fullPath} className={styles.navSectionLabel} style={{ textDecoration: 'none' }}>
-              {sec.label}
+              {secInner}
             </Link>
           );
         }
         return (
           <div key={i} className={styles.navSectionLabel}>
             {sec.label}
-            {sec.partner && (
-              <span style={{ marginLeft: 4 }}>
-                <PartnerIcon partner={sec.partner} tooltip={sec.tooltip} />
-              </span>
-            )}
+            {sec.partner && <PartnerIcon partner={sec.partner} tooltip={sec.tooltip} />}
           </div>
         );
       })}
