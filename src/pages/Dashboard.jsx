@@ -84,8 +84,13 @@ const EDD_ROWS = [
   { type: 'ENHANCED DUE DILIGENCE REPORT', name: 'Enhanced Due Diligence Report Review Task - Vladimir Vladimirovich Putin', tp: 'Apple', tpId: null, status: 'Not Started', risk: 'low', owner: 'This is the name of my default group', date: '06 Sep 2024', age: '1 Year' },
 ];
 
-// match badge styles by position (amber, green, blue/dark, dark-red, red)
-const MATCH_STYLES = ['incomplete', 'completed', 'no-action', 'confirmed', 'action-required'];
+const MATCH_COLORS = [
+  { bg: '#E34C53', color: '#fff' },
+  { bg: '#13DF81', color: 'var(--text-normal)' },
+  { bg: '#016F91', color: '#fff' },
+  { bg: '#9A3438', color: '#fff' },
+  { bg: '#F0C043', color: 'var(--text-normal)' },
+];
 
 function TaskTypeBadge({ type }) {
   const cfg = TASK_TYPE_CONFIG[type] || { icon: 'assignment' };
@@ -338,7 +343,7 @@ function SMTable({ rows, search }) {
                 <td>
                   <div className={styles.matchBadges}>
                     {row.matches.map((val, j) => (
-                      <Badge key={j} label={val} style={MATCH_STYLES[j]} size="large" shape="square" />
+                      <Badge key={j} label={val} bgColor={MATCH_COLORS[j]?.bg} textColor={MATCH_COLORS[j]?.color} size="large" shape="square" />
                     ))}
                   </div>
                 </td>

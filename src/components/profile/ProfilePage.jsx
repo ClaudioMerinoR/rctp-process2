@@ -3,14 +3,6 @@ import { motion, AnimatePresence } from 'motion/react';
 import Flag from '../ui/Flag';
 import Badge from '../ui/Badge';
 
-const MATCH_BG_TO_STYLE = {
-  'var(--alert-500)':   'action-required',
-  'var(--success-500)': 'completed',
-  'var(--warning-500)': 'incomplete',
-  'var(--warning-300)': 'incomplete',
-  'var(--neutral-200)': 'not-initiated',
-  'var(--text-light)':  'no-action',
-};
 import { transition as mot } from '../../utils/motion';
 import { patchInitechProfile, setDMFlow, setLumonFlow } from '../../utils/initechFlow';
 import { Link, useParams, useNavigate, useLocation } from 'react-router-dom';
@@ -567,7 +559,7 @@ export default function ProfilePage({ profile: profileProp, embedded = false }) 
                       <td>
                         <div className={styles.matchBadges}>
                           {r.matches.map((m, j) => (
-                            <Badge key={j} label={m.val} style={MATCH_BG_TO_STYLE[m.bg] || 'no-action'} size="large" shape="square" />
+                            <Badge key={j} label={m.val} bgColor={m.bg} textColor={m.color} size="large" shape="square" />
                           ))}
                         </div>
                       </td>

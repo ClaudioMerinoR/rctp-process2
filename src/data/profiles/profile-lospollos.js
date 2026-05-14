@@ -79,11 +79,11 @@ export default {
     {
       name: 'Los Pollos Hermanos LLC',
       matches: [
-        { bg: 'var(--alert-500)', color: '#fff', val: '38' },
-        { bg: 'var(--success-500)', color: 'var(--text-normal)', val: '4' },
-        { bg: 'var(--text-light)', color: '#fff', val: '0' },
-        { bg: 'var(--neutral-200)', color: 'var(--text-normal)', val: '3' },
-        { bg: 'var(--warning-500)', color: 'var(--text-normal)', val: '7' },
+        { bg: '#E34C53', color: '#fff', val: '38' },
+        { bg: '#13DF81', color: 'var(--text-normal)', val: '4' },
+        { bg: '#016F91', color: '#fff', val: '0' },
+        { bg: '#9A3438', color: '#fff', val: '3' },
+        { bg: '#E34C53', color: '#fff', val: '7' },
       ],
       updated: '15 Apr 2026',
       type: 'Primary Entity',

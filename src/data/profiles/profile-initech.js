@@ -74,11 +74,11 @@ export default {
     {
       name: 'Initech Corporation',
       matches: [
-        { bg: 'var(--warning-500)', color: 'var(--text-normal)', val: '4' },
-        { bg: 'var(--success-500)', color: 'var(--text-normal)', val: '1' },
-        { bg: 'var(--text-light)', color: '#fff', val: '0' },
-        { bg: 'var(--neutral-200)', color: 'var(--text-normal)', val: '0' },
-        { bg: 'var(--warning-300)', color: 'var(--text-normal)', val: '1' },
+        { bg: '#E34C53', color: '#fff', val: '4' },
+        { bg: '#13DF81', color: 'var(--text-normal)', val: '1' },
+        { bg: '#016F91', color: '#fff', val: '0' },
+        { bg: '#9A3438', color: '#fff', val: '0' },
+        { bg: '#F0C043', color: 'var(--text-normal)', val: '1' },
       ],
       updated: '10 Jan 2026',
       type: 'Primary Entity',

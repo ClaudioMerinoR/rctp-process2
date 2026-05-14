@@ -74,11 +74,11 @@ export default {
     {
       name: 'Dunder Mifflin Paper Company, Inc.',
       matches: [
-        { bg: 'var(--success-500)', color: 'var(--text-normal)', val: '2' },
-        { bg: 'var(--success-500)', color: 'var(--text-normal)', val: '0' },
-        { bg: 'var(--text-light)', color: '#fff', val: '0' },
-        { bg: 'var(--neutral-200)', color: 'var(--text-normal)', val: '0' },
-        { bg: 'var(--neutral-200)', color: 'var(--text-normal)', val: '0' },
+        { bg: '#13DF81', color: 'var(--text-normal)', val: '2' },
+        { bg: '#13DF81', color: 'var(--text-normal)', val: '0' },
+        { bg: '#016F91', color: '#fff', val: '0' },
+        { bg: '#9A3438', color: '#fff', val: '0' },
+        { bg: '#9A3438', color: '#fff', val: '0' },
       ],
       updated: '10 Jan 2026',
       type: 'Primary Entity',

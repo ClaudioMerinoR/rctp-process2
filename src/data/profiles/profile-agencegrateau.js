@@ -73,11 +73,11 @@ export default {
     {
       name: 'Agence Grateau',
       matches: [
-        { bg: 'var(--success-500)', color: 'var(--text-normal)', val: '0' },
-        { bg: 'var(--warning-500)', color: 'var(--text-normal)', val: '1' },
-        { bg: 'var(--text-light)', color: '#fff', val: '0' },
-        { bg: 'var(--neutral-200)', color: 'var(--text-normal)', val: '0' },
-        { bg: 'var(--neutral-200)', color: 'var(--text-normal)', val: '0' },
+        { bg: '#13DF81', color: 'var(--text-normal)', val: '0' },
+        { bg: '#E34C53', color: '#fff', val: '1' },
+        { bg: '#016F91', color: '#fff', val: '0' },
+        { bg: '#9A3438', color: '#fff', val: '0' },
+        { bg: '#9A3438', color: '#fff', val: '0' },
       ],
       updated: '01 Mar 2026',
       type: 'Primary Entity',

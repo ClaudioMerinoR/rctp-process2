@@ -11,14 +11,6 @@ import styles from './profile.module.css';
 import rmStyles from './ProfileRiskMitigation.module.css';
 import smStyles from './ProfileScreeningMonitoring.module.css';
 
-const MATCH_BG_TO_STYLE = {
-  'var(--alert-500)':   'action-required',
-  'var(--success-500)': 'completed',
-  'var(--warning-500)': 'incomplete',
-  'var(--warning-300)': 'incomplete',
-  'var(--neutral-200)': 'not-initiated',
-  'var(--text-light)':  'no-action',
-};
 
 export default function ProfileScreeningMonitoring() {
   const { profileId } = useParams();
@@ -101,7 +93,7 @@ export default function ProfileScreeningMonitoring() {
                       <td>
                         <div className={styles.matchBadges}>
                           {(r.matches || []).map((m, j) => (
-                            <Badge key={j} label={m.val} style={MATCH_BG_TO_STYLE[m.bg] || 'no-action'} size="large" shape="square" />
+                            <Badge key={j} label={m.val} bgColor={m.bg} textColor={m.color} size="large" shape="square" />
                           ))}
                         </div>
                       </td>

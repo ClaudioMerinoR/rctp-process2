@@ -79,11 +79,11 @@ export default {
     {
       name: 'Gazmash, AO',
       matches: [
-        { bg: 'var(--alert-500)', color: '#fff', val: '91' },
-        { bg: 'var(--success-500)', color: 'var(--text-normal)', val: '1' },
-        { bg: 'var(--text-light)', color: '#fff', val: '0' },
-        { bg: 'var(--neutral-200)', color: 'var(--text-normal)', val: '0' },
-        { bg: 'var(--warning-500)', color: 'var(--text-normal)', val: '0' },
+        { bg: '#E34C53', color: '#fff', val: '91' },
+        { bg: '#13DF81', color: 'var(--text-normal)', val: '1' },
+        { bg: '#016F91', color: '#fff', val: '0' },
+        { bg: '#9A3438', color: '#fff', val: '0' },
+        { bg: '#E34C53', color: '#fff', val: '0' },
       ],
       updated: '20 Jun 2024',
       type: 'Primary Entity',
@@ -99,11 +99,11 @@ export default {
     {
       name: 'Gazmash, AO',
       matches: [
-        { bg: 'var(--alert-500)', color: '#fff', val: '91' },
-        { bg: 'var(--success-500)', color: 'var(--text-normal)', val: '1' },
-        { bg: 'var(--text-light)', color: '#fff', val: '0' },
-        { bg: 'var(--neutral-200)', color: 'var(--text-normal)', val: '0' },
-        { bg: 'var(--warning-500)', color: 'var(--text-normal)', val: '0' },
+        { bg: '#E34C53', color: '#fff', val: '91' },
+        { bg: '#13DF81', color: 'var(--text-normal)', val: '1' },
+        { bg: '#016F91', color: '#fff', val: '0' },
+        { bg: '#9A3438', color: '#fff', val: '0' },
+        { bg: '#E34C53', color: '#fff', val: '0' },
       ],
       updated: '20 Jun 2024',
       type: 'Primary Entity',
