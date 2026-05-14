@@ -2038,6 +2038,11 @@
 }
 .renewalInfoBtn:hover { color: var(--primary-600); }
 .renewalInfoBtn .material-icons-outlined { font-size: 18px; }
+.fieldValueWithAction {
+  display: flex;
+  align-items: center;
+  gap: 4px;
+}
 
 /* ── Renewal details panel ── */
 .renewalDetailsPanel {

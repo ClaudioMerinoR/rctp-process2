@@ -306,6 +306,13 @@ export default function ProfilePage({ profile: profileProp, embedded = false }) 
                               {f.value}
                             </span>
                           </div>
+                        ) : f.label === 'Third Party Renewal Date' && ['initech','lumon','ecomoda','gringotts','agencegrateau'].includes(profile.id) ? (
+                          <div className={`${styles.fieldValue} ${styles.fieldValueWithAction}`}>
+                            {f.value}
+                            <button className={styles.renewalInfoBtn} onClick={() => setRenewalDetailsPanelOpen(true)} aria-label="Renewal details">
+                              <span className="material-icons-outlined">more_horiz</span>
+                            </button>
+                          </div>
                         ) : (
                           <div className={styles.fieldValue}>{f.value}</div>
                         )}
@@ -1312,7 +1319,7 @@ function StatusPanel({ currentStatus, renewalDate, canRenew, renewalInProgress, 
                   <span className={styles.statusPanelRenewalDate}>{renewalDate}</span>
                   {showRenewalDetails && (
                     <button className={styles.renewalInfoBtn} onClick={onRenewalDetails} aria-label="Renewal details">
-                      <span className="material-icons-outlined">info</span>
+                      <span className="material-icons-outlined">more_horiz</span>
                     </button>
                   )}
                 </div>
