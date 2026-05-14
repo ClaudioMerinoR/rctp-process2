@@ -78,7 +78,7 @@ export default {
         { bg: '#13DF81', color: 'var(--text-normal)', val: '1' },
         { bg: '#014155', color: '#fff', val: '0' },
         { bg: '#f89406', color: '#fff', val: '0' },
-        { bg: '#E34C53', color: '#fff', val: '1' },
+        { bg: '#F0C043', color: 'var(--text-normal)', val: '1' },
       ],
       updated: '15 Jan 2025',
       type: 'Primary Entity',
