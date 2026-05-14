@@ -76,8 +76,8 @@ export default {
       matches: [
         { bg: '#E34C53', color: '#fff', val: '4' },
         { bg: '#13DF81', color: 'var(--text-normal)', val: '1' },
-        { bg: '#016F91', color: '#fff', val: '0' },
-        { bg: '#9A3438', color: '#fff', val: '0' },
+        { bg: '#014155', color: '#fff', val: '0' },
+        { bg: '#f89406', color: '#fff', val: '0' },
         { bg: '#F0C043', color: 'var(--text-normal)', val: '1' },
       ],
       updated: '10 Jan 2026',
@@ -157,8 +157,8 @@ export default {
     matchResults: [
       { count: 4, bg: '#F0C043', color: 'var(--text-normal)', label: 'Open (Pending Review)' },
       { count: 1, bg: '#13DF81', color: 'var(--text-normal)', label: 'Open (Investigation Under Review)' },
-      { count: 0, bg: '#016F91', color: '#fff', label: 'Permanently Clear (Without Updates)' },
-      { count: 0, bg: '#9A3438', color: '#fff', label: 'Confirmed (Matches)' },
+      { count: 0, bg: '#014155', color: '#fff', label: 'Permanently Clear (Without Updates)' },
+      { count: 0, bg: '#f89406', color: '#fff', label: 'Confirmed (Matches)' },
       { count: 1, bg: '#E34C53', color: '#fff', label: 'Open (Pending Review)' },
     ],
     screeningResults: [

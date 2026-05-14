@@ -85,11 +85,11 @@ const EDD_ROWS = [
 ];
 
 const MATCH_COLORS = [
-  { bg: '#E34C53', color: '#fff' },
-  { bg: '#13DF81', color: 'var(--text-normal)' },
-  { bg: '#016F91', color: '#fff' },
-  { bg: '#9A3438', color: '#fff' },
-  { bg: '#F0C043', color: 'var(--text-normal)' },
+  { bg: '#e34c53', color: '#fff' },
+  { bg: '#13df81', color: '#0c2a31' },
+  { bg: '#014155', color: '#fff' },
+  { bg: '#f89406', color: '#fff' },
+  { bg: '#f0c043', color: '#0c2a31' },
 ];
 
 function TaskTypeBadge({ type }) {
