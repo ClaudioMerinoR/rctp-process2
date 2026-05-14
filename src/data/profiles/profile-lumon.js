@@ -56,7 +56,7 @@ export default {
   ],
 
   riskCards: [
-    { title: 'Country', level: 'low', flags: 0, score: 0 },
+    { title: 'Country Risk', level: 'low', flags: 0, score: 0 },
     { title: 'Bribery & Corruption', level: 'low', flags: 0, score: 0 },
     { title: 'Enviromental', level: 'low', flags: 0, score: 0 },
     { title: 'Human Rights', level: 'low', flags: 0, score: 0 },
@@ -140,6 +140,7 @@ export default {
       { step: 'Risk Assessment', isLink: true, status: 'Completed', startDate: '5 Jan 2025', by: 'Mark Scout', date: '6 Jan 2025' },
       { step: 'Internal Due Diligence', isLink: true, status: 'Completed', startDate: '6 Jan 2025', by: 'Dylan George', date: '8 Jan 2025' },
       { step: 'External Due Diligence', isLink: true, status: 'Completed', startDate: '8 Jan 2025', by: 'Irving Bailiff', date: '10 Jan 2025' },
+      { step: 'Integrity Check', isLink: true, status: 'For Completion', startDate: '', by: '', date: '' },
       { step: 'Enhanced Due Diligence Report', isLink: true, status: 'Not Required', startDate: '', by: '', date: '' },
       { step: 'UBO', isLink: false, status: 'Completed', startDate: '10 Jan 2025', by: 'Mark Scout', date: '12 Jan 2025' },
       { step: 'Risk Mitigation', isLink: true, status: 'Completed', startDate: '12 Jan 2025', by: 'Harmony Cobel', date: '14 Jan 2025' },

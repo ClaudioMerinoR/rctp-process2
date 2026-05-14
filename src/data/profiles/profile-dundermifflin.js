@@ -56,7 +56,7 @@ export default {
   ],
 
   riskCards: [
-    { title: 'Country', level: 'low', flags: 0, score: 0 },
+    { title: 'Country Risk', level: 'low', flags: 0, score: 0 },
     { title: 'Bribery & Corruption', level: 'medium', flags: 1, score: 4 },
     { title: 'Enviromental', level: 'low', flags: 0, score: 0 },
     { title: 'Human Rights', level: 'low', flags: 0, score: 0 },
@@ -152,6 +152,7 @@ export default {
       { step: 'Risk Assessment', isLink: true, status: 'Completed', startDate: '3 Jan 2026', by: 'Dwight Schrute', date: '3 Jan 2026' },
       { step: 'Internal Due Diligence', isLink: true, status: 'In Progress', startDate: '5 Jan 2026', by: '', date: '' },
       { step: 'External Due Diligence', isLink: true, status: 'Not Started', startDate: '', by: '', date: '' },
+      { step: 'Integrity Check', isLink: true, status: 'For Completion', startDate: '', by: '', date: '' },
       { step: 'Enhanced Due Diligence Report', isLink: true, status: 'Not Required', startDate: '', by: '', date: '' },
       { step: 'UBO', isLink: false, status: 'Not Started', startDate: '', by: '', date: '' },
       { step: 'Risk Mitigation', isLink: true, status: 'Not Started', startDate: '', by: '', date: '' },

@@ -56,7 +56,7 @@ export default {
   ],
 
   riskCards: [
-    { title: 'Country', level: 'low', flags: 0, score: 0 },
+    { title: 'Country Risk', level: 'low', flags: 0, score: 0 },
     { title: 'Bribery & Corruption', level: 'low', flags: 0, score: 0 },
     { title: 'Environmental', level: 'low', flags: 0, score: 0 },
     { title: 'Human Rights', level: 'low', flags: 0, score: 0 },

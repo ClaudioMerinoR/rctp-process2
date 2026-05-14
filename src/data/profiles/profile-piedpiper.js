@@ -56,7 +56,7 @@ export default {
   ],
 
   riskCards: [
-    { title: 'Country', level: 'low', flags: 0, score: 1 },
+    { title: 'Country Risk', level: 'low', flags: 0, score: 1 },
     { title: 'Bribery & Corruption', level: 'medium', flags: 1, score: 6 },
     { title: 'Environmental', level: 'low', flags: 0, score: 0 },
     { title: 'Human Rights', level: 'low', flags: 0, score: 0 },
@@ -238,6 +238,7 @@ export default {
       { step: 'Risk Assessment', isLink: true, status: 'In Progress', startDate: '15 Nov 2025', by: '', date: '' },
       { step: 'Internal Due Diligence', isLink: true, status: 'In Progress', startDate: '20 Nov 2025', by: '', date: '' },
       { step: 'External Due Diligence', isLink: true, status: 'Not Started', startDate: '', by: '', date: '' },
+      { step: 'Integrity Check', isLink: true, status: 'For Completion', startDate: '', by: '', date: '' },
       { step: 'Enhanced Due Diligence Report', isLink: true, status: 'Not Required', startDate: '', by: '', date: '' },
       { step: 'UBO', isLink: false, status: 'Action Required', startDate: '1 Dec 2025', by: '', date: '' },
       { step: 'Risk Mitigation', isLink: true, status: 'Not Started', startDate: '', by: '', date: '' },

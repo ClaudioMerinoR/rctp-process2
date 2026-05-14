@@ -56,7 +56,7 @@ export default {
   ],
 
   riskCards: [
-    { title: 'Country', level: 'low', flags: 0, score: 2 },
+    { title: 'Country Risk', level: 'low', flags: 0, score: 2 },
     { title: 'Bribery & Corruption', level: 'medium', flags: 1, score: 12 },
     { title: 'Enviromental', level: 'low', flags: 0, score: 0 },
     { title: 'Human Rights', level: 'low', flags: 0, score: 0 },
@@ -162,6 +162,7 @@ export default {
       { step: 'Risk Assessment', isLink: true, status: 'Completed', startDate: '16 Jan 2025', by: 'Claudio Merino', date: '17 Jan 2025' },
       { step: 'Internal Due Diligence', isLink: true, status: 'Completed', startDate: '17 Jan 2025', by: 'Claudio Merino', date: '20 Feb 2025' },
       { step: 'External Due Diligence', isLink: true, status: 'Completed', startDate: '20 Feb 2025', by: 'Compliance Group', date: '28 Feb 2025' },
+      { step: 'Integrity Check', isLink: true, status: 'For Completion', startDate: '', by: '', date: '' },
       { step: 'Enhanced Due Diligence Report', isLink: true, status: 'Not Required', startDate: '', by: '', date: '' },
       { step: 'UBO', isLink: false, status: 'Completed', startDate: '28 Feb 2025', by: 'Claudio Merino', date: '05 Mar 2025' },
       { step: 'Risk Mitigation', isLink: true, status: 'Completed', startDate: '05 Mar 2025', by: 'Claudio Merino', date: '10 Mar 2025' },

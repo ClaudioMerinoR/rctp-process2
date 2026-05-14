@@ -56,7 +56,7 @@ export default {
   ],
 
   riskCards: [
-    { title: 'Country', level: 'medium', flags: 1, score: 4 },
+    { title: 'Country Risk', level: 'medium', flags: 1, score: 4 },
     { title: 'Bribery & Corruption', level: 'medium', flags: 1, score: 3 },
     { title: 'Enviromental', level: 'low', flags: 0, score: 0 },
     { title: 'Human Rights', level: 'low', flags: 0, score: 1 },
@@ -158,6 +158,7 @@ export default {
       { step: 'Risk Assessment', isLink: true, status: 'Completed', startDate: '10 Feb 2025', by: 'Nicolás Mora', date: '12 Feb 2025' },
       { step: 'Internal Due Diligence', isLink: true, status: 'Completed', startDate: '12 Feb 2025', by: 'Patricia Fernández', date: '14 Feb 2025' },
       { step: 'External Due Diligence', isLink: true, status: 'Completed', startDate: '14 Feb 2025', by: 'Hugo Lombardi', date: '18 Feb 2025' },
+      { step: 'Integrity Check', isLink: true, status: 'For Completion', startDate: '', by: '', date: '' },
       { step: 'Enhanced Due Diligence Report', isLink: true, status: 'Not Required', startDate: '', by: '', date: '' },
       { step: 'UBO', isLink: false, status: 'Completed', startDate: '18 Feb 2025', by: 'Beatriz Pinzón', date: '20 Feb 2025' },
       { step: 'Risk Mitigation', isLink: true, status: 'Completed', startDate: '20 Feb 2025', by: 'Armando Mendoza', date: '24 Feb 2025' },

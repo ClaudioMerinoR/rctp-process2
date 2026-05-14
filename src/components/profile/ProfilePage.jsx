@@ -1113,7 +1113,7 @@ function LookMorePanel({ onClose, onSelect }) {
             ) : (
               <>
                 <div className={styles.searchSuggestedHeader}>
-                  <span className={styles.searchSuggestedTitle}>Suggested Third Parties</span>
+                  <span className={styles.searchSuggestedTitle}>Search Results</span>
                   <div className={styles.connActions}>
                     <button className={`${styles.btn} ${styles.btnDiscard}`} disabled={selectedIndex === null} onClick={handleDiscard}>Discard</button>
                     <button className={`${styles.btn} ${styles.btnConnect}`} disabled={selectedIndex === null} onClick={handleConnect}>Connect</button>

@@ -56,7 +56,7 @@ export default {
   ],
 
   riskCards: [
-    { title: 'Country', level: 'low', flags: 0, score: 1 },
+    { title: 'Country Risk', level: 'low', flags: 0, score: 1 },
     { title: 'Bribery & Corruption', level: 'high', flags: 4, score: 18 },
     { title: 'Enviromental', level: 'low', flags: 0, score: 0 },
     { title: 'Human Rights', level: 'high', flags: 3, score: 14 },
@@ -198,6 +198,7 @@ export default {
       { step: 'Risk Assessment', isLink: true, status: 'Completed', startDate: '1 Nov 2025', by: 'Emily Forbes', date: '5 Nov 2025' },
       { step: 'Internal Due Diligence', isLink: true, status: 'Completed', startDate: '5 Nov 2025', by: 'Emily Forbes', date: '10 Nov 2025' },
       { step: 'External Due Diligence', isLink: true, status: 'In Progress', startDate: '10 Nov 2025', by: '', date: '' },
+      { step: 'Integrity Check', isLink: true, status: 'For Completion', startDate: '', by: '', date: '' },
       { step: 'Enhanced Due Diligence Report', isLink: true, status: 'In Progress', startDate: '1 Dec 2025', by: '', date: '' },
       { step: 'Enhanced Due Diligence Report Review Task', isLink: true, status: 'Not Started', startDate: '', by: '', date: '' },
       { step: 'UBO', isLink: false, status: 'Action Required', startDate: '20 Dec 2025', by: '', date: '' },
