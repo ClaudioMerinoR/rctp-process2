@@ -7,6 +7,7 @@ import Badge from '../components/ui/Badge';
 import Flag from '../components/ui/Flag';
 import Chip from '../components/ui/Chip';
 import Checkbox from '../components/ui/Checkbox';
+import { RiskLevelIcon } from '../components/profile/profileAssets';
 import styles from './Dashboard.module.css';
 
 const TABS = ['Actions', 'Screening & Monitoring', 'Screening & Monitoring Tasks', 'Enhanced Due Diligence Reports'];
@@ -113,11 +114,10 @@ function RiskChip({ risk }) {
   if (!risk) return <span className={`${styles.riskChip} ${styles.riskUnknown}`}>UNKNOWN <span className="material-icons-outlined" style={{ fontSize: 13 }}>help_outline</span></span>;
   const map    = { high: styles.riskHigh, medium: styles.riskMedium, low: styles.riskLow };
   const labels = { high: 'HIGH RISK', medium: 'MEDIUM RISK', low: 'LOW RISK' };
-  const icons  = { high: 'error', medium: 'error_outline', low: 'check_circle_outline' };
   return (
     <span className={`${styles.riskChip} ${map[risk]}`}>
       {labels[risk]}
-      <span className="material-icons-outlined" style={{ fontSize: 13 }}>{icons[risk]}</span>
+      <RiskLevelIcon level={risk} size={13} />
     </span>
   );
 }
