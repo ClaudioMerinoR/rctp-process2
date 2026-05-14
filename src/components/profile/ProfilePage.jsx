@@ -1196,16 +1196,15 @@ function RenewalDetailsPanel({ renewalDate, renewalDescription, onClose }) {
         exit={{ x: '100%' }}
         transition={{ duration: 0.22, ease: [0.32, 0.72, 0, 1] }}
       >
-        <div className={styles.statusPanelHeader}>
-          <span className={styles.statusPanelTitle}>Renewal Details</span>
-          <button className={styles.statusPanelClose} onClick={onClose}>CLOSE</button>
+        <div className={styles.connectPanelHeader}>
+          <span className={styles.connectPanelTitle}>Renewal Details</span>
+          <button className={`${styles.btn} ${styles.btnOutline}`} onClick={onClose}>Close</button>
         </div>
-        <div className={styles.statusPanelAccent} />
 
         <div className={styles.renewalDetailsBody}>
           {!showForm ? (
             <>
-              <table className={styles.renewalDetailsTable} style={{ minWidth: 0 }}>
+              <table className={styles.table} style={{ minWidth: 0, width: '100%' }}>
                 <thead>
                   <tr>
                     <th>Renewal Description</th>
@@ -1219,7 +1218,7 @@ function RenewalDetailsPanel({ renewalDate, renewalDescription, onClose }) {
                   </tr>
                 </tbody>
               </table>
-              <div style={{ display: 'flex', justifyContent: 'flex-end' }}>
+              <div className={styles.connectPanelFooter} style={{ paddingInline: 0, borderTop: 'none', marginTop: 16 }}>
                 <button
                   className={`${styles.btn} ${styles.btnFilled}`}
                   onClick={() => setShowForm(true)}
@@ -1228,45 +1227,52 @@ function RenewalDetailsPanel({ renewalDate, renewalDescription, onClose }) {
             </>
           ) : (
             <>
-              <label className={styles.renewalFormLabel}>
-                New Renewal description <span className={styles.renewalFormRequired}>*</span>
-              </label>
+              <div className={styles.declineFieldLabel}>
+                New Renewal description <span className={styles.declineRequired}>*</span>
+              </div>
               <textarea
-                className={styles.renewalFormTextarea}
+                className={styles.declineTextarea}
+                style={{ height: 72, resize: 'none' }}
                 placeholder="Enter new renewal description"
                 value={desc}
                 onChange={e => setDesc(e.target.value)}
               />
-              <label className={styles.renewalFormLabel}>
-                New Renewal date <span className={styles.renewalFormRequired}>*</span>
-              </label>
+              <div className={styles.declineFieldLabel} style={{ marginTop: 16 }}>
+                New Renewal date <span className={styles.declineRequired}>*</span>
+              </div>
               <div className={styles.renewalDateInputs}>
-                <select className={styles.renewalDateSelect} value={day} onChange={e => setDay(e.target.value)}>
+                <select className={styles.connectTypeSelect} value={day} onChange={e => setDay(e.target.value)}>
                   <option value="">Day</option>
                   {DAYS.map(d => <option key={d} value={d}>{d}</option>)}
                 </select>
-                <select className={styles.renewalDateSelect} value={month} onChange={e => setMonth(e.target.value)}>
+                <select className={styles.connectTypeSelect} value={month} onChange={e => setMonth(e.target.value)}>
                   <option value="">Month</option>
                   {MONTHS.map(m => <option key={m} value={m}>{m}</option>)}
                 </select>
-                <select className={styles.renewalDateSelect} value={year} onChange={e => setYear(e.target.value)}>
+                <select className={styles.connectTypeSelect} value={year} onChange={e => setYear(e.target.value)}>
                   <option value="">Year</option>
                   {YEARS.map(y => <option key={y} value={y}>{y}</option>)}
                 </select>
               </div>
-              <div className={styles.renewalFormActions}>
-                <button
-                  className={`${styles.btn} ${styles.btnFilled}`}
-                  disabled={!canSave}
-                  style={!canSave ? { opacity: 0.4, cursor: 'not-allowed' } : {}}
-                  onClick={onClose}
-                >Save</button>
-                <button
-                  className={`${styles.btn} ${styles.btnOutline}`}
-                  onClick={() => setShowForm(false)}
-                >Cancel</button>
-              </div>
             </>
+          )}
+        </div>
+
+        <div className={styles.connectPanelFooter}>
+          {showForm ? (
+            <>
+              <button
+                className={`${styles.btn} ${styles.btnOutline}`}
+                onClick={() => setShowForm(false)}
+              >Cancel</button>
+              <button
+                className={`${styles.btn} ${styles.btnFilled}`}
+                disabled={!canSave}
+                onClick={onClose}
+              >Save</button>
+            </>
+          ) : (
+            <button className={`${styles.btn} ${styles.btnOutline}`} onClick={onClose}>Cancel</button>
           )}
         </div>
       </motion.div>
