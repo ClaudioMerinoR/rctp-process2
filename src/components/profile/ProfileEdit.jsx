@@ -4,6 +4,8 @@ import PageLayout from '../layout/PageLayout';
 import Breadcrumb from '../layout/Breadcrumb';
 import { profiles } from '../../data/profiles';
 import { Sidebar } from './ProfilePage';
+import { STATUS_CONFIG } from './ProfilePageHeader';
+import { RiskLevelIcon } from './profileAssets';
 import Checkbox from '../ui/Checkbox';
 import styles from './ProfileEdit.module.css';
 import profileStyles from './profile.module.css';
@@ -114,16 +116,22 @@ export default function ProfileEdit() {
             <div className={profileStyles.tpBadges}>
               <div className={profileStyles.tpBadgeGroup}>
                 <div className={profileStyles.tpBadgeLabel}>Current status:</div>
-                <div className={`${profileStyles.badge} ${profileStyles.badgePending} ${profileStyles.badgeBtn}`}>
-                  {profile.currentStatus.label}
-                  <span className="material-icons-outlined" style={{ fontSize: 16 }}>{profile.currentStatus.icon}</span>
-                </div>
+                {(() => {
+                  const statusLabel = profile.currentStatus?.label ?? 'Pending Approval';
+                  const { cls, icon } = STATUS_CONFIG[statusLabel] ?? STATUS_CONFIG['Pending Approval'];
+                  return (
+                    <div className={`${profileStyles.badge} ${profileStyles[cls]} ${profileStyles.badgeBtn}`}>
+                      {statusLabel}
+                      <span className="material-icons-outlined" style={{ fontSize: 16 }}>{icon}</span>
+                    </div>
+                  );
+                })()}
               </div>
               <div className={profileStyles.tpBadgeGroup}>
                 <div className={profileStyles.tpBadgeLabel}>Risk level:</div>
                 <div className={`${profileStyles.badge} ${profileStyles['badge' + profile.riskLevel.level.charAt(0).toUpperCase() + profile.riskLevel.level.slice(1)]} ${profileStyles.badgeBtn}`}>
                   {profile.riskLevel.label}
-                  <span className="material-icons-outlined" style={{ fontSize: 16 }}>{profile.riskLevel.icon}</span>
+                  <RiskLevelIcon level={profile.riskLevel.level} size={16} />
                 </div>
               </div>
             </div>

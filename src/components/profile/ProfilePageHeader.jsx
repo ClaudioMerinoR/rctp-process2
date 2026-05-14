@@ -1,8 +1,9 @@
 import { Link } from 'react-router-dom';
 import { patchInitechProfile } from '../../utils/initechFlow';
+import { RiskLevelIcon } from './profileAssets';
 import styles from './profile.module.css';
 
-const STATUS_CONFIG = {
+export const STATUS_CONFIG = {
   'Pending Approval':             { cls: 'statusPendingApproval', icon: 'pending' },
   'Approved':                     { cls: 'statusApproved',        icon: 'check_circle' },
   'Not Approved':                 { cls: 'statusNotApproved',     icon: 'dangerous' },
@@ -50,7 +51,7 @@ export default function ProfilePageHeader({ profile: profileProp }) {
               <Link to={`/profile/${profile.id}/risk-report`} style={{ textDecoration: 'none' }}>
                 <div className={`${styles.badge} ${styles[riskCapCls]} ${styles.badgeBtn}`}>
                   {profile.riskLevel?.label}
-                  <span className="material-icons-outlined" style={{ fontSize: 16 }}>{profile.riskLevel?.icon}</span>
+                  <RiskLevelIcon level={profile.riskLevel?.level} />
                 </div>
               </Link>
             </div>

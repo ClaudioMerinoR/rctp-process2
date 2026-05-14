@@ -7,7 +7,7 @@ import Breadcrumb from '../layout/Breadcrumb';
 import { profiles } from '../../data/profiles';
 import { Sidebar } from './ProfilePage';
 import ProfilePageHeader from './ProfilePageHeader';
-import { riskBadge } from './profileAssets';
+import { riskBadge, RiskLevelIcon } from './profileAssets';
 import Badge from '../ui/Badge';
 import Flag from '../ui/Flag';
 import styles from './profile.module.css';
@@ -363,6 +363,7 @@ export default function ProfileRiskReport() {
                     <span className={styles.rlrMetaLabel}>Risk Level:</span>
                     <span className={`${styles.badge} ${styles['badge' + riskLevel.charAt(0).toUpperCase() + riskLevel.slice(1)]}`}>
                       {riskLevel.toUpperCase()}
+                      <RiskLevelIcon level={riskLevel} size={14} />
                     </span>
                   </div>
                   <div className={styles.rlrMetaItem}>

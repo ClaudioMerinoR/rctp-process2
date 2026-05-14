@@ -10,7 +10,7 @@ import PageLayout from '../layout/PageLayout';
 import Breadcrumb from '../layout/Breadcrumb';
 import { profiles } from '../../data/profiles';
 import styles from './profile.module.css';
-import { TASK_ICONS, riskBadge as riskBadgeFn } from './profileAssets';
+import { TASK_ICONS, riskBadge as riskBadgeFn, RiskLevelIcon } from './profileAssets';
 import Sidebar, { PartnerIcon } from './Sidebar';
 
 const STATUS_CONFIG = {
@@ -215,7 +215,7 @@ export default function ProfilePage({ profile: profileProp, embedded = false }) 
                       className={`${styles.badge} ${styles['badge' + profile.riskLevel.level.charAt(0).toUpperCase() + profile.riskLevel.level.slice(1)]} ${styles.badgeBtn}`}
                     >
                       {profile.riskLevel.label}
-                      <span className="material-icons-outlined" style={{ fontSize: 16 }}>{profile.riskLevel.icon}</span>
+                      <RiskLevelIcon level={profile.riskLevel.level} />
                     </motion.div>
                   </Link>
                 )}
@@ -463,7 +463,7 @@ export default function ProfilePage({ profile: profileProp, embedded = false }) 
                       <span className={styles.rcardBadge}>
                         <span className={`${styles.badge} ${b.className}`} style={{ fontSize: 12, padding: '4px 8px' }}>
                           {b.label}
-                          <span className="material-icons-outlined" style={{ fontSize: 14, verticalAlign: 'middle' }}>{b.icon}</span>
+                          <RiskLevelIcon level={rc.level} size={14} />
                         </span>
                       </span>
                     </MotionLink>
