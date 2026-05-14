@@ -12,13 +12,6 @@ import Badge from '../ui/Badge';
 import Flag from '../ui/Flag';
 import styles from './profile.module.css';
 
-const BG_TO_STYLE = {
-  '#E34C53': 'action-required',
-  '#13DF81': 'completed',
-  '#F0C043': 'incomplete',
-  '#9A3438': 'confirmed',
-  '#016F91': 'cleared',
-};
 
 const STATUS_CONFIG = {
   'Pending Approval':             { cls: 'statusPendingApproval', icon: 'pending' },
@@ -125,7 +118,7 @@ function Accordion({ section, open, onToggle, hideScore = false, screeningResult
                           <td className={styles.screeningMatchCell}>
                             {matchResults.map((m, j) => (
                               <div key={j} className={styles.matchResultLine}>
-                                <Badge label={String(m.count)} style={BG_TO_STYLE[m.bg] || 'no-action'} size="large" shape="square" />
+                                <Badge label={String(m.count)} bgColor={m.bg} textColor={m.color} size="large" shape="square" />
                                 <span>{m.label}</span>
                               </div>
                             ))}
