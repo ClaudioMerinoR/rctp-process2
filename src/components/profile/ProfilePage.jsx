@@ -73,6 +73,7 @@ export default function ProfilePage({ profile: profileProp, embedded = false }) 
   const [declinePanelOpen, setDeclinePanelOpen] = useState(false);
   const [renewalModalOpen, setRenewalModalOpen] = useState(false);
   const [cancelRenewalModalOpen, setCancelRenewalModalOpen] = useState(false);
+  const [renewalDetailsPanelOpen, setRenewalDetailsPanelOpen] = useState(false);
   const [currentStatus, setCurrentStatus] = useState(profile?.currentStatus?.label || 'Pending Approval');
 
   // Connect panel state
@@ -650,6 +651,19 @@ export default function ProfilePage({ profile: profileProp, embedded = false }) 
           onDecline={() => setDeclinePanelOpen(true)}
           onRenewal={() => { setStatusPanelOpen(false); setRenewalModalOpen(true); }}
           onCancelRenewal={() => { setStatusPanelOpen(false); setCancelRenewalModalOpen(true); }}
+          showRenewalDetails={['initech','lumon','ecomoda','gringotts','agencegrateau'].includes(profile.id)}
+          onRenewalDetails={() => setRenewalDetailsPanelOpen(true)}
+        />
+      )}
+      </AnimatePresence>
+
+      {/* Renewal details side panel */}
+      <AnimatePresence>
+      {renewalDetailsPanelOpen && (
+        <RenewalDetailsPanel
+          key="renewal-details-panel"
+          renewalDate={profile.overviewFields.find(f => f.label === 'Third Party Renewal Date')?.value}
+          onClose={() => setRenewalDetailsPanelOpen(false)}
         />
       )}
       </AnimatePresence>
@@ -749,7 +763,7 @@ export default function ProfilePage({ profile: profileProp, embedded = false }) 
               >Cancel</button>
               <button
                 className={`${styles.deleteModalBtn} ${styles.deleteModalContinue}`}
-                style={{ background: 'var(--alert-500)' }}
+                style={{ background: 'var(--primary-500)' }}
                 onClick={() => {
                   if (profile.id === 'dundermifflin') { setDMFlow({ renewed: false, approved: false }); setCurrentStatus('Approved! (Renewal Required)'); }
                   else if (profile.id === 'lumon') { setLumonFlow({ renewed: false, approved: false }); setCurrentStatus('Approved'); }
@@ -1145,9 +1159,117 @@ function LookMorePanel({ onClose, onSelect }) {
   );
 }
 
+/* ─────────────────────── Renewal details panel ─────────────────────── */
+
+const DAYS   = Array.from({ length: 31 }, (_, i) => String(i + 1).padStart(2, '0'));
+const MONTHS = ['January','February','March','April','May','June','July','August','September','October','November','December'];
+const YEARS  = Array.from({ length: 10 }, (_, i) => String(new Date().getFullYear() + i));
+
+function RenewalDetailsPanel({ renewalDate, renewalDescription, onClose }) {
+  const [showForm, setShowForm] = useState(false);
+  const [desc, setDesc] = useState('');
+  const [day, setDay] = useState('');
+  const [month, setMonth] = useState('');
+  const [year, setYear] = useState('');
+
+  useEffect(() => {
+    document.body.style.overflow = 'hidden';
+    return () => { document.body.style.overflow = ''; };
+  }, []);
+
+  const canSave = desc.trim() && day && month && year;
+
+  return (
+    <>
+      <div className={styles.deleteModalOverlay} style={{ background: 'rgba(0,0,0,0.2)' }} onClick={onClose} />
+      <motion.div
+        className={styles.renewalDetailsPanel}
+        initial={{ x: '100%' }}
+        animate={{ x: 0 }}
+        exit={{ x: '100%' }}
+        transition={{ duration: 0.22, ease: [0.32, 0.72, 0, 1] }}
+      >
+        <div className={styles.statusPanelHeader}>
+          <span className={styles.statusPanelTitle}>Renewal Details</span>
+          <button className={styles.statusPanelClose} onClick={onClose}>CLOSE</button>
+        </div>
+        <div className={styles.statusPanelAccent} />
+
+        <div className={styles.renewalDetailsBody}>
+          {!showForm ? (
+            <>
+              <table className={styles.renewalDetailsTable} style={{ minWidth: 0 }}>
+                <thead>
+                  <tr>
+                    <th>Renewal Description</th>
+                    <th>Renewal Date</th>
+                  </tr>
+                </thead>
+                <tbody>
+                  <tr>
+                    <td>{renewalDescription || 'Matched row number is 6, Renewal rule version is 47'}</td>
+                    <td>{renewalDate}</td>
+                  </tr>
+                </tbody>
+              </table>
+              <div style={{ display: 'flex', justifyContent: 'flex-end' }}>
+                <button
+                  className={`${styles.btn} ${styles.btnFilled}`}
+                  onClick={() => setShowForm(true)}
+                >Set New Renewal Date</button>
+              </div>
+            </>
+          ) : (
+            <>
+              <label className={styles.renewalFormLabel}>
+                New Renewal description <span className={styles.renewalFormRequired}>*</span>
+              </label>
+              <textarea
+                className={styles.renewalFormTextarea}
+                placeholder="Enter new renewal description"
+                value={desc}
+                onChange={e => setDesc(e.target.value)}
+              />
+              <label className={styles.renewalFormLabel}>
+                New Renewal date <span className={styles.renewalFormRequired}>*</span>
+              </label>
+              <div className={styles.renewalDateInputs}>
+                <select className={styles.renewalDateSelect} value={day} onChange={e => setDay(e.target.value)}>
+                  <option value="">Day</option>
+                  {DAYS.map(d => <option key={d} value={d}>{d}</option>)}
+                </select>
+                <select className={styles.renewalDateSelect} value={month} onChange={e => setMonth(e.target.value)}>
+                  <option value="">Month</option>
+                  {MONTHS.map(m => <option key={m} value={m}>{m}</option>)}
+                </select>
+                <select className={styles.renewalDateSelect} value={year} onChange={e => setYear(e.target.value)}>
+                  <option value="">Year</option>
+                  {YEARS.map(y => <option key={y} value={y}>{y}</option>)}
+                </select>
+              </div>
+              <div className={styles.renewalFormActions}>
+                <button
+                  className={`${styles.btn} ${styles.btnFilled}`}
+                  disabled={!canSave}
+                  style={!canSave ? { opacity: 0.4, cursor: 'not-allowed' } : {}}
+                  onClick={onClose}
+                >Save</button>
+                <button
+                  className={`${styles.btn} ${styles.btnOutline}`}
+                  onClick={() => setShowForm(false)}
+                >Cancel</button>
+              </div>
+            </>
+          )}
+        </div>
+      </motion.div>
+    </>
+  );
+}
+
 /* ─────────────────────── Status panel ─────────────────────── */
 
-function StatusPanel({ currentStatus, renewalDate, canRenew, renewalInProgress, onClose, onDecline, onRenewal, onCancelRenewal }) {
+function StatusPanel({ currentStatus, renewalDate, canRenew, renewalInProgress, onClose, onDecline, onRenewal, onCancelRenewal, showRenewalDetails, onRenewalDetails }) {
   useEffect(() => {
     document.body.style.overflow = 'hidden';
     return () => { document.body.style.overflow = ''; };
@@ -1186,9 +1308,16 @@ function StatusPanel({ currentStatus, renewalDate, canRenew, renewalInProgress, 
             <div className={styles.statusPanelRenewal}>
               <div className={styles.statusPanelSectionLabel} style={{ marginTop: 20 }}>Third Party Renewal Date</div>
               <div className={styles.statusPanelRenewalRow}>
-                <span className={styles.statusPanelRenewalDate}>{renewalDate}</span>
+                <div style={{ display: 'flex', alignItems: 'center', gap: 6 }}>
+                  <span className={styles.statusPanelRenewalDate}>{renewalDate}</span>
+                  {showRenewalDetails && (
+                    <button className={styles.renewalInfoBtn} onClick={onRenewalDetails} aria-label="Renewal details">
+                      <span className="material-icons-outlined">info</span>
+                    </button>
+                  )}
+                </div>
                 {renewalInProgress
-                  ? <button className={`${styles.btn} ${styles.btnFilled}`} style={{ background: 'var(--alert-500)' }} onClick={onCancelRenewal}>Cancel Renewal</button>
+                  ? <button className={`${styles.btn} ${styles.btnOutline} ${styles.btnDanger}`} onClick={onCancelRenewal}>Cancel Renewal</button>
                   : <button className={`${styles.btn} ${styles.btnFilled}`} onClick={onRenewal}>Renewal</button>
                 }
               </div>

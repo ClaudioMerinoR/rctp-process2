@@ -2023,6 +2023,130 @@
   color: var(--text-normal);
 }
 
+/* ── Renewal date info icon ── */
+.renewalInfoBtn {
+  background: none;
+  border: none;
+  padding: 0;
+  cursor: pointer;
+  display: inline-flex;
+  align-items: center;
+  color: var(--primary-500);
+  line-height: 1;
+  transition: color 0.15s;
+  flex-shrink: 0;
+}
+.renewalInfoBtn:hover { color: var(--primary-600); }
+.renewalInfoBtn .material-icons-outlined { font-size: 18px; }
+
+/* ── Renewal details panel ── */
+.renewalDetailsPanel {
+  position: fixed;
+  top: 0;
+  right: 0;
+  bottom: 0;
+  width: 480px;
+  max-width: 100vw;
+  background: var(--neutral-00);
+  border-left: 1px solid var(--neutral-100);
+  box-shadow: -4px 0 20px rgba(0, 0, 0, 0.1);
+  z-index: calc(var(--z-panel) + 1);
+  display: flex;
+  flex-direction: column;
+  overflow: hidden;
+}
+.renewalDetailsBody {
+  flex: 1;
+  overflow-y: auto;
+  padding: 20px;
+}
+.renewalDetailsTable {
+  width: 100%;
+  border-collapse: collapse;
+  border: 1px solid var(--neutral-50);
+  margin-bottom: 16px;
+  min-width: 0;
+}
+.renewalDetailsTable th {
+  font-size: 11px;
+  font-weight: 700;
+  letter-spacing: 1px;
+  text-transform: uppercase;
+  color: var(--text-normal);
+  background: var(--neutral-00);
+  padding: 12px;
+  border: 1px solid var(--neutral-50);
+  border-bottom: 2px solid var(--neutral-50);
+  text-align: left;
+}
+.renewalDetailsTable td {
+  font-size: 14px;
+  color: var(--text-light);
+  padding: 12px;
+  border: 1px solid var(--neutral-00);
+  background: var(--primary-08);
+}
+.renewalDetailsFooter {
+  display: flex;
+  justify-content: flex-end;
+  padding: 14px 20px;
+  border-top: 1px solid var(--neutral-50);
+  flex-shrink: 0;
+}
+.renewalFormLabel {
+  font-size: 11px;
+  font-weight: 500;
+  letter-spacing: 1px;
+  text-transform: uppercase;
+  color: var(--primary-500);
+  margin-bottom: 8px;
+  display: block;
+}
+.renewalFormRequired { color: var(--alert-500); margin-left: 2px; }
+.renewalFormTextarea {
+  width: 100%;
+  height: 72px;
+  border: 1px solid var(--neutral-100);
+  border-radius: 2px;
+  padding: 10px 12px;
+  font-size: 14px;
+  font-family: inherit;
+  color: var(--text-normal);
+  resize: none;
+  margin-bottom: 20px;
+  box-sizing: border-box;
+}
+.renewalFormTextarea::placeholder { color: var(--neutral-400); }
+.renewalFormTextarea:focus { outline: 2px solid var(--primary-500); outline-offset: 0; }
+.renewalDateInputs {
+  display: grid;
+  grid-template-columns: 1fr 1fr 1fr;
+  gap: 12px;
+  margin-bottom: 24px;
+}
+.renewalDateSelect {
+  width: 100%;
+  height: 36px;
+  border: 1px solid var(--neutral-100);
+  border-radius: 2px;
+  padding: 0 10px;
+  font-size: 14px;
+  font-family: inherit;
+  color: var(--text-normal);
+  background: var(--neutral-00);
+  cursor: pointer;
+  appearance: none;
+  background-image: url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' width='10' height='6'%3E%3Cpath d='M0 0l5 6 5-6z' fill='%238d9ca9'/%3E%3C/svg%3E");
+  background-repeat: no-repeat;
+  background-position: right 10px center;
+}
+.renewalDateSelect:focus { outline: 2px solid var(--primary-500); outline-offset: 0; }
+.renewalFormActions {
+  display: flex;
+  justify-content: flex-end;
+  gap: 8px;
+}
+
 /* ── Decline panel ── */
 .declineStatusChip {
   display: inline-flex;
