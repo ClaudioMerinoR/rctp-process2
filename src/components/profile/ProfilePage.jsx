@@ -692,8 +692,7 @@ export default function ProfilePage({ profile: profileProp, embedded = false }) 
               <button className={styles.deleteModalClose} aria-label="Close" onClick={() => setRenewalModalOpen(false)} />
             </div>
             <div className={styles.deleteModalBody}>
-              <p className={styles.deleteModalQuestion}>This action cannot be undone.</p>
-              <p className={styles.deleteModalName}>{profile.shortName}</p>
+              <p className={styles.deleteModalQuestionHighlight}>This action cannot be undone.</p>
               <p className={styles.deleteModalConfirm}>Are you sure you want to start the renewal process for this Third Party?</p>
             </div>
             <div className={styles.deleteModalActions}>
@@ -740,8 +739,7 @@ export default function ProfilePage({ profile: profileProp, embedded = false }) 
               <button className={styles.deleteModalClose} aria-label="Close" onClick={() => setCancelRenewalModalOpen(false)} />
             </div>
             <div className={styles.deleteModalBody}>
-              <p className={styles.deleteModalQuestion}>This action cannot be undone.</p>
-              <p className={styles.deleteModalName}>{profile.shortName}</p>
+              <p className={styles.deleteModalQuestionHighlight}>This action cannot be undone.</p>
               <p className={styles.deleteModalConfirm}>Are you sure you want to cancel the renewal process for this Third Party?</p>
             </div>
             <div className={styles.deleteModalActions}>
