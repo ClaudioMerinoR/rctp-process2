@@ -497,7 +497,10 @@ export default function ProfilePage({ profile: profileProp, embedded = false }) 
                   </tr>
                 </thead>
                 <tbody>
-                  {profile.openTasks.map((t, i) => (
+                  {(profileLoading
+                    ? [{ type: 'Questionnaire', icon: 'iconInactiveOrder', name: 'Questionnaire', status: 'Not Started', owner: '', dateCreated: '', age: '' }]
+                    : profile.openTasks
+                  ).map((t, i) => (
                     <tr key={i}>
                       <td>
                         <div className={styles.cellTaskType}>
@@ -516,7 +519,7 @@ export default function ProfilePage({ profile: profileProp, embedded = false }) 
               </table>
               <div className={styles.tablePagination}>
                 <select><option>20</option></select>
-                <span>Showing results 1 - {profile.openTasks.length} of {profile.openTasks.length}</span>
+                <span>Showing results 1 - {profileLoading ? 1 : profile.openTasks.length} of {profileLoading ? 1 : profile.openTasks.length}</span>
               </div>
             </div>
           </motion.section>

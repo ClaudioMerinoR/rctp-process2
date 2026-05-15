@@ -12,15 +12,15 @@ import styles from './AddThirdParty.module.css';
 /* ─────────────────────── Static data ─────────────────────── */
 
 const DUP_ROWS = [
-  { name: 'THE PIED PIPER EXTERMINATORS INC', owner: 'Claudio Merino', bu: 'Americas', process: 'Standard RCTP', status: 'Active', ref: 'PP-001', active: 'Active' },
+  { name: 'THE PIED PIPER EXTERMINATORS INC', owner: 'Claudio Merino', bu: 'Americas', process: 'Standard RCTP', status: 'Approved', ref: 'PP-001', active: 'Active' },
   { name: 'Pied Piper Mills, Inc.', owner: 'Sarah Johnson', bu: 'Global Operations', process: 'Standard RCTP', status: 'Pending Approval', ref: 'PP-002', active: 'Active' },
-  { name: 'Pied Piper Exterminating Company, Inc.', owner: 'Mark Davis', bu: 'Americas', process: 'Enhanced Due Diligence', status: 'Active', ref: 'PP-003', active: 'Active' },
+  { name: 'Pied Piper Exterminating Company, Inc.', owner: 'Mark Davis', bu: 'Americas', process: 'Enhanced Due Diligence', status: 'Approved', ref: 'PP-003', active: 'Active' },
   { name: 'PIED PIPER PRESCHOOL CHILD CARE INC', owner: 'Lisa Chen', bu: 'Asia Pacific', process: 'Basic Screening', status: 'Pending Approval', ref: '', active: 'Inactive' },
-  { name: 'PIED PIPER PEST CONTROL, INC.', owner: 'Claudio Merino', bu: 'Americas', process: 'Standard RCTP', status: 'Active', ref: 'PP-005', active: 'Active' },
-  { name: 'PIED PIPER PRE-SCHOOL OF TRAER, INC.', owner: 'Tom Wilson', bu: 'Europe', process: 'Basic Screening', status: 'Active', ref: '', active: 'Active' },
+  { name: 'PIED PIPER PEST CONTROL, INC.', owner: 'Claudio Merino', bu: 'Americas', process: 'Standard RCTP', status: 'Approved', ref: 'PP-005', active: 'Active' },
+  { name: 'PIED PIPER PRE-SCHOOL OF TRAER, INC.', owner: 'Tom Wilson', bu: 'Europe', process: 'Basic Screening', status: 'Approved', ref: '', active: 'Active' },
   { name: 'PIED PIPER PRE SCHOOL ASSN (WALLERAWANG) INC', owner: 'Sarah Johnson', bu: 'Asia Pacific', process: 'Standard RCTP', status: 'Pending Approval', ref: 'PP-007', active: 'Inactive' },
-  { name: 'Pied Piper Pest Control, Inc.', owner: 'Mark Davis', bu: 'Americas', process: 'Standard RCTP', status: 'Active', ref: 'PP-008', active: 'Active' },
-  { name: 'Pied Piper Farms Inc', owner: 'Claudio Merino', bu: 'Americas', process: 'Basic Screening', status: 'Active', ref: '', active: 'Active' },
+  { name: 'Pied Piper Pest Control, Inc.', owner: 'Mark Davis', bu: 'Americas', process: 'Standard RCTP', status: 'Approved', ref: 'PP-008', active: 'Active' },
+  { name: 'Pied Piper Farms Inc', owner: 'Claudio Merino', bu: 'Americas', process: 'Basic Screening', status: 'Approved', ref: '', active: 'Active' },
   { name: 'Pied Piper International, Inc.', owner: 'Lisa Chen', bu: 'Global Operations', process: 'Enhanced Due Diligence', status: 'Pending Approval', ref: 'PP-010', active: 'Active' },
 ];
 
@@ -799,7 +799,7 @@ export default function AddThirdParty() {
             <div className={styles.obWarningIntro}>
               <span className="material-icons-outlined">warning_amber</span>
               <div>
-                <strong>Entity verification data detected.</strong> If you completed entity verification, the fields below have been pre-filled with verified data. Modifying this information will override the verified record and the entity verification will be lost.
+                <strong>Entity Verification data available.</strong> The fields below have been pre-populated with the verified information. Modifying these details will override the verified data and the Entity Verification label will be lost.
               </div>
             </div>
           )}
