@@ -54,11 +54,18 @@ export default function Sidebar({ profile: profileProp, profileLoading = false }
       <div className={styles.navDivider} />
 
       {profile.sidebarSteps.map((step, i) => {
-        const effectiveDot = profileLoading && step.partner === 'ubo' ? 'grey' : step.dot;
+        const effectiveDot = profileLoading
+          ? (step.label === 'Approval'        ? 'red'
+            : step.label === 'Risk Mitigation' ? 'green'
+            : step.label === 'Due Diligence'   ? 'black'
+            : step.partner === 'ubo'           ? 'grey'
+            : step.dot)
+          : step.dot;
         const dotCls = effectiveDot === 'red'     ? styles.dotRed
           : effectiveDot === 'green'   ? styles.dotGreen
           : effectiveDot === 'amber'   ? styles.dotAmber
           : effectiveDot === 'blocked' ? styles.dotBlocked
+          : effectiveDot === 'black'   ? styles.dotBlack
           : styles.dotGrey;
 
         const dotEl = (

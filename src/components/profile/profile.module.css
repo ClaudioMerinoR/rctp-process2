@@ -330,6 +330,7 @@
 .dotRed     { background: var(--alert-500); }
 .dotGreen   { background: var(--success-500); }
 .dotGrey    { background: var(--text-light); }
+.dotBlack   { background: var(--text-normal); }
 .dotAmber   { background: var(--warning-500); }
 .dotBlocked { background: var(--neutral-200); }
 

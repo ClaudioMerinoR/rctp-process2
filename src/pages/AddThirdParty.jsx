@@ -434,8 +434,8 @@ export default function AddThirdParty() {
           <div className={styles.dupBanner}>
             <span className="material-icons-outlined">warning_amber</span>
             <div>
-              <strong>{isPerson ? '1 potential match found.' : '10 potential matches found.'}</strong>{' '}
-              These records have a similar name and may already exist in the system. If one of the matches above is the same third party, use an existing record instead of creating a new one.
+              <strong>{isPerson ? '1 potential duplicate found.' : '10 potential duplicates found.'}</strong>{' '}
+              These existing records have a similar name to the one being created. If one of the duplicates is identical to the new profile, consider using it and cancelling the creation.
             </div>
           </div>
 
@@ -469,7 +469,7 @@ export default function AddThirdParty() {
               setDupConfirmed(true);
               setTimeout(() => entityVerifyRef.current?.scrollIntoView({ behavior: 'smooth', block: 'start' }), 400);
             }}>
-              Continue with onboarding
+              Continue Creation
             </button>
           </div>
 
@@ -987,9 +987,9 @@ export default function AddThirdParty() {
           exit={{ opacity: 0, y: 18 }}
           transition={{ ...mot.section, delay: 0.1 }}
         >
-          <a href="#" className={styles.btnGhost} onClick={handleCancel}>Cancel</a>
+          <a href="#" className={styles.btnOutline} onClick={handleCancel}>Cancel Creation</a>
           <button className={styles.btnFilled} onClick={handleCreate}>
-            Create Third Party
+            Complete Creation
           </button>
         </motion.div>
       )}
