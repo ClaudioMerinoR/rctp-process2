@@ -66,8 +66,8 @@ export default {
   ],
 
   openTasks: [
-    { type: 'Red Flag', icon: 'iconFlag', name: 'Brightstar Cruises — Ongoing DOJ Investigation', status: 'Open', owner: 'Compliance Group', dateCreated: '05 Nov 2025', age: '54 Days' },
-    { type: 'Red Flag', icon: 'iconFlag', name: 'ATN — Federal Election Interference Allegations', status: 'Open', owner: 'Compliance Group', dateCreated: '12 Nov 2025', age: '47 Days' },
+    { type: 'Red Flag', icon: 'iconFlag', name: 'Brightstar Cruises — Ongoing DOJ Investigation', status: 'Not Started', owner: 'Compliance Group', dateCreated: '05 Nov 2025', age: '54 Days' },
+    { type: 'Red Flag', icon: 'iconFlag', name: 'ATN — Federal Election Interference Allegations', status: 'Not Started', owner: 'Compliance Group', dateCreated: '12 Nov 2025', age: '47 Days' },
     { type: 'Red Flag', icon: 'iconFlag', name: 'Exec Misconduct — Multiple Senior Officers', status: 'In Progress', owner: 'Compliance Group', dateCreated: '20 Nov 2025', age: '39 Days' },
     { type: 'Enhanced Due Diligence Report Task', icon: 'iconFinanceMode', name: 'Enhanced Due Diligence — Brightstar Cruises Cover-Up', status: 'In Progress', owner: 'Emily Forbes', dateCreated: '01 Dec 2025', age: '28 Days' },
     { type: 'Approval Task', icon: 'iconFactCheck', name: 'Approval Blocked — Pending Legal Clearance', status: 'Not Started', owner: 'Sustainability Team', dateCreated: '10 Dec 2025', age: '19 Days' },
@@ -187,11 +187,11 @@ export default {
       { name: 'Roman Roy', type: 'Former COO', level: 'medium', redFlags: '', categories: [] },
     ],
     redFlags: [
-      { title: 'DOJ Investigation — Brightstar Cruises Cover-Up', isLink: true, status: 'Open', riskCategory: 'Bribery & Corruption', property: '' },
-      { title: 'ATN — Federal Election Interference Allegations', isLink: true, status: 'Open', riskCategory: 'General', property: '' },
-      { title: 'Senior Executive Misconduct — Multiple Officers', isLink: false, status: 'Open', riskCategory: 'Human Rights', property: '' },
-      { title: 'PEP Match — Kendall Roy (Politically Exposed)', isLink: true, status: 'Open', riskCategory: 'Screening and Monitoring', property: '' },
-      { title: 'Crew Abuse Allegations — Brightstar Cruises', isLink: false, status: 'In Progress', riskCategory: 'Human Rights', property: '' },
+      { title: 'DOJ Investigation — Brightstar Cruises Cover-Up', isLink: true, status: 'Not Started', riskCategory: 'Bribery & Corruption', property: 'Legal & Regulatory Risk' },
+      { title: 'ATN — Federal Election Interference Allegations', isLink: true, status: 'Not Started', riskCategory: 'General', property: 'Political Influence Risk' },
+      { title: 'Senior Executive Misconduct — Multiple Officers', isLink: false, status: 'Not Started', riskCategory: 'Human Rights', property: 'Corporate Governance Risk' },
+      { title: 'PEP Match — Kendall Roy (Politically Exposed)', isLink: true, status: 'Not Started', riskCategory: 'Screening and Monitoring', property: 'PEP Exposure Risk' },
+      { title: 'Crew Abuse Allegations — Brightstar Cruises', isLink: false, status: 'In Progress', riskCategory: 'Human Rights', property: 'Labour Standards Risk' },
     ],
     processSummary: [
       { step: 'Onboarding', isLink: true, status: 'Completed', startDate: '1 Nov 2025', by: 'Gerri Kellman', date: '1 Nov 2025' },
@@ -209,10 +209,10 @@ export default {
   },
   riskMitigation: {
     openRisks: [
-      { id: 1, title: 'DOJ Investigation — Brightstar Cruises Cover-Up', owner: 'Claudio Merino', status: 'Open', createdDate: '05 Nov 2025', lastEditedBy: '', dueDate: '', source: '', comments: 0 },
-      { id: 2, title: 'ATN — Federal Election Interference Allegations', owner: 'Claudio Merino', status: 'Open', createdDate: '12 Nov 2025', lastEditedBy: '', dueDate: '', source: '', comments: 0 },
-      { id: 3, title: 'Exec Misconduct — Multiple Senior Officers', owner: 'Claudio Merino', status: 'Open', createdDate: '20 Nov 2025', lastEditedBy: '', dueDate: '', source: '', comments: 1 },
-      { id: 4, title: 'PEP Match — Kendall Roy (Politically Exposed)', owner: 'Claudio Merino', status: 'Open', createdDate: '29 Dec 2025', lastEditedBy: '', dueDate: '', source: '', comments: 0 },
+      { id: 1, title: 'DOJ Investigation — Brightstar Cruises Cover-Up', owner: 'Claudio Merino', status: 'Not Started', createdDate: '05 Nov 2025', lastEditedBy: '', dueDate: '', source: '', comments: 0 },
+      { id: 2, title: 'ATN — Federal Election Interference Allegations', owner: 'Claudio Merino', status: 'Not Started', createdDate: '12 Nov 2025', lastEditedBy: '', dueDate: '', source: '', comments: 0 },
+      { id: 3, title: 'Exec Misconduct — Multiple Senior Officers', owner: 'Claudio Merino', status: 'Not Started', createdDate: '20 Nov 2025', lastEditedBy: '', dueDate: '', source: '', comments: 1 },
+      { id: 4, title: 'PEP Match — Kendall Roy (Politically Exposed)', owner: 'Claudio Merino', status: 'Not Started', createdDate: '29 Dec 2025', lastEditedBy: '', dueDate: '', source: '', comments: 0 },
     ],
     mitigatedRisks: [],
     cancelledRisks: [],

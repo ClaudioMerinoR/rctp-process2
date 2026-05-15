@@ -67,7 +67,7 @@ export default {
 
   openTasks: [
     { type: 'Questionnaire Incomplete', icon: 'iconInactiveOrder', name: 'Due Diligence', status: 'In Progress', owner: 'Dwight Schrute', dateCreated: '03 Jan 2026', age: '12 Days' },
-    { type: 'Red Flag', icon: 'iconFlag', name: 'Potential Conflict of Interest — Ryan Howard', status: 'Open', owner: 'Compliance Group', dateCreated: '10 Jan 2026', age: '5 Days' },
+    { type: 'Red Flag', icon: 'iconFlag', name: 'Potential Conflict of Interest — Ryan Howard', status: 'Not Started', owner: 'Compliance Group', dateCreated: '10 Jan 2026', age: '5 Days' },
   ],
 
   screeningRows: [
@@ -145,7 +145,7 @@ export default {
       { name: 'Michael Scott', type: 'Director', level: 'low', redFlags: '', categories: [] },
     ],
     redFlags: [
-      { title: 'Potential Conflict of Interest — Ryan Howard', isLink: true, status: 'Open', riskCategory: 'Bribery & Corruption', property: '' },
+      { title: 'Potential Conflict of Interest — Ryan Howard', isLink: true, status: 'Not Started', riskCategory: 'Bribery & Corruption', property: 'Conflict of Interest Risk' },
     ],
     processSummary: [
       { step: 'Onboarding', isLink: true, status: 'Completed', startDate: '3 Jan 2026', by: 'Pam Beesly', date: '3 Jan 2026' },

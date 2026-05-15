@@ -1120,12 +1120,11 @@ function LookMorePanel({ onClose, onSelect }) {
                   </div>
                 </div>
                 <div className={styles.connTableWrap}>
-                <table className={styles.table} style={{ minWidth: 0 }}>
+                <table className={styles.table} style={{ minWidth: 0, width: '100%', tableLayout: 'fixed' }}>
                   <thead>
                     <tr>
                       <th style={{ width: 32 }} />
                       <th>Third Party Name</th>
-                      <th>Connection Type</th>
                       <th>ID Type</th>
                       <th>ID Value</th>
                       <th>Internal Reference or ID</th>
@@ -1136,7 +1135,6 @@ function LookMorePanel({ onClose, onSelect }) {
                       <tr key={i} onClick={() => setSelectedIndex(i)} style={{ cursor: 'pointer' }}>
                         <td><input type="radio" className={styles.tableRadio} checked={selectedIndex === i} onChange={() => setSelectedIndex(i)} /></td>
                         <td><span className={styles.cellLink}>{r.name}</span></td>
-                        <td>{r.connType}</td>
                         <td>{r.idType}</td>
                         <td style={{ fontFamily: 'monospace', fontSize: 12 }}>{r.idValue}</td>
                         <td>{r.intRef}</td>

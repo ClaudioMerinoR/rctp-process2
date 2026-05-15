@@ -66,9 +66,9 @@ export default {
   ],
 
   openTasks: [
-    { type: 'Red Flag', icon: 'iconFlag', name: 'DEA Investigation — Suspected Methamphetamine Distribution', status: 'Open', owner: 'Compliance Group', dateCreated: '10 Jan 2026', age: '80 Days' },
-    { type: 'Red Flag', icon: 'iconFlag', name: 'Cartel Links — Juárez Cartel / Don Eladio Vuente', status: 'Open', owner: 'Compliance Group', dateCreated: '15 Jan 2026', age: '75 Days' },
-    { type: 'Red Flag', icon: 'iconFlag', name: 'Money Laundering — Unusual Cash Flow Patterns', status: 'Open', owner: 'Compliance Group', dateCreated: '18 Jan 2026', age: '72 Days' },
+    { type: 'Red Flag', icon: 'iconFlag', name: 'DEA Investigation — Suspected Methamphetamine Distribution', status: 'Not Started', owner: 'Compliance Group', dateCreated: '10 Jan 2026', age: '80 Days' },
+    { type: 'Red Flag', icon: 'iconFlag', name: 'Cartel Links — Juárez Cartel / Don Eladio Vuente', status: 'Not Started', owner: 'Compliance Group', dateCreated: '15 Jan 2026', age: '75 Days' },
+    { type: 'Red Flag', icon: 'iconFlag', name: 'Money Laundering — Unusual Cash Flow Patterns', status: 'Not Started', owner: 'Compliance Group', dateCreated: '18 Jan 2026', age: '72 Days' },
     { type: 'Enhanced Due Diligence Report Task', icon: 'iconFinanceMode', name: 'Enhanced Due Diligence — Madrigal Electromotive Nexus', status: 'In Progress', owner: 'Mike Ehrmantraut', dateCreated: '20 Jan 2026', age: '70 Days' },
     { type: 'Red Flag', icon: 'iconFlag', name: 'UBO Discrepancy — Undisclosed Beneficial Owners', status: 'In Progress', owner: 'Compliance Group', dateCreated: '25 Jan 2026', age: '65 Days' },
     { type: 'Approval Task', icon: 'iconFactCheck', name: 'Approval Blocked — Pending Law Enforcement Clearance', status: 'Not Started', owner: 'Compliance Group', dateCreated: '01 Feb 2026', age: '58 Days' },
@@ -186,11 +186,11 @@ export default {
       { name: 'Lydia Rodarte-Quayle', type: 'Logistics Manager', level: 'medium', redFlags: 'YES', categories: [{ type: 'ool', icon: 'person' }, { type: 'sco', icon: 'person' }] },
     ],
     redFlags: [
-      { title: 'DEA Investigation — Active Methamphetamine Distribution', isLink: true, status: 'Open', riskCategory: 'Bribery & Corruption', property: '' },
-      { title: 'Cartel Connections — Juárez Cartel / Don Eladio Vuente', isLink: true, status: 'Open', riskCategory: 'General', property: '' },
-      { title: 'Money Laundering — Suspicious Cash Revenue Patterns', isLink: false, status: 'Open', riskCategory: 'Bribery & Corruption', property: '' },
-      { title: 'Sanctions Match — Hector Salamanca (Cartel Associate)', isLink: true, status: 'Open', riskCategory: 'Screening and Monitoring', property: '' },
-      { title: 'UBO Discrepancy — Madrigal Electromotive Undisclosed Link', isLink: false, status: 'In Progress', riskCategory: 'General', property: '' },
+      { title: 'DEA Investigation — Active Methamphetamine Distribution', isLink: true, status: 'Not Started', riskCategory: 'Bribery & Corruption', property: 'Regulatory Compliance Risk' },
+      { title: 'Cartel Connections — Juárez Cartel / Don Eladio Vuente', isLink: true, status: 'Not Started', riskCategory: 'General', property: 'Organised Crime Exposure' },
+      { title: 'Money Laundering — Suspicious Cash Revenue Patterns', isLink: false, status: 'Not Started', riskCategory: 'Bribery & Corruption', property: 'Financial Crime Risk' },
+      { title: 'Sanctions Match — Hector Salamanca (Cartel Associate)', isLink: true, status: 'Not Started', riskCategory: 'Screening and Monitoring', property: 'Sanctions Exposure' },
+      { title: 'UBO Discrepancy — Madrigal Electromotive Undisclosed Link', isLink: false, status: 'In Progress', riskCategory: 'General', property: 'Ownership Transparency Risk' },
     ],
     processSummary: [
       { step: 'Onboarding', isLink: true, status: 'Completed', startDate: '1 Dec 2025', by: 'Lydia Rodarte-Quayle', date: '1 Dec 2025' },
@@ -208,11 +208,11 @@ export default {
   },
   riskMitigation: {
     openRisks: [
-      { id: 1, title: 'DEA Investigation — Suspected Distribution Operations', owner: 'Tamara Knoetschke', status: 'Open', createdDate: '10 Jan 2026', lastEditedBy: '', dueDate: '', source: '', comments: 0 },
-      { id: 2, title: 'Cartel Connections — Juárez Cartel Links', owner: 'Tamara Knoetschke', status: 'Open', createdDate: '15 Jan 2026', lastEditedBy: '', dueDate: '', source: '', comments: 0 },
-      { id: 3, title: 'Money Laundering — Unusual Cash Flow Patterns', owner: 'Tamara Knoetschke', status: 'Open', createdDate: '18 Jan 2026', lastEditedBy: '', dueDate: '', source: '', comments: 0 },
-      { id: 4, title: 'UBO Discrepancy — Undisclosed Beneficial Owners', owner: 'Tamara Knoetschke', status: 'Open', createdDate: '25 Jan 2026', lastEditedBy: '', dueDate: '', source: '', comments: 0 },
-      { id: 5, title: 'Adverse Media — 38 Potential Matches', owner: 'Claudio Merino', status: 'Open', createdDate: '01 Feb 2026', lastEditedBy: '', dueDate: '', source: '', comments: 1 },
+      { id: 1, title: 'DEA Investigation — Suspected Distribution Operations', owner: 'Tamara Knoetschke', status: 'Not Started', createdDate: '10 Jan 2026', lastEditedBy: '', dueDate: '', source: '', comments: 0 },
+      { id: 2, title: 'Cartel Connections — Juárez Cartel Links', owner: 'Tamara Knoetschke', status: 'Not Started', createdDate: '15 Jan 2026', lastEditedBy: '', dueDate: '', source: '', comments: 0 },
+      { id: 3, title: 'Money Laundering — Unusual Cash Flow Patterns', owner: 'Tamara Knoetschke', status: 'Not Started', createdDate: '18 Jan 2026', lastEditedBy: '', dueDate: '', source: '', comments: 0 },
+      { id: 4, title: 'UBO Discrepancy — Undisclosed Beneficial Owners', owner: 'Tamara Knoetschke', status: 'Not Started', createdDate: '25 Jan 2026', lastEditedBy: '', dueDate: '', source: '', comments: 0 },
+      { id: 5, title: 'Adverse Media — 38 Potential Matches', owner: 'Claudio Merino', status: 'Not Started', createdDate: '01 Feb 2026', lastEditedBy: '', dueDate: '', source: '', comments: 1 },
     ],
     mitigatedRisks: [],
     cancelledRisks: [],

@@ -66,7 +66,7 @@ export default {
   ],
 
   openTasks: [
-    { type: 'Red Flag', icon: 'iconFlag', name: 'IP Ownership Dispute — Hooli / Gavin Belson', status: 'Open', owner: 'Compliance Group', dateCreated: '10 Oct 2025', age: '81 Days' },
+    { type: 'Red Flag', icon: 'iconFlag', name: 'IP Ownership Dispute — Hooli / Gavin Belson', status: 'Not Started', owner: 'Compliance Group', dateCreated: '10 Oct 2025', age: '81 Days' },
     { type: 'Red Flag', icon: 'iconFlag', name: 'Leadership Instability — Multiple CEO Changes', status: 'In Progress', owner: 'Compliance Group', dateCreated: '01 Nov 2025', age: '59 Days' },
     { type: 'Questionnaire Incomplete', icon: 'iconInactiveOrder', name: 'Risk Assessment', status: 'In Progress', owner: 'Jared Dunn', dateCreated: '15 Nov 2025', age: '45 Days' },
     { type: 'Approval Task', icon: 'iconFactCheck', name: 'Approval Stage 1 — Pending Legal Resolution', status: 'Not Started', owner: 'Sustainability Team', dateCreated: '01 Dec 2025', age: '29 Days' },
@@ -229,9 +229,9 @@ export default {
       { name: 'Erlich Bachman', type: 'Former Director', level: 'medium', redFlags: 'YES', categories: [{ type: 'pep', icon: 'person' }, { type: 'san', icon: 'person' }] },
     ],
     redFlags: [
-      { title: 'IP Ownership Dispute — Hooli / Gavin Belson', isLink: true, status: 'Open', riskCategory: 'Bribery & Corruption', property: '' },
-      { title: 'Leadership Instability — Multiple CEO Changes', isLink: false, status: 'In Progress', riskCategory: 'General', property: '' },
-      { title: 'Unregulated Decentralised Internet Protocol Risk', isLink: false, status: 'Open', riskCategory: 'Cyber', property: '' },
+      { title: 'IP Ownership Dispute — Hooli / Gavin Belson', isLink: true, status: 'Not Started', riskCategory: 'Bribery & Corruption', property: 'Intellectual Property Risk' },
+      { title: 'Leadership Instability — Multiple CEO Changes', isLink: false, status: 'In Progress', riskCategory: 'General', property: 'Governance Risk' },
+      { title: 'Unregulated Decentralised Internet Protocol Risk', isLink: false, status: 'Not Started', riskCategory: 'Cyber', property: 'Cybersecurity Compliance Risk' },
     ],
     processSummary: [
       { step: 'Onboarding', isLink: true, status: 'Completed', startDate: '15 Nov 2025', by: 'Monica Hall', date: '15 Nov 2025' },

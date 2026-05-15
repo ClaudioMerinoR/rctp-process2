@@ -165,9 +165,9 @@ export default {
       { name: 'Initech Corporation', type: 'Primary Entity', level: 'medium', redFlags: 4, categories: [{ type: 'soc', icon: 'entity' }, { type: 'ool', icon: 'entity' }, { type: 'mrb', icon: 'entity' }] },
     ],
     redFlags: [
-      { title: 'Embezzlement Allegation — Salami Slicing Scheme', isLink: true, status: 'Under Review', riskCategory: 'Bribery & Corruption', property: '' },
-      { title: 'Mass Redundancy — Downsizing Consultants Engaged', isLink: false, status: 'Acknowledged', riskCategory: 'General', property: '' },
-      { title: 'Workplace Environment Complaints — Multiple Employees', isLink: false, status: 'Open', riskCategory: 'Human Rights', property: '' },
+      { title: 'Embezzlement Allegation — Salami Slicing Scheme', isLink: true, status: 'Under Review', riskCategory: 'Bribery & Corruption', property: 'Financial Misconduct Risk' },
+      { title: 'Mass Redundancy — Downsizing Consultants Engaged', isLink: false, status: 'Acknowledged', riskCategory: 'General', property: 'Reputational Risk' },
+      { title: 'Workplace Environment Complaints — Multiple Employees', isLink: false, status: 'Not Started', riskCategory: 'Human Rights', property: 'Labour Standards Risk' },
     ],
     processSummary: [
       { step: 'Onboarding', isLink: true, status: 'Completed', startDate: '5 Jan 2025', by: 'Bill Lumbergh', date: '5 Jan 2025' },
@@ -184,7 +184,7 @@ export default {
   },
   riskMitigation: {
     openRisks: [
-      { id: 4, title: 'Y2K Legacy System Exposure — Critical Infrastructure Risk', owner: 'Tom Smykowski', status: 'Open', createdDate: '02 Jan 2026', lastEditedBy: 'Bill Lumbergh', dueDate: '30 Jun 2026', source: 'Risk Assessment', comments: 0 },
+      { id: 4, title: 'Y2K Legacy System Exposure — Critical Infrastructure Risk', owner: 'Tom Smykowski', status: 'Not Started', createdDate: '02 Jan 2026', lastEditedBy: 'Bill Lumbergh', dueDate: '30 Jun 2026', source: 'Risk Assessment', comments: 0 },
     ],
     mitigatedRisks: [
       { id: 1, title: 'Embezzlement Allegation — Salami Slicing Scheme', owner: 'Claudio Merino', status: 'Mitigated', createdDate: '02 Jan 2026', lastEditedBy: 'Claudio Merino', dueDate: '31 Mar 2026', source: 'Risk Assessment', comments: 0 },

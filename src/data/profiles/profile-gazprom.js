@@ -66,7 +66,7 @@ export default {
   ],
 
   openTasks: [
-    { type: 'Red Flag', icon: 'iconFlag', name: 'Public or Foreign Officials Interaction', status: 'Open', owner: 'Compliance Group', dateCreated: '13 Nov 2025', age: '37 Days' },
+    { type: 'Red Flag', icon: 'iconFlag', name: 'Public or Foreign Officials Interaction', status: 'Not Started', owner: 'Compliance Group', dateCreated: '13 Nov 2025', age: '37 Days' },
     { type: 'Red Flag', icon: 'iconFlag', name: 'High Risk Third Party Service Type', status: 'In Progress', owner: 'Compliance Group', dateCreated: '29 Nov 2025', age: '14 Days' },
     { type: 'Questionnaire Incomplete', icon: 'iconInactiveOrder', name: 'Risk Assessment', status: 'In Progress', owner: 'Emily Forbes', dateCreated: '03 Dec 2025', age: '11 Days' },
     { type: 'Approval Task', icon: 'iconFactCheck', name: 'Approval Stage 1', status: 'Not Started', owner: 'Sustainability Team', dateCreated: '04 Dec 2025', age: '10 Days' },
@@ -186,10 +186,10 @@ export default {
       { name: 'BP Plc', type: 'Entity', level: 'high', redFlags: 'YES', categories: [{ type: 'sco', icon: 'entity' }, { type: 'san', icon: 'entity' }, { type: 'pep', icon: 'person' }] },
     ],
     redFlags: [
-      { title: 'Watchlist - Other Official List', isLink: true, status: 'Open', riskCategory: 'Screening and Monitoring', property: '' },
-      { title: 'Third Party High Risk Country Involvement', isLink: false, status: 'Open', riskCategory: 'Screening and Monitoring', property: '' },
-      { title: "Native inhabitants relocated by third party's business operations", isLink: true, status: 'Mitigated', riskCategory: 'Environmental', property: '' },
-      { title: "Native inhabitants relocated by third party's business operations", isLink: false, status: 'Post Approval', riskCategory: 'General', property: '' },
+      { title: 'Watchlist - Other Official List', isLink: true, status: 'Not Started', riskCategory: 'Screening and Monitoring', property: 'Watchlist Screening Risk' },
+      { title: 'Third Party High Risk Country Involvement', isLink: false, status: 'Not Started', riskCategory: 'Screening and Monitoring', property: 'Geopolitical Risk' },
+      { title: "Native inhabitants relocated by third party's business operations", isLink: true, status: 'Mitigated', riskCategory: 'Environmental', property: 'Potential Environmental Risk' },
+      { title: "Native inhabitants relocated by third party's business operations", isLink: false, status: 'Post Approval', riskCategory: 'General', property: 'Community Impact Risk' },
     ],
     processSummary: [
       { step: 'Onboarding', isLink: true, status: 'Completed', startDate: '16 Apr 2024', date: '16 Apr 2024', by: 'Angela Martin' },
@@ -207,11 +207,11 @@ export default {
   },
   riskMitigation: {
     openRisks: [
-      { id: 1, title: 'Public or Foreign Officials Interaction', owner: 'Tamara Knoetschke', status: 'Open', createdDate: '13 Nov 2025', lastEditedBy: '', dueDate: '', source: '', comments: 0 },
-      { id: 2, title: 'High Risk Country — Russia Sanctions Exposure', owner: 'Tamara Knoetschke', status: 'Open', createdDate: '29 Nov 2025', lastEditedBy: '', dueDate: '', source: '', comments: 0 },
-      { id: 3, title: 'Wetlands Impact — Business Operations', owner: 'Tamara Knoetschke', status: 'Open', createdDate: '03 Dec 2025', lastEditedBy: '', dueDate: '', source: '', comments: 1 },
-      { id: 4, title: 'Third Party High Risk Service Type', owner: 'Tamara Knoetschke', status: 'Open', createdDate: '04 Dec 2025', lastEditedBy: '', dueDate: '', source: '', comments: 0 },
-      { id: 5, title: 'Child Labour — Compliance Review Required', owner: 'Tamara Knoetschke', status: 'Open', createdDate: '18 Dec 2025', lastEditedBy: '', dueDate: '', source: '', comments: 0 },
+      { id: 1, title: 'Public or Foreign Officials Interaction', owner: 'Tamara Knoetschke', status: 'Not Started', createdDate: '13 Nov 2025', lastEditedBy: '', dueDate: '', source: '', comments: 0 },
+      { id: 2, title: 'High Risk Country — Russia Sanctions Exposure', owner: 'Tamara Knoetschke', status: 'Not Started', createdDate: '29 Nov 2025', lastEditedBy: '', dueDate: '', source: '', comments: 0 },
+      { id: 3, title: 'Wetlands Impact — Business Operations', owner: 'Tamara Knoetschke', status: 'Not Started', createdDate: '03 Dec 2025', lastEditedBy: '', dueDate: '', source: '', comments: 1 },
+      { id: 4, title: 'Third Party High Risk Service Type', owner: 'Tamara Knoetschke', status: 'Not Started', createdDate: '04 Dec 2025', lastEditedBy: '', dueDate: '', source: '', comments: 0 },
+      { id: 5, title: 'Child Labour — Compliance Review Required', owner: 'Tamara Knoetschke', status: 'Not Started', createdDate: '18 Dec 2025', lastEditedBy: '', dueDate: '', source: '', comments: 0 },
     ],
     mitigatedRisks: [],
     cancelledRisks: [],

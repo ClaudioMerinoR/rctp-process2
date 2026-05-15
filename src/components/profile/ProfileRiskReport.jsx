@@ -439,21 +439,16 @@ export default function ProfileRiskReport() {
                         <table className={styles.genericTable}>
                           <thead>
                             <tr>
-                              <th style={{ width: '52%' }}>Title</th>
+                              <th style={{ width: '44%' }}>Title</th>
                               <th style={{ width: '10%' }}>Status</th>
-                              <th style={{ width: '26%' }}>Risk Category</th>
-                              <th style={{ width: '12%' }}>Property</th>
+                              <th style={{ width: '18%' }}>Risk Category</th>
+                              <th style={{ width: '28%' }}>Property</th>
                             </tr>
                           </thead>
                           <tbody>
                             {rr.redFlags.map((row, i) => (
                               <tr key={i}>
-                                <td>
-                                  {row.isLink
-                                    ? <span className={styles.cellLink}>{row.title}</span>
-                                    : <span>{row.title}</span>
-                                  }
-                                </td>
+                                <td><span className={styles.cellLink}>{row.title}</span></td>
                                 <td>{row.status}</td>
                                 <td>{row.riskCategory || row.cat}</td>
                                 <td>{row.property || ''}</td>
