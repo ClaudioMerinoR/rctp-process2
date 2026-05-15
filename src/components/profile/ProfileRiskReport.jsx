@@ -29,7 +29,12 @@ function RiskBadge({ level }) {
   const cls = level === 'high' ? styles.badgeHigh
     : level === 'medium' ? styles.badgeMedium
     : styles.badgeLow;
-  return <span className={`${styles.badge} ${cls}`}>{level.toUpperCase()}</span>;
+  return (
+    <span className={`${styles.badge} ${cls}`}>
+      {level.toUpperCase()}
+      <RiskLevelIcon level={level} size={14} />
+    </span>
+  );
 }
 
 function StatusPill({ status }) {
