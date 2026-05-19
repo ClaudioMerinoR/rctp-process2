@@ -23,7 +23,8 @@ import styles from './ComponentCatalog.module.css';
 /* ── Props data ── */
 const PROPS = {
   button: [
-    { name: 'variant', type: "'outline' | 'filled'", default: "'outline'", description: 'Visual style of the button.' },
+    { name: 'variant', type: "'outline' | 'filled' | 'text'", default: "'outline'", description: 'Visual style of the button.' },
+    { name: 'size', type: "'sm' | 'md' | 'lg'", default: "'md'", description: 'Height: sm = 26px, md = 32px (default), lg = 38px.' },
     { name: 'children', type: 'ReactNode', default: null, required: true, description: 'Button label content.' },
     { name: 'icon', type: 'string', default: 'undefined', description: 'Material Icons Outlined icon name shown after the label.' },
     { name: '...props', type: 'HTMLButtonAttributes', default: null, description: 'All standard button attributes (onClick, disabled, type, etc.).' },
@@ -487,6 +488,21 @@ export default function ComponentCatalog() {
                       <Button variant="outline">Cancel</Button>
                       <Button variant="outline" icon="download">Export</Button>
                       <Button variant="outline" disabled>Disabled</Button>
+                    </div>
+                    <div className={styles.demoRow}>
+                      <span className={styles.demoGroupLabel}>Text</span>
+                      <Button variant="text">View details</Button>
+                      <Button variant="text" icon="open_in_new">Open</Button>
+                      <Button variant="text" disabled>Disabled</Button>
+                    </div>
+                    <div className={styles.demoRow} style={{ alignItems: 'center' }}>
+                      <span className={styles.demoGroupLabel}>Sizes</span>
+                      <Button variant="filled" size="sm">Small</Button>
+                      <Button variant="filled" size="md">Medium</Button>
+                      <Button variant="filled" size="lg">Large</Button>
+                      <Button variant="outline" size="sm" icon="add">Small</Button>
+                      <Button variant="outline" size="md" icon="add">Medium</Button>
+                      <Button variant="outline" size="lg" icon="add">Large</Button>
                     </div>
                   </div>
                 }
