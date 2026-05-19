@@ -1155,6 +1155,44 @@
   cursor: help;
 }
 
+.infoIconWrap {
+  position: relative;
+  display: inline-flex;
+  align-items: center;
+}
+
+.infoIconWrap:hover .infoTooltip { display: block; }
+
+.infoTooltip {
+  display: none;
+  position: absolute;
+  bottom: calc(100% + 6px);
+  left: 50%;
+  transform: translateX(-50%);
+  background: var(--neutral-900);
+  color: var(--neutral-00);
+  font-size: 12px;
+  font-weight: 400;
+  line-height: 1.4;
+  white-space: normal;
+  width: 220px;
+  padding: 6px 10px;
+  border-radius: 4px;
+  z-index: var(--z-tooltip);
+  pointer-events: none;
+  text-align: left;
+}
+
+.infoTooltip::after {
+  content: '';
+  position: absolute;
+  top: 100%;
+  left: 50%;
+  transform: translateX(-50%);
+  border: 5px solid transparent;
+  border-top-color: var(--neutral-900);
+}
+
 /* ── Open Tasks ── */
 .cellTaskType {
   display: flex;

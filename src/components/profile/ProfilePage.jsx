@@ -480,7 +480,10 @@ export default function ProfilePage({ profile: profileProp, embedded = false }) 
               <div className={styles.sectionRow}>
                 <div className={styles.sectionTitleGroup}>
                   <h2 className={styles.cardTitle}>Open Tasks</h2>
-                  <span className={`material-icons-outlined ${styles.infoIcon}`}>info</span>
+                  <span className={styles.infoIconWrap}>
+                    <span className={`material-icons-outlined ${styles.infoIcon}`}>info</span>
+                    <span className={styles.infoTooltip}>Open tasks relating to this third party</span>
+                  </span>
                 </div>
               </div>
             </div>
@@ -530,7 +533,10 @@ export default function ProfilePage({ profile: profileProp, embedded = false }) 
               <div className={styles.sectionRow}>
                 <div className={styles.sectionTitleGroup}>
                   <h2 className={styles.cardTitle}>Screening and Monitoring Associations</h2>
-                  <span className={`material-icons-outlined ${styles.infoIcon}`}>info</span>
+                  <span className={styles.infoIconWrap}>
+                    <span className={`material-icons-outlined ${styles.infoIcon}`}>info</span>
+                    <span className={styles.infoTooltip}>Monitored Associations being continuously monitored against Risk and Compliance Database</span>
+                  </span>
                 </div>
               </div>
             </div>
@@ -1118,7 +1124,6 @@ function LookMorePanel({ onClose, onSelect }) {
                 <div className={styles.searchSuggestedHeader}>
                   <span className={styles.searchSuggestedTitle}>Search Results</span>
                   <div className={styles.connActions}>
-                    <button className={`${styles.btn} ${styles.btnDiscard}`} disabled={selectedIndex === null} onClick={handleDiscard}>Discard</button>
                     <button className={`${styles.btn} ${styles.btnConnect}`} disabled={selectedIndex === null} onClick={handleConnect}>Connect</button>
                   </div>
                 </div>

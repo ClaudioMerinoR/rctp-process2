@@ -148,8 +148,8 @@ function Accordion({ section, open, onToggle, hideScore = false, screeningResult
                 <table className={styles.riskTable}>
                   <thead>
                     <tr>
-                      <th style={{ width: '74%' }}>PROPERTY</th>
-                      <th style={{ width: '12%' }}>Value</th>
+                      <th style={{ width: '50%' }}>PROPERTY</th>
+                      <th style={{ width: '36%' }}>Value</th>
                       <th style={{ width: '14%' }}>Score</th>
                     </tr>
                   </thead>

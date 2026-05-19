@@ -200,6 +200,7 @@ export default function AddThirdParty() {
   const tagsRef = useRef();
   const entityVerifyRef = useRef();
   const dupCheckRef = useRef();
+  const summaryRef = useRef();
 
   useOutsideClick(ownerRef, () => setOwnerOpen(false));
   useOutsideClick(buRef, () => setBuOpen(false));
@@ -416,9 +417,9 @@ export default function AddThirdParty() {
 
       </div>
 
-      {/* ── Section 2: Duplicate Check Results (shown after Continue, skipped for Unknown) ── */}
+      {/* ── Section 2: Duplicate Check Results ── */}
       <AnimatePresence>
-      {continued && !dupConfirmed && tpType !== 'unknown' && (
+      {continued && !dupConfirmed && (
         <motion.div
           key="dup-check-section"
           ref={dupCheckRef}
@@ -467,7 +468,8 @@ export default function AddThirdParty() {
             </button>
             <button className={styles.btnFilled} onClick={() => {
               setDupConfirmed(true);
-              setTimeout(() => entityVerifyRef.current?.scrollIntoView({ behavior: 'smooth', block: 'start' }), 400);
+              const scrollTarget = tpType === 'entity' ? entityVerifyRef : summaryRef;
+              setTimeout(() => scrollTarget.current?.scrollIntoView({ behavior: 'smooth', block: 'start' }), 400);
             }}>
               Continue Creation
             </button>
@@ -479,7 +481,7 @@ export default function AddThirdParty() {
 
       {/* ── Section 3: Entity Verification (entity only, collapsible) ── */}
       <AnimatePresence>
-      {(dupConfirmed || tpType === 'unknown') && continued && tpType === 'entity' && (
+      {dupConfirmed && continued && tpType === 'entity' && (
         <motion.div
           key="entity-verify-section"
           ref={entityVerifyRef}
@@ -581,9 +583,10 @@ export default function AddThirdParty() {
 
       {/* ── Section 4: Summary ── */}
       <AnimatePresence>
-      {continued && (dupConfirmed || tpType === 'unknown') && (
+      {continued && dupConfirmed && (
         <motion.div
           key="summary"
+          ref={summaryRef}
           className={styles.section}
           initial={{ opacity: 0, y: 18 }}
           animate={{ opacity: 1, y: 0 }}
@@ -775,7 +778,7 @@ export default function AddThirdParty() {
 
       {/* ── Section 5: Onboarding Details ── */}
       <AnimatePresence>
-      {continued && (dupConfirmed || tpType === 'unknown') && (
+      {continued && dupConfirmed && (
         <motion.div
           key="onboarding"
           className={styles.section}
@@ -978,7 +981,7 @@ export default function AddThirdParty() {
 
       {/* ── Footer ── */}
       <AnimatePresence>
-      {continued && (dupConfirmed || tpType === 'unknown') && (
+      {continued && dupConfirmed && (
         <motion.div
           key="footer"
           className={styles.formFooter}
