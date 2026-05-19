@@ -559,15 +559,21 @@ export default function ComponentCatalog() {
                 description="Custom styled radio button for single-select option groups."
                 demo={
                   <div className={styles.demoStage}>
-                    {['Option A', 'Option B', 'Option C'].map((opt, i) => (
-                      <div key={opt} className={styles.demoCheckboxCell}>
-                        <Radio checked={radioSel === i} onChange={() => setRadioSel(i)} />
-                        <span>{opt}</span>
-                      </div>
-                    ))}
+                    <div className={styles.demoCheckboxCell}>
+                      <Radio checked={false} onChange={() => setRadioSel(0)} />
+                      <span>Unchecked</span>
+                    </div>
+                    <div className={styles.demoCheckboxCell}>
+                      <Radio checked={true} onChange={() => {}} />
+                      <span>Checked</span>
+                    </div>
                     <div className={styles.demoCheckboxCell}>
                       <Radio checked={false} disabled />
-                      <span style={{ color: 'var(--neutral-300)' }}>Disabled</span>
+                      <span style={{ color: 'var(--neutral-300)' }}>Disabled empty</span>
+                    </div>
+                    <div className={styles.demoCheckboxCell}>
+                      <Radio checked={true} disabled />
+                      <span style={{ color: 'var(--neutral-300)' }}>Disabled checked</span>
                     </div>
                   </div>
                 }
