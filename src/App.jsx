@@ -10,6 +10,7 @@ import Employees from './pages/Employees';
 import RiskSearch from './pages/RiskSearch';
 import Dashboard from './pages/Dashboard';
 
+const ComponentCatalog   = lazy(() => import('./pages/ComponentCatalog'));
 const CompanyAdmin       = lazy(() => import('./pages/CompanyAdmin'));
 const RoleDetails        = lazy(() => import('./pages/RoleDetails'));
 const ProfileDocuments   = lazy(() => import('./components/profile/ProfileDocuments'));
@@ -132,6 +133,7 @@ export default function App() {
           <Route path="/settings/:tab/:section" element={<Settings />} />
           <Route path="/settings/renewals/:version/edit" element={<RenewalEdit />} />
           <Route path="/reports" element={<Placeholder title="Reports" />} />
+          <Route path="/component-catalog" element={<ComponentCatalog />} />
         </Routes>
       </Suspense>
     </HashRouter>

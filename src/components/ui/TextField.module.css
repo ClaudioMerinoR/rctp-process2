@@ -1,0 +1,81 @@
+.wrap {
+  display: flex;
+  flex-direction: column;
+  gap: 4px;
+}
+
+.label {
+  font-size: 12px;
+  font-weight: 500;
+  color: var(--text-light);
+  font-family: var(--font-body, Roboto, sans-serif);
+}
+
+.inputWrap {
+  display: flex;
+  align-items: center;
+  gap: 6px;
+  height: 36px;
+  padding: 0 10px;
+  border: 1px solid var(--neutral-200);
+  border-radius: 2px;
+  background: var(--neutral-00);
+  transition: border-color 0.15s;
+}
+
+.inputWrap:focus-within {
+  border-color: var(--primary-500);
+  outline: none;
+}
+
+.inputWrapError {
+  border-color: var(--alert-500);
+}
+
+.inputWrapError:focus-within {
+  border-color: var(--alert-600);
+}
+
+.inputWrapDisabled {
+  background: var(--neutral-25);
+  border-color: var(--neutral-100);
+  cursor: not-allowed;
+}
+
+.icon {
+  font-size: 16px;
+  color: var(--neutral-400);
+  flex-shrink: 0;
+}
+
+.input {
+  flex: 1;
+  border: none;
+  outline: none;
+  font-size: 14px;
+  font-family: var(--font-body, Roboto, sans-serif);
+  color: var(--text-normal);
+  background: transparent;
+  min-width: 0;
+}
+
+.input::placeholder {
+  color: var(--neutral-400);
+}
+
+.input:disabled {
+  color: var(--neutral-400);
+  cursor: not-allowed;
+}
+
+.errorText {
+  font-size: 11px;
+  color: var(--alert-600);
+  font-family: var(--font-body, Roboto, sans-serif);
+}
+
+.helperText {
+  font-size: 11px;
+  color: var(--neutral-400);
+  font-family: var(--font-body, Roboto, sans-serif);
+}

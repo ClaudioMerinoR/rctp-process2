@@ -1,3 +1,4 @@
+import { Link } from 'react-router-dom';
 import styles from './Header.module.css';
 
 export default function Header() {
@@ -9,9 +10,9 @@ export default function Header() {
         <span className={styles.brandProduct}>RISKCENTER &nbsp;|&nbsp; THIRD PARTY</span>
       </div>
       <div className={styles.actions}>
-        {['Customer Support', 'Feedback'].map(label => (
-          <button key={label} className={styles.actionLink}>{label}</button>
-        ))}
+        <Link to="/component-catalog" className={styles.actionLink}>Component Catalog</Link>
+        <button className={styles.actionLink}>Customer Support</button>
+        <button className={styles.actionLink}>Feedback</button>
         <button className={styles.iconBtn} aria-label="Notifications">
           <span className="material-icons-outlined">notifications</span>
         </button>

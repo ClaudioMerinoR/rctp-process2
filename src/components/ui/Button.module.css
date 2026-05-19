@@ -22,6 +22,10 @@
 }
 .btn:disabled { cursor: default; }
 
+/* Sizes — md is the default (32px), no extra class needed */
+.sm { height: 26px; padding: 0 10px; font-size: 11px; }
+.lg { height: 38px; padding: 0 18px; font-size: 14px; }
+
 /* Filled */
 .filled  { background: var(--rctp-blue-400); color: #fff; }
 .filled:hover:not(:disabled)  { background: var(--rctp-blue-600); }

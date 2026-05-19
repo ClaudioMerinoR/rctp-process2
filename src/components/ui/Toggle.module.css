@@ -1,0 +1,59 @@
+.toggle {
+  position: relative;
+  width: 96px;
+  height: 32px;
+  border-radius: 2px;
+  overflow: hidden;
+  border: 1px solid var(--success-500);
+  background: var(--success-500);
+  cursor: pointer;
+  user-select: none;
+  transition: background 0.2s, border-color 0.2s;
+  flex-shrink: 0;
+}
+
+.toggleOff {
+  background: var(--alert-500);
+  border-color: var(--alert-500);
+}
+
+.toggleDisabled {
+  opacity: 0.5;
+  cursor: not-allowed;
+}
+
+.track {
+  position: absolute;
+  inset: 0;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  font-size: 12px;
+  font-weight: 500;
+  text-transform: uppercase;
+  color: var(--text-normal);
+  padding-right: 14px;
+  font-family: var(--font-body, Roboto, sans-serif);
+}
+
+.toggleOff .track {
+  color: var(--neutral-00);
+  padding-right: 0;
+  padding-left: 14px;
+}
+
+.thumb {
+  position: absolute;
+  top: -2px;
+  bottom: -2px;
+  width: 26px;
+  background: var(--neutral-00);
+  right: -13px;
+  transition: right 0.15s, left 0.15s;
+  border-radius: 1px;
+}
+
+.toggleOff .thumb {
+  right: auto;
+  left: -13px;
+}
