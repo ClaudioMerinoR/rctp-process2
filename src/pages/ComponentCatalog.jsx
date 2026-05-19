@@ -136,7 +136,6 @@ const SIDEBAR_SECTIONS = [
       { label: 'Button', id: 'button' },
       { label: 'Badge', id: 'badge' },
       { label: 'Chip', id: 'chip' },
-      { label: 'Modal', id: 'modal' },
     ],
   },
   {
@@ -283,6 +282,7 @@ const PATTERNS_SECTIONS = [
   { label: 'Alerts & Banners', id: 'pattern-alerts' },
   { label: 'Accordion',        id: 'pattern-accordion' },
   { label: 'Side Panel',       id: 'pattern-sidepanel' },
+  { label: 'Modal',            id: 'pattern-modal' },
 ];
 
 const SAMPLE_ROWS = [
@@ -525,29 +525,6 @@ export default function ComponentCatalog() {
                 props={PROPS.chip}
               />
 
-              <Entry
-                id="modal"
-                title="Modal"
-                description="Animated dialog with header, scrollable body, and a footer with cancel/confirm actions. Closes on Escape or backdrop click."
-                demo={
-                  <div className={styles.demoStage}>
-                    <Button variant="filled" onClick={() => setModalOpen(true)}>Open Modal</Button>
-                    <Modal
-                      open={modalOpen}
-                      title="Confirm Action"
-                      onClose={() => setModalOpen(false)}
-                      onConfirm={() => setModalOpen(false)}
-                      confirmLabel="Confirm"
-                      cancelLabel="Cancel"
-                    >
-                      <p style={{ margin: 0, fontSize: 14, color: 'var(--text-light)', lineHeight: 1.6 }}>
-                        This is the modal body content. You can place any content here — forms, descriptions, warnings, etc.
-                      </p>
-                    </Modal>
-                  </div>
-                }
-                props={PROPS.modal}
-              />
             </section>
 
             {/* ══ Form Controls ══ */}
@@ -1381,6 +1358,36 @@ export default function ComponentCatalog() {
                     </div>
                   </div>
                 </div>
+              </div>
+            </section>
+
+            {/* ══ Modal ══ */}
+            <section id="pattern-modal" className={styles.categorySection} data-catalog-section style={{ scrollMarginTop: 68 }}>
+              <h2 className={styles.categoryTitle}>Modal</h2>
+              <div className={styles.entryCard}>
+                <div className={styles.entryHeader}>
+                  <h3 className={styles.entryTitle}>Confirmation Modal</h3>
+                  <p className={styles.entryDesc}>Centered dialog with a dimmed overlay. Used for destructive confirmations (delete, cancel creation, decline) and renewal prompts. Closes on Escape, backdrop click, or the cancel button. Header, scrollable body, and a cancel/confirm footer.</p>
+                </div>
+                <div className={styles.demoShell}>
+                  <div className={styles.demoLabel}>Live Demo</div>
+                  <div style={{ padding: '16px 20px 20px' }}>
+                    <Button variant="filled" onClick={() => setModalOpen(true)}>Open Modal</Button>
+                    <Modal
+                      open={modalOpen}
+                      title="Confirm Action"
+                      onClose={() => setModalOpen(false)}
+                      onConfirm={() => setModalOpen(false)}
+                      confirmLabel="Confirm"
+                      cancelLabel="Cancel"
+                    >
+                      <p style={{ margin: 0, fontSize: 14, color: 'var(--text-light)', lineHeight: 1.6 }}>
+                        This is the modal body content. You can place any content here — forms, descriptions, warnings, etc.
+                      </p>
+                    </Modal>
+                  </div>
+                </div>
+                <PropsTable rows={PROPS.modal} />
               </div>
             </section>
 
