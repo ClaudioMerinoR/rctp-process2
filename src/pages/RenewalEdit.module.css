@@ -317,7 +317,7 @@
   position: absolute;
   top: calc(100% + 4px);
   right: 0;
-  z-index: 100;
+  z-index: var(--z-dropdown);
   background: var(--neutral-00);
   border: 1px solid var(--neutral-100);
   border-radius: var(--rctp-radius-xs);
@@ -587,7 +587,7 @@
   position: absolute;
   top: calc(100% + 4px);
   right: 0;
-  z-index: 100;
+  z-index: var(--z-dropdown);
   background: var(--neutral-00);
   border: 1px solid var(--neutral-100);
   border-radius: var(--rctp-radius-xs);
@@ -614,7 +614,7 @@
 .pickerOverlay {
   position: fixed;
   inset: 0;
-  z-index: 200;
+  z-index: var(--z-dropdown);
   background: rgba(0, 0, 0, 0.2);
 }
 
@@ -624,7 +624,7 @@
   right: 0;
   bottom: 0;
   width: 640px;
-  z-index: 201;
+  z-index: var(--z-alert);
   background: var(--neutral-00);
   border-left: 1px solid var(--neutral-100);
   display: flex;
