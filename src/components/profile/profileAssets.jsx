@@ -20,10 +20,8 @@ function RiskHighIcon({ size }) {
 }
 
 export function RiskLevelIcon({ level, size = 16 }) {
-  if (level === 'high') {
-    return <RiskHighIcon size={size} />;
-  }
-  const icon = level === 'medium' ? 'error_outline' : 'check_circle_outline';
+  if (level === 'high') return <RiskHighIcon size={size} />;
+  const icon = level === 'medium' ? 'error_outline' : level === 'unknown' ? 'help_outline' : 'check_circle_outline';
   return <span className="material-icons-outlined" style={{ fontSize: size }}>{icon}</span>;
 }
 

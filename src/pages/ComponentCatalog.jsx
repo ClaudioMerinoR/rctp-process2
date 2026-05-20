@@ -69,7 +69,7 @@ const PROPS = {
     { name: 'onChange', type: '(e) => void', default: null, description: 'Change event handler.' },
   ],
   riskBadge: [
-    { name: 'level', type: "'high' | 'medium' | 'low'", default: null, required: true, description: 'Risk level to display.' },
+    { name: 'level', type: "'high' | 'medium' | 'low' | 'unknown'", default: null, required: true, description: 'Risk level to display. unknown is shown when risk assessment has not yet completed.' },
   ],
   textField: [
     { name: 'label', type: 'string', default: 'undefined', description: 'Label shown above the input.' },
@@ -828,12 +828,13 @@ export default function ComponentCatalog() {
               <Entry
                 id="riskbadge"
                 title="RiskBadge"
-                description="Risk level indicator badge with a semantic icon and label. Used in screening tables and association lists."
+                description="Risk level indicator badge with a semantic icon and label. Used in screening tables, association lists, and the profile header while risk assessment is pending."
                 demo={
                   <div className={styles.demoStage}>
                     <RiskBadge level="high" />
                     <RiskBadge level="medium" />
                     <RiskBadge level="low" />
+                    <RiskBadge level="unknown" />
                   </div>
                 }
                 props={PROPS.riskBadge}

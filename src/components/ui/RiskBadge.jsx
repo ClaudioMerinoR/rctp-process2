@@ -2,9 +2,10 @@ import { RiskLevelIcon } from '../profile/profileAssets';
 import styles from './RiskBadge.module.css';
 
 const config = {
-  high:   { cls: styles.high,   label: 'High Risk' },
-  medium: { cls: styles.medium, label: 'Medium Risk' },
-  low:    { cls: styles.low,    label: 'Low Risk' },
+  high:    { cls: styles.high,    label: 'High Risk' },
+  medium:  { cls: styles.medium,  label: 'Medium Risk' },
+  low:     { cls: styles.low,     label: 'Low Risk' },
+  unknown: { cls: styles.unknown, label: 'Unknown' },
 };
 
 export default function RiskBadge({ level }) {

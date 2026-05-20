@@ -10,6 +10,7 @@
   letter-spacing: 0.5px;
   white-space: nowrap;
 }
-.high   { background: var(--alert-50);   color: var(--alert-700); }
-.medium { background: var(--warning-50); color: var(--warning-900); }
-.low    { background: var(--success-50); color: var(--success-900); }
+.high    { background: var(--alert-50);   color: var(--alert-700); }
+.medium  { background: var(--warning-50); color: var(--warning-900); }
+.low     { background: var(--success-50); color: var(--success-900); }
+.unknown { background: var(--neutral-50); color: var(--text-normal); }
