@@ -607,28 +607,28 @@ export default function ComponentCatalog() {
                         <div style={{ display:'flex', flexDirection:'column', alignItems:'center', gap:6 }}>
                           <span style={{ fontSize:10, color:'var(--text-light)' }}>top</span>
                           <div className={styles.tooltipTrigger}>
-                            <span className="material-icons-outlined" style={{ fontSize:18, color:'var(--text-light)' }}>info_outline</span>
+                            <span className="material-icons-outlined" style={{ fontSize:18, color:'var(--text-light)', display:'block', width:18, height:18, lineHeight:'18px' }}>info_outline</span>
                             <div className={styles.tooltipBubbleLg}>Monitored associations being continuously monitored against Risk and Compliance Database</div>
                           </div>
                         </div>
                         <div style={{ display:'flex', flexDirection:'column', alignItems:'center', gap:6 }}>
                           <span style={{ fontSize:10, color:'var(--text-light)' }}>bottom</span>
                           <div className={styles.tooltipTrigger}>
-                            <span className="material-icons-outlined" style={{ fontSize:18, color:'var(--text-light)' }}>info_outline</span>
+                            <span className="material-icons-outlined" style={{ fontSize:18, color:'var(--text-light)', display:'block', width:18, height:18, lineHeight:'18px' }}>info_outline</span>
                             <div className={styles.tooltipBubbleLgBottom}>Monitored associations being continuously monitored against Risk and Compliance Database</div>
                           </div>
                         </div>
                         <div style={{ display:'flex', flexDirection:'column', alignItems:'center', gap:6 }}>
                           <span style={{ fontSize:10, color:'var(--text-light)' }}>left</span>
                           <div className={styles.tooltipTrigger}>
-                            <span className="material-icons-outlined" style={{ fontSize:18, color:'var(--text-light)' }}>info_outline</span>
+                            <span className="material-icons-outlined" style={{ fontSize:18, color:'var(--text-light)', display:'block', width:18, height:18, lineHeight:'18px' }}>info_outline</span>
                             <div className={styles.tooltipBubbleLgLeft}>Monitored associations being continuously monitored against Risk and Compliance Database</div>
                           </div>
                         </div>
                         <div style={{ display:'flex', flexDirection:'column', alignItems:'center', gap:6 }}>
                           <span style={{ fontSize:10, color:'var(--text-light)' }}>right</span>
                           <div className={styles.tooltipTrigger}>
-                            <span className="material-icons-outlined" style={{ fontSize:18, color:'var(--text-light)' }}>info_outline</span>
+                            <span className="material-icons-outlined" style={{ fontSize:18, color:'var(--text-light)', display:'block', width:18, height:18, lineHeight:'18px' }}>info_outline</span>
                             <div className={styles.tooltipBubbleLgRight}>Monitored associations being continuously monitored against Risk and Compliance Database</div>
                           </div>
                         </div>
