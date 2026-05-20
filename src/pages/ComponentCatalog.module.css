@@ -1319,13 +1319,23 @@
 .tooltipTrigger {
   position: relative;
   cursor: default;
+  display: inline-flex;
+  align-items: center;
+  width: max-content;
 }
 
 .tooltipTrigger:hover .tooltipBubbleSm,
-.tooltipTrigger:hover .tooltipBubbleLg {
+.tooltipTrigger:hover .tooltipBubbleLg,
+.tooltipTrigger:hover .tooltipBubbleSmBottom,
+.tooltipTrigger:hover .tooltipBubbleSmLeft,
+.tooltipTrigger:hover .tooltipBubbleSmRight,
+.tooltipTrigger:hover .tooltipBubbleLgBottom,
+.tooltipTrigger:hover .tooltipBubbleLgLeft,
+.tooltipTrigger:hover .tooltipBubbleLgRight {
   display: block;
 }
 
+/* ── Sm bubble — top (default) ── */
 .tooltipBubbleSm {
   display: none;
   position: absolute;
@@ -1342,7 +1352,6 @@
   pointer-events: none;
   z-index: 10;
 }
-
 .tooltipBubbleSm::after {
   content: '';
   position: absolute;
@@ -1353,6 +1362,88 @@
   border-top-color: var(--text-normal);
 }
 
+/* ── Sm bubble — bottom ── */
+.tooltipBubbleSmBottom {
+  display: none;
+  position: absolute;
+  top: calc(100% + 6px);
+  left: 50%;
+  transform: translateX(-50%);
+  background: var(--text-normal);
+  color: var(--neutral-00);
+  font-size: 11px;
+  font-weight: 400;
+  white-space: nowrap;
+  padding: 4px 8px;
+  border-radius: 4px;
+  pointer-events: none;
+  z-index: 10;
+}
+.tooltipBubbleSmBottom::after {
+  content: '';
+  position: absolute;
+  bottom: 100%;
+  left: 50%;
+  transform: translateX(-50%);
+  border: 5px solid transparent;
+  border-bottom-color: var(--text-normal);
+}
+
+/* ── Sm bubble — left ── */
+.tooltipBubbleSmLeft {
+  display: none;
+  position: absolute;
+  right: calc(100% + 6px);
+  top: 50%;
+  transform: translateY(-50%);
+  background: var(--text-normal);
+  color: var(--neutral-00);
+  font-size: 11px;
+  font-weight: 400;
+  white-space: nowrap;
+  padding: 4px 8px;
+  border-radius: 4px;
+  pointer-events: none;
+  z-index: 10;
+}
+.tooltipBubbleSmLeft::after {
+  content: '';
+  position: absolute;
+  top: 50%;
+  left: 100%;
+  transform: translateY(-50%);
+  border: 5px solid transparent;
+  border-left-color: var(--text-normal);
+}
+
+/* ── Sm bubble — right ── */
+.tooltipBubbleSmRight {
+  display: none;
+  position: absolute;
+  left: calc(100% + 6px);
+  top: 50%;
+  transform: translateY(-50%);
+  background: var(--text-normal);
+  color: var(--neutral-00);
+  font-size: 11px;
+  font-weight: 400;
+  white-space: nowrap;
+  padding: 4px 8px;
+  border-radius: 4px;
+  pointer-events: none;
+  z-index: 10;
+}
+.tooltipBubbleSmRight::after {
+  content: '';
+  position: absolute;
+  top: 50%;
+  right: 100%;
+  transform: translateY(-50%);
+  border: 5px solid transparent;
+  border-right-color: var(--text-normal);
+}
+
+/* ── Lg bubble — top (default) ── */
 .tooltipBubbleLg {
   display: none;
   position: absolute;
@@ -1372,7 +1463,6 @@
   pointer-events: none;
   text-align: left;
 }
-
 .tooltipBubbleLg::after {
   content: '';
   position: absolute;
@@ -1381,6 +1471,96 @@
   transform: translateX(-50%);
   border: 5px solid transparent;
   border-top-color: var(--neutral-900);
+}
+
+/* ── Lg bubble — bottom ── */
+.tooltipBubbleLgBottom {
+  display: none;
+  position: absolute;
+  top: calc(100% + 6px);
+  left: 50%;
+  transform: translateX(-50%);
+  background: var(--neutral-900);
+  color: var(--neutral-00);
+  font-size: 12px;
+  font-weight: 400;
+  line-height: 1.4;
+  white-space: normal;
+  width: 220px;
+  padding: 6px 10px;
+  border-radius: 4px;
+  z-index: 10;
+  pointer-events: none;
+  text-align: left;
+}
+.tooltipBubbleLgBottom::after {
+  content: '';
+  position: absolute;
+  bottom: 100%;
+  left: 50%;
+  transform: translateX(-50%);
+  border: 5px solid transparent;
+  border-bottom-color: var(--neutral-900);
+}
+
+/* ── Lg bubble — left ── */
+.tooltipBubbleLgLeft {
+  display: none;
+  position: absolute;
+  right: calc(100% + 6px);
+  top: 50%;
+  transform: translateY(-50%);
+  background: var(--neutral-900);
+  color: var(--neutral-00);
+  font-size: 12px;
+  font-weight: 400;
+  line-height: 1.4;
+  white-space: normal;
+  width: 220px;
+  padding: 6px 10px;
+  border-radius: 4px;
+  z-index: 10;
+  pointer-events: none;
+  text-align: left;
+}
+.tooltipBubbleLgLeft::after {
+  content: '';
+  position: absolute;
+  top: 50%;
+  left: 100%;
+  transform: translateY(-50%);
+  border: 5px solid transparent;
+  border-left-color: var(--neutral-900);
+}
+
+/* ── Lg bubble — right ── */
+.tooltipBubbleLgRight {
+  display: none;
+  position: absolute;
+  left: calc(100% + 6px);
+  top: 50%;
+  transform: translateY(-50%);
+  background: var(--neutral-900);
+  color: var(--neutral-00);
+  font-size: 12px;
+  font-weight: 400;
+  line-height: 1.4;
+  white-space: normal;
+  width: 220px;
+  padding: 6px 10px;
+  border-radius: 4px;
+  z-index: 10;
+  pointer-events: none;
+  text-align: left;
+}
+.tooltipBubbleLgRight::after {
+  content: '';
+  position: absolute;
+  top: 50%;
+  right: 100%;
+  transform: translateY(-50%);
+  border: 5px solid transparent;
+  border-right-color: var(--neutral-900);
 }
 
 /* ── Table variant tabs ── */

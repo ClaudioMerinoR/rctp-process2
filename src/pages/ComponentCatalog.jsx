@@ -124,7 +124,7 @@ const PROPS = {
   tooltip: [
     { name: 'content', type: 'string', default: null, required: true, description: 'Text shown in the tooltip bubble.' },
     { name: 'children', type: 'ReactNode', default: null, required: true, description: 'Trigger element — tooltip appears on hover.' },
-    { name: 'position', type: "'top' | 'bottom' | 'left' | 'right'", default: "'top'", description: 'Which side of the trigger the bubble appears on.' },
+    { name: 'direction', type: "'top' | 'bottom' | 'left' | 'right'", default: "'top'", description: 'Which side of the trigger the bubble appears on.' },
     { name: 'width', type: 'number', default: 'undefined', description: 'Fixed pixel width of the bubble (auto-wraps when set).' },
   ],
 };
@@ -563,21 +563,75 @@ export default function ComponentCatalog() {
               <Entry
                 id="tooltip"
                 title="Tooltip"
-                description="CSS-only hover tooltip. Two variants used in the app: a compact single-line dot tooltip (sidebar progress dots) and a wider multi-line info tooltip (risk table info icons)."
+                description="CSS-only hover tooltip. Two variants used in the app: a compact single-line dot tooltip (sidebar progress dots) and a wider multi-line info tooltip (risk table info icons). Supports four directions: top, bottom, left, right."
                 demo={
-                  <div className={styles.demoStage} style={{ gap: 48, alignItems: 'flex-end', paddingBottom: 16 }}>
-                    <div style={{ position:'relative', display:'inline-flex', alignItems:'center', flexDirection:'column', gap:8 }}>
+                  <div style={{ display:'flex', flexDirection:'column', gap:32, padding:'20px 16px' }}>
+                    {/* Row 1: Sm bubble — all 4 directions */}
+                    <div style={{ display:'flex', flexDirection:'column', gap:8 }}>
                       <span style={{ fontSize:11, color:'var(--text-light)', textTransform:'uppercase', letterSpacing:'0.05em' }}>Dot tooltip</span>
-                      <div style={{ position:'relative', display:'inline-flex', alignItems:'center' }} className={styles.tooltipTrigger}>
-                        <div style={{ width:16, height:16, borderRadius:'50%', background:'var(--success-500)', cursor:'default' }} />
-                        <div className={styles.tooltipBubbleSm}>Approved</div>
+                      <div style={{ display:'flex', gap:48, alignItems:'center', paddingTop:8, paddingBottom:8 }}>
+                        <div style={{ display:'flex', flexDirection:'column', alignItems:'center', gap:6 }}>
+                          <span style={{ fontSize:10, color:'var(--text-light)' }}>top</span>
+                          <div className={styles.tooltipTrigger}>
+                            <div style={{ width:16, height:16, borderRadius:'50%', background:'var(--success-500)' }} />
+                            <div className={styles.tooltipBubbleSm}>Approved</div>
+                          </div>
+                        </div>
+                        <div style={{ display:'flex', flexDirection:'column', alignItems:'center', gap:6 }}>
+                          <span style={{ fontSize:10, color:'var(--text-light)' }}>bottom</span>
+                          <div className={styles.tooltipTrigger}>
+                            <div style={{ width:16, height:16, borderRadius:'50%', background:'var(--success-500)' }} />
+                            <div className={styles.tooltipBubbleSmBottom}>Approved</div>
+                          </div>
+                        </div>
+                        <div style={{ display:'flex', flexDirection:'column', alignItems:'center', gap:6 }}>
+                          <span style={{ fontSize:10, color:'var(--text-light)' }}>left</span>
+                          <div className={styles.tooltipTrigger}>
+                            <div style={{ width:16, height:16, borderRadius:'50%', background:'var(--success-500)' }} />
+                            <div className={styles.tooltipBubbleSmLeft}>Approved</div>
+                          </div>
+                        </div>
+                        <div style={{ display:'flex', flexDirection:'column', alignItems:'center', gap:6 }}>
+                          <span style={{ fontSize:10, color:'var(--text-light)' }}>right</span>
+                          <div className={styles.tooltipTrigger}>
+                            <div style={{ width:16, height:16, borderRadius:'50%', background:'var(--success-500)' }} />
+                            <div className={styles.tooltipBubbleSmRight}>Approved</div>
+                          </div>
+                        </div>
                       </div>
                     </div>
-                    <div style={{ position:'relative', display:'inline-flex', alignItems:'center', flexDirection:'column', gap:8 }}>
+                    {/* Row 2: Lg bubble — all 4 directions */}
+                    <div style={{ display:'flex', flexDirection:'column', gap:8 }}>
                       <span style={{ fontSize:11, color:'var(--text-light)', textTransform:'uppercase', letterSpacing:'0.05em' }}>Info tooltip</span>
-                      <div style={{ position:'relative', display:'inline-flex', alignItems:'center' }} className={styles.tooltipTrigger}>
-                        <span className="material-icons-outlined" style={{ fontSize:18, color:'var(--text-light)', cursor:'default' }}>info_outline</span>
-                        <div className={styles.tooltipBubbleLg}>Monitored associations being continuously monitored against Risk and Compliance Database</div>
+                      <div style={{ display:'flex', gap:48, alignItems:'center', paddingTop:8, paddingBottom:8 }}>
+                        <div style={{ display:'flex', flexDirection:'column', alignItems:'center', gap:6 }}>
+                          <span style={{ fontSize:10, color:'var(--text-light)' }}>top</span>
+                          <div className={styles.tooltipTrigger}>
+                            <span className="material-icons-outlined" style={{ fontSize:18, color:'var(--text-light)' }}>info_outline</span>
+                            <div className={styles.tooltipBubbleLg}>Monitored associations being continuously monitored against Risk and Compliance Database</div>
+                          </div>
+                        </div>
+                        <div style={{ display:'flex', flexDirection:'column', alignItems:'center', gap:6 }}>
+                          <span style={{ fontSize:10, color:'var(--text-light)' }}>bottom</span>
+                          <div className={styles.tooltipTrigger}>
+                            <span className="material-icons-outlined" style={{ fontSize:18, color:'var(--text-light)' }}>info_outline</span>
+                            <div className={styles.tooltipBubbleLgBottom}>Monitored associations being continuously monitored against Risk and Compliance Database</div>
+                          </div>
+                        </div>
+                        <div style={{ display:'flex', flexDirection:'column', alignItems:'center', gap:6 }}>
+                          <span style={{ fontSize:10, color:'var(--text-light)' }}>left</span>
+                          <div className={styles.tooltipTrigger}>
+                            <span className="material-icons-outlined" style={{ fontSize:18, color:'var(--text-light)' }}>info_outline</span>
+                            <div className={styles.tooltipBubbleLgLeft}>Monitored associations being continuously monitored against Risk and Compliance Database</div>
+                          </div>
+                        </div>
+                        <div style={{ display:'flex', flexDirection:'column', alignItems:'center', gap:6 }}>
+                          <span style={{ fontSize:10, color:'var(--text-light)' }}>right</span>
+                          <div className={styles.tooltipTrigger}>
+                            <span className="material-icons-outlined" style={{ fontSize:18, color:'var(--text-light)' }}>info_outline</span>
+                            <div className={styles.tooltipBubbleLgRight}>Monitored associations being continuously monitored against Risk and Compliance Database</div>
+                          </div>
+                        </div>
                       </div>
                     </div>
                   </div>
