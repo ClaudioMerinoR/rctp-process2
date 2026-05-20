@@ -3,7 +3,7 @@
 .card {
   background: var(--neutral-00);
   border-top: 3px solid var(--primary-600);
-  box-shadow: var(--shadow-card);
+  box-shadow: var(--rctp-shadow-xs);
   padding: 16px;
 }
 

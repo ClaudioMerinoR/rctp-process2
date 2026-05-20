@@ -5,7 +5,7 @@
   background: var(--neutral-00);
   border: 1px solid var(--neutral-50);
   border-top: 4px solid var(--primary-500);
-  box-shadow: var(--shadow-card);
+  box-shadow: var(--rctp-shadow-xs);
   padding: 20px 20px 20px;
 }
 
@@ -216,7 +216,7 @@
 .tableCard {
   background: var(--neutral-00);
   border: 1px solid var(--neutral-50);
-  box-shadow: var(--shadow-card);
+  box-shadow: var(--rctp-shadow-xs);
 }
 
 .tableWrap {

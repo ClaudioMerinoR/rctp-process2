@@ -192,15 +192,6 @@
 
   --footer-size: 11px; --footer-line-height: 14px;
 
-  /* ── Shadows / Elevation (legacy scale kept) ── */
-  --shadow-100: var(--rctp-shadow-xs);
-  --shadow-300: var(--rctp-shadow-sm);
-  --shadow-500: var(--rctp-shadow-md);
-  --shadow-700: var(--rctp-shadow-lg);
-  --shadow-900: var(--rctp-shadow-xl);
-
-  --shadow-card:       var(--rctp-shadow-xs);
-  --shadow-card-hover: var(--rctp-shadow-sm);
 
   /* ── Z-index scale ── */
   --z-tooltip:  10;
