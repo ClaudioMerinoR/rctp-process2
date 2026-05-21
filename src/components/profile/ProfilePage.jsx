@@ -1550,15 +1550,17 @@ function WorkflowStrip({ profile, profileLoading }) {
               title={step.label}
               onClick={() => setActiveIdx(isActive ? null : i)}
             >
-              <div className={styles.workflowStepTopRow}>
-                <span className={styles.workflowStepLabel}>{step.label}</span>
-                {taskCount > 0 && (
-                  <span className={styles.workflowStepCount}>{taskCount}</span>
-                )}
-              </div>
-              <span className={styles.workflowStepStatus}>
-                <span className={`${styles.workflowStepDot} ${dotCls}`} />
-                {statusLabel}
+              <span className={styles.workflowStepInner}>
+                <span className={styles.workflowStepTopRow}>
+                  <span className={styles.workflowStepLabel}>{step.label}</span>
+                  {taskCount > 0 && (
+                    <span className={styles.workflowStepCount}>{taskCount}</span>
+                  )}
+                </span>
+                <span className={styles.workflowStepStatus}>
+                  <span className={`${styles.workflowStepDot} ${dotCls}`} />
+                  {statusLabel}
+                </span>
               </span>
             </button>
           );

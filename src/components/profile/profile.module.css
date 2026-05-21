@@ -2270,39 +2270,47 @@
   min-width: 0;
   height: 76px;
   display: flex;
-  flex-direction: column;
-  align-items: stretch;
-  justify-content: center;
-  padding: 8px 22px 8px 32px;
-  background: var(--neutral-25);
-  color: var(--text-normal);
-  text-decoration: none;
-  text-align: left;
+  padding: 1px; /* acts as the chevron-shaped border thickness */
+  background: var(--neutral-200);
   cursor: pointer;
   user-select: none;
+  text-decoration: none;
   clip-path: polygon(0 0, calc(100% - 14px) 0, 100% 50%, calc(100% - 14px) 100%, 0 100%, 14px 50%);
   margin-right: -14px;
-  transition: background 0.15s ease;
-  overflow: hidden;
   border: none;
+  font-family: inherit;
+  text-align: left;
 }
 .workflowStep:first-child {
-  padding-left: 16px;
   clip-path: polygon(0 0, calc(100% - 14px) 0, 100% 50%, calc(100% - 14px) 100%, 0 100%);
 }
 .workflowStep:last-child {
   margin-right: 0;
   clip-path: polygon(0 0, 100% 0, 100% 100%, 0 100%, 14px 50%);
 }
-.workflowStep:hover {
-  background: var(--neutral-50);
+.workflowStepInner {
+  flex: 1;
+  min-width: 0;
+  display: flex;
+  flex-direction: column;
+  justify-content: center;
+  padding: 8px 22px 8px 32px;
+  background: var(--neutral-25);
+  color: var(--text-normal);
+  clip-path: polygon(0 0, calc(100% - 14px) 0, 100% 50%, calc(100% - 14px) 100%, 0 100%, 14px 50%);
+  transition: background 0.15s ease;
+  overflow: hidden;
 }
-.workflowStepActive {
-  background: var(--primary-50);
+.workflowStep:first-child .workflowStepInner {
+  padding-left: 16px;
+  clip-path: polygon(0 0, calc(100% - 14px) 0, 100% 50%, calc(100% - 14px) 100%, 0 100%);
 }
-.workflowStepActive:hover {
-  background: var(--primary-100);
+.workflowStep:last-child .workflowStepInner {
+  clip-path: polygon(0 0, 100% 0, 100% 100%, 0 100%, 14px 50%);
 }
+.workflowStep:hover .workflowStepInner { background: var(--neutral-50); }
+.workflowStepActive .workflowStepInner { background: var(--primary-50); }
+.workflowStepActive:hover .workflowStepInner { background: var(--primary-100); }
 .workflowStepTopRow {
   display: flex;
   align-items: center;
