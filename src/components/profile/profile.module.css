@@ -2268,7 +2268,7 @@
   position: relative;
   flex: 1;
   min-width: 0;
-  height: 76px;
+  height: 90px;
   display: flex;
   padding: 1px; /* acts as the chevron-shaped border thickness */
   background: var(--neutral-200);
@@ -2280,6 +2280,7 @@
   border: none;
   font-family: inherit;
   text-align: left;
+  transition: opacity 0.15s ease;
 }
 .workflowStep:first-child {
   clip-path: polygon(0 0, calc(100% - 14px) 0, 100% 50%, calc(100% - 14px) 100%, 0 100%);
@@ -2311,6 +2312,16 @@
 .workflowStep:hover .workflowStepInner { background: var(--neutral-50); }
 .workflowStepActive .workflowStepInner { background: var(--primary-50); }
 .workflowStepActive:hover .workflowStepInner { background: var(--primary-100); }
+
+/* Next step — highlighted as the user's recommended action */
+.workflowStepNext { background: var(--primary-500); }
+.workflowStepNext .workflowStepInner { background: var(--primary-50); }
+.workflowStepNext:hover .workflowStepInner { background: var(--primary-100); }
+.workflowStepNext.workflowStepActive .workflowStepInner { background: var(--primary-100); }
+
+/* Steps that aren't required for this third party — dimmed */
+.workflowStepDim { opacity: 0.45; }
+.workflowStepDim:hover { opacity: 0.7; }
 .workflowStepTopRow {
   display: flex;
   align-items: center;
@@ -2331,18 +2342,18 @@
   flex: 1;
   min-width: 0;
 }
-.workflowStepCount {
+.workflowNextChip {
   display: inline-flex;
   align-items: center;
-  justify-content: center;
-  min-width: 18px;
-  height: 18px;
-  padding: 0 5px;
-  border-radius: 9px;
+  height: 16px;
+  padding: 0 6px;
+  border-radius: 8px;
   background: var(--primary-500);
   color: var(--neutral-00);
-  font-size: 11px;
+  font-size: 9px;
   font-weight: 700;
+  letter-spacing: 0.5px;
+  text-transform: uppercase;
   line-height: 1;
   flex-shrink: 0;
 }
@@ -2358,6 +2369,40 @@
   white-space: nowrap;
   overflow: hidden;
   text-overflow: ellipsis;
+}
+.workflowStepTaskHint {
+  margin-top: 4px;
+  font-size: 11px;
+  font-weight: 500;
+  color: var(--text-light);
+  white-space: nowrap;
+  overflow: hidden;
+  text-overflow: ellipsis;
+}
+.workflowStepNext .workflowStepTaskHint { color: var(--primary-700); font-weight: 600; }
+
+/* Instructions above the strip */
+.workflowInstructions {
+  display: flex;
+  align-items: flex-start;
+  gap: 10px;
+  padding: 12px 14px;
+  margin-bottom: 16px;
+  background: var(--primary-50);
+  border-left: 3px solid var(--primary-500);
+  border-radius: var(--rctp-radius-sm);
+  font-size: 13px;
+  line-height: 1.5;
+  color: var(--text-normal);
+}
+.workflowInstructionsIcon {
+  color: var(--primary-600);
+  flex-shrink: 0;
+  margin-top: 1px;
+}
+.workflowInstructionsText strong {
+  font-weight: 600;
+  color: var(--primary-700);
 }
 .workflowStepDot {
   width: 8px;

@@ -1484,7 +1484,7 @@ function DeclinePanel({ onClose, onSave }) {
 /* ─────────────────────── Workflow chevron strip ─────────────────────── */
 
 const STEP_STATUS_LABEL = {
-  green:   'Complete',
+  green:   'Completed',
   amber:   'In Progress',
   red:     'Not Started',
   grey:    'Not Required',
@@ -1518,6 +1518,23 @@ function WorkflowStrip({ profile, profileLoading }) {
   const activeStep = activeIdx !== null ? steps[activeIdx] : null;
   const activeTasks = activeIdx !== null ? stepTasks[activeIdx] : [];
 
+  // Compute effective dot per step (so we can pick the next actionable one)
+  const effectiveDots = steps.map(step => (
+    profileLoading
+      ? (step.label === 'Approval'        ? 'red'
+        : step.label === 'Risk Mitigation' ? 'green'
+        : step.label === 'Due Diligence'   ? 'black'
+        : step.partner === 'ubo'           ? 'grey'
+        : step.dot)
+      : step.dot
+  ));
+
+  // The "next step" is the first one in workflow order whose status is
+  // actionable: red (not started), amber (in progress), or black (pending).
+  // Skip green (completed), grey (not required), and blocked.
+  const nextIdx = effectiveDots.findIndex(d => d === 'red' || d === 'amber' || d === 'black');
+  const nextStep = nextIdx >= 0 ? steps[nextIdx] : null;
+
   return (
     <motion.section
       className={styles.workflowSection}
@@ -1528,20 +1545,34 @@ function WorkflowStrip({ profile, profileLoading }) {
       <div className={styles.workflowSectionRow}>
         <h2 className={styles.cardTitle}>Third Party Workflow</h2>
       </div>
+      <div className={styles.workflowInstructions}>
+        <span className={`material-icons-outlined ${styles.workflowInstructionsIcon}`} style={{ fontSize: 18 }}>
+          lightbulb
+        </span>
+        <div className={styles.workflowInstructionsText}>
+          Complete each step below to onboard this third party. The highlighted step
+          is your next action{nextStep ? <> — <strong>{nextStep.label}</strong></> : ''}.
+          Click any step to view and open its pending tasks.
+        </div>
+      </div>
       <div className={styles.workflowStrip}>
         {steps.map((step, i) => {
-          const effectiveDot = profileLoading
-            ? (step.label === 'Approval'        ? 'red'
-              : step.label === 'Risk Mitigation' ? 'green'
-              : step.label === 'Due Diligence'   ? 'black'
-              : step.partner === 'ubo'           ? 'grey'
-              : step.dot)
-            : step.dot;
+          const effectiveDot = effectiveDots[i];
           const dotCls = styles['workflowDot_' + effectiveDot] || styles.workflowDot_grey;
           const statusLabel = STEP_STATUS_LABEL[effectiveDot] || 'Not Required';
           const taskCount = stepTasks[i].length;
           const isActive = activeIdx === i;
-          const className = `${styles.workflowStep}${isActive ? ' ' + styles.workflowStepActive : ''}`;
+          const isNext = i === nextIdx;
+          const isDim = effectiveDot === 'grey';
+          const className = [
+            styles.workflowStep,
+            isActive && styles.workflowStepActive,
+            isNext && styles.workflowStepNext,
+            isDim && styles.workflowStepDim,
+          ].filter(Boolean).join(' ');
+          const taskHint = taskCount > 0
+            ? `${taskCount} task${taskCount === 1 ? '' : 's'} to complete`
+            : null;
           return (
             <button
               key={i}
@@ -1553,14 +1584,13 @@ function WorkflowStrip({ profile, profileLoading }) {
               <span className={styles.workflowStepInner}>
                 <span className={styles.workflowStepTopRow}>
                   <span className={styles.workflowStepLabel}>{step.label}</span>
-                  {taskCount > 0 && (
-                    <span className={styles.workflowStepCount}>{taskCount}</span>
-                  )}
+                  {isNext && <span className={styles.workflowNextChip}>Next</span>}
                 </span>
                 <span className={styles.workflowStepStatus}>
                   <span className={`${styles.workflowStepDot} ${dotCls}`} />
                   {statusLabel}
                 </span>
+                {taskHint && <span className={styles.workflowStepTaskHint}>{taskHint}</span>}
               </span>
             </button>
           );
