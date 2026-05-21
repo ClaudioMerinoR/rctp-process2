@@ -2235,17 +2235,6 @@
   color: var(--neutral-00);
 }
 
-/* ── Workflow layout (no sidebar, full width) ── */
-.pageBodyFull {
-  display: block;
-  padding: 0 16px 16px;
-}
-.mainContentFull {
-  width: 100%;
-  display: flex;
-  flex-direction: column;
-}
-
 /* ── Third Party Workflow chevron strip ── */
 .workflowSection {
   background: var(--neutral-00);

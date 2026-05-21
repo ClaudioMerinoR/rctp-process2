@@ -10,42 +10,8 @@ import PageLayout from '../layout/PageLayout';
 import Breadcrumb from '../layout/Breadcrumb';
 import { profiles } from '../../data/profiles';
 import styles from './profile.module.css';
-import propStyles from './ProfileProperties.module.css';
-import auditStyles from './ProfileAudit.module.css';
-import uboStyles from './ProfileUBO.module.css';
 import { TASK_ICONS, riskBadge as riskBadgeFn, RiskLevelIcon } from './profileAssets';
 import Sidebar, { PartnerIcon } from './Sidebar';
-
-const PROPERTY_TAGS = ['RCTP', 'EDD', 'Scoring', 'RISK CENTER Third Parties'];
-
-const DEFAULT_AUDIT_ROWS = [
-  { date: '29 Jan 2026', addedBy: 'Claudio Merino', source: 'Integrity Check', summary: 'Integrity Check Report request created' },
-  { date: '27 Jan 2026', addedBy: 'Claudio Merino', source: 'Risk Assessment', summary: 'Key Risk Factor Amended' },
-  { date: '26 Jan 2026', addedBy: 'System', source: 'Integrity Check', summary: 'Completed by Claudio Merino' },
-  { date: '24 Jan 2026', addedBy: 'System', source: 'Risk Assessment', summary: "Current Risk Level set to 'Medium'" },
-  { date: '22 Jan 2026', addedBy: 'System', source: 'Risk Assessment', summary: "Current Risk Level Report\nRisk Level: Medium\nRisk Score: 42" },
-  { date: '20 Jan 2026', addedBy: 'Claudio Merino', source: 'Scoring', summary: 'Score updated to 42' },
-  { date: '18 Jan 2026', addedBy: 'System', source: 'Scoring', summary: 'Scoring completed' },
-  { date: '15 Jan 2026', addedBy: 'System', source: 'Screening & Monitoring', summary: 'Continuous Monitoring activated' },
-  { date: '12 Jan 2026', addedBy: 'System', source: 'Onboarding', summary: 'Pre Onboarding Entity Verification completed' },
-  { date: '10 Jan 2026', addedBy: 'Monica Hall', source: 'Onboarding', summary: 'New Third Party Added' },
-];
-const LINKED_AUDIT_SOURCES = new Set(['Onboarding', 'Risk Assessment', 'Integrity Check', 'Screening & Monitoring', 'Scoring']);
-
-function getField(fields, label) {
-  return (fields || []).find(f => f.label === label)?.value || '—';
-}
-
-const WORKFLOW_TAB_LABELS = ['overview', 'additional', 'connections', 'properties', 'documents', 'entity-verification', 'audit'];
-const WORKFLOW_TAB_TITLES = {
-  overview: 'Overview',
-  additional: 'Additional Details',
-  connections: 'Connections',
-  properties: 'Properties',
-  documents: 'Documents',
-  'entity-verification': 'Entity Verification',
-  audit: 'Audit',
-};
 
 const STATUS_CONFIG = {
   'Pending Approval':            { cls: 'statusPendingApproval', icon: 'pending' },
@@ -261,12 +227,10 @@ export default function ProfilePage({ profile: profileProp, embedded = false }) 
       </div>
 
       {/* Page Body */}
-      <div className={`${styles.pageBody}${profile.workflowLayout ? ' ' + styles.pageBodyFull : ''}`}>
-        {!profile.workflowLayout && (
-          <Sidebar profile={profile} activePage="summary" profileLoading={profileLoading} />
-        )}
+      <div className={styles.pageBody}>
+        <Sidebar profile={profile} activePage="summary" profileLoading={profileLoading} />
 
-        <main className={`${styles.mainContent}${profile.workflowLayout ? ' ' + styles.mainContentFull : ''}`}>
+        <main className={styles.mainContent}>
           {/* Details Card */}
           <motion.section className={`${styles.card} ${styles.detailsCard}`} initial={{ opacity: 0, y: 20 }} animate={{ opacity: 1, y: 0 }} transition={{ duration: 0.3 }}>
             <div className={styles.cardHeader}>
@@ -283,17 +247,14 @@ export default function ProfilePage({ profile: profileProp, embedded = false }) 
             </div>
 
             <div className={styles.tabs}>
-              {(profile.workflowLayout
-                ? WORKFLOW_TAB_LABELS
-                : ['overview', 'additional', 'connections']
-              ).map(tab => (
+              {['overview', 'additional', 'connections'].map(tab => (
                 <div
                   key={tab}
                   className={`${styles.tab}${activeTab === tab ? ' ' + styles.tabActive : ''}`}
                   onClick={() => setActiveTab(tab)}
                   style={{ position: 'relative' }}
                 >
-                  {WORKFLOW_TAB_TITLES[tab]}
+                  {tab === 'overview' ? 'Overview' : tab === 'additional' ? 'Additional Details' : 'Connections'}
                   {activeTab === tab && (
                     <motion.div
                       layoutId="tab-indicator"
@@ -376,26 +337,6 @@ export default function ProfilePage({ profile: profileProp, embedded = false }) 
                     ))}
                   </div>
                 </motion.div>
-              )}
-
-              {/* Properties */}
-              {activeTab === 'properties' && (
-                <PropertiesTabPanel profile={profile} />
-              )}
-
-              {/* Documents */}
-              {activeTab === 'documents' && (
-                <DocumentsTabPanel profile={profile} />
-              )}
-
-              {/* Entity Verification */}
-              {activeTab === 'entity-verification' && (
-                <EntityVerificationTabPanel profile={profile} />
-              )}
-
-              {/* Audit */}
-              {activeTab === 'audit' && (
-                <AuditTabPanel profile={profile} />
               )}
 
               {/* Connections */}
@@ -1645,324 +1586,5 @@ function WorkflowStrip({ profile, profileLoading }) {
         )}
       </AnimatePresence>
     </motion.section>
-  );
-}
-
-/* ─────────────────────── Properties tab panel ─────────────────────── */
-
-function PropertiesTabPanel({ profile }) {
-  const allFields = [...(profile.overviewFields || []), ...(profile.additionalFields || [])];
-  return (
-    <motion.div
-      key="properties"
-      className={styles.tabPanel}
-      initial={{ opacity: 0, y: 8 }}
-      animate={{ opacity: 1, y: 0 }}
-      exit={{ opacity: 0, y: 8 }}
-      transition={{ duration: 0.18 }}
-    >
-      <div className={styles.connTableWrap}>
-        <table className={styles.table} style={{ minWidth: 0 }}>
-          <thead>
-            <tr>
-              <th>Field Name</th>
-              <th>Value</th>
-              <th>Key Risk</th>
-              <th>Red Flag</th>
-              <th>Score</th>
-              <th>Property Tag</th>
-              <th>Risk Category</th>
-              <th style={{ width: 48 }} />
-            </tr>
-          </thead>
-          <tbody>
-            {allFields.map((field, i) => {
-              const prop = field.property || {};
-              const tag = prop.tag ?? PROPERTY_TAGS[i % PROPERTY_TAGS.length];
-              return (
-                <tr key={i}>
-                  <td>{field.label}</td>
-                  <td>
-                    {field.value
-                      ? <span className={propStyles.statusBadge}>{field.value}</span>
-                      : <span className={propStyles.emptyValue}>—</span>}
-                  </td>
-                  <td className={propStyles.iconCell}>
-                    {prop.keyRisk
-                      ? <span className="material-icons-outlined" style={{ fontSize: 18, color: 'var(--warning-500)' }}>warning</span>
-                      : null}
-                  </td>
-                  <td className={propStyles.iconCell}>
-                    {prop.redFlag
-                      ? <span className="material-icons-outlined" style={{ fontSize: 18, color: 'var(--alert-500)' }}>flag</span>
-                      : null}
-                  </td>
-                  <td>{prop.score ?? ''}</td>
-                  <td><span className={propStyles.statusBadge}>{tag}</span></td>
-                  <td>{prop.riskCategory || 'General'}</td>
-                  <td className={propStyles.editCell}>
-                    <button className={propStyles.editBtn} title="Edit">
-                      <span className="material-icons-outlined" style={{ fontSize: 16 }}>edit</span>
-                    </button>
-                  </td>
-                </tr>
-              );
-            })}
-          </tbody>
-        </table>
-      </div>
-    </motion.div>
-  );
-}
-
-/* ─────────────────────── Documents tab panel ─────────────────────── */
-
-function DocumentsTabPanel({ profile }) {
-  const docs = profile.documents || [];
-  return (
-    <motion.div
-      key="documents"
-      className={styles.tabPanel}
-      initial={{ opacity: 0, y: 8 }}
-      animate={{ opacity: 1, y: 0 }}
-      exit={{ opacity: 0, y: 8 }}
-      transition={{ duration: 0.18 }}
-    >
-      <div className={styles.connTableWrap}>
-        <table className={styles.table} style={{ minWidth: 0 }}>
-          <thead>
-            <tr>
-              <th>Name</th>
-              <th>Type</th>
-              <th>Size</th>
-              <th>Section</th>
-              <th>Date</th>
-              <th>Owner</th>
-            </tr>
-          </thead>
-          <tbody>
-            {docs.map((doc, i) => (
-              <tr key={i}>
-                <td><span className={styles.cellLink}>{doc.name}</span></td>
-                <td>{doc.type}</td>
-                <td>{doc.size}</td>
-                <td>{doc.section}</td>
-                <td>{doc.date}</td>
-                <td>{doc.owner}</td>
-              </tr>
-            ))}
-          </tbody>
-        </table>
-      </div>
-    </motion.div>
-  );
-}
-
-/* ─────────────────────── Entity Verification tab panel ─────────────────────── */
-
-function EntityVerificationTabPanel({ profile }) {
-  const allFields = [...(profile.overviewFields || []), ...(profile.additionalFields || [])];
-  const name    = getField(allFields, 'Entity Third Party Legal Name') !== '—'
-    ? getField(allFields, 'Entity Third Party Legal Name')
-    : profile.name;
-  const country = getField(allFields, 'Entity Registered Country');
-  const address = getField(allFields, 'Entity Registered Address');
-  const duns    = getField(allFields, 'Entity ID Value');
-
-  const ev = profile.entityVerification || {};
-  const verifiedOn = ev.verifiedOn || null;
-  const verifiedBy = ev.verifiedBy || null;
-  const uboStatusAvailable = ev.uboStatus !== false;
-
-  return (
-    <motion.div
-      key="entity-verification"
-      className={styles.tabPanel}
-      initial={{ opacity: 0, y: 8 }}
-      animate={{ opacity: 1, y: 0 }}
-      exit={{ opacity: 0, y: 8 }}
-      transition={{ duration: 0.18 }}
-    >
-      <div className={uboStyles.cardTop}>
-        <div className={uboStyles.titleBlock}>
-          <h3 className={uboStyles.title} style={{ fontSize: 16 }}>
-            Entity Verification
-            <span className="material-icons-outlined" style={{ fontSize: 16, color: 'var(--primary-500)', verticalAlign: 'middle', marginLeft: 6 }}>info</span>
-          </h3>
-        </div>
-        <div className={uboStyles.actions}>
-          <button className={`${styles.btn} ${styles.btnFilled}`}>Verify Entity</button>
-        </div>
-      </div>
-
-      <div className={uboStyles.separator} />
-
-      <div className={uboStyles.fields}>
-        <div className={uboStyles.field}>
-          <div className={uboStyles.fieldLabel}>Name</div>
-          <div className={uboStyles.fieldValue}>
-            <span className="material-icons-outlined" style={{ fontSize: 16, color: '#13df81', verticalAlign: 'middle', marginRight: 6 }}>check_circle</span>
-            {name}
-          </div>
-          <div className={uboStyles.uboStatus} style={{ marginTop: 4 }}>
-            <span className={uboStyles.uboStatusLabel} style={{ fontSize: 12 }}>UBO Status</span>
-            <span className="material-icons-outlined" style={{ fontSize: 14, color: uboStatusAvailable ? '#13df81' : 'var(--neutral-500)' }}>
-              {uboStatusAvailable ? 'check_circle' : 'cancel'}
-            </span>
-          </div>
-        </div>
-        <div className={uboStyles.field}>
-          <div className={uboStyles.fieldLabel}>Country/Territory</div>
-          <div className={uboStyles.fieldValue}>
-            <span className="material-icons-outlined" style={{ fontSize: 16, color: '#13df81', verticalAlign: 'middle', marginRight: 6 }}>check_circle</span>
-            {country}
-          </div>
-        </div>
-        <div className={uboStyles.field} style={{ flex: 2 }}>
-          <div className={uboStyles.fieldLabel}>Address</div>
-          <div className={uboStyles.fieldValue}>
-            <span className="material-icons-outlined" style={{ fontSize: 16, color: '#13df81', verticalAlign: 'middle', marginRight: 6 }}>check_circle</span>
-            {address}
-          </div>
-        </div>
-        <div className={uboStyles.field}>
-          <div className={uboStyles.fieldLabel}>DUNS</div>
-          <div className={uboStyles.fieldValue}>
-            <span className="material-icons-outlined" style={{ fontSize: 16, color: '#13df81', verticalAlign: 'middle', marginRight: 6 }}>check_circle</span>
-            {duns}
-          </div>
-        </div>
-      </div>
-
-      <div className={uboStyles.separator} style={{ margin: '20px 0 14px' }} />
-
-      <div className={uboStyles.verifiedHeader}>
-        <h3 className={uboStyles.verifiedTitle} style={{ fontSize: 16 }}>Verified Entity Details</h3>
-      </div>
-
-      {verifiedOn && verifiedBy ? (
-        <p className={uboStyles.verifiedMeta}>This Third Party was verified on {verifiedOn} by {verifiedBy}.</p>
-      ) : (
-        <p className={uboStyles.verifiedMeta}>Verification details will appear here once the entity has been verified.</p>
-      )}
-
-      <div className={uboStyles.separator} />
-
-      <div className={uboStyles.verifiedRow}>
-        <span className={uboStyles.verifiedName}>{name} - {country}</span>
-        <span className={uboStyles.verifiedDuns}>DUNS NUMBER : {duns}</span>
-      </div>
-
-      <div className={uboStyles.verifiedAddressRow}>
-        <span className={uboStyles.verifiedAddressLabel}>ADDRESS :</span>
-        <span className={uboStyles.verifiedAddressValue}>{address}</span>
-      </div>
-
-      <div className={uboStyles.verifiedSourceRow} style={{ marginTop: 12 }}>
-        <span className="material-icons-outlined" style={{ fontSize: 14, color: 'var(--neutral-500)' }}>info</span>
-        <span className={uboStyles.verifiedSource}>SOURCE: DUN &amp; BRADSTREET</span>
-      </div>
-    </motion.div>
-  );
-}
-
-/* ─────────────────────── Audit tab panel ─────────────────────── */
-
-function AuditTabPanel({ profile }) {
-  const auditRows = profile.auditRows || DEFAULT_AUDIT_ROWS;
-  const [filterDate, setFilterDate]       = useState('');
-  const [filterAddedBy, setFilterAddedBy] = useState('');
-  const [filterSource, setFilterSource]   = useState('');
-  const [filterSummary, setFilterSummary] = useState('');
-
-  const allDates   = [...new Set(auditRows.map(r => r.date))];
-  const allAdders  = [...new Set(auditRows.map(r => r.addedBy))];
-  const allSources = [...new Set(auditRows.map(r => r.source))];
-
-  const filtered = auditRows.filter(r => {
-    if (filterDate    && r.date    !== filterDate)    return false;
-    if (filterAddedBy && r.addedBy !== filterAddedBy) return false;
-    if (filterSource  && r.source  !== filterSource)  return false;
-    if (filterSummary && !r.summary.toLowerCase().includes(filterSummary.toLowerCase())) return false;
-    return true;
-  });
-
-  function handleReset() {
-    setFilterDate('');
-    setFilterAddedBy('');
-    setFilterSource('');
-    setFilterSummary('');
-  }
-
-  return (
-    <motion.div
-      key="audit"
-      className={styles.tabPanel}
-      initial={{ opacity: 0, y: 8 }}
-      animate={{ opacity: 1, y: 0 }}
-      exit={{ opacity: 0, y: 8 }}
-      transition={{ duration: 0.18 }}
-    >
-      <div className={auditStyles.filterBar}>
-        <select className={auditStyles.filterSelect} value={filterDate} onChange={e => setFilterDate(e.target.value)}>
-          <option value="">Date</option>
-          {allDates.map(d => <option key={d} value={d}>{d}</option>)}
-        </select>
-        <select className={auditStyles.filterSelect} value={filterAddedBy} onChange={e => setFilterAddedBy(e.target.value)}>
-          <option value="">Added By</option>
-          {allAdders.map(a => <option key={a} value={a}>{a}</option>)}
-        </select>
-        <select className={auditStyles.filterSelect} value={filterSource} onChange={e => setFilterSource(e.target.value)}>
-          <option value="">Source</option>
-          {allSources.map(s => <option key={s} value={s}>{s}</option>)}
-        </select>
-        <input
-          type="text"
-          className={auditStyles.filterInput}
-          placeholder="Summary"
-          value={filterSummary}
-          onChange={e => setFilterSummary(e.target.value)}
-        />
-        <button className={`${styles.btn} ${styles.btnFilled}`} style={{ height: 32, fontSize: 12, padding: '0 14px' }}>
-          Filter
-        </button>
-        <button className={auditStyles.resetBtn} onClick={handleReset} title="Reset filters">
-          <span className="material-icons-outlined" style={{ fontSize: 18 }}>restart_alt</span>
-        </button>
-      </div>
-
-      <div className={styles.connTableWrap}>
-        <table className={styles.table} style={{ minWidth: 0 }}>
-          <thead>
-            <tr>
-              <th style={{ width: 130 }}>Date</th>
-              <th style={{ width: 160 }}>Added By</th>
-              <th style={{ width: 200 }}>Source</th>
-              <th>Summary</th>
-            </tr>
-          </thead>
-          <tbody>
-            {filtered.length === 0 ? (
-              <tr>
-                <td colSpan={4} style={{ textAlign: 'center', color: 'var(--text-light)', padding: '24px 0' }}>
-                  No audit entries match the current filters.
-                </td>
-              </tr>
-            ) : filtered.map((row, i) => (
-              <tr key={i}>
-                <td>{row.date}</td>
-                <td>{row.addedBy}</td>
-                <td>
-                  {LINKED_AUDIT_SOURCES.has(row.source)
-                    ? <span className={styles.cellLink}>{row.source}</span>
-                    : row.source}
-                </td>
-                <td style={{ whiteSpace: 'pre-line' }}>{row.summary}</td>
-              </tr>
-            ))}
-          </tbody>
-        </table>
-      </div>
-    </motion.div>
   );
 }
