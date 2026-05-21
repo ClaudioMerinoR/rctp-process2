@@ -1483,8 +1483,41 @@ function DeclinePanel({ onClose, onSave }) {
 
 /* ─────────────────────── Workflow chevron strip ─────────────────────── */
 
+const STEP_STATUS_LABEL = {
+  green:   'Complete',
+  amber:   'In Progress',
+  red:     'Not Started',
+  grey:    'Not Required',
+  blocked: 'Blocked',
+  black:   'Pending',
+};
+
+// Match open tasks to workflow steps by step label.
+const STEP_TASK_MATCHERS = {
+  'Risk Assessment':              t => /risk assessment|red flag/i.test(t.type) || /risk assessment|red flag/i.test(t.name) || t.type === 'Cancel Red Flag Task' || /risk level amend/i.test(t.type),
+  'Due Diligence':                t => /due diligence/i.test(t.type) && !/enhanced/i.test(t.type),
+  'Integrity Check':              t => /integrity check/i.test(t.type) || /integrity check/i.test(t.name),
+  'Enhanced Due Diligence Reports': t => /enhanced due diligence/i.test(t.type) || /enhanced due diligence/i.test(t.name),
+  'UBO':                          t => /\bubo\b/i.test(t.type) || /\bubo\b/i.test(t.name),
+  'Risk Mitigation':              t => /risk mitigation/i.test(t.type) || /risk mitigation/i.test(t.name),
+  'Approval':                     t => /approval/i.test(t.type) || /approval/i.test(t.name),
+  'Screening & Monitoring':       t => /screening|monitoring/i.test(t.type) || /screening|monitoring/i.test(t.name),
+};
+
+function tasksForStep(step, openTasks) {
+  const matcher = STEP_TASK_MATCHERS[step.label];
+  if (!matcher) return [];
+  return (openTasks || []).filter(matcher);
+}
+
 function WorkflowStrip({ profile, profileLoading }) {
   const steps = profile.sidebarSteps || [];
+  const [activeIdx, setActiveIdx] = useState(null);
+
+  const stepTasks = steps.map(step => tasksForStep(step, profile.openTasks));
+  const activeStep = activeIdx !== null ? steps[activeIdx] : null;
+  const activeTasks = activeIdx !== null ? stepTasks[activeIdx] : [];
+
   return (
     <motion.section
       className={styles.workflowSection}
@@ -1504,28 +1537,81 @@ function WorkflowStrip({ profile, profileLoading }) {
               : step.partner === 'ubo'           ? 'grey'
               : step.dot)
             : step.dot;
-          const colorCls = styles['workflowStep_' + effectiveDot] || styles.workflowStep_grey;
-          const className = `${styles.workflowStep} ${colorCls}`;
-          const inner = <span className={styles.workflowStepLabel}>{step.label}</span>;
-          if (step.path) {
-            return (
-              <Link
-                key={i}
-                to={`/profile/${profile.id}/${step.path}`}
-                className={className}
-                title={step.label}
-              >
-                {inner}
-              </Link>
-            );
-          }
+          const dotCls = styles['workflowDot_' + effectiveDot] || styles.workflowDot_grey;
+          const statusLabel = STEP_STATUS_LABEL[effectiveDot] || 'Not Required';
+          const taskCount = stepTasks[i].length;
+          const isActive = activeIdx === i;
+          const className = `${styles.workflowStep}${isActive ? ' ' + styles.workflowStepActive : ''}`;
           return (
-            <div key={i} className={className} title={step.label}>
-              {inner}
-            </div>
+            <button
+              key={i}
+              type="button"
+              className={className}
+              title={step.label}
+              onClick={() => setActiveIdx(isActive ? null : i)}
+            >
+              <div className={styles.workflowStepTopRow}>
+                <span className={styles.workflowStepLabel}>{step.label}</span>
+                {taskCount > 0 && (
+                  <span className={styles.workflowStepCount}>{taskCount}</span>
+                )}
+              </div>
+              <span className={styles.workflowStepStatus}>
+                <span className={`${styles.workflowStepDot} ${dotCls}`} />
+                {statusLabel}
+              </span>
+            </button>
           );
         })}
       </div>
+
+      <AnimatePresence initial={false}>
+        {activeStep && (
+          <motion.div
+            key={activeStep.label}
+            className={styles.workflowTaskPanel}
+            initial={{ opacity: 0, height: 0 }}
+            animate={{ opacity: 1, height: 'auto' }}
+            exit={{ opacity: 0, height: 0 }}
+            transition={{ duration: 0.22, ease: [0.32, 0.72, 0, 1] }}
+          >
+            <div className={styles.workflowTaskPanelHeader}>
+              <span>{activeStep.label} — Pending Tasks</span>
+              {activeTasks.length > 0 && (
+                <span className={styles.workflowTaskPanelHint}>
+                  Click a task to open the {activeStep.label} page
+                </span>
+              )}
+            </div>
+            <div className={styles.workflowTaskList}>
+              {activeTasks.length === 0 ? (
+                <div className={styles.workflowTaskEmpty}>No pending tasks for this step.</div>
+              ) : activeTasks.map((task, j) => {
+                const dest = activeStep.path ? `/profile/${profile.id}/${activeStep.path}` : null;
+                const inner = (
+                  <>
+                    <span className={styles.workflowTaskItemIcon}>
+                      {TASK_ICONS[task.icon] && <img src={TASK_ICONS[task.icon]} alt="" />}
+                    </span>
+                    <span className={styles.workflowTaskItemName}>{task.name}</span>
+                    <span className={styles.workflowTaskItemMeta}>{task.status}</span>
+                    <span className={`material-icons-outlined ${styles.workflowTaskItemArrow}`} style={{ fontSize: 18 }}>
+                      chevron_right
+                    </span>
+                  </>
+                );
+                return dest ? (
+                  <Link key={j} to={dest} className={styles.workflowTaskItem}>
+                    {inner}
+                  </Link>
+                ) : (
+                  <div key={j} className={styles.workflowTaskItem}>{inner}</div>
+                );
+              })}
+            </div>
+          </motion.div>
+        )}
+      </AnimatePresence>
     </motion.section>
   );
 }

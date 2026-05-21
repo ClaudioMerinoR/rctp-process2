@@ -2268,29 +2268,25 @@
   position: relative;
   flex: 1;
   min-width: 0;
-  height: 56px;
+  height: 76px;
   display: flex;
-  align-items: center;
+  flex-direction: column;
+  align-items: stretch;
   justify-content: center;
-  padding: 0 18px 0 30px;
-  font-size: 13px;
-  font-weight: 600;
-  color: var(--neutral-00);
-  letter-spacing: 0.3px;
-  text-transform: uppercase;
+  padding: 8px 22px 8px 32px;
+  background: var(--neutral-25);
+  color: var(--text-normal);
   text-decoration: none;
-  text-align: center;
+  text-align: left;
   cursor: pointer;
   user-select: none;
   clip-path: polygon(0 0, calc(100% - 14px) 0, 100% 50%, calc(100% - 14px) 100%, 0 100%, 14px 50%);
   margin-right: -10px;
-  transition: filter 0.15s ease, transform 0.15s ease;
-  white-space: nowrap;
+  transition: background 0.15s ease;
   overflow: hidden;
-  text-overflow: ellipsis;
 }
 .workflowStep:first-child {
-  padding-left: 18px;
+  padding-left: 16px;
   clip-path: polygon(0 0, calc(100% - 14px) 0, 100% 50%, calc(100% - 14px) 100%, 0 100%);
 }
 .workflowStep:last-child {
@@ -2298,25 +2294,152 @@
   clip-path: polygon(0 0, 100% 0, 100% 100%, 0 100%, 14px 50%);
 }
 .workflowStep:hover {
-  filter: brightness(0.95);
+  background: var(--neutral-50);
 }
-.workflowStep:active {
-  transform: scale(0.98);
+.workflowStepActive {
+  background: var(--primary-50);
+}
+.workflowStepActive:hover {
+  background: var(--primary-100);
+}
+.workflowStepTopRow {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  gap: 6px;
+  margin-bottom: 4px;
+  min-width: 0;
 }
 .workflowStepLabel {
-  position: relative;
-  z-index: 1;
+  font-size: 12px;
+  font-weight: 600;
+  letter-spacing: 0.3px;
+  text-transform: uppercase;
+  color: var(--text-normal);
   white-space: nowrap;
   overflow: hidden;
   text-overflow: ellipsis;
-  max-width: 100%;
+  flex: 1;
+  min-width: 0;
 }
+.workflowStepCount {
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+  min-width: 18px;
+  height: 18px;
+  padding: 0 5px;
+  border-radius: 9px;
+  background: var(--primary-500);
+  color: var(--neutral-00);
+  font-size: 11px;
+  font-weight: 700;
+  line-height: 1;
+  flex-shrink: 0;
+}
+.workflowStepStatus {
+  display: inline-flex;
+  align-items: center;
+  gap: 6px;
+  font-size: 11px;
+  font-weight: 600;
+  text-transform: uppercase;
+  letter-spacing: 0.3px;
+  color: var(--text-light);
+  white-space: nowrap;
+  overflow: hidden;
+  text-overflow: ellipsis;
+}
+.workflowStepDot {
+  width: 8px;
+  height: 8px;
+  border-radius: 50%;
+  flex-shrink: 0;
+}
+.workflowDot_red     { background: var(--alert-500); }
+.workflowDot_amber   { background: var(--warning-500); }
+.workflowDot_green   { background: var(--success-500); }
+.workflowDot_grey    { background: var(--text-light); }
+.workflowDot_blocked { background: var(--neutral-300); }
+.workflowDot_black   { background: var(--text-normal); }
 
-/* status colors mirror dot semantics */
-.workflowStep_red     { background: var(--alert-500); }
-.workflowStep_amber   { background: var(--warning-500); color: var(--text-normal); }
-.workflowStep_green   { background: var(--success-500); color: var(--text-normal); }
-.workflowStep_grey    { background: var(--text-light); }
-.workflowStep_blocked { background: var(--neutral-200); color: var(--text-normal); }
-.workflowStep_black   { background: var(--text-normal); }
+/* Expanded task list panel */
+.workflowTaskPanel {
+  margin-top: 12px;
+  background: var(--neutral-00);
+  border: 1px solid var(--neutral-100);
+  border-radius: var(--rctp-radius-sm);
+  overflow: hidden;
+}
+.workflowTaskPanelHeader {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  padding: 10px 16px;
+  background: var(--neutral-25);
+  border-bottom: 1px solid var(--neutral-100);
+  font-size: 12px;
+  font-weight: 600;
+  text-transform: uppercase;
+  letter-spacing: 0.3px;
+  color: var(--text-normal);
+}
+.workflowTaskPanelHint {
+  font-size: 11px;
+  font-weight: 500;
+  color: var(--text-light);
+  text-transform: none;
+  letter-spacing: 0;
+}
+.workflowTaskList {
+  display: flex;
+  flex-direction: column;
+}
+.workflowTaskItem {
+  display: flex;
+  align-items: center;
+  gap: 10px;
+  padding: 10px 16px;
+  border-bottom: 1px solid var(--neutral-50);
+  font-size: 13px;
+  color: var(--text-normal);
+  text-decoration: none;
+  cursor: pointer;
+  transition: background 0.15s ease;
+  background: var(--neutral-00);
+}
+.workflowTaskItem:last-child { border-bottom: none; }
+.workflowTaskItem:hover { background: var(--primary-50); }
+.workflowTaskItemIcon {
+  width: 22px;
+  height: 22px;
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+  flex-shrink: 0;
+}
+.workflowTaskItemIcon img { width: 18px; height: 18px; }
+.workflowTaskItemName {
+  flex: 1;
+  font-weight: 500;
+  white-space: nowrap;
+  overflow: hidden;
+  text-overflow: ellipsis;
+}
+.workflowTaskItemMeta {
+  font-size: 11px;
+  color: var(--text-light);
+  white-space: nowrap;
+  flex-shrink: 0;
+}
+.workflowTaskItemArrow {
+  color: var(--text-light);
+  flex-shrink: 0;
+}
+.workflowTaskEmpty {
+  padding: 16px;
+  text-align: center;
+  font-size: 13px;
+  color: var(--text-light);
+}
 
