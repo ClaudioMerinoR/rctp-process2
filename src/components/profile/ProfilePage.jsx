@@ -1529,16 +1529,11 @@ function WorkflowStrip({ profile, profileLoading }) {
       <div className={styles.workflowSectionRow}>
         <h2 className={styles.cardTitle}>Third Party Workflow</h2>
       </div>
-      <div className={styles.workflowInstructions}>
-        <span className={`material-icons-outlined ${styles.workflowInstructionsIcon}`} style={{ fontSize: 18 }}>
-          lightbulb
-        </span>
-        <div className={styles.workflowInstructionsText}>
-          Complete each step below to onboard this third party. The highlighted step
-          is your next action{nextStep ? <> — <strong>{nextStep.label}</strong></> : ''}.
-          Click any step to view and open its pending tasks.
-        </div>
-      </div>
+      <p className={styles.workflowInstructions}>
+        Complete each step below to onboard this third party. The highlighted step
+        is your next action{nextStep ? <> — <strong>{nextStep.label}</strong></> : ''}.
+        Click any step to view and open its pending tasks.
+      </p>
       <div className={styles.workflowStrip}>
         {steps.map((step, i) => {
           const effectiveDot = effectiveDots[i];

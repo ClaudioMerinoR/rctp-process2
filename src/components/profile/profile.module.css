@@ -2372,26 +2372,14 @@
 
 /* Instructions above the strip */
 .workflowInstructions {
-  display: flex;
-  align-items: flex-start;
-  gap: 10px;
-  padding: 12px 14px;
-  margin-bottom: 16px;
-  background: var(--primary-50);
-  border-left: 3px solid var(--primary-500);
-  border-radius: var(--rctp-radius-sm);
+  margin: 0 0 16px 0;
   font-size: 13px;
   line-height: 1.5;
-  color: var(--text-normal);
+  color: var(--text-light);
 }
-.workflowInstructionsIcon {
-  color: var(--primary-600);
-  flex-shrink: 0;
-  margin-top: 1px;
-}
-.workflowInstructionsText strong {
+.workflowInstructions strong {
   font-weight: 600;
-  color: var(--primary-700);
+  color: var(--text-normal);
 }
 .workflowStepDot {
   width: 8px;
