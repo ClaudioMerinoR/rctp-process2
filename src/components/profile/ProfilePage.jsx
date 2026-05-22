@@ -1449,6 +1449,25 @@ function tasksForStep(step, profile) {
   const matcher = STEP_TASK_MATCHERS[step.label];
   const matched = matcher ? openTasks.filter(matcher) : [];
 
+  // Risk Assessment surfaces a single "Risk Assessment Questionnaire" task —
+  // not red-flag follow-ups or amendments. Use the existing Questionnaire
+  // task from openTasks if one exists, otherwise synthesize a placeholder.
+  if (step.label === 'Risk Assessment') {
+    const existing = openTasks.find(
+      t => /questionnaire/i.test(t.type) && /risk assessment/i.test(t.name)
+    );
+    if (existing) return [existing];
+    return [{
+      type: 'Questionnaire',
+      icon: 'iconInactiveOrder',
+      name: 'Risk Assessment Questionnaire',
+      status: 'Not Started',
+      owner: '',
+      dateCreated: '',
+      age: '',
+    }];
+  }
+
   // Augment from step-specific data sources that aren't surfaced as openTasks.
   if (step.label === 'Risk Mitigation') {
     const openRisks = profile.riskMitigation?.openRisks || [];
