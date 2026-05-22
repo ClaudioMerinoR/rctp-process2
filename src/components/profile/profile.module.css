@@ -2241,13 +2241,6 @@
   padding: 24px 16px;
   margin-bottom: 0;
 }
-.workflowSection::before {
-  content: '';
-  display: block;
-  height: 1px;
-  background: var(--neutral-50);
-  margin: 0 0 24px 0;
-}
 .workflowSectionRow {
   display: flex;
   justify-content: space-between;
