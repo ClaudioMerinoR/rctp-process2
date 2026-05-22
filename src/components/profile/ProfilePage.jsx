@@ -1441,6 +1441,7 @@ const STEP_TASK_MATCHERS = {
   'Risk Mitigation':              t => /risk mitigation/i.test(t.type) || /risk mitigation/i.test(t.name),
   'Approval':                     t => /approval/i.test(t.type) || /approval/i.test(t.name),
   'Screening & Monitoring':       t => /screening|monitoring/i.test(t.type) || /screening|monitoring/i.test(t.name),
+  'Screening':                    t => /screening|monitoring/i.test(t.type) || /screening|monitoring/i.test(t.name),
 };
 
 function tasksForStep(step, profile) {
@@ -1481,7 +1482,18 @@ function tasksForStep(step, profile) {
 }
 
 function WorkflowStrip({ profile, profileLoading }) {
-  const steps = profile.sidebarSteps || [];
+  // Workflow strip uses a different order than the sidebar: surface
+  // Screening (S&M) right after Risk Assessment, and shorten its label.
+  const steps = (() => {
+    const original = profile.sidebarSteps || [];
+    const screeningIdx = original.findIndex(s => s.label === 'Screening & Monitoring');
+    const riskIdx = original.findIndex(s => s.label === 'Risk Assessment');
+    if (screeningIdx < 0 || riskIdx < 0 || screeningIdx === riskIdx + 1) return original;
+    const renamed = { ...original[screeningIdx], label: 'Screening' };
+    const without = original.filter((_, i) => i !== screeningIdx);
+    const insertAt = without.findIndex(s => s.label === 'Risk Assessment') + 1;
+    return [...without.slice(0, insertAt), renamed, ...without.slice(insertAt)];
+  })();
   const [activeIdx, setActiveIdx] = useState(null);
 
   // Only steps that are not-started (red) or in-progress (amber) can have
