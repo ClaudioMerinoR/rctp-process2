@@ -1531,7 +1531,13 @@ function WorkflowStrip({ profile, profileLoading }) {
       </div>
       <p className={styles.workflowInstructions}>
         Complete each step below to onboard this third party. The highlighted step
-        is your next action{nextStep ? <> — <strong>{nextStep.label}</strong></> : ''}.
+        is your next action{nextStep ? (
+          <> — {nextStep.path ? (
+            <Link to={`/profile/${profile.id}/${nextStep.path}`} className={styles.workflowInstructionsLink}>
+              {nextStep.label}
+            </Link>
+          ) : <strong>{nextStep.label}</strong>}</>
+        ) : ''}.
         Click any step to view and open its pending tasks.
       </p>
       <div className={styles.workflowStrip}>
