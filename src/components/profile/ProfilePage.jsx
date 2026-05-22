@@ -1445,10 +1445,41 @@ const STEP_TASK_MATCHERS = {
   'Screening & Monitoring':       t => /screening|monitoring/i.test(t.type) || /screening|monitoring/i.test(t.name),
 };
 
-function tasksForStep(step, openTasks) {
+function tasksForStep(step, profile) {
+  const openTasks = profile.openTasks || [];
   const matcher = STEP_TASK_MATCHERS[step.label];
-  if (!matcher) return [];
-  return (openTasks || []).filter(matcher);
+  const matched = matcher ? openTasks.filter(matcher) : [];
+
+  // Augment from step-specific data sources that aren't surfaced as openTasks.
+  if (step.label === 'Risk Mitigation') {
+    const openRisks = profile.riskMitigation?.openRisks || [];
+    const synthesized = openRisks.map(r => ({
+      type: 'Risk Mitigation',
+      icon: 'iconArmingCountdown',
+      name: r.title,
+      status: r.status || 'Not Started',
+      owner: r.owner || '',
+      dateCreated: r.createdDate || '',
+      age: '',
+    }));
+    return [...matched, ...synthesized];
+  }
+  if (step.label === 'Approval') {
+    // Approval has no separate task list — synthesize a single placeholder
+    // when the step is actionable but no Approval-typed openTasks were found.
+    if (matched.length === 0) {
+      return [{
+        type: 'Approval Task',
+        icon: 'iconFactCheck',
+        name: 'Approval pending',
+        status: 'Not Started',
+        owner: profile.approval?.owner || '',
+        dateCreated: profile.approval?.startDate || '',
+        age: '',
+      }];
+    }
+  }
+  return matched;
 }
 
 function WorkflowStrip({ profile, profileLoading }) {
@@ -1466,7 +1497,7 @@ function WorkflowStrip({ profile, profileLoading }) {
         : step.dot)
       : step.dot;
     if (dot !== 'red' && dot !== 'amber') return [];
-    return tasksForStep(step, profile.openTasks);
+    return tasksForStep(step, profile);
   });
   const activeStep = activeIdx !== null ? steps[activeIdx] : null;
   const activeTasks = activeIdx !== null ? stepTasks[activeIdx] : [];
