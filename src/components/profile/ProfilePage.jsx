@@ -431,11 +431,6 @@ export default function ProfilePage({ profile: profileProp, embedded = false }) 
             </div>
           </motion.section>
 
-          {/* Third Party Workflow (chevron strip) */}
-          {profile.workflowLayout && (
-            <WorkflowStrip profile={profile} profileLoading={profileLoading} />
-          )}
-
           {/* Risk Level Report */}
           <motion.section className={styles.riskReport} initial={{ opacity: 0, y: 20 }} animate={{ opacity: 1, y: 0 }} transition={{ duration: 0.3, delay: 0.07 }}>
             <div className={styles.sectionRow}>
@@ -478,6 +473,9 @@ export default function ProfilePage({ profile: profileProp, embedded = false }) 
             )}
             </AnimatePresence>
           </motion.section>
+
+          {/* Third Party Workflow (chevron strip) */}
+          <WorkflowStrip profile={profile} profileLoading={profileLoading} />
 
           {/* Open Tasks */}
           <motion.section className={styles.tableCard} initial={{ opacity: 0, y: 20 }} animate={{ opacity: 1, y: 0 }} transition={{ duration: 0.3, delay: 0.14 }}>
