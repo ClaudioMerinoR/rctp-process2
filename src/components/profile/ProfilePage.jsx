@@ -431,9 +431,6 @@ export default function ProfilePage({ profile: profileProp, embedded = false }) 
             </div>
           </motion.section>
 
-          {/* Third Party Workflow (chevron strip) */}
-          <WorkflowStrip profile={profile} profileLoading={profileLoading} />
-
           {/* Risk Level Report */}
           <motion.section className={styles.riskReport} initial={{ opacity: 0, y: 20 }} animate={{ opacity: 1, y: 0 }} transition={{ duration: 0.3, delay: 0.07 }}>
             <div className={styles.sectionRow}>
@@ -490,6 +487,7 @@ export default function ProfilePage({ profile: profileProp, embedded = false }) 
                 </div>
               </div>
             </div>
+            <WorkflowStrip profile={profile} profileLoading={profileLoading} />
             <div className={styles.cardInner}>
               <table className={styles.table}>
                 <thead>
@@ -1524,9 +1522,6 @@ function WorkflowStrip({ profile, profileLoading }) {
       animate={{ opacity: 1, y: 0 }}
       transition={{ duration: 0.3, delay: 0.04 }}
     >
-      <div className={styles.workflowSectionRow}>
-        <h2 className={styles.cardTitle}>Third Party Workflow</h2>
-      </div>
       <p className={styles.workflowInstructions}>
         Complete each step below to onboard this third party. The highlighted step
         is your next action{nextStep ? (
