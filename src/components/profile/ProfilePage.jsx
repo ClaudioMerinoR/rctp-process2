@@ -290,6 +290,21 @@ export default function ProfilePage({ profile: profileProp, embedded = false }) 
                           <div className={`${styles.fieldValue} ${styles.fieldValueFlag}`}>
                             <span style={{ fontSize: 20 }}>{f.flag}</span> {f.value}
                           </div>
+                        ) : f.expiringSoon ? (
+                          <div className={`${styles.fieldValue} ${['initech','lumon','ecomoda','gringotts','agencegrateau','gazprom','dundermifflin'].includes(profile.id) ? styles.fieldValueWithAction : ''}`}>
+                            <div className={styles.fieldValueExpiringSoonWrap}>
+                              <span className={styles.fieldValueExpiringSoon}>
+                                <span className="material-icons-outlined" style={{ fontSize: 14 }}>schedule</span>
+                                {f.value}
+                              </span>
+                              <span className={styles.fieldValueExpiringSoonHint}>This third party will need to be renewed soon</span>
+                            </div>
+                            {['initech','lumon','ecomoda','gringotts','agencegrateau','gazprom','dundermifflin'].includes(profile.id) && (
+                              <button className={styles.renewalInfoBtn} onClick={() => setRenewalDetailsPanelOpen(true)} aria-label="Renewal details">
+                                <span className="material-icons-outlined">more_horiz</span>
+                              </button>
+                            )}
+                          </div>
                         ) : f.overdue ? (
                           <div className={`${styles.fieldValue} ${['initech','lumon','ecomoda','gringotts','agencegrateau','gazprom','dundermifflin'].includes(profile.id) ? styles.fieldValueWithAction : ''}`}>
                             <span

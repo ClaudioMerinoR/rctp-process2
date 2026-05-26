@@ -39,7 +39,7 @@ export default {
     { label: 'Screening & Monitoring Policy',              value: 'Default Standard KYBP Policy' },
     { label: 'Third Party Legal Structure',                value: 'Entity' },
     { label: 'Commercial Significance of Product or Service', value: '[Between 5 and 10%] / Critical / Top 5' },
-    { label: 'Third Party Renewal Date',                   value: '31 Jul 2026' },
+    { label: 'Third Party Renewal Date',                   value: '03 Jun 2026', expiringSoon: true },
     { label: 'Tags',                                       value: 'Banking, Wizarding, EMEA' },
   ],
 

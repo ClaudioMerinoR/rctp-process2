@@ -895,6 +895,31 @@
   line-height: 20px;
 }
 
+.fieldValueExpiringSoon {
+  display: inline-flex;
+  align-items: center;
+  gap: 5px;
+  background: var(--warning-500, #f89406);
+  color: #fff;
+  border-radius: var(--rctp-radius-sm);
+  padding: 2px 8px 2px 5px;
+  font-size: 14px;
+  font-weight: 500;
+  line-height: 20px;
+}
+
+.fieldValueExpiringSoonWrap {
+  display: flex;
+  flex-direction: column;
+  gap: 4px;
+}
+
+.fieldValueExpiringSoonHint {
+  font-size: 11px;
+  color: var(--warning-700, #b45309);
+  font-weight: 500;
+}
+
 .fieldLink {
   color: var(--primary-500);
   text-decoration: none;
