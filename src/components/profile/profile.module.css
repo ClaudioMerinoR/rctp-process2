@@ -2675,6 +2675,45 @@
   flex-direction: column;
   gap: 6px;
 }
+.navProgressHeader {
+  display: flex;
+  align-items: center;
+  gap: 6px;
+  margin-bottom: 2px;
+}
+.navProgressTitle {
+  font-size: 14px;
+  font-weight: 600;
+  color: var(--text-normal);
+  letter-spacing: 0.1px;
+}
+.navProgressInfoWrap {
+  position: relative;
+  display: inline-flex;
+  align-items: center;
+}
+.navProgressInfoIcon {
+  font-size: 16px;
+  color: var(--text-light);
+  cursor: help;
+}
+.navProgressInfoWrap:hover .navProgressInfoTooltip { display: block; }
+.navProgressInfoTooltip {
+  display: none;
+  position: absolute;
+  top: calc(100% + 6px);
+  left: -8px;
+  width: 200px;
+  background: var(--text-normal);
+  color: var(--neutral-00);
+  font-size: 11px;
+  font-weight: 400;
+  line-height: 1.4;
+  padding: 6px 8px;
+  border-radius: var(--rctp-radius-sm);
+  pointer-events: none;
+  z-index: var(--z-tooltip);
+}
 .navProgressMeta {
   display: flex;
   align-items: baseline;
@@ -2707,32 +2746,6 @@
   background: var(--primary-500);
   border-radius: 999px;
   transition: width 0.4s ease;
-}
-.navProgressNext {
-  display: flex;
-  flex-direction: column;
-  gap: 2px;
-  padding: 6px 10px;
-  background: var(--primary-50);
-  border: 1px solid var(--primary-100);
-  border-radius: var(--rctp-radius-sm);
-  margin-top: 4px;
-}
-.navProgressNextLabel {
-  font-size: 9px;
-  font-weight: 700;
-  letter-spacing: 0.5px;
-  text-transform: uppercase;
-  color: var(--primary-700);
-}
-.navProgressNextValue {
-  font-size: 13px;
-  font-weight: 600;
-  color: var(--primary-700);
-  white-space: nowrap;
-  overflow: hidden;
-  text-overflow: ellipsis;
-  line-height: 1.2;
 }
 
 /* ── Sidebar process stepper (vertical timeline) ── */

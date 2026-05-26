@@ -76,7 +76,6 @@ export default function Sidebar({ profile: profileProp, profileLoading = false }
   const completedCount = requiredDots.filter(d => d === 'green').length;
   const totalCount = requiredDots.length;
   const pct = totalCount ? Math.round((completedCount / totalCount) * 100) : 0;
-  const nextStep = nextIdx >= 0 ? steps[nextIdx] : null;
 
   return (
     <aside className={styles.sideNav}>
@@ -91,6 +90,15 @@ export default function Sidebar({ profile: profileProp, profileLoading = false }
       <div className={styles.navDivider} />
 
       <div className={styles.navProgress}>
+        <div className={styles.navProgressHeader}>
+          <span className={styles.navProgressTitle}>Workflow</span>
+          <span className={styles.navProgressInfoWrap}>
+            <span className={`material-icons-outlined ${styles.navProgressInfoIcon}`}>info</span>
+            <span className={styles.navProgressInfoTooltip}>
+              Track third party progress through each workflow stage. Click a stage below to open its page.
+            </span>
+          </span>
+        </div>
         <div className={styles.navProgressMeta}>
           <span className={styles.navProgressLabel}>Progress</span>
           <span className={styles.navProgressCount}>{completedCount}/{totalCount} · {pct}%</span>
@@ -98,12 +106,6 @@ export default function Sidebar({ profile: profileProp, profileLoading = false }
         <div className={styles.navProgressBar}>
           <span className={styles.navProgressBarFill} style={{ width: `${pct}%` }} />
         </div>
-        {nextStep && (
-          <div className={styles.navProgressNext}>
-            <span className={styles.navProgressNextLabel}>Up next</span>
-            <span className={styles.navProgressNextValue}>{nextStep.label}</span>
-          </div>
-        )}
       </div>
 
       <div className={styles.navStepper}>
@@ -148,7 +150,6 @@ export default function Sidebar({ profile: profileProp, profileLoading = false }
                 <span className={styles.navStepperTopRow}>
                   <span className={styles.navStepperLabel}>{step.label}</span>
                   {step.partner && <PartnerIcon partner={step.partner} tooltip={step.tooltip} />}
-                  {step.newTag && <span className={styles.navNewTag}>New</span>}
                   {isNext && <span className={styles.navNextChip}>Next</span>}
                 </span>
                 <span className={styles.navStepperStatus} title={DOT_LABELS[effectiveDot] ?? DOT_LABELS.grey}>
