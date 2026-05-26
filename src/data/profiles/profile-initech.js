@@ -4,7 +4,7 @@ export default {
   shortName: 'Initech',
   entityType: 'entity',
   verifiedText: 'Entity Verified',
-  currentStatus: { label: 'Approved*', tooltip: 'New red flag triggered on approved record. No risk level change' },
+  currentStatus: { label: 'Approved*', tooltip: 'Renewal started manually' },
   riskLevel: { label: 'Medium', icon: 'error_outline', level: 'medium' },
 
   embedded: false,
@@ -39,7 +39,7 @@ export default {
     { label: 'Screening & Monitoring Policy', value: 'Default Standard KYBP Policy' },
     { label: 'Third Party Legal Structure', value: 'Entity' },
     { label: 'Commercial Significance of Product or Service', value: '[Between 5 and 10%] / Significant / Not in top 10' },
-    { label: 'Third Party Renewal Date', value: '31 Dec 2026' },
+    { label: 'Third Party Renewal Date', value: '31 Dec 2026', renewalTooltip: 'Renewal started manually' },
     { label: 'Tags', value: 'Software, Finance' },
   ],
 

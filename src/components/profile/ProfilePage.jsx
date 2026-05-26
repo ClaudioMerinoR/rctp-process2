@@ -339,7 +339,12 @@ export default function ProfilePage({ profile: profileProp, embedded = false }) 
                           </div>
                         ) : f.label === 'Third Party Renewal Date' && ['initech','lumon','ecomoda','gringotts','agencegrateau','gazprom','dundermifflin'].includes(profile.id) ? (
                           <div className={`${styles.fieldValue} ${styles.fieldValueWithAction}`}>
-                            {f.value}
+                            {f.renewalTooltip ? (
+                              <div className={styles.badgeTipWrap}>
+                                <span>{f.value}</span>
+                                <span className={styles.badgeTip}>{f.renewalTooltip}</span>
+                              </div>
+                            ) : f.value}
                             <button className={styles.renewalInfoBtn} onClick={() => setRenewalDetailsPanelOpen(true)} aria-label="Renewal details">
                               <span className="material-icons-outlined">more_horiz</span>
                             </button>
