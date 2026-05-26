@@ -1,12 +1,17 @@
 .footer {
   border-top: 1px solid var(--neutral-50);
+  font-size: 12px;
+  color: var(--text-light);
+  margin-top: 16px;
+}
+
+.inner {
+  max-width: 1920px;
+  margin: 0 auto;
   padding: 16px;
   display: flex;
   justify-content: space-between;
   align-items: center;
-  font-size: 12px;
-  color: var(--text-light);
-  margin-top: 16px;
 }
 .footer a { color: var(--text-light); text-decoration: none; margin: 0 6px; }
 .footer a:hover { text-decoration: underline; }
