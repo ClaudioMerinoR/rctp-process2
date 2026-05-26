@@ -34,8 +34,8 @@ export default function Chip({
     >
       <span className={styles.label}>{label}</span>
 
-      {/* count badge — shown whenever count > 0, regardless of selected state */}
-      {count != null && count > 0 && (
+      {/* count badge — shown whenever count is provided, including 0 */}
+      {count != null && (
         <span className={styles.countBadge}>{count}</span>
       )}
 

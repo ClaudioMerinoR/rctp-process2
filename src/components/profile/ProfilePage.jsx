@@ -12,6 +12,7 @@ import { profiles } from '../../data/profiles';
 import styles from './profile.module.css';
 import { TASK_ICONS, riskBadge as riskBadgeFn, RiskLevelIcon } from './profileAssets';
 import Sidebar, { PartnerIcon } from './Sidebar';
+import Chip from '../ui/Chip';
 
 const STATUS_CONFIG = {
   'Pending Approval':            { cls: 'statusPendingApproval', icon: 'pending' },
@@ -77,6 +78,8 @@ export default function ProfilePage({ profile: profileProp, embedded = false }) 
   // Row menu + edit
   const [openMenuIndex, setOpenMenuIndex] = useState(null);
   const [editRow, setEditRow] = useState(null); // { index, row }
+
+  const [tasksTab, setTasksTab] = useState('open');
 
   if (!profile) return <div style={{ padding: 40, textAlign: 'center' }}>Profile not found</div>;
 
@@ -474,57 +477,122 @@ export default function ProfilePage({ profile: profileProp, embedded = false }) 
             </AnimatePresence>
           </motion.section>
 
-          {/* Open Tasks */}
+          {/* Tasks */}
           <motion.section className={styles.tableCard} initial={{ opacity: 0, y: 20 }} animate={{ opacity: 1, y: 0 }} transition={{ duration: 0.3, delay: 0.14 }}>
             <div className={styles.sectionBar}>
               <div className={styles.sectionRow}>
                 <div className={styles.sectionTitleGroup}>
-                  <h2 className={styles.cardTitle}>Open Tasks</h2>
+                  <h2 className={styles.cardTitle}>Tasks</h2>
                   <span className={styles.infoIconWrap}>
                     <span className={`material-icons-outlined ${styles.infoIcon}`}>info</span>
-                    <span className={styles.infoTooltip}>Open tasks relating to this third party</span>
+                    <span className={styles.infoTooltip}>Tasks relating to this third party</span>
                   </span>
                 </div>
               </div>
             </div>
-            <div className={styles.cardInner}>
-              <table className={styles.table}>
-                <thead>
-                  <tr>
-                    <th style={{ width: '20%' }}>Task Type <span className="material-icons-outlined" style={{ fontSize: 12 }}>arrow_drop_down</span></th>
-                    <th style={{ width: '26%' }}>Task Name <span className="material-icons-outlined" style={{ fontSize: 12 }}>arrow_drop_down</span></th>
-                    <th style={{ width: '12%' }}>Task Status <span className="material-icons-outlined" style={{ fontSize: 12 }}>arrow_drop_down</span></th>
-                    <th style={{ width: '16%' }}>Owner <span className="material-icons-outlined" style={{ fontSize: 12 }}>arrow_drop_down</span></th>
-                    <th style={{ width: '14%' }}>Date Created <span className="material-icons-outlined" style={{ fontSize: 12 }}>arrow_drop_down</span></th>
-                    <th style={{ width: '12%' }}>AGE <span className="material-icons-outlined" style={{ fontSize: 12 }}>arrow_drop_down</span></th>
-                  </tr>
-                </thead>
-                <tbody>
-                  {(profileLoading
-                    ? [{ type: 'Questionnaire', icon: 'iconInactiveOrder', name: 'Questionnaire', status: 'Not Started', owner: '', dateCreated: '', age: '' }]
-                    : profile.openTasks
-                  ).map((t, i) => (
-                    <tr key={i}>
-                      <td>
-                        <div className={styles.cellTaskType}>
-                          <span className={styles.taskIconCircle}><img src={TASK_ICONS[t.icon]} alt="" /></span>
-                          {t.type}
-                        </div>
-                      </td>
-                      <td><span className={styles.cellLink}>{t.name}</span></td>
-                      <td>{t.status}</td>
-                      <td>{t.owner}</td>
-                      <td>{t.dateCreated}</td>
-                      <td>{t.age}</td>
-                    </tr>
-                  ))}
-                </tbody>
-              </table>
-              <div className={styles.tablePagination}>
-                <select><option>20</option></select>
-                <span>Showing results 1 - {profileLoading ? 1 : profile.openTasks.length} of {profileLoading ? 1 : profile.openTasks.length}</span>
-              </div>
+            <div className={styles.tasksTabBar}>
+              <Chip
+                label="Open Tasks"
+                selected={tasksTab === 'open'}
+                count={profileLoading ? 1 : profile.openTasks.length}
+                onClick={() => setTasksTab('open')}
+              />
+              <Chip
+                label="Completed Tasks"
+                selected={tasksTab === 'completed'}
+                count={profileLoading ? 0 : (profile.completedTasks || []).length}
+                onClick={() => setTasksTab('completed')}
+              />
             </div>
+            {tasksTab === 'open' ? (() => {
+              const rows = profileLoading
+                ? [{ type: 'Questionnaire', icon: 'iconInactiveOrder', name: 'Questionnaire', status: 'Not Started', owner: '', dateCreated: '', age: '' }]
+                : profile.openTasks;
+              return (
+                <div className={styles.cardInner}>
+                  <table className={styles.table}>
+                    <thead>
+                      <tr>
+                        <th style={{ width: '20%' }}>Task Type <span className="material-icons-outlined" style={{ fontSize: 12 }}>arrow_drop_down</span></th>
+                        <th style={{ width: '26%' }}>Task Name <span className="material-icons-outlined" style={{ fontSize: 12 }}>arrow_drop_down</span></th>
+                        <th style={{ width: '12%' }}>Task Status <span className="material-icons-outlined" style={{ fontSize: 12 }}>arrow_drop_down</span></th>
+                        <th style={{ width: '16%' }}>Owner <span className="material-icons-outlined" style={{ fontSize: 12 }}>arrow_drop_down</span></th>
+                        <th style={{ width: '14%' }}>Date Created <span className="material-icons-outlined" style={{ fontSize: 12 }}>arrow_drop_down</span></th>
+                        <th style={{ width: '12%' }}>AGE <span className="material-icons-outlined" style={{ fontSize: 12 }}>arrow_drop_down</span></th>
+                      </tr>
+                    </thead>
+                    <tbody>
+                      {rows.length === 0 ? (
+                        <tr><td colSpan={6} className={styles.tableEmptyRow}>No open tasks for this third party.</td></tr>
+                      ) : rows.map((t, i) => (
+                        <tr key={i}>
+                          <td>
+                            <div className={styles.cellTaskType}>
+                              <span className={styles.taskIconCircle}><img src={TASK_ICONS[t.icon]} alt="" /></span>
+                              {t.type}
+                            </div>
+                          </td>
+                          <td><span className={styles.cellLink}>{t.name}</span></td>
+                          <td>{t.status}</td>
+                          <td>{t.owner}</td>
+                          <td>{t.dateCreated}</td>
+                          <td>{t.age}</td>
+                        </tr>
+                      ))}
+                    </tbody>
+                  </table>
+                  {rows.length > 0 && (
+                    <div className={styles.tablePagination}>
+                      <select><option>20</option></select>
+                      <span>Showing results 1 - {rows.length} of {rows.length}</span>
+                    </div>
+                  )}
+                </div>
+              );
+            })() : (() => {
+              const rows = profile.completedTasks || [];
+              return (
+                <div className={styles.cardInner}>
+                  <table className={styles.table}>
+                    <thead>
+                      <tr>
+                        <th style={{ width: '20%' }}>Task Type <span className="material-icons-outlined" style={{ fontSize: 12 }}>arrow_drop_down</span></th>
+                        <th style={{ width: '26%' }}>Task Name <span className="material-icons-outlined" style={{ fontSize: 12 }}>arrow_drop_down</span></th>
+                        <th style={{ width: '12%' }}>Task Status <span className="material-icons-outlined" style={{ fontSize: 12 }}>arrow_drop_down</span></th>
+                        <th style={{ width: '16%' }}>Owner <span className="material-icons-outlined" style={{ fontSize: 12 }}>arrow_drop_down</span></th>
+                        <th style={{ width: '14%' }}>Date Created <span className="material-icons-outlined" style={{ fontSize: 12 }}>arrow_drop_down</span></th>
+                        <th style={{ width: '12%' }}>AGE <span className="material-icons-outlined" style={{ fontSize: 12 }}>arrow_drop_down</span></th>
+                      </tr>
+                    </thead>
+                    <tbody>
+                      {rows.length === 0 ? (
+                        <tr><td colSpan={6} className={styles.tableEmptyRow}>No completed tasks for this third party.</td></tr>
+                      ) : rows.map((t, i) => (
+                        <tr key={i}>
+                          <td>
+                            <div className={styles.cellTaskType}>
+                              <span className={styles.taskIconCircle}><img src={TASK_ICONS[t.icon]} alt="" /></span>
+                              {t.type}
+                            </div>
+                          </td>
+                          <td><span className={styles.cellLink}>{t.name}</span></td>
+                          <td>{t.status}</td>
+                          <td>{t.owner}</td>
+                          <td>{t.dateCreated}</td>
+                          <td>{t.age}</td>
+                        </tr>
+                      ))}
+                    </tbody>
+                  </table>
+                  {rows.length > 0 && (
+                    <div className={styles.tablePagination}>
+                      <select><option>20</option></select>
+                      <span>Showing results 1 - {rows.length} of {rows.length}</span>
+                    </div>
+                  )}
+                </div>
+              );
+            })()}
           </motion.section>
 
           {/* Screening and Monitoring Associations */}
