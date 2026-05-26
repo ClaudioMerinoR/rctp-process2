@@ -12,6 +12,7 @@ import { profiles } from '../../data/profiles';
 import styles from './profile.module.css';
 import { TASK_ICONS, riskBadge as riskBadgeFn, RiskLevelIcon } from './profileAssets';
 import Sidebar, { PartnerIcon } from './Sidebar';
+import Chip from '../ui/Chip';
 
 const STATUS_CONFIG = {
   'Pending Approval':            { cls: 'statusPendingApproval', icon: 'pending' },
@@ -490,20 +491,18 @@ export default function ProfilePage({ profile: profileProp, embedded = false }) 
               </div>
             </div>
             <div className={styles.tasksTabBar}>
-              <button
-                className={`${styles.tasksTabChip} ${tasksTab === 'open' ? styles.tasksTabChipActive : ''}`}
+              <Chip
+                label="Open Tasks"
+                selected={tasksTab === 'open'}
+                count={profileLoading ? 1 : profile.openTasks.length}
                 onClick={() => setTasksTab('open')}
-              >
-                Open Tasks
-                <span className={styles.tasksTabCount}>{profileLoading ? 1 : profile.openTasks.length}</span>
-              </button>
-              <button
-                className={`${styles.tasksTabChip} ${tasksTab === 'completed' ? styles.tasksTabChipActive : ''}`}
+              />
+              <Chip
+                label="Completed Tasks"
+                selected={tasksTab === 'completed'}
+                count={profileLoading ? 0 : profile.openTasks.length}
                 onClick={() => setTasksTab('completed')}
-              >
-                Completed Tasks
-                <span className={styles.tasksTabCount}>{profileLoading ? 0 : profile.openTasks.length}</span>
-              </button>
+              />
             </div>
             <div className={styles.cardInner}>
               <table className={styles.table}>
