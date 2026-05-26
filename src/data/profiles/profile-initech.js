@@ -69,6 +69,12 @@ export default {
     { type: 'Risk Assessment', icon: 'iconFactCheck', name: 'Annual Risk Assessment', status: 'In Progress', owner: 'Milton Waddams', dateCreated: '02 Jan 2026', age: '26 Days' },
     { type: 'Screening & Monitoring', icon: 'iconArmingCountdown', name: 'Screening Review — Embezzlement Allegation', status: 'Pending', owner: 'Bob Slydell', dateCreated: '15 Jan 2026', age: '13 Days' },
   ],
+  completedTasks: [
+    { type: 'Due Diligence', icon: 'iconFactCheck', name: 'Due Diligence Report — Initial Review', status: 'Completed', owner: 'Bill Lumbergh', dateCreated: '10 Nov 2025', age: '79 Days' },
+    { type: 'Risk Assessment', icon: 'iconFactCheck', name: 'Risk Assessment Questionnaire', status: 'Completed', owner: 'Milton Waddams', dateCreated: '15 Nov 2025', age: '74 Days' },
+    { type: 'Integrity Check', icon: 'iconArmingCountdown', name: 'Integrity Check — Background Verification', status: 'Completed', owner: 'Samir Nagheenanajar', dateCreated: '01 Dec 2025', age: '58 Days' },
+    { type: 'Screening & Monitoring', icon: 'iconArmingCountdown', name: 'Initial Screening Setup', status: 'Completed', owner: 'Bob Slydell', dateCreated: '05 Dec 2025', age: '54 Days' },
+  ],
 
   screeningRows: [
     {
