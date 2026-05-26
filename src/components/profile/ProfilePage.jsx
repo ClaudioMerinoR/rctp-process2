@@ -1391,25 +1391,24 @@ function StatusPanel({ currentStatus, renewalDate, canRenew, renewalInProgress, 
           {renewalDate && canRenew && (
             <div className={styles.statusPanelRenewal}>
               <div className={styles.statusPanelSectionLabel} style={{ marginTop: 20 }}>Third Party Renewal Date</div>
-              <div className={styles.statusPanelRenewalRow}>
-                <div style={{ display: 'flex', alignItems: 'center', gap: 6 }}>
-                  <span className={styles.statusPanelRenewalDate}>{renewalDate}</span>
-                  {showRenewalDetails && (
-                    <button className={styles.renewalInfoBtn} onClick={onRenewalDetails} aria-label="Renewal details">
-                      <span className="material-icons-outlined">more_horiz</span>
-                    </button>
-                  )}
-                </div>
-                {renewalInProgress
-                  ? <button className={`${styles.btn} ${styles.btnOutline} ${styles.btnDanger}`} onClick={onCancelRenewal}>Cancel Renewal</button>
-                  : <button className={`${styles.btn} ${styles.btnFilled}`} onClick={onRenewal}>Renewal</button>
-                }
+              <div style={{ display: 'flex', alignItems: 'center', gap: 6 }}>
+                <span className={styles.statusPanelRenewalDate}>{renewalDate}</span>
+                {showRenewalDetails && (
+                  <button className={styles.renewalInfoBtn} onClick={onRenewalDetails} aria-label="Renewal details">
+                    <span className="material-icons-outlined">more_horiz</span>
+                  </button>
+                )}
               </div>
             </div>
           )}
         </div>
 
         <div className={styles.statusPanelFooter}>
+          {renewalDate && canRenew && (
+            renewalInProgress
+              ? <button className={`${styles.btn} ${styles.btnOutline} ${styles.btnDanger}`} onClick={onCancelRenewal}>Cancel Renewal</button>
+              : <button className={`${styles.btn} ${styles.btnOutline}`} onClick={onRenewal}>Renewal</button>
+          )}
           <button className={`${styles.btn} ${styles.btnFilled}`} onClick={onDecline}>Decline</button>
         </div>
       </motion.div>
