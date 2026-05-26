@@ -19,7 +19,8 @@ const ProfileEdit            = lazy(() => import('./components/profile/ProfileEd
 const ProfileRiskMitigation       = lazy(() => import('./components/profile/ProfileRiskMitigation'));
 const ProfileApproval             = lazy(() => import('./components/profile/ProfileApproval'));
 const ProfilePlaceholder          = lazy(() => import('./components/profile/ProfilePlaceholder'));
-const ProfileRiskAssessment       = lazy(() => import('./components/profile/ProfileRiskAssessment'));
+const ProfileRiskAssessment             = lazy(() => import('./components/profile/ProfileRiskAssessment'));
+const ProfileRiskAssessmentQuestionnaire = lazy(() => import('./components/profile/ProfileRiskAssessmentQuestionnaire'));
 const ProfileIntegrityCheck       = lazy(() => import('./components/profile/ProfileIntegrityCheck'));
 const ProfileDueDiligence         = lazy(() => import('./components/profile/ProfileDueDiligence'));
 const ProfileEnhancedDueDiligence = lazy(() => import('./components/profile/ProfileEnhancedDueDiligence'));
@@ -113,6 +114,7 @@ export default function App() {
           <Route path="/profile/:profileId/edit" element={<ProfileEdit />} />
           <Route path="/profile/:profileId/risk-mitigation" element={<ProfileRiskMitigation />} />
           <Route path="/profile/:profileId/risk-assessment" element={<ProfileRiskAssessment />} />
+          <Route path="/profile/:profileId/risk-assessment/questionnaire" element={<ProfileRiskAssessmentQuestionnaire />} />
           <Route path="/profile/:profileId/due-diligence" element={<ProfileDueDiligence />} />
           <Route path="/profile/:profileId/integrity-check" element={<ProfileIntegrityCheck />} />
           <Route path="/profile/:profileId/enhanced-due-diligence" element={<ProfileEnhancedDueDiligence />} />

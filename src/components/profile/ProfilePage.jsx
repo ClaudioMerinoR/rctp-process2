@@ -301,7 +301,7 @@ export default function ProfilePage({ profile: profileProp, embedded = false }) 
                               {f.value}
                             </span>
                           </div>
-                        ) : f.label === 'Third Party Renewal Date' && ['initech','lumon','ecomoda','gringotts','agencegrateau'].includes(profile.id) ? (
+                        ) : f.label === 'Third Party Renewal Date' && ['initech','lumon','ecomoda','gringotts','agencegrateau','gazprom'].includes(profile.id) ? (
                           <div className={`${styles.fieldValue} ${styles.fieldValueWithAction}`}>
                             {f.value}
                             <button className={styles.renewalInfoBtn} onClick={() => setRenewalDetailsPanelOpen(true)} aria-label="Renewal details">
@@ -730,7 +730,7 @@ export default function ProfilePage({ profile: profileProp, embedded = false }) 
           onDecline={() => setDeclinePanelOpen(true)}
           onRenewal={() => { setStatusPanelOpen(false); setRenewalModalOpen(true); }}
           onCancelRenewal={() => { setStatusPanelOpen(false); setCancelRenewalModalOpen(true); }}
-          showRenewalDetails={['initech','lumon','ecomoda','gringotts','agencegrateau'].includes(profile.id)}
+          showRenewalDetails={['initech','lumon','ecomoda','gringotts','agencegrateau','gazprom'].includes(profile.id)}
           onRenewalDetails={() => setRenewalDetailsPanelOpen(true)}
         />
       )}
