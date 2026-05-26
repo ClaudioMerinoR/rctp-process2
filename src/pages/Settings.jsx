@@ -364,6 +364,7 @@ export default function Settings() {
   const [reminderCount, setReminderCount] = useState('2');
   const [reminderDaysBetween, setReminderDaysBetween] = useState('3');
   const [notificationGroup, setNotificationGroup] = useState('Not Approval Group');
+  const [ownerNotifEnabled, setOwnerNotifEnabled] = useState(true);
 
   return (
     <PageLayout>
@@ -507,6 +508,22 @@ export default function Settings() {
                       value={reminderDaysBetween}
                       onChange={e => setReminderDaysBetween(e.target.value)}
                     />
+                  </div>
+                </div>
+              </div>
+
+              {/* Owner reminder field */}
+              <div className={styles.settingsBlockNotification}>
+                <p className={styles.settingsBlockTitle}>Owner</p>
+                <div className={styles.reminderFields}>
+                  <div className={styles.reminderField}>
+                    <div
+                      className={`${styles.activeToggle}${!ownerNotifEnabled ? ' ' + styles.activeToggleOff : ''}`}
+                      onClick={() => setOwnerNotifEnabled(v => !v)}
+                    >
+                      <div className={styles.activeToggleTrack}>{ownerNotifEnabled ? 'Enabled' : 'Disabled'}</div>
+                      <div className={styles.activeToggleThumb} />
+                    </div>
                   </div>
                 </div>
               </div>
