@@ -900,9 +900,9 @@
   align-items: center;
   gap: 5px;
   background: var(--warning-500, #f89406);
-  color: #fff;
+  color: var(--text-normal);
   border-radius: var(--rctp-radius-sm);
-  padding: 2px 8px 2px 5px;
+  padding: 2px 5px;
   font-size: 14px;
   font-weight: 500;
   line-height: 20px;
