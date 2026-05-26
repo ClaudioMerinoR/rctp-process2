@@ -1,4 +1,4 @@
-import { useParams } from 'react-router-dom';
+import { useParams, useNavigate } from 'react-router-dom';
 import PageLayout from '../layout/PageLayout';
 import Breadcrumb from '../layout/Breadcrumb';
 import { profiles } from '../../data/profiles';
@@ -9,6 +9,7 @@ import secStyles from './ProfileProcessSection.module.css';
 
 export default function ProfileRiskAssessment() {
   const { profileId } = useParams();
+  const navigate = useNavigate();
   const profile = profiles[profileId];
   if (!profile) return null;
 
@@ -63,7 +64,11 @@ export default function ProfileRiskAssessment() {
                       <td>{row.cancelledDate || ''}</td>
                       <td>{row.renewalDate || ''}</td>
                       <td style={{ textAlign: 'center' }}>
-                        <button className={secStyles.playBtn} title="Start">
+                        <button
+                          className={secStyles.playBtn}
+                          title="Start questionnaire"
+                          onClick={() => navigate(`/profile/${profileId}/risk-assessment/questionnaire`)}
+                        >
                           <span className="material-icons-outlined" style={{ fontSize: 18 }}>play_arrow</span>
                         </button>
                       </td>

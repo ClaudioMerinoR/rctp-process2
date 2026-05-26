@@ -39,7 +39,7 @@ export default {
     { label: 'Screening & Monitoring Policy', value: 'Default Screening & Monitoring Policy' },
     { label: 'Third Party Legal Structure', value: 'Entity' },
     { label: 'Commercial Significance of Product or Service', value: '[Between 1 and 5%] / Significant / Not in top 10' },
-    { label: 'Third Party Renewal Date', value: '\u2014' },
+    { label: 'Third Party Renewal Date', value: '26 May 2027' },
     { label: 'Tags', value: '\u2014' },
   ],
 
