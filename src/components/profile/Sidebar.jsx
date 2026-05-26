@@ -42,16 +42,6 @@ function PartnerIcon({ partner, tooltip }) {
   return icon;
 }
 
-function reorderSteps(original) {
-  const screeningIdx = original.findIndex(s => s.label === 'Screening & Monitoring');
-  const riskIdx = original.findIndex(s => s.label === 'Risk Assessment');
-  if (screeningIdx < 0 || riskIdx < 0 || screeningIdx === riskIdx + 1) return original;
-  const screening = original[screeningIdx];
-  const without = original.filter((_, i) => i !== screeningIdx);
-  const insertAt = without.findIndex(s => s.label === 'Risk Assessment') + 1;
-  return [...without.slice(0, insertAt), screening, ...without.slice(insertAt)];
-}
-
 function effectiveDotFor(step, profileLoading) {
   if (!profileLoading) return step.dot;
   if (step.label === 'Approval') return 'red';
@@ -69,7 +59,7 @@ export default function Sidebar({ profile: profileProp, profileLoading = false }
   const summaryPath = `/profile/${profile.id}`;
   const summaryActive = currentPath === summaryPath;
 
-  const steps = reorderSteps(profile.sidebarSteps || []);
+  const steps = profile.sidebarSteps || [];
   const stepDots = steps.map(s => effectiveDotFor(s, profileLoading));
   const nextIdx = stepDots.findIndex(d => d === 'red' || d === 'amber' || d === 'black');
   const requiredDots = stepDots.filter(d => d !== 'grey' && d !== 'blocked');
