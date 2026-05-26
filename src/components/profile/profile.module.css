@@ -2668,6 +2668,73 @@
   color: var(--primary-700);
 }
 
+/* ── Sidebar process progress (above stepper) ── */
+.navProgress {
+  padding: 4px 16px 12px;
+  display: flex;
+  flex-direction: column;
+  gap: 6px;
+}
+.navProgressMeta {
+  display: flex;
+  align-items: baseline;
+  justify-content: space-between;
+  gap: 8px;
+}
+.navProgressLabel {
+  font-size: 10px;
+  font-weight: 700;
+  letter-spacing: 0.5px;
+  text-transform: uppercase;
+  color: var(--text-light);
+}
+.navProgressCount {
+  font-size: 12px;
+  font-weight: 600;
+  color: var(--text-normal);
+}
+.navProgressBar {
+  position: relative;
+  width: 100%;
+  height: 4px;
+  background: var(--neutral-50);
+  border-radius: 999px;
+  overflow: hidden;
+}
+.navProgressBarFill {
+  display: block;
+  height: 100%;
+  background: var(--primary-500);
+  border-radius: 999px;
+  transition: width 0.4s ease;
+}
+.navProgressNext {
+  display: flex;
+  flex-direction: column;
+  gap: 2px;
+  padding: 6px 10px;
+  background: var(--primary-50);
+  border: 1px solid var(--primary-100);
+  border-radius: var(--rctp-radius-sm);
+  margin-top: 4px;
+}
+.navProgressNextLabel {
+  font-size: 9px;
+  font-weight: 700;
+  letter-spacing: 0.5px;
+  text-transform: uppercase;
+  color: var(--primary-700);
+}
+.navProgressNextValue {
+  font-size: 13px;
+  font-weight: 600;
+  color: var(--primary-700);
+  white-space: nowrap;
+  overflow: hidden;
+  text-overflow: ellipsis;
+  line-height: 1.2;
+}
+
 /* ── Sidebar process stepper (vertical timeline) ── */
 .navStepper {
   display: flex;

@@ -72,6 +72,11 @@ export default function Sidebar({ profile: profileProp, profileLoading = false }
   const steps = reorderSteps(profile.sidebarSteps || []);
   const stepDots = steps.map(s => effectiveDotFor(s, profileLoading));
   const nextIdx = stepDots.findIndex(d => d === 'red' || d === 'amber' || d === 'black');
+  const requiredDots = stepDots.filter(d => d !== 'grey' && d !== 'blocked');
+  const completedCount = requiredDots.filter(d => d === 'green').length;
+  const totalCount = requiredDots.length;
+  const pct = totalCount ? Math.round((completedCount / totalCount) * 100) : 0;
+  const nextStep = nextIdx >= 0 ? steps[nextIdx] : null;
 
   return (
     <aside className={styles.sideNav}>
@@ -84,6 +89,22 @@ export default function Sidebar({ profile: profileProp, profileLoading = false }
       )}
 
       <div className={styles.navDivider} />
+
+      <div className={styles.navProgress}>
+        <div className={styles.navProgressMeta}>
+          <span className={styles.navProgressLabel}>Progress</span>
+          <span className={styles.navProgressCount}>{completedCount}/{totalCount} · {pct}%</span>
+        </div>
+        <div className={styles.navProgressBar}>
+          <span className={styles.navProgressBarFill} style={{ width: `${pct}%` }} />
+        </div>
+        {nextStep && (
+          <div className={styles.navProgressNext}>
+            <span className={styles.navProgressNextLabel}>Up next</span>
+            <span className={styles.navProgressNextValue}>{nextStep.label}</span>
+          </div>
+        )}
+      </div>
 
       <div className={styles.navStepper}>
         {steps.map((step, i) => {
