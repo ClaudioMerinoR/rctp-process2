@@ -82,8 +82,8 @@ export default {
       ],
       updated: '10 Jan 2026',
       type: 'Primary Entity',
-      statusDot: 'var(--warning-500)',
-      statusLabel: 'Under Review',
+      statusDot: 'var(--alert-500)',
+      statusLabel: 'Remediation Required',
       categories: [
         { label: 'PEP', bg: '#edd500', color: 'var(--neutral-900)' },
       ],
