@@ -160,7 +160,6 @@ export default function ProfileApproval() {
                     <tr>
                       <td colSpan={6} style={{ padding: 0 }}>
                         <div className={apStyles.unavailableBanner}>
-                          <span className="material-icons-outlined" style={{ fontSize: 20, flexShrink: 0 }}>block</span>
                           <div>
                             <div className={apStyles.unavailableTitle}>Approval Unavailable</div>
                             <div className={apStyles.unavailableText}>This action will become available once all required workflow stages are completed, or when the record enters renewal.</div>
