@@ -291,7 +291,7 @@ export default function ProfilePage({ profile: profileProp, embedded = false }) 
                             <span style={{ fontSize: 20 }}>{f.flag}</span> {f.value}
                           </div>
                         ) : f.overdue ? (
-                          <div className={styles.fieldValue}>
+                          <div className={`${styles.fieldValue} ${['initech','lumon','ecomoda','gringotts','agencegrateau','gazprom','dundermifflin'].includes(profile.id) ? styles.fieldValueWithAction : ''}`}>
                             <span
                               className={styles.fieldValueOverdue}
                               style={{ cursor: 'pointer' }}
@@ -300,6 +300,11 @@ export default function ProfilePage({ profile: profileProp, embedded = false }) 
                               <span className="material-icons-outlined" style={{ fontSize: 14 }}>warning</span>
                               {f.value}
                             </span>
+                            {['initech','lumon','ecomoda','gringotts','agencegrateau','gazprom','dundermifflin'].includes(profile.id) && (
+                              <button className={styles.renewalInfoBtn} onClick={() => setRenewalDetailsPanelOpen(true)} aria-label="Renewal details">
+                                <span className="material-icons-outlined">more_horiz</span>
+                              </button>
+                            )}
                           </div>
                         ) : f.label === 'Third Party Renewal Date' && ['initech','lumon','ecomoda','gringotts','agencegrateau','gazprom','dundermifflin'].includes(profile.id) ? (
                           <div className={`${styles.fieldValue} ${styles.fieldValueWithAction}`}>
