@@ -1609,7 +1609,9 @@ function WorkflowStrip({ profile, profileLoading }) {
               {activeTasks.length === 0 ? (
                 <div className={styles.workflowTaskEmpty}>No pending tasks for this step.</div>
               ) : activeTasks.map((task, j) => {
-                const dest = activeStep.path ? `/profile/${profile.id}/${activeStep.path}` : null;
+                const dest = activeStep.label === 'Risk Assessment' && task.type === 'Questionnaire'
+                  ? `/profile/${profile.id}/risk-assessment/questionnaire`
+                  : activeStep.path ? `/profile/${profile.id}/${activeStep.path}` : null;
                 const inner = (
                   <>
                     <span className={styles.workflowTaskItemIcon}>
