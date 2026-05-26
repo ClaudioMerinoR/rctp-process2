@@ -158,7 +158,7 @@ function UpcomingTable({ rows, search, selected, onSelect }) {
         <table className={styles.table}>
           <thead>
             <tr>
-              <th style={{ width: 40 }}><Checkbox checked={allChecked} indeterminate={someChecked && !allChecked} onChange={toggleAll} /></th>
+              <th style={{ width: 40, textAlign: 'center' }}><Checkbox checked={allChecked} indeterminate={someChecked && !allChecked} onChange={toggleAll} /></th>
               <th>Task Type <span className="material-icons-outlined" style={{ fontSize: 12 }}>arrow_drop_down</span></th>
               <th>Task Name <span className="material-icons-outlined" style={{ fontSize: 12 }}>arrow_drop_down</span></th>
               <th>Third Party Name <span className="material-icons-outlined" style={{ fontSize: 12 }}>arrow_drop_down</span></th>
@@ -233,7 +233,7 @@ function ActionsTable({ rows, search, selected, onSelect }) {
         <table className={styles.table}>
           <thead>
             <tr>
-              <th style={{ width: 40 }}><Checkbox checked={allChecked} indeterminate={someChecked && !allChecked} onChange={toggleAll} /></th>
+              <th style={{ width: 40, textAlign: 'center' }}><Checkbox checked={allChecked} indeterminate={someChecked && !allChecked} onChange={toggleAll} /></th>
               <th>Task Type <span className="material-icons-outlined" style={{ fontSize: 12 }}>arrow_drop_down</span></th>
               <th>Task Name <span className="material-icons-outlined" style={{ fontSize: 12 }}>arrow_drop_down</span></th>
               <th>Third Party Name <span className="material-icons-outlined" style={{ fontSize: 12 }}>arrow_drop_down</span></th>
