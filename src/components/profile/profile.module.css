@@ -909,9 +909,10 @@
 }
 
 .fieldValueExpiringSoonWrap {
-  display: flex;
+  display: inline-flex;
   flex-direction: column;
   gap: 4px;
+  align-items: flex-start;
 }
 
 .fieldValueExpiringSoonHint {
