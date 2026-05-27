@@ -534,24 +534,27 @@ export default function AddThirdParty() {
               ) : (
                 <div className={styles.tableWrap}>
                   <table className={styles.verifyTable}>
-                    <thead><tr><th /><th>Name</th><th>DUNS Number</th><th>Address</th><th>Country/Territory</th><th>UBO Status</th></tr></thead>
+                    <thead><tr><th>Name</th><th>DUNS Number</th><th>Address</th><th>Country/Territory</th><th>UBO Status</th><th /></tr></thead>
                     <tbody>
                       {filteredVerify.map((r, i) => (
                         <tr key={i} className={selectedVerify === r.duns ? styles.rowSelected : ''}>
-                          <td>
-                            <input
-                              type="radio"
-                              name="verify-pick"
-                              checked={selectedVerify === r.duns}
-                              onChange={() => { setSelectedVerify(r.duns); applyVerification(r.duns); }}
-                              style={{ accentColor: 'var(--primary-500)' }}
-                            />
-                          </td>
                           <td style={{ fontWeight: 500, color: 'var(--text-normal)' }}>{r.name}</td>
                           <td style={{ fontFamily: 'monospace', fontSize: 12 }}>{r.duns}</td>
                           <td style={{ fontSize: 12, maxWidth: 240 }}>{r.address}</td>
                           <td>{r.country}</td>
                           <td className={styles.uboCell}><span className={`material-icons-outlined ${r.ubo ? styles.uboOk : styles.uboFail}`}>{r.ubo ? 'check_circle' : 'cancel'}</span></td>
+                          <td className={styles.verifySelectCell}>
+                            <button
+                              className={styles.verifySelectBtn}
+                              onClick={() => {
+                                setSelectedVerify(r.duns);
+                                applyVerification(r.duns);
+                                setTimeout(() => summaryRef.current?.scrollIntoView({ behavior: 'smooth', block: 'start' }), 50);
+                              }}
+                            >
+                              Select
+                            </button>
+                          </td>
                         </tr>
                       ))}
                     </tbody>
