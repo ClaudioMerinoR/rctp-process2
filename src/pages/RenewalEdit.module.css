@@ -247,7 +247,7 @@
 
 .rulesHeader {
   display: grid;
-  grid-template-columns: 36px 1fr 1fr;
+  grid-template-columns: 56px 1fr 1fr;
   background: var(--neutral-25);
   border-bottom: 1px solid var(--neutral-100);
 }
@@ -362,7 +362,7 @@
 
 .ruleRow {
   display: grid;
-  grid-template-columns: 36px 1fr 1fr;
+  grid-template-columns: 56px 1fr 1fr;
   border-bottom: 1px solid var(--neutral-100);
   height: 46px;
   transition: background 0.1s;

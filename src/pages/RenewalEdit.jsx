@@ -299,9 +299,9 @@ export default function RenewalEdit() {
           <h3 className={styles.panelTitle}>Rules</h3>
 
           {/* Rules table */}
-          <div className={styles.rulesTable} style={{ gridTemplateColumns: `36px repeat(${cols.length}, 1fr)` }}>
+          <div className={styles.rulesTable} style={{ gridTemplateColumns: `56px repeat(${cols.length}, 1fr)` }}>
             {/* Header */}
-            <div className={styles.rulesHeader} style={{ gridTemplateColumns: `36px repeat(${cols.length}, 1fr)` }}>
+            <div className={styles.rulesHeader} style={{ gridTemplateColumns: `56px repeat(${cols.length}, 1fr)` }}>
               <div className={styles.rulesDragCol} />
               {cols.map(col => (
                 <div key={col.id} className={styles.rulesColHead}>
@@ -331,7 +331,7 @@ export default function RenewalEdit() {
               <div
                 key={i}
                 className={`${styles.ruleRow}${row.active ? ' ' + styles.ruleRowActive : ''}${dragOverIdx === i && dragRowIdx !== i ? ' ' + styles.ruleRowDropTarget : ''}`}
-                style={{ gridTemplateColumns: `36px repeat(${cols.length}, 1fr)` }}
+                style={{ gridTemplateColumns: `56px repeat(${cols.length}, 1fr)` }}
                 onDragOver={e => onRowDragOver(e, i)}
                 onDrop={e => onRowDrop(e, i)}
               >
