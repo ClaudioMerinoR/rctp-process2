@@ -1,4 +1,4 @@
-import { useState, useRef } from 'react';
+import { useState, useRef, useEffect } from 'react';
 import { useNavigate, useParams } from 'react-router-dom';
 import { motion } from 'motion/react';
 import PageLayout from '../components/layout/PageLayout';
@@ -359,6 +359,16 @@ export default function Settings() {
   }
   const [selectedProcess, setSelectedProcess] = useState('Standard RCTP');
   const [renewalsEnabled, setRenewalsEnabled] = useState(true);
+  const [openMenuVersion, setOpenMenuVersion] = useState(null);
+  const renewalMenuRef = useRef(null);
+  useEffect(() => {
+    if (openMenuVersion === null) return;
+    function handleClick(e) {
+      if (renewalMenuRef.current && !renewalMenuRef.current.contains(e.target)) setOpenMenuVersion(null);
+    }
+    document.addEventListener('mousedown', handleClick);
+    return () => document.removeEventListener('mousedown', handleClick);
+  }, [openMenuVersion]);
   const [reminderPeriod, setReminderPeriod] = useState('30');
   const [reminderUnit, setReminderUnit] = useState('Day(s)');
   const [reminderCount, setReminderCount] = useState('2');
@@ -578,9 +588,23 @@ export default function Settings() {
                       <span className={`${styles.statusDot}${row.published ? ' ' + styles.statusDotPublished : ''}`} />
                     </td>
                     <td className={styles.tdCenter}>
-                      <button className={styles.actionBtn} onClick={() => navigate(`/settings/renewals/${row.version}/edit`)}>
-                        <span className="material-icons-outlined">edit</span>
-                      </button>
+                      <div className={styles.renewalMenuWrap} ref={openMenuVersion === row.version ? renewalMenuRef : null}>
+                        <button className={styles.actionBtn} onClick={() => setOpenMenuVersion(v => v === row.version ? null : row.version)}>
+                          <span className="material-icons-outlined">more_vert</span>
+                        </button>
+                        {openMenuVersion === row.version && (
+                          <div className={styles.renewalMenuDropdown}>
+                            <button className={styles.renewalMenuItem} onClick={() => setOpenMenuVersion(null)}>
+                              <span className="material-icons-outlined" style={{ fontSize: 16 }}>visibility</span>
+                              View
+                            </button>
+                            <button className={styles.renewalMenuItem} onClick={() => { setOpenMenuVersion(null); navigate(`/settings/renewals/${row.version}/edit`); }}>
+                              <span className="material-icons-outlined" style={{ fontSize: 16 }}>edit</span>
+                              Edit
+                            </button>
+                          </div>
+                        )}
+                      </div>
                     </td>
                   </tr>
                 ))}

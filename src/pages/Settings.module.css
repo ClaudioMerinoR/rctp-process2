@@ -474,6 +474,44 @@
   font-size: 16px;
 }
 
+/* ── Renewal version row menu ── */
+.renewalMenuWrap {
+  position: relative;
+  display: inline-flex;
+}
+
+.renewalMenuDropdown {
+  position: absolute;
+  right: 0;
+  top: calc(100% + 4px);
+  background: var(--neutral-00);
+  border: 1px solid var(--neutral-50);
+  border-radius: 6px;
+  box-shadow: 0 4px 16px rgba(0,0,0,0.12);
+  z-index: 100;
+  min-width: 120px;
+  overflow: hidden;
+}
+
+.renewalMenuItem {
+  display: flex;
+  align-items: center;
+  gap: 8px;
+  width: 100%;
+  padding: 10px 14px;
+  background: none;
+  border: none;
+  font-size: 13px;
+  font-family: inherit;
+  color: var(--text-normal);
+  cursor: pointer;
+  text-align: left;
+  transition: background 0.12s ease;
+}
+.renewalMenuItem:hover {
+  background: var(--primary-50);
+}
+
 /* ── Currency & Approval Groups panel ── */
 .cagPanel {
   background: var(--neutral-00);
