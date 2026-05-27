@@ -328,31 +328,33 @@ export default function RenewalEdit() {
 
             {/* Rows */}
             {rows.map((row, i) => (
-              <div
-                key={i}
-                className={`${styles.ruleRow}${row.active ? ' ' + styles.ruleRowActive : ''}${dragOverIdx === i && dragRowIdx !== i ? ' ' + styles.ruleRowDropTarget : ''}`}
-                style={{ gridTemplateColumns: `36px repeat(${cols.length}, 1fr)` }}
-                onDragOver={e => onRowDragOver(e, i)}
-                onDrop={e => onRowDrop(e, i)}
-              >
+              <div key={i} className={styles.ruleRowOuter}>
+                <span className={styles.ruleRowNum}>{i + 1}</span>
                 <div
-                  className={styles.rulesDragCol}
-                  draggable
-                  onDragStart={e => onRowDragStart(e, i)}
-                  onDragEnd={onRowDragEnd}
+                  className={`${styles.ruleRow}${row.active ? ' ' + styles.ruleRowActive : ''}${dragOverIdx === i && dragRowIdx !== i ? ' ' + styles.ruleRowDropTarget : ''}`}
+                  style={{ gridTemplateColumns: `36px repeat(${cols.length}, 1fr)` }}
+                  onDragOver={e => onRowDragOver(e, i)}
+                  onDrop={e => onRowDrop(e, i)}
                 >
-                  <span className="material-icons-outlined" style={{ fontSize: 16, color: 'var(--neutral-400)', cursor: 'grab' }}>drag_indicator</span>
-                </div>
-                {cols.map(col => (
-                  <div key={col.id} className={styles.ruleCell}>
-                    <div className={styles.conditionPill}>
-                      <span className={styles.conditionTag}>{col.condition}</span>
-                      <select className={styles.ruleSelect} value={row.values[col.id] || ''} onChange={e => updateRowColVal(i, col.id, e.target.value)}>
-                        {RULE_OPTIONS.map(o => <option key={o} value={o}>{o || 'Choose'}</option>)}
-                      </select>
-                    </div>
+                  <div
+                    className={styles.rulesDragCol}
+                    draggable
+                    onDragStart={e => onRowDragStart(e, i)}
+                    onDragEnd={onRowDragEnd}
+                  >
+                    <span className="material-icons-outlined" style={{ fontSize: 16, color: 'var(--neutral-400)', cursor: 'grab' }}>drag_indicator</span>
                   </div>
-                ))}
+                  {cols.map(col => (
+                    <div key={col.id} className={styles.ruleCell}>
+                      <div className={styles.conditionPill}>
+                        <span className={styles.conditionTag}>{col.condition}</span>
+                        <select className={styles.ruleSelect} value={row.values[col.id] || ''} onChange={e => updateRowColVal(i, col.id, e.target.value)}>
+                          {RULE_OPTIONS.map(o => <option key={o} value={o}>{o || 'Choose'}</option>)}
+                        </select>
+                      </div>
+                    </div>
+                  ))}
+                </div>
               </div>
             ))}
           </div>
