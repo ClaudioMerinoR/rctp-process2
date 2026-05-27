@@ -290,8 +290,9 @@
 .verifyTable tbody tr:hover td { background: var(--neutral-25); }
 .rowSelected td { background: var(--primary-08) !important; }
 .verifySelectCell { text-align: center; vertical-align: middle !important; padding: 6px 10px !important; }
-.verifySelectBtn { display: inline-flex; align-items: center; justify-content: center; height: 28px; padding: 0 12px; font-size: 12px; font-weight: 500; font-family: inherit; text-transform: uppercase; letter-spacing: 0.4px; background: var(--neutral-00); color: var(--primary-500); border: 1px solid var(--primary-500); border-radius: var(--rctp-radius-sm); cursor: pointer; white-space: nowrap; transition: background 0.15s, color 0.15s; }
-.verifySelectBtn:hover { background: var(--primary-50); }
+.verifySelectBtn { display: inline-flex; align-items: center; justify-content: center; height: 28px; padding: 0 8px; font-size: 13px; font-weight: 500; font-family: inherit; background: none; color: var(--primary-500); border: none; border-radius: var(--rctp-radius-sm); cursor: pointer; white-space: nowrap; transition: color 0.15s; }
+.verifySelectBtn:hover:not(:disabled) { color: var(--primary-700); text-decoration: underline; }
+.verifySelectBtn:disabled { color: var(--text-light); cursor: default; }
 .resultsHeader { display: flex; align-items: center; justify-content: space-between; margin-bottom: 8px; font-size: 12px; color: var(--text-light); }
 .emptyVerify { padding: 32px 16px; text-align: center; font-size: 13px; color: var(--text-light); border: 1px solid var(--neutral-100); border-radius: var(--rctp-radius-sm); background: var(--neutral-25); }
 .sourceBadge { display: inline-flex; align-items: center; gap: 4px; font-size: 10px; font-weight: 600; letter-spacing: 0.4px; padding: 2px 6px; border-radius: var(--rctp-radius-xs); background: var(--neutral-25); color: var(--neutral-500); text-transform: uppercase; }

@@ -546,13 +546,14 @@ export default function AddThirdParty() {
                           <td className={styles.verifySelectCell}>
                             <button
                               className={styles.verifySelectBtn}
+                              disabled={selectedVerify === r.duns}
                               onClick={() => {
                                 setSelectedVerify(r.duns);
                                 applyVerification(r.duns);
                                 setTimeout(() => summaryRef.current?.scrollIntoView({ behavior: 'smooth', block: 'start' }), 50);
                               }}
                             >
-                              Select
+                              {selectedVerify === r.duns ? 'Selected' : 'Select'}
                             </button>
                           </td>
                         </tr>
