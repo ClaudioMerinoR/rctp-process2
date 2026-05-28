@@ -13,6 +13,13 @@
 @font-face { font-family: 'Simplon Norm'; src: url('/fonts/SimplonNorm-BoldItalic.woff2') format('woff2'); font-weight: 700; font-style: italic; font-display: swap; }
 
 :root {
+  /* ── Layout heights ── */
+  --header-h: 44px;
+  --mainnav-h: 36px;
+  --nav-height: 80px;   /* header + mainnav combined */
+  --tp-header-h: 100px; /* expanded TP header height */
+  --tp-header-h-collapsed: 64px;
+
   /* ── Brand accent — Riskcenter cyan ── */
   --row-hover: #F0F7FA;   /* subtle table row hover — desaturated light teal */
   --primary-08: #E8F9FE;

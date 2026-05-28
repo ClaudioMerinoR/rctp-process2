@@ -6,8 +6,15 @@
 .tpTopStrip {
   background-color: var(--neutral-00);
   padding: 0 16px;
-  margin: 0 16px;
-  position: relative;
+  margin: 0 16px 16px;
+  position: sticky;
+  top: var(--nav-height);
+  z-index: 50;
+  overflow: hidden;
+  height: var(--tp-header-h);
+  border-radius: var(--rctp-radius-sm);
+  box-shadow: var(--rctp-shadow-xs);
+  transition: box-shadow 0.35s cubic-bezier(0.32, 0.72, 0, 1), height 0.35s cubic-bezier(0.32, 0.72, 0, 1), margin-bottom 0.35s cubic-bezier(0.32, 0.72, 0, 1);
 }
 
 .tpTopStripHigh {
@@ -79,9 +86,31 @@
 }
 
 .tpPageHeader {
-  padding: 0 0 12px;
-  margin: 16px 0;
+  position: relative;
+  display: flex;
+  flex-direction: column;
+  padding: 8px 0;
+  height: 100%;
+  transition: padding 0.35s cubic-bezier(0.32, 0.72, 0, 1);
 }
+
+/* Shrunk state when scrolled */
+.tpTopStripScrolled {
+  box-shadow: 0 2px 8px rgba(0, 0, 0, 0.08);
+  margin-bottom: 0;
+  height: var(--tp-header-h-collapsed);
+}
+
+.tpTopStripScrolled .tpPageHeader {
+  justify-content: center;
+  gap: 4px;
+  padding: 0;
+}
+
+.tpTopStripScrolled .tpBack {
+  line-height: 1;
+}
+
 
 .tpBack {
   display: inline-flex;
@@ -93,9 +122,9 @@
   text-transform: uppercase;
   letter-spacing: 0.5px;
   cursor: pointer;
-  padding: 6px 0;
+  padding: 0;
   text-decoration: none;
-  transition: color 0.3s ease;
+  transition: color 0.2s ease, padding 0.35s cubic-bezier(0.32, 0.72, 0, 1);
 }
 .tpBack:hover { color: var(--primary-600); }
 .tpBack .material-icons-outlined { font-size: 18px; }
@@ -104,6 +133,7 @@
   display: flex;
   align-items: center;
   justify-content: space-between;
+  flex: 1;
 }
 
 .tpNameGroup {
@@ -115,6 +145,12 @@
   font-size: 20px;
   font-weight: 500;
   letter-spacing: -0.1px;
+  transition: font-size 0.35s cubic-bezier(0.32, 0.72, 0, 1);
+}
+
+.tpTopStripScrolled .tpNameGroup h1 {
+  font-size: 16px;
+  line-height: 1;
 }
 
 .tpVerified {
@@ -132,6 +168,13 @@
 .tpBadges {
   display: flex;
   gap: 16px;
+}
+
+.tpTopStripScrolled .tpBadges {
+  position: absolute;
+  right: 0;
+  top: 50%;
+  transform: translateY(-50%);
 }
 
 .tpBadgeGroup {
@@ -224,6 +267,11 @@
   flex-shrink: 0;
   background: var(--neutral-25);
   padding: 0;
+  position: sticky;
+  top: calc(var(--nav-height) + var(--tp-header-h-collapsed) + 16px);
+  align-self: flex-start;
+  max-height: calc(100vh - var(--nav-height) - var(--tp-header-h-collapsed) - 16px);
+  overflow-y: auto;
 }
 
 .navItemActive {

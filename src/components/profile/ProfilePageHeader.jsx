@@ -1,3 +1,4 @@
+import { useState, useEffect } from 'react';
 import { Link } from 'react-router-dom';
 import { patchInitechProfile } from '../../utils/initechFlow';
 import { RiskLevelIcon } from './profileAssets';
@@ -17,6 +18,14 @@ export default function ProfilePageHeader({ profile: profileProp }) {
   const statusLabel = profile.currentStatus?.label ?? 'Pending Approval';
   const { cls, icon } = STATUS_CONFIG[statusLabel] ?? STATUS_CONFIG['Pending Approval'];
 
+  const [scrolled, setScrolled] = useState(false);
+
+  useEffect(() => {
+    function onScroll() { setScrolled(window.scrollY > 10); }
+    window.addEventListener('scroll', onScroll, { passive: true });
+    return () => window.removeEventListener('scroll', onScroll);
+  }, []);
+
   const riskLevelCls = profile.riskLevel?.level === 'high'   ? ' ' + styles.tpTopStripHigh
     : profile.riskLevel?.level === 'medium' ? ' ' + styles.tpTopStripMedium
     : ' ' + styles.tpTopStripLow;
@@ -25,7 +34,9 @@ export default function ProfilePageHeader({ profile: profileProp }) {
     + (profile.riskLevel?.level ?? 'low').slice(1);
 
   return (
-    <div className={`${styles.tpTopStrip}${riskLevelCls}`}>
+    <div
+      className={`${styles.tpTopStrip}${riskLevelCls}${scrolled ? ' ' + styles.tpTopStripScrolled : ''}`}
+    >
       <div className={styles.tpPageHeader}>
         <Link to={`/profile/${profile.id}`} className={styles.tpBack}>
           <span className="material-icons-outlined">chevron_left</span> Back

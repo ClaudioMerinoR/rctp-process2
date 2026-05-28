@@ -80,6 +80,12 @@ export default function ProfilePage({ profile: profileProp, embedded = false }) 
   const [editRow, setEditRow] = useState(null); // { index, row }
 
   const [tasksTab, setTasksTab] = useState('open');
+  const [scrolled, setScrolled] = useState(false);
+  useEffect(() => {
+    function onScroll() { setScrolled(window.scrollY > 10); }
+    window.addEventListener('scroll', onScroll, { passive: true });
+    return () => window.removeEventListener('scroll', onScroll);
+  }, []);
 
   if (!profile) return <div style={{ padding: 40, textAlign: 'center' }}>Profile not found</div>;
 
@@ -166,7 +172,7 @@ export default function ProfilePage({ profile: profileProp, embedded = false }) 
       ]} />}
 
       {/* Top Strip */}
-      <div className={`${styles.tpTopStrip}${profileLoading ? ' ' + styles.tpTopStripPending : profile.riskLevel.level === 'high' ? ' ' + styles.tpTopStripHigh : profile.riskLevel.level === 'medium' ? ' ' + styles.tpTopStripMedium : profile.riskLevel.level === 'low' ? ' ' + styles.tpTopStripLow : ''}`}>
+      <div className={`${styles.tpTopStrip}${profileLoading ? ' ' + styles.tpTopStripPending : profile.riskLevel.level === 'high' ? ' ' + styles.tpTopStripHigh : profile.riskLevel.level === 'medium' ? ' ' + styles.tpTopStripMedium : profile.riskLevel.level === 'low' ? ' ' + styles.tpTopStripLow : ''}${scrolled ? ' ' + styles.tpTopStripScrolled : ''}`}>
         <div className={styles.tpPageHeader}>
           <Link to="/third-parties" className={styles.tpBack}>
             <span className="material-icons-outlined">chevron_left</span> Back

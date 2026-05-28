@@ -1,0 +1,166 @@
+{
+  "schemaVersion": 2,
+  "generatedAt": "2026-05-28T00:00:00Z",
+  "title": "Design System: RCTP Process",
+  "extensions": {
+    "colorMeta": {
+      "riskcenter-teal":       { "role": "primary",   "displayName": "Riskcenter Teal",        "canonical": "#028FBB", "tonalRamp": ["#013B4D","#01556F","#017295","#0289B3","#028FBB","#02A3D5","#53C0E2","#A4DEF0","#E8F9FE"] },
+      "riskcenter-teal-dark":  { "role": "primary",   "displayName": "Riskcenter Teal Dark",   "canonical": "#017295", "tonalRamp": ["#003040","#014A5A","#017295","#0289B3","#028FBB","#02A3D5","#7BCFE9","#B8E5F3","#E8F9FE"] },
+      "riskcenter-teal-light": { "role": "primary",   "displayName": "Riskcenter Teal Light",  "canonical": "#02A3D5", "tonalRamp": ["#013B4D","#017295","#028FBB","#02A3D5","#53C0E2","#7BCFE9","#A4DEF0","#B8E5F3","#E8F9FE"] },
+      "riskcenter-teal-ghost": { "role": "primary",   "displayName": "Riskcenter Teal Ghost",  "canonical": "#E8F9FE", "tonalRamp": ["#028FBB","#53C0E2","#A4DEF0","#B8E5F3","#CBE9F4","#D8EFF8","#E8F9FE","#F2FBFF","#FAFEFF"] },
+      "ink-deep":              { "role": "neutral",   "displayName": "Ink Deep",               "canonical": "#0C2A31", "tonalRamp": ["#030E12","#061619","#0C2A31","#21262A","#49454F","#5A6E73","#8D9CA9","#C4CCD2","#DFE3E7"] },
+      "ink-secondary":         { "role": "neutral",   "displayName": "Ink Secondary",          "canonical": "#516267", "tonalRamp": ["#0C2A31","#21262A","#3A494E","#516267","#5A6E73","#76838E","#8D9CA9","#B1BCC5","#DFE3E7"] },
+      "ink-tertiary":          { "role": "neutral",   "displayName": "Ink Tertiary",           "canonical": "#5A6E73", "tonalRamp": ["#0C2A31","#3A494E","#516267","#5A6E73","#76838E","#8D9CA9","#B1BCC5","#D6DBE0","#DFE3E7"] },
+      "paper-gray":            { "role": "neutral",   "displayName": "Paper Gray",             "canonical": "#F4F4F4", "tonalRamp": ["#495158","#606A73","#8D9CA9","#B1BCC5","#C4CCD2","#D6DBE0","#DFE3E7","#F4F4F4","#FFFFFF"] },
+      "surface-white":         { "role": "neutral",   "displayName": "Surface White",          "canonical": "#FFFFFF", "tonalRamp": ["#33383D","#495158","#76838E","#9FACB7","#B1BCC5","#C4CCD2","#DFE3E7","#F4F4F4","#FFFFFF"] },
+      "border-subtle":         { "role": "neutral",   "displayName": "Border Subtle",          "canonical": "#DFE3E7", "tonalRamp": ["#495158","#606A73","#76838E","#9FACB7","#B1BCC5","#C4CCD2","#D6DBE0","#DFE3E7","#F4F4F4"] },
+      "border-field":          { "role": "neutral",   "displayName": "Border Field",           "canonical": "#C4CCD2", "tonalRamp": ["#33383D","#495158","#606A73","#76838E","#9FACB7","#B1BCC5","#C4CCD2","#D6DBE0","#F4F4F4"] },
+      "alert-surface":         { "role": "tertiary",  "displayName": "Alert Surface",          "canonical": "#F5BFC1", "tonalRamp": ["#521B1E","#9A3438","#B3261E","#E34C53","#EC858A","#F5BFC1","#F7CDCF","#FBE6E7","#FFF5F5"] },
+      "alert-text":            { "role": "tertiary",  "displayName": "Alert Text",             "canonical": "#9A3438", "tonalRamp": ["#521B1E","#9A3438","#B3261E","#E34C53","#EC858A","#F5BFC1","#F7CDCF","#FBE6E7","#FFF5F5"] },
+      "success-surface":       { "role": "tertiary",  "displayName": "Success Surface",        "canonical": "#AAF3D2", "tonalRamp": ["#07502E","#0D9858","#13DF81","#5FE9A9","#AAF3D2","#BDF6DC","#D4FAE9","#E8FDF3","#F4FFF9"] },
+      "success-text":          { "role": "tertiary",  "displayName": "Success Text",           "canonical": "#07502E", "tonalRamp": ["#07502E","#0D9858","#13DF81","#5FE9A9","#AAF3D2","#BDF6DC","#D4FAE9","#E8FDF3","#F4FFF9"] },
+      "warning-surface":       { "role": "tertiary",  "displayName": "Warning Surface",        "canonical": "#FAE8BB", "tonalRamp": ["#564518","#A3832E","#F0C043","#F5D47F","#FAE8BB","#FBF1CC","#FDF5DE","#FFF9EE","#FFFDF5"] },
+      "warning-text":          { "role": "tertiary",  "displayName": "Warning Text",           "canonical": "#564518", "tonalRamp": ["#564518","#A3832E","#F0C043","#F5D47F","#FAE8BB","#FBF1CC","#FDF5DE","#FFF9EE","#FFFDF5"] }
+    },
+    "typographyMeta": {
+      "display":  { "displayName": "Display",  "purpose": "Page-level titles. Light weight (300) is intentional at 32px." },
+      "headline": { "displayName": "Headline", "purpose": "Section headings and dialog titles." },
+      "title":    { "displayName": "Title",    "purpose": "Card titles, panel headings." },
+      "body":     { "displayName": "Body",     "purpose": "Table cells, body copy, form field values. Roboto for data legibility." },
+      "label":    { "displayName": "Label",    "purpose": "Buttons, column headers, status chips, nav items." }
+    },
+    "shadows": [
+      { "name": "shadow-xs", "value": "0 1px 2px rgba(0,0,0,0.07)",                               "purpose": "Card default. The system's most-used shadow; barely visible." },
+      { "name": "shadow-sm", "value": "0 1px 2px rgba(0,0,0,0.15)",                               "purpose": "Interactive card hover." },
+      { "name": "shadow-md", "value": "0 2px 6px rgba(0,0,0,0.15), 0 1px 2px rgba(0,0,0,0.07)", "purpose": "Dropdowns, combobox overlays, popovers." },
+      { "name": "shadow-lg", "value": "0 6px 14px rgba(0,0,0,0.25)",                              "purpose": "Slide-in side panels (StatusPanel, DeclinePanel, column picker)." },
+      { "name": "shadow-xl", "value": "0 12px 24px rgba(0,0,0,0.30)",                             "purpose": "Full-screen modals and overlays." }
+    ],
+    "motion": [
+      { "name": "ease-standard",   "value": "cubic-bezier(0.32, 0.72, 0, 1)", "purpose": "Tab indicator and layout transitions. Expo-out feel." },
+      { "name": "ease-color",      "value": "ease",                            "purpose": "Background color and border-color state transitions." },
+      { "name": "duration-fast",   "value": "100ms",                           "purpose": "Table row hover background." },
+      { "name": "duration-base",   "value": "200ms",                           "purpose": "Button, input, nav hover states." },
+      { "name": "duration-slow",   "value": "300ms",                           "purpose": "Framer Motion section reveals and panel slides." }
+    ],
+    "breakpoints": [
+      { "name": "sm",  "value": "640px" },
+      { "name": "md",  "value": "768px" },
+      { "name": "lg",  "value": "1024px" },
+      { "name": "xl",  "value": "1280px" }
+    ]
+  },
+  "components": [
+    {
+      "name": "Primary Button",
+      "kind": "button",
+      "refersTo": "button-primary",
+      "description": "The system's primary action trigger. Compact, uppercase, teal.",
+      "html": "<button class=\"ds-btn-primary\"><svg width=\"14\" height=\"14\" viewBox=\"0 0 24 24\" fill=\"none\" xmlns=\"http://www.w3.org/2000/svg\" style=\"margin-right:4px\"><path d=\"M19 13H13V19H11V13H5V11H11V5H13V11H19V13Z\" fill=\"currentColor\"/></svg>ADD THIRD PARTY</button>",
+      "css": ".ds-btn-primary { display: inline-flex; align-items: center; gap: 4px; height: 32px; padding: 0 12px; background: #028FBB; color: #F4F4F4; border: none; border-radius: 4px; font-family: 'Simplon Norm', 'Inter', ui-sans-serif, system-ui, sans-serif; font-size: 12px; font-weight: 500; text-transform: uppercase; letter-spacing: 0.5px; cursor: pointer; transition: background 0.2s ease; white-space: nowrap; } .ds-btn-primary:hover { background: #017295; } .ds-btn-primary:focus-visible { outline: 2px solid #02A3D5; outline-offset: 2px; border-radius: 2px; } .ds-btn-primary:disabled { opacity: 0.4; cursor: not-allowed; }"
+    },
+    {
+      "name": "Ghost Button",
+      "kind": "button",
+      "refersTo": "button-ghost",
+      "description": "Secondary actions. Same dimensions as primary; transparent background.",
+      "html": "<button class=\"ds-btn-ghost\">CANCEL</button>",
+      "css": ".ds-btn-ghost { display: inline-flex; align-items: center; height: 32px; padding: 0 12px; background: transparent; color: #028FBB; border: 1px solid #028FBB; border-radius: 4px; font-family: 'Simplon Norm', 'Inter', ui-sans-serif, system-ui, sans-serif; font-size: 12px; font-weight: 500; text-transform: uppercase; letter-spacing: 0.5px; cursor: pointer; transition: background 0.2s ease, color 0.2s ease; } .ds-btn-ghost:hover { background: #E8F9FE; } .ds-btn-ghost:focus-visible { outline: 2px solid #02A3D5; outline-offset: 2px; border-radius: 2px; } .ds-btn-ghost:disabled { opacity: 0.4; cursor: not-allowed; }"
+    },
+    {
+      "name": "Text Input",
+      "kind": "input",
+      "refersTo": "input-default",
+      "description": "Standard form field. 32px height matches button baseline.",
+      "html": "<div class=\"ds-field\"><label class=\"ds-field-label\">Third Party Name</label><input class=\"ds-input\" type=\"text\" placeholder=\"Enter legal name\" /></div>",
+      "css": ".ds-field { display: flex; flex-direction: column; gap: 4px; } .ds-field-label { font-family: 'Simplon Norm', 'Inter', ui-sans-serif, sans-serif; font-size: 12px; font-weight: 500; color: #0C2A31; letter-spacing: 0.1px; } .ds-input { height: 32px; border: 1px solid #C4CCD2; border-radius: 2px; padding: 0 10px; font-size: 13px; font-family: 'Roboto', 'Inter', ui-sans-serif, sans-serif; color: #0C2A31; background: #FFFFFF; transition: border-color 0.15s ease, box-shadow 0.15s ease; } .ds-input::placeholder { color: #5A6E73; } .ds-input:focus { outline: none; border-color: #028FBB; box-shadow: 0 0 0 3px rgba(2, 163, 213, 0.12); } .ds-input:disabled { background: #F4F4F4; color: #5A6E73; cursor: not-allowed; }"
+    },
+    {
+      "name": "Status Chip: Approved",
+      "kind": "chip",
+      "refersTo": "chip-status-approved",
+      "description": "Semantic status badge for approved third parties.",
+      "html": "<span class=\"ds-chip ds-chip-approved\"><svg width=\"12\" height=\"12\" viewBox=\"0 0 24 24\" fill=\"none\" xmlns=\"http://www.w3.org/2000/svg\" style=\"margin-right:4px\"><path d=\"M12 2C6.48 2 2 6.48 2 12s4.48 10 10 10 10-4.48 10-10S17.52 2 12 2zm-2 14.5v-9l6 4.5-6 4.5z\" fill=\"currentColor\"/><path d=\"M9 16.17L4.83 12l-1.42 1.41L9 19 21 7l-1.41-1.41z\" fill=\"currentColor\"/></svg>Approved</span>",
+      "css": ".ds-chip { display: inline-flex; align-items: center; padding: 3px 8px; border-radius: 2px; font-family: 'Simplon Norm', 'Inter', ui-sans-serif, sans-serif; font-size: 11px; font-weight: 600; white-space: nowrap; } .ds-chip-approved { background: #AAF3D2; color: #07502E; } .ds-chip-pending { background: #DFE3E7; color: #0C2A31; } .ds-chip-declined { background: #F5BFC1; color: #9A3438; } .ds-chip-warning { background: #FAE8BB; color: #564518; }"
+    },
+    {
+      "name": "Status Chip: Declined",
+      "kind": "chip",
+      "refersTo": "chip-status-alert",
+      "description": "Semantic status badge for declined or not-approved third parties.",
+      "html": "<span class=\"ds-chip ds-chip-declined\">Declined</span>",
+      "css": ".ds-chip { display: inline-flex; align-items: center; padding: 3px 8px; border-radius: 2px; font-family: 'Simplon Norm', 'Inter', ui-sans-serif, sans-serif; font-size: 11px; font-weight: 600; white-space: nowrap; } .ds-chip-declined { background: #F5BFC1; color: #9A3438; }"
+    },
+    {
+      "name": "Tag Chip",
+      "kind": "chip",
+      "refersTo": "chip-tag",
+      "description": "Classification tag used in the third-party table and profile fields.",
+      "html": "<span class=\"ds-tag\">Regional</span>",
+      "css": ".ds-tag { display: inline-flex; align-items: center; padding: 2px 8px; border-radius: 2px; background: #DFE3E7; color: #0C2A31; font-family: 'Simplon Norm', 'Inter', ui-sans-serif, sans-serif; font-size: 11px; font-weight: 500; white-space: nowrap; }"
+    },
+    {
+      "name": "Data Table",
+      "kind": "custom",
+      "refersTo": "card",
+      "description": "Standard bordered table with alternating row stripes. The system's primary data display pattern.",
+      "html": "<table class=\"ds-table\"><thead><tr><th>Third Party Name</th><th>Risk Level</th><th>Status</th><th>Owner</th></tr></thead><tbody><tr><td class=\"ds-cell-link\">Pied Piper</td><td>High</td><td><span class=\"ds-chip ds-chip-approved\">Approved</span></td><td>J. Smith</td></tr><tr><td class=\"ds-cell-link\">Initech Corp</td><td>Medium</td><td><span class=\"ds-chip ds-chip-pending\">Pending</span></td><td>A. Lee</td></tr><tr><td class=\"ds-cell-link\">Lumon Industries</td><td>Low</td><td><span class=\"ds-chip ds-chip-declined\">Declined</span></td><td>R. Park</td></tr></tbody></table>",
+      "css": ".ds-table { width: 100%; border-collapse: collapse; font-family: 'Roboto', 'Inter', ui-sans-serif, sans-serif; font-size: 13px; } .ds-table thead th { background: #F4F4F4; border: 1px solid #DFE3E7; border-bottom: 1px solid #D6DBE0; padding: 10px 12px; text-align: left; font-family: 'Simplon Norm', 'Inter', ui-sans-serif, sans-serif; font-size: 11px; font-weight: 600; color: #516267; letter-spacing: 0.5px; text-transform: uppercase; } .ds-table tbody tr:nth-child(odd) { background: #E8F9FE; } .ds-table tbody tr:nth-child(even) { background: #FFFFFF; } .ds-table tbody tr { transition: background 100ms ease; } .ds-table tbody tr:hover { background: #F0F7FA; } .ds-table tbody td { padding: 10px 12px; vertical-align: middle; color: #516267; border: 1px solid #DFE3E7; } .ds-cell-link { color: #0289B3; font-weight: 500; } .ds-chip { display: inline-flex; align-items: center; padding: 3px 8px; border-radius: 2px; font-family: 'Simplon Norm', 'Inter', ui-sans-serif, sans-serif; font-size: 11px; font-weight: 600; white-space: nowrap; } .ds-chip-approved { background: #AAF3D2; color: #07502E; } .ds-chip-pending { background: #DFE3E7; color: #0C2A31; } .ds-chip-declined { background: #F5BFC1; color: #9A3438; }"
+    },
+    {
+      "name": "Card",
+      "kind": "card",
+      "refersTo": "card",
+      "description": "Standard content card with top accent bar. Used for primary page sections.",
+      "html": "<div class=\"ds-card\"><div class=\"ds-card-header\">Third Party Details</div><div class=\"ds-card-body\">Field content goes here.</div></div>",
+      "css": ".ds-card { background: #FFFFFF; border-radius: 4px; box-shadow: 0 1px 2px rgba(0,0,0,0.07); border-top: 4px solid #028FBB; } .ds-card-header { padding: 16px; font-family: 'Simplon Norm', 'Inter', ui-sans-serif, sans-serif; font-size: 20px; font-weight: 500; color: #0C2A31; border-bottom: 1px solid #DFE3E7; } .ds-card-body { padding: 16px; font-family: 'Roboto', 'Inter', ui-sans-serif, sans-serif; font-size: 14px; color: #516267; }"
+    },
+    {
+      "name": "Sidebar Nav Item",
+      "kind": "nav",
+      "refersTo": "card",
+      "description": "Left sidebar navigation item used in Settings and CompanyAdmin.",
+      "html": "<nav class=\"ds-sidebar\"><a class=\"ds-nav-item ds-nav-item-active\" href=\"#\">Currency &amp; Approval Groups</a><a class=\"ds-nav-item\" href=\"#\">Renewals</a><a class=\"ds-nav-item\" href=\"#\">Stages</a></nav>",
+      "css": ".ds-sidebar { width: 226px; display: flex; flex-direction: column; padding: 8px 0; } .ds-nav-item { display: block; padding: 8px 16px; font-family: 'Simplon Norm', 'Inter', ui-sans-serif, sans-serif; font-size: 14px; font-weight: 400; color: #516267; text-decoration: none; border-radius: 0; transition: background 0.15s ease, color 0.15s ease; } .ds-nav-item:hover { background: #E8F9FE; color: #0C2A31; } .ds-nav-item-active { background: #028FBB; color: #FFFFFF; font-weight: 500; } .ds-nav-item-active:hover { background: #017295; color: #FFFFFF; }"
+    }
+  ],
+  "narrative": {
+    "northStar": "The Calm Casebook",
+    "overview": "This design system is a professional's tool, built for people who spend long sessions making consequential decisions. The aesthetic draws from the mental model of a well-kept case file: everything is findable, nothing is decorative, and the system earns trust through its consistency. A compliance officer opening a third-party profile should feel a quiet sense of order, not the manufactured urgency that plagues financial dashboards or the visual chaos of legacy GRC tools.\n\nThe palette is anchored by Riskcenter Teal, a considered blue-green that conveys both institutional reliability and calm focus without sliding into the navy-and-gray gravity well of enterprise software. Surfaces are a warm Paper Gray, not a harsh white. Text is a deep teal-tinted ink that ties every element back to the brand hue without announcing itself. The overall effect: a room that was arranged for you before you arrived.\n\nInformation density is treated with respect. Long sessions mean complex screens. The system allows tables with many columns, forms with many fields, and panels with layered information. Density is achieved through precise spacing and tight components, not compression. The difference between a cramped screen and a dense one is rhythm, and rhythm comes from varied spacing that the eye can parse without effort.",
+    "keyCharacteristics": [
+      "Teal-anchored ink and accent system; the brand color appears in structural roles (nav, buttons, links) and nowhere else",
+      "Two-typeface hierarchy: Simplon Norm for UI chrome and headings, Roboto for data-heavy body text",
+      "32px component baseline: buttons, inputs, select controls all share the same height",
+      "Flat-by-default elevation; card borders and shadow-xs separate surfaces without drama",
+      "Status communicated through tinted surface + high-contrast text pairs; color is never the only carrier of meaning"
+    ],
+    "rules": [
+      { "name": "The Structural Only Rule",  "body": "Riskcenter Teal appears exclusively in structural roles: navigation, primary actions, links, focus indicators, and active states. It is never used as a decorative splash or gradient. Its rarity ensures it always carries meaning.",         "section": "colors" },
+      { "name": "The Paired Status Rule",    "body": "Every status color is paired: a desaturated surface tint plus a high-contrast text color. The surface alone communicates nothing; the pair communicates everything. Never use the surface tint as the only status indicator.",           "section": "colors" },
+      { "name": "The Two-Font Rule",         "body": "Simplon Norm is for the interface; Roboto is for the data. Do not use Simplon Norm for body text in tables or Roboto for button labels.",                                                                                              "section": "typography" },
+      { "name": "The Light Display Rule",    "body": "32px headings use weight 300. The lightness is intentional at large sizes. Do not bump the weight to 500 for impact.",                                                                                                               "section": "typography" },
+      { "name": "The Flat-By-Default Rule",  "body": "Cards are flat at rest. A card gains a shadow only when it moves (hover, drag) or floats above other content (dropdown, panel). Static card grids with identical elevation on every tile are prohibited.",                          "section": "elevation" }
+    ],
+    "dos": [
+      "Do use Riskcenter Teal exclusively for structural roles: nav, primary buttons, links, focus rings, active indicators, checkbox fill.",
+      "Do pair every status color: surface tint + high-contrast text. Both elements must be present.",
+      "Do match button, input, and select heights to 32px.",
+      "Do use border-top: 4px solid var(--primary-500) on cards that anchor primary page sections.",
+      "Do animate tab indicators with Framer Motion layoutId, not CSS ::after pseudo-elements.",
+      "Do keep body text containers below 65–75ch.",
+      "Do make color + icon + text carry every status together. Color alone fails WCAG AA.",
+      "Do use Simplon Norm for UI chrome and Roboto for data."
+    ],
+    "donts": [
+      "Don't make this look like ServiceNow or legacy GRC tools: no heavy gray grids, no overwhelming chrome, no dated form UI.",
+      "Don't use dark mode with neon or high-chroma accents. Compliance is not a trading terminal.",
+      "Don't use border-left greater than 1px as a colored stripe accent on cards, callouts, or list items.",
+      "Don't use gradient text (background-clip: text with a gradient background).",
+      "Don't build identical card grids: same-sized cards, same icon + heading + text repeated.",
+      "Don't use a modal as the first solution for progressive disclosure.",
+      "Don't use Riskcenter Teal decoratively as a colored section background or gradient.",
+      "Don't render a status chip with only a background tint and no accompanying text color from the paired set.",
+      "Don't use weight 500 on 32px display headings."
+    ]
+  }
+}
