@@ -98,13 +98,14 @@
 }
 
 .tpTopStripScrolled .tpPageHeader {
+  position: relative;
   margin: 0;
   padding: 0;
   height: 64px;
   display: flex;
   flex-direction: column;
   justify-content: center;
-  gap: 2px;
+  gap: 4px;
 }
 
 .tpTopStripScrolled .tpBack {
@@ -112,8 +113,12 @@
   line-height: 1;
 }
 
-.tpTopStripScrolled .tpTitleRow {
-  align-items: flex-start;
+/* Pull badges out of the flex flow so they don't inflate tpTitleRow height */
+.tpTopStripScrolled .tpBadges {
+  position: absolute;
+  right: 0;
+  top: 50%;
+  transform: translateY(-50%);
 }
 
 
