@@ -7,7 +7,14 @@
   background-color: var(--neutral-00);
   padding: 0 16px;
   margin: 0 16px;
-  position: relative;
+  position: sticky;
+  top: var(--nav-height);
+  z-index: 50;
+  transition: box-shadow 0.2s ease;
+}
+
+.tpTopStripScrolled {
+  box-shadow: 0 2px 8px rgba(0, 0, 0, 0.08);
 }
 
 .tpTopStripHigh {
@@ -81,6 +88,27 @@
 .tpPageHeader {
   padding: 0 0 12px;
   margin: 16px 0;
+  transition: margin 0.25s ease, padding 0.25s ease;
+}
+
+/* Shrunk state when scrolled */
+.tpTopStripScrolled .tpPageHeader {
+  margin: 8px 0;
+  padding: 0 0 8px;
+}
+
+.tpTopStripScrolled .tpBack {
+  display: none;
+}
+
+.tpTopStripScrolled .tpBadgeLabel {
+  display: none;
+}
+
+.tpTopStripScrolled .tpBadgeGroup {
+  flex-direction: row;
+  align-items: center;
+  gap: 6px;
 }
 
 .tpBack {
@@ -224,6 +252,11 @@
   flex-shrink: 0;
   background: var(--neutral-25);
   padding: 0;
+  position: sticky;
+  top: calc(var(--nav-height) + var(--tp-header-h-collapsed));
+  align-self: flex-start;
+  max-height: calc(100vh - var(--nav-height) - var(--tp-header-h-collapsed));
+  overflow-y: auto;
 }
 
 .navItemActive {
