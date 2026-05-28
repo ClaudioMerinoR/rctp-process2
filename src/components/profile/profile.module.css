@@ -10,8 +10,8 @@
   position: sticky;
   top: var(--nav-height);
   z-index: 50;
-  max-height: 200px;
-  transition: box-shadow 0.35s cubic-bezier(0.4, 0, 0.2, 1), max-height 0.35s cubic-bezier(0.4, 0, 0.2, 1);
+  overflow: hidden;
+  transition: box-shadow 0.35s cubic-bezier(0.4, 0, 0.2, 1), height 0.35s cubic-bezier(0.4, 0, 0.2, 1);
 }
 
 .tpTopStripHigh {
@@ -90,8 +90,6 @@
 
 /* Shrunk state when scrolled */
 .tpTopStripScrolled {
-  max-height: var(--tp-header-h-collapsed);
-  overflow: hidden;
   box-shadow: 0 2px 8px rgba(0, 0, 0, 0.08);
 }
 

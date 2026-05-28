@@ -1,4 +1,4 @@
-import { useState, useEffect } from 'react';
+import { useState, useEffect, useRef } from 'react';
 import { Link } from 'react-router-dom';
 import { patchInitechProfile } from '../../utils/initechFlow';
 import { RiskLevelIcon } from './profileAssets';
@@ -19,6 +19,15 @@ export default function ProfilePageHeader({ profile: profileProp }) {
   const { cls, icon } = STATUS_CONFIG[statusLabel] ?? STATUS_CONFIG['Pending Approval'];
 
   const [scrolled, setScrolled] = useState(false);
+  const [expandedHeight, setExpandedHeight] = useState(null);
+  const stripRef = useRef(null);
+
+  useEffect(() => {
+    if (stripRef.current) {
+      setExpandedHeight(stripRef.current.offsetHeight);
+    }
+  }, []);
+
   useEffect(() => {
     function onScroll() { setScrolled(window.scrollY > 10); }
     window.addEventListener('scroll', onScroll, { passive: true });
@@ -32,8 +41,16 @@ export default function ProfilePageHeader({ profile: profileProp }) {
   const riskCapCls = 'badge' + (profile.riskLevel?.level ?? 'low').charAt(0).toUpperCase()
     + (profile.riskLevel?.level ?? 'low').slice(1);
 
+  const heightStyle = expandedHeight
+    ? { height: scrolled ? 'var(--tp-header-h-collapsed)' : `${expandedHeight}px` }
+    : {};
+
   return (
-    <div className={`${styles.tpTopStrip}${riskLevelCls}${scrolled ? ' ' + styles.tpTopStripScrolled : ''}`}>
+    <div
+      ref={stripRef}
+      style={heightStyle}
+      className={`${styles.tpTopStrip}${riskLevelCls}${scrolled ? ' ' + styles.tpTopStripScrolled : ''}`}
+    >
       <div className={styles.tpPageHeader}>
         <Link to={`/profile/${profile.id}`} className={styles.tpBack}>
           <span className="material-icons-outlined">chevron_left</span> Back
