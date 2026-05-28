@@ -88,27 +88,17 @@
 .tpPageHeader {
   padding: 0 0 12px;
   margin: 16px 0;
-  transition: margin 0.25s ease, padding 0.25s ease;
+  transition: margin 0.35s cubic-bezier(0.4, 0, 0.2, 1), padding 0.35s cubic-bezier(0.4, 0, 0.2, 1);
 }
 
 /* Shrunk state when scrolled */
 .tpTopStripScrolled .tpPageHeader {
-  margin: 8px 0;
-  padding: 0 0 8px;
+  margin: 6px 0;
+  padding: 0 0 6px;
 }
 
 .tpTopStripScrolled .tpBack {
-  display: none;
-}
-
-.tpTopStripScrolled .tpBadgeLabel {
-  display: none;
-}
-
-.tpTopStripScrolled .tpBadgeGroup {
-  flex-direction: row;
-  align-items: center;
-  gap: 6px;
+  padding: 2px 0;
 }
 
 .tpBack {
@@ -123,7 +113,7 @@
   cursor: pointer;
   padding: 6px 0;
   text-decoration: none;
-  transition: color 0.3s ease;
+  transition: color 0.3s ease, padding 0.35s cubic-bezier(0.4, 0, 0.2, 1);
 }
 .tpBack:hover { color: var(--primary-600); }
 .tpBack .material-icons-outlined { font-size: 18px; }
@@ -143,6 +133,11 @@
   font-size: 20px;
   font-weight: 500;
   letter-spacing: -0.1px;
+  transition: font-size 0.35s cubic-bezier(0.4, 0, 0.2, 1);
+}
+
+.tpTopStripScrolled .tpNameGroup h1 {
+  font-size: 16px;
 }
 
 .tpVerified {
@@ -253,9 +248,9 @@
   background: var(--neutral-25);
   padding: 0;
   position: sticky;
-  top: calc(var(--nav-height) + var(--tp-header-h-collapsed));
+  top: calc(var(--nav-height) + var(--tp-header-h-collapsed) + 16px);
   align-self: flex-start;
-  max-height: calc(100vh - var(--nav-height) - var(--tp-header-h-collapsed));
+  max-height: calc(100vh - var(--nav-height) - var(--tp-header-h-collapsed) - 16px);
   overflow-y: auto;
 }
 
