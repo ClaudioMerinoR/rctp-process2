@@ -222,6 +222,7 @@
   letter-spacing: 0.5px;
   white-space: nowrap;
   position: relative;
+  vertical-align: middle;
 }
 .table thead th span[class*="material-icons"] {
   position: absolute;

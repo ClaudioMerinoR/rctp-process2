@@ -158,7 +158,7 @@ function UpcomingTable({ rows, search, selected, onSelect }) {
         <table className={styles.table}>
           <thead>
             <tr>
-              <th style={{ width: 40, padding: 0, textAlign: 'center' }}><Checkbox checked={allChecked} indeterminate={someChecked && !allChecked} onChange={toggleAll} /></th>
+              <th style={{ width: 40, padding: 0, textAlign: 'center', verticalAlign: 'middle' }}><Checkbox checked={allChecked} indeterminate={someChecked && !allChecked} onChange={toggleAll} /></th>
               <th>Task Type <span className="material-icons-outlined" style={{ fontSize: 12 }}>arrow_drop_down</span></th>
               <th>Task Name <span className="material-icons-outlined" style={{ fontSize: 12 }}>arrow_drop_down</span></th>
               <th>Third Party Name <span className="material-icons-outlined" style={{ fontSize: 12 }}>arrow_drop_down</span></th>
@@ -173,7 +173,7 @@ function UpcomingTable({ rows, search, selected, onSelect }) {
               <tr><td colSpan={8} style={{ textAlign: 'center', color: 'var(--text-light)', padding: '32px 0' }}>No actions found.</td></tr>
             ) : filtered.map((row, i) => (
               <tr key={i}>
-                <td style={{ textAlign: 'center' }}><Checkbox checked={selected.has(i)} onChange={() => toggleRow(i)} /></td>
+                <td style={{ textAlign: 'center', verticalAlign: 'middle' }}><Checkbox checked={selected.has(i)} onChange={() => toggleRow(i)} /></td>
                 <td><TaskTypeBadge type={row.type} /></td>
                 <td>
                   {row.tpId
@@ -233,7 +233,7 @@ function ActionsTable({ rows, search, selected, onSelect }) {
         <table className={styles.table}>
           <thead>
             <tr>
-              <th style={{ width: 40, padding: 0, textAlign: 'center' }}><Checkbox checked={allChecked} indeterminate={someChecked && !allChecked} onChange={toggleAll} /></th>
+              <th style={{ width: 40, padding: 0, textAlign: 'center', verticalAlign: 'middle' }}><Checkbox checked={allChecked} indeterminate={someChecked && !allChecked} onChange={toggleAll} /></th>
               <th>Task Type <span className="material-icons-outlined" style={{ fontSize: 12 }}>arrow_drop_down</span></th>
               <th>Task Name <span className="material-icons-outlined" style={{ fontSize: 12 }}>arrow_drop_down</span></th>
               <th>Third Party Name <span className="material-icons-outlined" style={{ fontSize: 12 }}>arrow_drop_down</span></th>
@@ -249,7 +249,7 @@ function ActionsTable({ rows, search, selected, onSelect }) {
               <tr><td colSpan={9} style={{ textAlign: 'center', color: 'var(--text-light)', padding: '32px 0' }}>No actions found.</td></tr>
             ) : filtered.map((row, i) => (
               <tr key={i}>
-                <td style={{ textAlign: 'center' }}><Checkbox checked={selected.has(i)} onChange={() => toggleRow(i)} /></td>
+                <td style={{ textAlign: 'center', verticalAlign: 'middle' }}><Checkbox checked={selected.has(i)} onChange={() => toggleRow(i)} /></td>
                 <td><TaskTypeBadge type={row.type} /></td>
                 <td>
                   {row.tpId
