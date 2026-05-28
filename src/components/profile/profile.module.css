@@ -93,12 +93,14 @@
 
 /* Shrunk state when scrolled */
 .tpTopStripScrolled .tpPageHeader {
-  margin: 6px 0;
-  padding: 0 0 6px;
+  margin: 4px 0;
+  padding: 0 0 4px;
 }
 
 .tpTopStripScrolled .tpBack {
-  padding: 2px 0;
+  padding: 0;
+  line-height: 1;
+  margin-bottom: 2px;
 }
 
 .tpBack {

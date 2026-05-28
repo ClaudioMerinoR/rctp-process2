@@ -18,7 +18,7 @@
   --mainnav-h: 36px;
   --nav-height: 80px;   /* header + mainnav combined */
   --tp-header-h: 88px;  /* expanded TP header height */
-  --tp-header-h-collapsed: 90px;
+  --tp-header-h-collapsed: 86px;
 
   /* ── Brand accent — Riskcenter cyan ── */
   --row-hover: #F0F7FA;   /* subtle table row hover — desaturated light teal */
