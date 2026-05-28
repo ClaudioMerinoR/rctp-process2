@@ -85,12 +85,8 @@
 
 .tpPageHeader {
   position: relative;
-  display: flex;
-  flex-direction: column;
-  justify-content: center;
-  gap: 12px;
-  height: var(--tp-header-h);
-  transition: height 0.35s cubic-bezier(0.4, 0, 0.2, 1), gap 0.35s cubic-bezier(0.4, 0, 0.2, 1);
+  padding: 12px 0;
+  transition: padding 0.35s cubic-bezier(0.4, 0, 0.2, 1);
 }
 
 /* Shrunk state when scrolled */
@@ -100,12 +96,15 @@
 }
 
 .tpTopStripScrolled .tpPageHeader {
-  height: var(--tp-header-h-collapsed);
+  display: flex;
+  flex-direction: column;
+  justify-content: center;
   gap: 4px;
+  padding: 0;
+  height: var(--tp-header-h-collapsed);
 }
 
 .tpTopStripScrolled .tpBack {
-  padding: 0;
   line-height: 1;
 }
 
@@ -163,6 +162,9 @@
 .tpBadges {
   display: flex;
   gap: 16px;
+}
+
+.tpTopStripScrolled .tpBadges {
   position: absolute;
   right: 0;
   top: 50%;
