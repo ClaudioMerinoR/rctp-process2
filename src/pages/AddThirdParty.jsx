@@ -311,7 +311,7 @@ export default function AddThirdParty() {
     stages.forEach(({ width, text, delay }) => {
       setTimeout(() => { setCreatingProgress(width); setCreatingLabel(text); }, delay);
     });
-    setTimeout(() => navigate('/profile/piedpiper?new=1'), 3600);
+    setTimeout(() => navigate(`/profile/${tpType === 'person' ? 'brucewayne' : 'piedpiper'}?new=1`), 3600);
   }
 
   function handleCancel(e) {
