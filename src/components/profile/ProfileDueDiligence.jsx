@@ -13,10 +13,15 @@ export default function ProfileDueDiligence() {
   if (!profile) return null;
 
   const dd = profile.dueDiligence || {};
-  const rows = dd.rows || [
-    { name: 'Internal Due Diligence', required: true, owner: '', startDate: '', completedDate: '', cancelledDate: '', renewalDate: '' },
-    { name: 'External Due Diligence', required: true, owner: '', startDate: '', completedDate: '', cancelledDate: '', renewalDate: '' },
-  ];
+  const sidebarStep = (profile.sidebarSteps || []).find(s => s.label === 'Due Diligence');
+  const rows = dd.rows || (
+    sidebarStep?.subSteps?.length
+      ? sidebarStep.subSteps.map(sub => ({ name: sub.label, required: true, owner: '', startDate: '', completedDate: '', cancelledDate: '', renewalDate: '' }))
+      : [
+          { name: 'Internal Due Diligence', required: true, owner: '', startDate: '', completedDate: '', cancelledDate: '', renewalDate: '' },
+          { name: 'External Due Diligence', required: true, owner: '', startDate: '', completedDate: '', cancelledDate: '', renewalDate: '' },
+        ]
+  );
 
   return (
     <PageLayout>

@@ -15,10 +15,15 @@ export default function ProfileRiskAssessment() {
 
   const ra = profile.riskAssessment || {};
   const raStep = (profile.riskReport?.processSummary || []).find(s => s.step === 'Risk Assessment');
+  const sidebarStep = (profile.sidebarSteps || []).find(s => s.label === 'Risk Assessment');
   const defaultOwner = profile.overviewFields?.find(f => f.label === 'Third Party Owner')?.value || '';
   const defaultStartDate = raStep?.startDate || '';
   const defaultCompletedDate = raStep?.status === 'Completed' ? (raStep.date || '') : '';
-  const rows = ra.rows || [{ name: 'Risk Assessment', required: true, owner: defaultOwner, startDate: defaultStartDate, completedDate: defaultCompletedDate, cancelledDate: '' }];
+  const rows = ra.rows || (
+    sidebarStep?.subSteps?.length
+      ? sidebarStep.subSteps.map(sub => ({ name: sub.label, required: true, owner: defaultOwner, startDate: '', completedDate: '', cancelledDate: '' }))
+      : [{ name: 'Risk Assessment', required: true, owner: defaultOwner, startDate: defaultStartDate, completedDate: defaultCompletedDate, cancelledDate: '' }]
+  );
 
   return (
     <PageLayout>

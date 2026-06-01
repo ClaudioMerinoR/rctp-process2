@@ -89,6 +89,10 @@ export default function ProfileApproval() {
 
   const ap = rawProfile.approval || {};
   const tpOwner = rawProfile.overviewFields?.find(f => f.label === 'Third Party Owner')?.value || '—';
+  const approvalSidebarStep = (rawProfile.sidebarSteps || []).find(s => s.label === 'Approval');
+  const approvalRows = approvalSidebarStep?.subSteps?.length
+    ? approvalSidebarStep.subSteps.map(sub => ({ name: sub.label }))
+    : [{ name: 'Approval' }];
 
   function handleApprove() {
     if (isDM)        setDMFlow({ approved: true });
@@ -168,18 +172,20 @@ export default function ProfileApproval() {
                       </td>
                     </tr>
                   ) : (
-                    <tr>
-                      <td>Approval</td>
-                      <td>{ap.owner || tpOwner}</td>
-                      <td>{ap.startDate || '—'}</td>
-                      <td>{isCompleted ? ap.completedDate || '—' : '—'}</td>
-                      <td>{ap.cancelledDate || '—'}</td>
-                      <td style={{ textAlign: 'center' }}>
-                        {(isReady || isCompleted) && (
-                          <ApprovalRowMenu onApprove={handleApprove} />
-                        )}
-                      </td>
-                    </tr>
+                    approvalRows.map((row, i) => (
+                      <tr key={i}>
+                        <td>{row.name}</td>
+                        <td>{ap.owner || tpOwner}</td>
+                        <td>{ap.startDate || '—'}</td>
+                        <td>{isCompleted ? ap.completedDate || '—' : '—'}</td>
+                        <td>{ap.cancelledDate || '—'}</td>
+                        <td style={{ textAlign: 'center' }}>
+                          {(isReady || isCompleted) && i === 0 && (
+                            <ApprovalRowMenu onApprove={handleApprove} />
+                          )}
+                        </td>
+                      </tr>
+                    ))
                   )}
                 </tbody>
               </table>
