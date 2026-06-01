@@ -311,7 +311,7 @@ function CurrencyApprovalGroupsPanel() {
         { key: 'eddGroup',          label: 'Enhanced Due Diligence (EDD) Report Approval Group', required: true,  tooltip: null },
         { key: 'riskGroup',         label: 'Manual Risk Level Amendment Approval Group',          required: true,  tooltip: null },
         { key: 'redFlagGroup',      label: 'Red Flag Cancel Approval',                            required: true,  tooltip: null },
-        { key: 'renewalCancelGroup', label: 'Renewal Cancel Approval Group',                      required: true,  tooltip: 'The approval group responsible for reviewing and authorising renewal cancellation requests.' },
+        { key: 'renewalCancelGroup', label: 'Renewal Cancel Approval Group',                      required: true,  tooltip: 'Approval requests for cancelling a manual renewal will be sent to this group.' },
       ].map(({ key, label, required, tooltip }) => (
         <div key={key} className={styles.cagSection}>
           <label className={styles.cagLabel}>

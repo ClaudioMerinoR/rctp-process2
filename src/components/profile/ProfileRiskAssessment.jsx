@@ -14,7 +14,11 @@ export default function ProfileRiskAssessment() {
   if (!profile) return null;
 
   const ra = profile.riskAssessment || {};
-  const rows = ra.rows || [{ name: 'Risk Assessment', required: true, owner: '', startDate: '', completedDate: '', cancelledDate: '' }];
+  const raStep = (profile.riskReport?.processSummary || []).find(s => s.step === 'Risk Assessment');
+  const defaultOwner = profile.overviewFields?.find(f => f.label === 'Third Party Owner')?.value || '';
+  const defaultStartDate = raStep?.startDate || '';
+  const defaultCompletedDate = raStep?.status === 'Completed' ? (raStep.date || '') : '';
+  const rows = ra.rows || [{ name: 'Risk Assessment', required: true, owner: defaultOwner, startDate: defaultStartDate, completedDate: defaultCompletedDate, cancelledDate: '' }];
 
   return (
     <PageLayout>

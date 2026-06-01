@@ -824,7 +824,6 @@ export default function ProfilePage({ profile: profileProp, embedded = false }) 
               <button className={styles.deleteModalClose} aria-label="Close" onClick={() => setRenewalModalOpen(false)} />
             </div>
             <div className={styles.deleteModalBody}>
-              <p className={styles.deleteModalQuestionHighlight}>This action cannot be undone.</p>
               <p className={styles.deleteModalConfirm}>Are you sure you want to start the renewal process for this Third Party?</p>
             </div>
             <div className={styles.deleteModalActions}>
@@ -871,7 +870,6 @@ export default function ProfilePage({ profile: profileProp, embedded = false }) 
               <button className={styles.deleteModalClose} aria-label="Close" onClick={() => setCancelRenewalModalOpen(false)} />
             </div>
             <div className={styles.deleteModalBody}>
-              <p className={styles.deleteModalQuestionHighlight}>This action cannot be undone.</p>
               <p className={styles.deleteModalConfirm}>Are you sure you want to cancel the renewal process for this Third Party?</p>
             </div>
             <div className={styles.deleteModalActions}>
@@ -1430,11 +1428,6 @@ function StatusPanel({ currentStatus, renewalDate, canRenew, renewalInProgress, 
               <div className={styles.statusPanelSectionLabel} style={{ marginTop: 20 }}>Third Party Renewal Date</div>
               <div style={{ display: 'flex', alignItems: 'center', gap: 6 }}>
                 <span className={styles.statusPanelRenewalDate}>{renewalDate}</span>
-                {showRenewalDetails && (
-                  <button className={styles.renewalInfoBtn} onClick={onRenewalDetails} aria-label="Renewal details">
-                    <span className="material-icons-outlined">more_horiz</span>
-                  </button>
-                )}
               </div>
             </div>
           )}
