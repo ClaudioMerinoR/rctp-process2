@@ -17,7 +17,7 @@ export default {
       { label: 'Risk Assessment 2', dot: 'green', path: 'risk-assessment/questionnaire' },
     ]},
     { label: 'Due Diligence', dot: 'green', path: 'due-diligence', subSteps: [
-      { label: 'Internal Due Diligence', dot: 'green' },
+      { label: 'Internal Due Diligence', dot: 'green', path: 'due-diligence/internal' },
       { label: 'External Due Diligence', dot: 'green' },
     ]},
     { label: 'Integrity Check', dot: 'green', partner: 'integrity', tooltip: 'Powered by Xapiens', newTag: true, path: 'integrity-check'},
