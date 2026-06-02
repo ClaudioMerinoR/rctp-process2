@@ -3003,12 +3003,34 @@
   transform: rotate(180deg);
 }
 .navSubSteps {
-  overflow: hidden;
   position: relative;
-  /* align left border with center of parent dot: 16px row-left-pad + 9px = 25px, minus 1px for border = 24px */
-  margin-left: 24px;
+  padding-bottom: 4px;
+}
+/* curved hook: starts at parent dot's center column (x=32) and curves right to the substep column (x=52).
+   We draw it with a left border + bottom-left radius starting above the first substep row. */
+.navSubSteps::before {
+  content: '';
+  position: absolute;
+  left: 31px;        /* line at parent-dot center */
+  top: -16px;        /* extend up to overlap parent connector */
+  width: 18px;
+  height: calc(100% + 16px - 13px); /* extend to vertical center of last sub-step row (~26px row, center at 13px) */
   border-left: 2px solid var(--neutral-100);
-  padding-bottom: 2px;
+  border-bottom: 2px solid var(--neutral-100);
+  border-bottom-left-radius: 0;
+  border-bottom-left-radius: 8px;
+  pointer-events: none;
+}
+/* additional vertical line connecting middle substeps along the substep column */
+.navSubSteps::after {
+  content: '';
+  position: absolute;
+  left: 51px;        /* aligns with center of substep dot */
+  top: 0;
+  bottom: 13px;      /* stop at center of last substep row */
+  width: 2px;
+  background: var(--neutral-100);
+  pointer-events: none;
 }
 .navSubStepsClosed { display: none; }
 .navSubStepsOpen   { display: block; }
@@ -3031,19 +3053,20 @@
 .navStepOpenPageLink:hover { color: var(--primary-600); }
 .navSubStepRow {
   display: grid;
-  grid-template-columns: 16px 1fr;
+  /* gutter column 56px puts dot center at 51px (matches ::after vertical line) */
+  grid-template-columns: 56px 1fr;
   align-items: center;
   padding: 3px 12px 3px 0;
-  min-height: 24px;
+  min-height: 26px;
   transition: background 0.15s ease;
+  position: relative;
 }
 .navSubStepRow:hover { background: rgba(0,0,0,0.04); }
 .navSubStepGutter {
   display: flex;
   align-items: center;
   justify-content: center;
-  /* shift dot left by 7px so it straddles the border-left line (-1px border + -6px = center of 12px dot on 2px line) */
-  margin-left: -7px;
+  position: relative;
   z-index: 1;
 }
 .navSubStepNode {
