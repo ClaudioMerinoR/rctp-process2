@@ -229,21 +229,6 @@ export default function Sidebar({ profile: profileProp, profileLoading = false }
                       </span>
                       <span className={styles.navSubStepContent}>
                         <span className={styles.navSubStepLabel}>{sub.label}</span>
-                        <span className={styles.navSubStepStatusRow}>
-                          <span className={styles.navSubStepStatus}>{subStatusLabel}</span>
-                          {subPath && (
-                            <Link
-                              to={subPath}
-                              className={styles.navSubStepPageLink}
-                              onClick={e => e.stopPropagation()}
-                              title="Open page"
-                              aria-label="Open page"
-                              style={{ textDecoration: 'none' }}
-                            >
-                              <span className={`material-icons-outlined ${styles.navSubStepPageLinkIcon}`}>open_in_new</span>
-                            </Link>
-                          )}
-                        </span>
                       </span>
                     </>
                   );
