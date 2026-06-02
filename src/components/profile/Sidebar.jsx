@@ -1,4 +1,4 @@
-import { useState } from 'react';
+import { useState, useEffect } from 'react';
 import { Link, useLocation } from 'react-router-dom';
 import { patchInitechProfile } from '../../utils/initechFlow';
 import { PARTNER_ICONS } from './profileAssets';
@@ -67,10 +67,27 @@ export default function Sidebar({ profile: profileProp, profileLoading = false }
   const [expandedSubSteps, setExpandedSubSteps] = useState(() => {
     const init = {};
     steps.forEach((step, i) => {
-      if (step.subSteps?.length) init[i] = i === nextIdx;
+      if (!step.subSteps?.length) return;
+      const stepPath = step.path ? `/profile/${profile.id}/${step.path}` : null;
+      const anySubActive = step.subSteps.some(sub =>
+        sub.path && currentPath.startsWith(`/profile/${profile.id}/${sub.path}`)
+      );
+      init[i] = i === nextIdx || anySubActive || (stepPath && currentPath.startsWith(stepPath + '/'));
     });
     return init;
   });
+  useEffect(() => {
+    steps.forEach((step, i) => {
+      if (!step.subSteps?.length) return;
+      const anySubActive = step.subSteps.some(sub =>
+        sub.path && currentPath.startsWith(`/profile/${profile.id}/${sub.path}`)
+      );
+      if (anySubActive) {
+        setExpandedSubSteps(prev => prev[i] ? prev : { ...prev, [i]: true });
+      }
+    });
+  }, [currentPath]);
+
   const requiredDots = stepDots.filter(d => d !== 'grey' && d !== 'blocked');
   const completedCount = requiredDots.filter(d => d === 'green').length;
   const totalCount = requiredDots.length;
