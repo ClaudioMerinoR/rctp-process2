@@ -3002,7 +3002,7 @@
   transform: rotate(180deg);
 }
 .navSubSteps {
-  padding-left: 16px;
+  padding-left: 28px;
   overflow: hidden;
 }
 .navSubStepsClosed { display: none; }
