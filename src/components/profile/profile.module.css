@@ -3040,15 +3040,31 @@
   border-bottom-left-radius: 10px;
   pointer-events: none;
 }
-/* Vertical line through all substeps in the new (indented) column */
+/* Vertical line through all substeps in the new (indented) column.
+   When a closer is present, run the line slightly past the last dot so the closing curve picks up. */
 .navSubSteps::after {
   content: '';
   position: absolute;
-  left: 51px;            /* same X as where hook ends */
-  top: 12px;             /* meets the bottom of the hook */
-  bottom: 13px;          /* stops at center of last substep row (26px row, center = 13px) */
+  left: 51px;
+  top: 12px;
+  bottom: 13px;          /* stops at center of last substep row */
   width: 2px;
   background: var(--neutral-100);
+  pointer-events: none;
+}
+/* Closing curve: mirrors the opening hook.
+   The opening hook draws the path: down (border-left) → curve → right (border-bottom), going from parent column (X=31) to indented column (X=51).
+   The closer draws the reverse path: down (border-right) → curve → left (border-bottom), going from indented column (X=51) back to parent column (X=31).
+   Position the box so its right edge is at X=53 (just outside trunk line) and width 22px → left edge at X=31. */
+.navSubStepsCloser {
+  position: absolute;
+  left: 31px;
+  bottom: -12px;         /* extends below substeps so the bottom-left of curve aligns with parent connector */
+  width: 22px;           /* X=31 → X=53 */
+  height: 22px;
+  border-right: 2px solid var(--neutral-100);
+  border-bottom: 2px solid var(--neutral-100);
+  border-bottom-right-radius: 10px;
   pointer-events: none;
 }
 .navSubStepRow {

@@ -243,6 +243,7 @@ export default function Sidebar({ profile: profileProp, profileLoading = false }
                     </div>
                   );
                 })}
+                {!isLast && <div className={styles.navSubStepsCloser} aria-hidden="true" />}
               </div>
             </div>
           );
