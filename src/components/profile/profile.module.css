@@ -2932,6 +2932,7 @@
   border-bottom-left-radius: 0;
 }
 .navStepperConnectorDone { background: var(--success-500); }
+.navStepperConnectorNext { background: var(--primary-500); }
 .navStepperContent {
   display: flex;
   flex-direction: column;
@@ -3067,6 +3068,24 @@
   border-bottom-right-radius: 10px;
   pointer-events: none;
 }
+/* Blue routing path: when the parent step is "next", paint the path from parent → first incomplete substep blue.
+   This colors the opening hook and the trunk segment up to the next-sub dot. */
+.navSubStepsNext::before {
+  border-left-color: var(--primary-500);
+  border-bottom-color: var(--primary-500);
+}
+.navSubStepsNext::after {
+  /* Paint the trunk blue only above the next-sub dot, grey below.
+     Each substep row is 26px tall, dot center sits at row-top + 13px.
+     The trunk starts at top: 12px (same as height-of-hook). The next-sub dot center is at:
+     12 (offset) + 26 * --next-sub-idx + 13 (row-center within row) = 25 + 26*idx px from top of trunk = 25 + 26*idx - 12 = 13 + 26*idx from trunk top */
+  background: linear-gradient(
+    to bottom,
+    var(--primary-500) 0,
+    var(--primary-500) calc(13px + 26px * var(--next-sub-idx, 0)),
+    var(--neutral-100) calc(13px + 26px * var(--next-sub-idx, 0))
+  );
+}
 .navSubStepRow {
   display: grid;
   /* row padding-left=46, gutter column 12 → dot center at 46 + 6 = 52 (sits on trunk at X=51-53) */
@@ -3099,9 +3118,11 @@
 .navSubStepContent {
   display: flex;
   align-items: center;
+  gap: 6px;
   padding: 0 0 0 8px;
   min-width: 0;
 }
+.navSubStepRowNext .navSubStepLabel { font-weight: 600; }
 .navSubStepLabel {
   font-size: 12px;
   font-weight: 400;

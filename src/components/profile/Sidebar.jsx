@@ -150,6 +150,14 @@ export default function Sidebar({ profile: profileProp, profileLoading = false }
           ].filter(Boolean).join(' ');
 
           const subExpanded = hasSubSteps ? !!expandedSubSteps[i] : false;
+          const subNextIdx = (isNext && hasSubSteps)
+            ? (() => {
+                const idx = step.subSteps.findIndex(s => (s.dot || 'grey') !== 'green');
+                return idx === -1 ? 0 : idx;
+              })()
+            : -1;
+          const showChipOnParent = isNext && !hasSubSteps;
+          const parentRouteToNext = isNext && hasSubSteps;
 
           const content = (
             <>
@@ -161,7 +169,7 @@ export default function Sidebar({ profile: profileProp, profileLoading = false }
                 </span>
                 {(!isLast || hasSubSteps) && (
                   <span
-                    className={`${styles.navStepperConnector} ${connectorDone ? styles.navStepperConnectorDone : ''}`}
+                    className={`${styles.navStepperConnector} ${connectorDone ? styles.navStepperConnectorDone : ''} ${parentRouteToNext ? styles.navStepperConnectorNext : ''}`}
                   />
                 )}
               </span>
@@ -169,7 +177,7 @@ export default function Sidebar({ profile: profileProp, profileLoading = false }
                 <span className={styles.navStepperTopRow}>
                   <span className={styles.navStepperLabel}>{step.label}</span>
                   {step.partner && <PartnerIcon partner={step.partner} tooltip={step.tooltip} />}
-                  {isNext && <span className={styles.navNextChip}>Next</span>}
+                  {showChipOnParent && <span className={styles.navNextChip}>Next</span>}
                   {hasSubSteps && (
                     <span className={`material-icons-outlined ${styles.navStepCaretIcon} ${subExpanded ? styles.navStepCaretIconOpen : ''}`}>expand_more</span>
                   )}
@@ -215,7 +223,10 @@ export default function Sidebar({ profile: profileProp, profileLoading = false }
           return (
             <div key={`step-group-${i}`}>
               {mainRow}
-              <div className={`${styles.navSubSteps} ${subExpanded ? styles.navSubStepsOpen : styles.navSubStepsClosed}`}>
+              <div
+                className={`${styles.navSubSteps} ${subExpanded ? styles.navSubStepsOpen : styles.navSubStepsClosed} ${parentRouteToNext ? styles.navSubStepsNext : ''}`}
+                style={parentRouteToNext ? { '--next-sub-idx': subNextIdx } : undefined}
+              >
                 {step.subSteps.map((sub, j) => {
                   const subDot = sub.dot || 'grey';
                   const subNodeCls = styles['navStepperNode_' + subDot] || styles.navStepperNode_grey;
@@ -223,10 +234,11 @@ export default function Sidebar({ profile: profileProp, profileLoading = false }
                   const subConnectorDone = subDot === 'green';
                   const subStatusLabel = STEP_STATUS_LABEL[subDot] || 'Not Required';
                   const subPath = sub.path ? `/profile/${profile.id}/${sub.path}` : null;
+                  const isSubNext = j === subNextIdx;
                   const subRowContent = (
                     <>
                       <span className={styles.navSubStepGutter}>
-                        <span className={`${styles.navSubStepNode} ${subNodeCls}`}>
+                        <span className={`${styles.navSubStepNode} ${subNodeCls} ${isSubNext ? styles.navStepperNodeNext : ''}`}>
                           {subDot === 'green' && (
                             <span className={`material-icons-outlined ${styles.navStepperNodeIcon}`}>check</span>
                           )}
@@ -234,11 +246,12 @@ export default function Sidebar({ profile: profileProp, profileLoading = false }
                       </span>
                       <span className={styles.navSubStepContent}>
                         <span className={styles.navSubStepLabel}>{sub.label}</span>
+                        {isSubNext && <span className={styles.navNextChip}>Next</span>}
                       </span>
                     </>
                   );
                   return (
-                    <div key={j} className={styles.navSubStepRow}>
+                    <div key={j} className={`${styles.navSubStepRow} ${isSubNext ? styles.navSubStepRowNext : ''}`}>
                       {subRowContent}
                     </div>
                   );
