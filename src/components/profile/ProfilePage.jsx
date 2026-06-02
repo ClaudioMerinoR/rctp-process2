@@ -79,7 +79,6 @@ export default function ProfilePage({ profile: profileProp, embedded = false }) 
   const [openMenuIndex, setOpenMenuIndex] = useState(null);
   const [editRow, setEditRow] = useState(null); // { index, row }
 
-  const [tasksTab, setTasksTab] = useState('open');
   const [scrolled, setScrolled] = useState(false);
   useEffect(() => {
     function onScroll() { setScrolled(window.scrollY > 10); }
@@ -243,7 +242,7 @@ export default function ProfilePage({ profile: profileProp, embedded = false }) 
           {/* Details Card */}
           <motion.section className={`${styles.card} ${styles.detailsCard}`} initial={{ opacity: 0, y: 20 }} animate={{ opacity: 1, y: 0 }} transition={{ duration: 0.3 }}>
             <div className={styles.cardHeader}>
-              <h2 className={styles.cardTitle}>{profile.shortName} Details</h2>
+              <h2 className={styles.cardTitle}>Third Party Details</h2>
               <div className={styles.cardHeaderRight}>
                 <div className={styles.statusInline}>
                   Third party STATUS:
@@ -532,21 +531,7 @@ export default function ProfilePage({ profile: profileProp, embedded = false }) 
                 </div>
               </div>
             </div>
-            <div className={styles.tasksTabBar}>
-              <Chip
-                label="Open Tasks"
-                selected={tasksTab === 'open'}
-                count={profileLoading ? 1 : profile.openTasks.length}
-                onClick={() => setTasksTab('open')}
-              />
-              <Chip
-                label="Completed Tasks"
-                selected={tasksTab === 'completed'}
-                count={profileLoading ? 0 : (profile.completedTasks || []).length}
-                onClick={() => setTasksTab('completed')}
-              />
-            </div>
-            {tasksTab === 'open' ? (() => {
+            {(() => {
               const rows = profileLoading
                 ? [{ type: 'Questionnaire', icon: 'iconInactiveOrder', name: 'Questionnaire', status: 'Not Started', owner: '', dateCreated: '', age: '' }]
                 : profile.openTasks;
@@ -566,49 +551,6 @@ export default function ProfilePage({ profile: profileProp, embedded = false }) 
                     <tbody>
                       {rows.length === 0 ? (
                         <tr><td colSpan={6} className={styles.tableEmptyRow}>No open tasks for this third party.</td></tr>
-                      ) : rows.map((t, i) => (
-                        <tr key={i}>
-                          <td>
-                            <div className={styles.cellTaskType}>
-                              <span className={styles.taskIconCircle}><img src={TASK_ICONS[t.icon]} alt="" /></span>
-                              {t.type}
-                            </div>
-                          </td>
-                          <td><span className={styles.cellLink}>{t.name}</span></td>
-                          <td>{t.status}</td>
-                          <td>{t.owner}</td>
-                          <td>{t.dateCreated}</td>
-                          <td>{t.age}</td>
-                        </tr>
-                      ))}
-                    </tbody>
-                  </table>
-                  {rows.length > 0 && (
-                    <div className={styles.tablePagination}>
-                      <select><option>20</option></select>
-                      <span>Showing results 1 - {rows.length} of {rows.length}</span>
-                    </div>
-                  )}
-                </div>
-              );
-            })() : (() => {
-              const rows = profile.completedTasks || [];
-              return (
-                <div className={styles.cardInner}>
-                  <table className={styles.table}>
-                    <thead>
-                      <tr>
-                        <th style={{ width: '20%' }}>Task Type <span className="material-icons-outlined" style={{ fontSize: 12 }}>arrow_drop_down</span></th>
-                        <th style={{ width: '26%' }}>Task Name <span className="material-icons-outlined" style={{ fontSize: 12 }}>arrow_drop_down</span></th>
-                        <th style={{ width: '12%' }}>Task Status <span className="material-icons-outlined" style={{ fontSize: 12 }}>arrow_drop_down</span></th>
-                        <th style={{ width: '16%' }}>Owner <span className="material-icons-outlined" style={{ fontSize: 12 }}>arrow_drop_down</span></th>
-                        <th style={{ width: '14%' }}>Date Created <span className="material-icons-outlined" style={{ fontSize: 12 }}>arrow_drop_down</span></th>
-                        <th style={{ width: '12%' }}>AGE <span className="material-icons-outlined" style={{ fontSize: 12 }}>arrow_drop_down</span></th>
-                      </tr>
-                    </thead>
-                    <tbody>
-                      {rows.length === 0 ? (
-                        <tr><td colSpan={6} className={styles.tableEmptyRow}>No completed tasks for this third party.</td></tr>
                       ) : rows.map((t, i) => (
                         <tr key={i}>
                           <td>
@@ -764,7 +706,8 @@ export default function ProfilePage({ profile: profileProp, embedded = false }) 
           currentStatus={currentStatus}
           renewalDate={profile.overviewFields.find(f => f.label === 'Third Party Renewal Date')?.value}
           canRenew={['Approved', 'Approved*', 'Approved(!) Renewal Required'].includes(currentStatus)}
-          renewalInProgress={currentStatus === 'Approved(!) Renewal Required'}
+          renewalInProgress={currentStatus === 'Approved*'}
+          systemRenewalRequired={currentStatus === 'Approved(!) Renewal Required'}
           onClose={() => setStatusPanelOpen(false)}
           onDecline={() => setDeclinePanelOpen(true)}
           onRenewal={() => { setStatusPanelOpen(false); setRenewalModalOpen(true); }}
@@ -1388,7 +1331,7 @@ function RenewalDetailsPanel({ renewalDate, renewalDescription, onClose }) {
 
 /* ─────────────────────── Status panel ─────────────────────── */
 
-function StatusPanel({ currentStatus, renewalDate, canRenew, renewalInProgress, onClose, onDecline, onRenewal, onCancelRenewal, showRenewalDetails, onRenewalDetails }) {
+function StatusPanel({ currentStatus, renewalDate, canRenew, renewalInProgress, systemRenewalRequired, onClose, onDecline, onRenewal, onCancelRenewal, showRenewalDetails, onRenewalDetails }) {
   useEffect(() => {
     document.body.style.overflow = 'hidden';
     return () => { document.body.style.overflow = ''; };
@@ -1437,7 +1380,9 @@ function StatusPanel({ currentStatus, renewalDate, canRenew, renewalInProgress, 
           {renewalDate && canRenew && (
             renewalInProgress
               ? <button className={`${styles.btn} ${styles.btnOutline} ${styles.btnDanger}`} onClick={onCancelRenewal}>Cancel Renewal</button>
-              : <button className={`${styles.btn} ${styles.btnOutline}`} onClick={onRenewal}>Start Renewal Manually</button>
+              : !systemRenewalRequired
+                ? <button className={`${styles.btn} ${styles.btnOutline}`} onClick={onRenewal}>Start Renewal Manually</button>
+                : null
           )}
           <button className={`${styles.btn} ${styles.btnFilled}`} onClick={onDecline}>Decline</button>
         </div>
@@ -1518,5 +1463,4 @@ function DeclinePanel({ onClose, onSave }) {
     </>
   );
 }
-
 

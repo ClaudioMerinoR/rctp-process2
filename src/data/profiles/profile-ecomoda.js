@@ -12,13 +12,22 @@ export default {
   alertBanners: false,
 
   sidebarSteps: [
-    { label: 'Risk Assessment', dot: 'green', path: 'risk-assessment' },
-    { label: 'Due Diligence', dot: 'green', path: 'due-diligence' },
+    { label: 'Risk Assessment', dot: 'green', path: 'risk-assessment', subSteps: [
+      { label: 'Risk Assessment 1', dot: 'green', path: 'risk-assessment/questionnaire' },
+      { label: 'Risk Assessment 2', dot: 'green', path: 'risk-assessment/questionnaire' },
+    ]},
+    { label: 'Due Diligence', dot: 'green', path: 'due-diligence', subSteps: [
+      { label: 'Internal Due Diligence', dot: 'green', path: 'due-diligence/internal' },
+      { label: 'External Due Diligence', dot: 'green' },
+    ]},
     { label: 'Integrity Check', dot: 'green', partner: 'integrity', tooltip: 'Powered by Xapiens', newTag: true, path: 'integrity-check'},
     { label: 'Enhanced Due Diligence Reports', dot: 'grey', path: 'enhanced-due-diligence' },
     { label: 'UBO', dot: 'green', partner: 'ubo', tooltip: 'Powered by Duns & Bradstreet' , path: 'ubo'},
     { label: 'Risk Mitigation', dot: 'green' , path: 'risk-mitigation'},
-    { label: 'Approval', dot: 'green', path: 'approval' },
+    { label: 'Approval', dot: 'green', path: 'approval', subSteps: [
+      { label: 'Approval 1', dot: 'green' },
+      { label: 'Approval 2', dot: 'green' },
+    ]},
     { label: 'Screening & Monitoring', dot: 'green', path: 'screening-monitoring' },
   ],
   sidebarSections: [

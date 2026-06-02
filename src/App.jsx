@@ -1,5 +1,5 @@
-import { Suspense, lazy, useState } from 'react';
-import { HashRouter, Routes, Route, Navigate } from 'react-router-dom';
+import { Suspense, lazy, useEffect, useState } from 'react';
+import { HashRouter, Routes, Route, Navigate, useLocation } from 'react-router-dom';
 import ThirdParties from './pages/ThirdParties';
 import AddThirdParty from './pages/AddThirdParty';
 import ProfilePage from './components/profile/ProfilePage';
@@ -23,6 +23,7 @@ const ProfileRiskAssessment             = lazy(() => import('./components/profil
 const ProfileRiskAssessmentQuestionnaire = lazy(() => import('./components/profile/ProfileRiskAssessmentQuestionnaire'));
 const ProfileIntegrityCheck       = lazy(() => import('./components/profile/ProfileIntegrityCheck'));
 const ProfileDueDiligence         = lazy(() => import('./components/profile/ProfileDueDiligence'));
+const ProfileInternalDueDiligence = lazy(() => import('./components/profile/ProfileInternalDueDiligence'));
 const ProfileEnhancedDueDiligence = lazy(() => import('./components/profile/ProfileEnhancedDueDiligence'));
 const ProfileUBO                        = lazy(() => import('./components/profile/ProfileUBO'));
 const ProfileScreeningMonitoring        = lazy(() => import('./components/profile/ProfileScreeningMonitoring'));
@@ -35,6 +36,14 @@ const SESSION_KEY = 'rctp_auth';
 
 function Loading() {
   return <div style={{ padding: 40, textAlign: 'center', color: 'var(--text-light)', fontFamily: 'Roboto, sans-serif' }}>Loading…</div>;
+}
+
+function ScrollToTop() {
+  const { pathname } = useLocation();
+  useEffect(() => {
+    window.scrollTo(0, 0);
+  }, [pathname]);
+  return null;
 }
 
 function PasswordGate({ onAuth }) {
@@ -103,6 +112,7 @@ export default function App() {
 
   return (
     <HashRouter>
+      <ScrollToTop />
       <Suspense fallback={<Loading />}>
         <Routes>
           <Route path="/" element={<Dashboard />} />
@@ -116,6 +126,7 @@ export default function App() {
           <Route path="/profile/:profileId/risk-assessment" element={<ProfileRiskAssessment />} />
           <Route path="/profile/:profileId/risk-assessment/questionnaire" element={<ProfileRiskAssessmentQuestionnaire />} />
           <Route path="/profile/:profileId/due-diligence" element={<ProfileDueDiligence />} />
+          <Route path="/profile/:profileId/due-diligence/internal" element={<ProfileInternalDueDiligence />} />
           <Route path="/profile/:profileId/integrity-check" element={<ProfileIntegrityCheck />} />
           <Route path="/profile/:profileId/enhanced-due-diligence" element={<ProfileEnhancedDueDiligence />} />
           <Route path="/profile/:profileId/ubo" element={<ProfileUBO />} />
