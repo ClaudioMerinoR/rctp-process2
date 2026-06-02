@@ -1,6 +1,5 @@
-/* Google Fonts — Roboto for body, Inter as fallback, Source Code Pro for mono */
-@import url('https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600;700&family=Roboto:ital,wght@0,400;0,500;0,600;0,700;1,400&family=Source+Code+Pro:wght@400;500;600;700&display=swap');
-@import url('https://fonts.googleapis.com/icon?family=Material+Icons+Outlined');
+/* Google Fonts loaded via <link> in index.html */
+/* Material Icons Outlined loaded via <link> in index.html for faster production rendering */
 
 /* Simplon Norm — local font files */
 @font-face { font-family: 'Simplon Norm'; src: url('/fonts/SimplonNorm-Light.woff2') format('woff2'); font-weight: 300; font-style: normal; font-display: swap; }
