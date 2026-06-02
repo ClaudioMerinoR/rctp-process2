@@ -175,12 +175,12 @@ export default function Sidebar({ profile: profileProp, profileLoading = false }
                   <span className={styles.navStepperStatus} title={DOT_LABELS[effectiveDot] ?? DOT_LABELS.grey}>
                     {statusLabel}
                   </span>
+                  {hasSubSteps && subExpanded && stepPath && (
+                    <Link to={stepPath} className={styles.navStepOpenPageLink} style={{ textDecoration: 'none' }} onClick={e => e.stopPropagation()}>
+                      Open module
+                    </Link>
+                  )}
                 </span>
-                {hasSubSteps && subExpanded && stepPath && (
-                  <Link to={stepPath} className={styles.navStepOpenPageLink} style={{ textDecoration: 'none' }} onClick={e => e.stopPropagation()}>
-                    Open module
-                  </Link>
-                )}
               </span>
             </>
           );

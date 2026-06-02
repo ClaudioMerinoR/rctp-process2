@@ -3008,12 +3008,12 @@
 .navSubStepsClosed { display: none; }
 .navSubStepsOpen   { display: block; }
 .navStepOpenPageLink {
-  display: block;
   font-size: 10px;
   font-weight: 500;
   color: var(--text-light);
-  margin-top: 2px;
+  margin-left: auto;
   letter-spacing: 0.1px;
+  white-space: nowrap;
 }
 .navStepOpenPageLink:hover { color: var(--primary-600); }
 .navSubStepRow {
