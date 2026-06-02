@@ -3053,10 +3053,10 @@
 }
 .navSubStepRow {
   display: grid;
-  /* row padding-left=24, gutter column 56 → dot center at 24 + 28 = 52 (sits on trunk at X=51-53) */
-  grid-template-columns: 56px 1fr;
+  /* row padding-left=46, gutter column 12 → dot center at 46 + 6 = 52 (sits on trunk at X=51-53) */
+  grid-template-columns: 12px 1fr;
   align-items: center;
-  padding: 3px 12px 3px 24px;
+  padding: 3px 12px 3px 46px;
   min-height: 26px;
   transition: background 0.15s ease;
   position: relative;
