@@ -3004,33 +3004,6 @@
 }
 .navSubSteps {
   position: relative;
-  padding-bottom: 4px;
-}
-/* curved hook: starts at parent dot's center column (x=32) and curves right to the substep column (x=52).
-   We draw it with a left border + bottom-left radius starting above the first substep row. */
-.navSubSteps::before {
-  content: '';
-  position: absolute;
-  left: 31px;        /* line at parent-dot center */
-  top: -16px;        /* extend up to overlap parent connector */
-  width: 18px;
-  height: calc(100% + 16px - 13px); /* extend to vertical center of last sub-step row (~26px row, center at 13px) */
-  border-left: 2px solid var(--neutral-100);
-  border-bottom: 2px solid var(--neutral-100);
-  border-bottom-left-radius: 0;
-  border-bottom-left-radius: 8px;
-  pointer-events: none;
-}
-/* additional vertical line connecting middle substeps along the substep column */
-.navSubSteps::after {
-  content: '';
-  position: absolute;
-  left: 51px;        /* aligns with center of substep dot */
-  top: 0;
-  bottom: 13px;      /* stop at center of last substep row */
-  width: 2px;
-  background: var(--neutral-100);
-  pointer-events: none;
 }
 .navSubStepsClosed { display: none; }
 .navSubStepsOpen   { display: block; }
@@ -3051,9 +3024,34 @@
   flex-shrink: 0;
 }
 .navStepOpenPageLink:hover { color: var(--primary-600); }
+/* Single continuous line: parent's connector ends → curves right → trunk runs down through substeps */
+.navSubSteps::before {
+  content: '';
+  position: absolute;
+  /* horizontal segment: starts at parent dot's center column, curves down-right */
+  left: 31px;
+  top: -10px;
+  width: 22px;          /* horizontal travel into substep column */
+  height: 22px;         /* vertical travel into substep zone */
+  border-left: 2px solid var(--neutral-100);
+  border-bottom: 2px solid var(--neutral-100);
+  border-bottom-left-radius: 10px;
+  pointer-events: none;
+}
+/* Vertical line through all substeps in the new (indented) column */
+.navSubSteps::after {
+  content: '';
+  position: absolute;
+  left: 51px;            /* indented column for substep dots */
+  top: 12px;             /* meets the curve from ::before */
+  bottom: 13px;          /* stops at center of last substep row */
+  width: 2px;
+  background: var(--neutral-100);
+  pointer-events: none;
+}
 .navSubStepRow {
   display: grid;
-  /* gutter column 56px puts dot center at 51px (matches ::after vertical line) */
+  /* gutter 56px → dot center at 52px (slightly right of trunk line at 52px) */
   grid-template-columns: 56px 1fr;
   align-items: center;
   padding: 3px 12px 3px 0;
