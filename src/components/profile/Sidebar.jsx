@@ -269,7 +269,9 @@ export default function Sidebar({ profile: profileProp, profileLoading = false, 
               <span className={styles.navStepperGutter}>
                 <span className={nodeClass}>
                   {effectiveDot === 'green' && (
-                    <span className={`material-icons-outlined ${styles.navStepperNodeIcon}`}>check</span>
+                    <svg width="10" height="10" viewBox="0 0 10 10" fill="none" style={{ flexShrink: 0 }}>
+                      <path d="M2 5.2L4.2 7.5L8 3" stroke="white" strokeWidth="1.6" strokeLinecap="round" strokeLinejoin="round"/>
+                    </svg>
                   )}
                 </span>
                 {(!isLast || hasSubSteps) && (
