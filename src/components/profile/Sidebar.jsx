@@ -79,10 +79,12 @@ export default function Sidebar({ profile: profileProp, profileLoading = false }
   useEffect(() => {
     steps.forEach((step, i) => {
       if (!step.subSteps?.length) return;
+      const stepPath = step.path ? `/profile/${profile.id}/${step.path}` : null;
       const anySubActive = step.subSteps.some(sub =>
         sub.path && currentPath.startsWith(`/profile/${profile.id}/${sub.path}`)
       );
-      if (anySubActive) {
+      const stepOrSubActive = anySubActive || (stepPath && currentPath.startsWith(stepPath));
+      if (stepOrSubActive) {
         setExpandedSubSteps(prev => prev[i] ? prev : { ...prev, [i]: true });
       }
     });
