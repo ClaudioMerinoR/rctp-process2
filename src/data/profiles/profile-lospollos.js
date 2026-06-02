@@ -13,8 +13,8 @@ export default {
   approvalUnavailable: true,
 
   sidebarSteps: [
-    { label: 'Risk Assessment', dot: 'red', path: 'risk-assessment', subSteps: [
-      { label: 'Risk Assessment 1', dot: 'red', path: 'risk-assessment/questionnaire' },
+    { label: 'Risk Assessment', dot: 'amber', path: 'risk-assessment', subSteps: [
+      { label: 'Risk Assessment 1', dot: 'green', path: 'risk-assessment/questionnaire' },
       { label: 'Risk Assessment 2', dot: 'red', path: 'risk-assessment/questionnaire' },
     ]},
     { label: 'Due Diligence', dot: 'red', path: 'due-diligence', subSteps: [
