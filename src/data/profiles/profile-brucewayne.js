@@ -19,7 +19,7 @@ export default {
     { label: 'Integrity Check', dot: 'amber', partner: 'integrity', tooltip: 'Powered by Xapiens', newTag: true, path: 'integrity-check'},
     { label: 'Due Diligence', dot: 'amber', path: 'due-diligence', subSteps: [
       { label: 'Internal Due Diligence', dot: 'amber', path: 'due-diligence/internal' },
-      { label: 'External Due Diligence', dot: 'red' },
+      { label: 'External Due Diligence', dot: 'red', path: 'due-diligence/external' },
     ]},
     { label: 'Enhanced Due Diligence Reports', dot: 'grey', path: 'enhanced-due-diligence' },
     { label: 'UBO', dot: 'green', partner: 'ubo', tooltip: 'Powered by Duns & Bradstreet' , path: 'ubo'},

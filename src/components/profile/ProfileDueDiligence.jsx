@@ -4,6 +4,7 @@ import { motion, AnimatePresence } from 'motion/react';
 import PageLayout from '../layout/PageLayout';
 import Breadcrumb from '../layout/Breadcrumb';
 import { profiles } from '../../data/profiles';
+import { patchInitechProfile, getExternalDDFlow, setExternalDDFlow } from '../../utils/initechFlow';
 import { Sidebar } from './ProfilePage';
 import ProfilePageHeader from './ProfilePageHeader';
 import styles from './profile.module.css';
@@ -123,8 +124,9 @@ function ExternalDDModal({ onClose, onSend }) {
 
 export default function ProfileDueDiligence() {
   const { profileId } = useParams();
-  const profile = profiles[profileId];
-  if (!profile) return null;
+  const rawProfile = profiles[profileId];
+  if (!rawProfile) return null;
+  const profile = patchInitechProfile(rawProfile);
 
   const dd = profile.dueDiligence || {};
   const sidebarStep = (profile.sidebarSteps || []).find(s => s.label === 'Due Diligence');
@@ -137,13 +139,16 @@ export default function ProfileDueDiligence() {
         ]
   );
 
-  const [rows, setRows] = useState(baseRows);
+  const [tick, setTick] = useState(0);
+  const externalSent = getExternalDDFlow(profileId).sent;
+  const rows = baseRows.map(r =>
+    r.name === 'External Due Diligence' && externalSent ? { ...r, status: 'In Progress' } : r
+  );
   const [modalOpen, setModalOpen] = useState(false);
 
   function handleSendInvite() {
-    setRows(prev => prev.map(r =>
-      r.name === 'External Due Diligence' ? { ...r, status: 'In Progress' } : r
-    ));
+    setExternalDDFlow(profileId, { sent: true });
+    setTick(t => t + 1);
     setModalOpen(false);
   }
 

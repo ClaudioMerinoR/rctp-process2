@@ -12,11 +12,11 @@ export function setFlow(updates) {
 
 export function patchInitechProfile(profile) {
   if (!profile) return profile;
-  if (profile.id === 'initech') return _patchInitech(profile);
-  if (profile.id === 'dundermifflin') return _patchDunderMifflin(profile);
-  if (profile.id === 'lumon') return _patchLumon(profile);
+  if (profile.id === 'initech') return _patchExternalDD(_patchInitech(profile));
+  if (profile.id === 'dundermifflin') return _patchExternalDD(_patchDunderMifflin(profile));
+  if (profile.id === 'lumon') return _patchExternalDD(_patchLumon(profile));
   if (profile.id === 'gringotts') return profile;
-  return profile;
+  return _patchExternalDD(profile);
 }
 
 
@@ -123,4 +123,28 @@ function _patchLumon(profile) {
     overviewFields,
     currentStatus: { label: approved ? 'Approved' : 'Approved(!) Renewal Required' },
   };
+}
+
+// ── External Due Diligence flow (per-profile) ───────────────────────────────
+const _externalDDSent = {};
+
+export function getExternalDDFlow(profileId) {
+  return { sent: !!_externalDDSent[profileId] };
+}
+
+export function setExternalDDFlow(profileId, updates) {
+  if ('sent' in updates) _externalDDSent[profileId] = updates.sent;
+}
+
+function _patchExternalDD(profile) {
+  const { sent } = getExternalDDFlow(profile.id);
+  if (!sent) return profile;
+  const sidebarSteps = (profile.sidebarSteps || []).map(s => {
+    if (s.label !== 'Due Diligence') return s;
+    const subSteps = (s.subSteps || []).map(sub =>
+      sub.label === 'External Due Diligence' ? { ...sub, dot: 'amber' } : sub
+    );
+    return { ...s, subSteps };
+  });
+  return { ...profile, sidebarSteps };
 }

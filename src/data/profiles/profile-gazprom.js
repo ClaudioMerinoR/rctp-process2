@@ -18,7 +18,7 @@ export default {
     ]},
     { label: 'Due Diligence', dot: 'grey', path: 'due-diligence', subSteps: [
       { label: 'Internal Due Diligence', dot: 'grey', path: 'due-diligence/internal' },
-      { label: 'External Due Diligence', dot: 'grey' },
+      { label: 'External Due Diligence', dot: 'grey', path: 'due-diligence/external' },
     ]},
     { label: 'Integrity Check', dot: 'red', partner: 'integrity', tooltip: 'Powered by Xapiens', newTag: true , path: 'integrity-check'},
     { label: 'Enhanced Due Diligence Reports', dot: 'grey', path: 'enhanced-due-diligence' },
