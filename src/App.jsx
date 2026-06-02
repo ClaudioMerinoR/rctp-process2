@@ -1,5 +1,5 @@
-import { Suspense, lazy, useState } from 'react';
-import { HashRouter, Routes, Route, Navigate } from 'react-router-dom';
+import { Suspense, lazy, useEffect, useState } from 'react';
+import { HashRouter, Routes, Route, Navigate, useLocation } from 'react-router-dom';
 import ThirdParties from './pages/ThirdParties';
 import AddThirdParty from './pages/AddThirdParty';
 import ProfilePage from './components/profile/ProfilePage';
@@ -35,6 +35,14 @@ const SESSION_KEY = 'rctp_auth';
 
 function Loading() {
   return <div style={{ padding: 40, textAlign: 'center', color: 'var(--text-light)', fontFamily: 'Roboto, sans-serif' }}>Loading…</div>;
+}
+
+function ScrollToTop() {
+  const { pathname } = useLocation();
+  useEffect(() => {
+    window.scrollTo(0, 0);
+  }, [pathname]);
+  return null;
 }
 
 function PasswordGate({ onAuth }) {
@@ -103,6 +111,7 @@ export default function App() {
 
   return (
     <HashRouter>
+      <ScrollToTop />
       <Suspense fallback={<Loading />}>
         <Routes>
           <Route path="/" element={<Dashboard />} />
