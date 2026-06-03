@@ -271,7 +271,12 @@ export default function AddThirdParty() {
     setErrors(errs);
     if (Object.keys(errs).length) return;
     setContinued(true);
-    setTimeout(() => dupCheckRef.current?.scrollIntoView({ behavior: 'smooth', block: 'start' }), 50);
+    if (tpType === 'unknown') {
+      setDupConfirmed(true);
+      setTimeout(() => summaryRef.current?.scrollIntoView({ behavior: 'smooth', block: 'start' }), 400);
+    } else {
+      setTimeout(() => dupCheckRef.current?.scrollIntoView({ behavior: 'smooth', block: 'start' }), 50);
+    }
   }
 
   function applyVerification(duns) {
@@ -423,9 +428,9 @@ export default function AddThirdParty() {
 
       </div>
 
-      {/* ── Section 2: Duplicate Check Results ── */}
+      {/* ── Section 2: Duplicate Check Results (skipped for Unknown) ── */}
       <AnimatePresence>
-      {continued && !dupConfirmed && (
+      {continued && !dupConfirmed && tpType !== 'unknown' && (
         <motion.div
           key="dup-check-section"
           ref={dupCheckRef}
