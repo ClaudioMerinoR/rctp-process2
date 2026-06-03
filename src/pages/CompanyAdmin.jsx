@@ -745,19 +745,19 @@ export default function CompanyAdmin() {
               {/* Content header */}
               <div className={styles.contentHeader}>
                 <div className={styles.contentTitle}>Third Party Details</div>
-                <label className={styles.processSelectLabel}>
-                  <span>Process</span>
-                  <select
-                    className={styles.processSelect}
-                    value={activeProcess}
-                    onChange={e => handleProcessChange(e.target.value)}
-                  >
-                    {PROCESS_OPTIONS.map(opt => (
-                      <option key={opt.key} value={opt.key}>{opt.label}</option>
-                    ))}
-                  </select>
-                </label>
                 <div className={styles.contentActions}>
+                  <label className={styles.processSelectLabel}>
+                    <span>Process</span>
+                    <select
+                      className={styles.processSelect}
+                      value={activeProcess}
+                      onChange={e => handleProcessChange(e.target.value)}
+                    >
+                      {PROCESS_OPTIONS.map(opt => (
+                        <option key={opt.key} value={opt.key}>{opt.label}</option>
+                      ))}
+                    </select>
+                  </label>
                   {!isEditing && (
                     <button className={`${styles.btn} ${styles.btnFilled}`} onClick={handleEdit}>
                       Edit

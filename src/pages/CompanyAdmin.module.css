@@ -153,8 +153,7 @@
   display: inline-flex;
   align-items: center;
   gap: 6px;
-  margin-left: 16px;
-  margin-right: auto;
+  margin-right: 8px;
   font-size: 12px;
   font-weight: 500;
   color: var(--text-light);
