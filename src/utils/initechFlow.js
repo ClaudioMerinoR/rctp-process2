@@ -185,7 +185,9 @@ function _patchWaystar(profile) {
     }
     if (s.label === 'Integrity Check') {
       if (!externalDDSent) return s;
-      return { ...s, dot: integrityCheckInProgress ? 'amber' : 'red', ...(integrityCheckInProgress ? { waiting: true } : {}) };
+      const dot = riskMitigationDone ? 'green' : integrityCheckInProgress ? 'amber' : 'red';
+      const waiting = integrityCheckInProgress && !riskMitigationDone;
+      return { ...s, dot, ...(waiting ? { waiting: true } : {}) };
     }
     if (s.label === 'Enhanced Due Diligence Reports') {
       if (!integrityCheckInProgress) return s;
