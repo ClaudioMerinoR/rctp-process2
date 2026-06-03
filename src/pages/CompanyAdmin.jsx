@@ -334,107 +334,109 @@ const INITIAL_TAB_SLOTS = {
   unknown: { overview: INITIAL_UNKNOWN_OVERVIEW, additional: INITIAL_UNKNOWN_ADDITIONAL },
 };
 
-/* ── "Not Standard" process slot defaults — same shape, different fields ── */
+/* ── "Not Standard" process slot defaults — same shape, anchored fields ──
+   Positions 3, 4, 7, 8, and 12 (1-indexed) must match the Standard process.
+   Everything else differs to give Not Standard its own field set. */
 const NS_ENTITY_OVERVIEW = [
-  { value: slugify('Entity Third Party Legal Name'),         readonly: false },
-  { value: slugify('Entity Registered Country'),             readonly: false },
-  { value: slugify('Third Party Owner'),                     readonly: true  },
-  { value: slugify('Process Name'),                          readonly: true  },
-  { value: slugify('Entity Industry Sector - onboarding'),   readonly: false },
-  { value: slugify('Business Unit'),                         readonly: true  },
-  { value: slugify('Entity Company Number'),                 readonly: false },
-  { value: slugify('Tags'),                                  readonly: true  },
-  { value: '', readonly: false },
-  { value: '', readonly: false },
-  { value: '', readonly: false },
-  { value: '', readonly: false },
+  { value: slugify('Entity Trading Name'),                 readonly: false },  // 1 — was "Entity Third Party Legal Name"
+  { value: slugify('Date of Incorporation'),               readonly: false },  // 2 — was "Entity Industry Sector - onboarding"
+  { value: slugify('Third Party Owner'),                   readonly: true  },  // 3 — LOCKED
+  { value: slugify('Process Name'),                        readonly: true  },  // 4 — LOCKED
+  { value: slugify('Headquarters Country'),                readonly: false },  // 5 — was "Entity Registered Country"
+  { value: slugify('Primary Contact Phone'),               readonly: false },  // 6 — was "Third Party Contact Email Address"
+  { value: slugify('Business Unit'),                       readonly: true  },  // 7 — LOCKED
+  { value: slugify('Screening & Monitoring Policy'),       readonly: true  },  // 8 — LOCKED
+  { value: slugify('Engagement Type'),                     readonly: false },  // 9 — was "Third Party Legal Structure"
+  { value: slugify('Annual Spend Estimate'),               readonly: false },  // 10 — was "Commercial Significance..."
+  { value: slugify('Last Review Date'),                    readonly: false },  // 11 — was "Third Party Renewal Date"
+  { value: slugify('Tags'),                                readonly: true  },  // 12 — LOCKED
 ];
 
 const NS_ENTITY_ADDITIONAL = [
-  { value: slugify('Entity Other Known Name or Alias'), readonly: false },
-  { value: slugify('Entity Registered Address'),        readonly: false },
-  { value: slugify('Entity Website'),                   readonly: false },
-  { value: slugify('Internal Reference or ID'),         readonly: false },
-  { value: '', readonly: false },
-  { value: '', readonly: false },
-  { value: '', readonly: false },
-  { value: '', readonly: false },
-  { value: '', readonly: false },
-  { value: '', readonly: false },
-  { value: '', readonly: false },
-  { value: '', readonly: false },
-  { value: '', readonly: false },
-  { value: '', readonly: false },
-  { value: '', readonly: false },
-  { value: '', readonly: false },
+  { value: slugify('Entity Doing-Business-As'),            readonly: false },  // 1 — was "Entity Other Known Name or Alias"
+  { value: slugify('Entity Mailing Address'),              readonly: false },  // 2 — was "Entity Registered Address"
+  { value: slugify('Entity ID Type'),                      readonly: false },  // 3 — LOCKED
+  { value: slugify('Entity ID Value'),                     readonly: false },  // 4 — LOCKED
+  { value: slugify('Procurement Category'),                readonly: false },  // 5 — was "Responsible Client Unit"
+  { value: slugify('Entity LinkedIn Profile'),             readonly: false },  // 6 — was "Entity Website"
+  { value: slugify('Entity Company Number'),               readonly: false },  // 7 — LOCKED
+  { value: slugify('Internal Reference or ID'),            readonly: false },  // 8 — LOCKED
+  { value: slugify('Contract Owners'),                     readonly: false },  // 9 — was "All Relevant Client Units"
+  { value: slugify('Risk Owner Email'),                    readonly: false },  // 10
+  { value: slugify('Last Audit Date'),                     readonly: false },  // 11
+  { value: '',                                              readonly: false },  // 12 — LOCKED (empty)
+  { value: slugify('Insurance Status'),                    readonly: false },  // 13
+  { value: slugify('ESG Score'),                           readonly: false },  // 14
+  { value: slugify('Data Classification'),                 readonly: false },  // 15
+  { value: '',                                              readonly: false },  // 16
 ];
 
 const NS_PERSON_OVERVIEW = [
-  { value: slugify('Person Third Party Legal Name'),     readonly: false },
-  { value: slugify('Person Country of Residence'),       readonly: false },
-  { value: slugify('Third Party Owner'),                 readonly: true  },
-  { value: slugify('Process Name'),                      readonly: true  },
-  { value: slugify('Person Year of Birth'),              readonly: false },
-  { value: slugify('Business Unit'),                     readonly: true  },
-  { value: slugify('Gender'),                            readonly: false },
-  { value: slugify('Tags'),                              readonly: true  },
-  { value: '', readonly: false },
-  { value: '', readonly: false },
-  { value: '', readonly: false },
-  { value: '', readonly: false },
+  { value: slugify('Person Preferred Name'),               readonly: false },  // 1 — was "Person Third Party Legal Name"
+  { value: slugify('Person Nationality'),                  readonly: false },  // 2 — was "Person Industry Sector - onboarding"
+  { value: slugify('Third Party Owner'),                   readonly: true  },  // 3 — LOCKED
+  { value: slugify('Process Name'),                        readonly: true  },  // 4 — LOCKED
+  { value: slugify('Person Date of Birth'),                readonly: false },  // 5 — was "Person Country of Residence"
+  { value: slugify('Primary Contact Phone'),               readonly: false },  // 6 — was "Third Party Contact Email Address"
+  { value: slugify('Business Unit'),                       readonly: true  },  // 7 — LOCKED
+  { value: slugify('Screening & Monitoring Policy'),       readonly: true  },  // 8 — LOCKED
+  { value: slugify('Engagement Type'),                     readonly: false },  // 9 — was "Third Party Legal Structure"
+  { value: slugify('Daily Rate'),                          readonly: false },  // 10 — was "Commercial Significance..."
+  { value: slugify('Last Review Date'),                    readonly: false },  // 11 — was "Third Party Renewal Date"
+  { value: slugify('Tags'),                                readonly: true  },  // 12 — LOCKED
 ];
 
 const NS_PERSON_ADDITIONAL = [
-  { value: slugify('Person Other Known Name or Alias'), readonly: false },
-  { value: slugify('Person Business Address'),          readonly: false },
-  { value: slugify('Person ID Type'),                   readonly: false },
-  { value: slugify('Internal Reference or ID'),         readonly: false },
-  { value: '', readonly: false },
-  { value: '', readonly: false },
-  { value: '', readonly: false },
-  { value: '', readonly: false },
-  { value: '', readonly: false },
-  { value: '', readonly: false },
-  { value: '', readonly: false },
-  { value: '', readonly: false },
-  { value: '', readonly: false },
-  { value: '', readonly: false },
-  { value: '', readonly: false },
-  { value: '', readonly: false },
+  { value: slugify('Person Doing-Business-As'),            readonly: false },  // 1 — was "Person Other Known Name or Alias"
+  { value: slugify('Person Mailing Address'),              readonly: false },  // 2 — was "Person Business Address"
+  { value: slugify('Person ID Type'),                      readonly: false },  // 3 — LOCKED
+  { value: slugify('Person ID Value'),                     readonly: false },  // 4 — LOCKED
+  { value: slugify('Procurement Category'),                readonly: false },  // 5 — was "Responsible Client Unit"
+  { value: slugify('Person LinkedIn Profile'),             readonly: false },  // 6 — was "Person Year of Birth"
+  { value: slugify('Gender'),                              readonly: false },  // 7 — LOCKED
+  { value: slugify('Internal Reference or ID'),            readonly: false },  // 8 — LOCKED
+  { value: slugify('Contract Owners'),                     readonly: false },  // 9 — was "All Relevant Client Units"
+  { value: slugify('Person Tax ID'),                       readonly: false },  // 10
+  { value: slugify('Last Audit Date'),                     readonly: false },  // 11
+  { value: '',                                              readonly: false },  // 12 — LOCKED (empty)
+  { value: slugify('Risk Owner Email'),                    readonly: false },  // 13
+  { value: slugify('Insurance Status'),                    readonly: false },  // 14
+  { value: slugify('Data Classification'),                 readonly: false },  // 15
+  { value: '',                                              readonly: false },  // 16
 ];
 
 const NS_UNKNOWN_OVERVIEW = [
-  { value: slugify('Unknown Third Party Legal Name'),     readonly: false },
-  { value: slugify('Unknown Registered Country'),         readonly: false },
-  { value: slugify('Third Party Owner'),                  readonly: true  },
-  { value: slugify('Process Name'),                       readonly: true  },
-  { value: slugify('Unknown Third Party Type'),           readonly: false },
-  { value: slugify('Business Unit'),                      readonly: true  },
-  { value: slugify('Tags'),                               readonly: true  },
-  { value: '', readonly: false },
-  { value: '', readonly: false },
-  { value: '', readonly: false },
-  { value: '', readonly: false },
-  { value: '', readonly: false },
+  { value: slugify('Unknown Trading Name'),                readonly: false },  // 1 — was "Unknown Third Party Legal Name"
+  { value: slugify('Unknown Region'),                      readonly: false },  // 2 — was "Unknown Industry Sector - onboarding"
+  { value: slugify('Third Party Owner'),                   readonly: true  },  // 3 — LOCKED
+  { value: slugify('Process Name'),                        readonly: true  },  // 4 — LOCKED
+  { value: slugify('First Engagement Date'),               readonly: false },  // 5 — was "Unknown Registered Country"
+  { value: slugify('Primary Contact Phone'),               readonly: false },  // 6 — was "Third Party Contact Email Address"
+  { value: slugify('Business Unit'),                       readonly: true  },  // 7 — LOCKED
+  { value: slugify('Screening & Monitoring Policy'),       readonly: true  },  // 8 — LOCKED
+  { value: slugify('Engagement Type'),                     readonly: false },  // 9 — was "Third Party Legal Structure"
+  { value: slugify('Annual Spend Estimate'),               readonly: false },  // 10 — was "Commercial Significance..."
+  { value: slugify('Last Review Date'),                    readonly: false },  // 11 — was "Third Party Renewal Date"
+  { value: slugify('Tags'),                                readonly: true  },  // 12 — LOCKED
 ];
 
 const NS_UNKNOWN_ADDITIONAL = [
-  { value: slugify('Unknown Other Known Name or Alias'),         readonly: false },
-  { value: slugify('Unknown Registered Address'),                readonly: false },
-  { value: slugify('Unknown Third Party Type Other details'),    readonly: false },
-  { value: slugify('Internal Reference or ID'),                  readonly: false },
-  { value: '', readonly: false },
-  { value: '', readonly: false },
-  { value: '', readonly: false },
-  { value: '', readonly: false },
-  { value: '', readonly: false },
-  { value: '', readonly: false },
-  { value: '', readonly: false },
-  { value: '', readonly: false },
-  { value: '', readonly: false },
-  { value: '', readonly: false },
-  { value: '', readonly: false },
-  { value: '', readonly: false },
+  { value: slugify('Unknown Doing-Business-As'),                 readonly: false },  // 1 — was "Unknown Other Known Name or Alias"
+  { value: slugify('Unknown Mailing Address'),                   readonly: false },  // 2 — was "Unknown Registered Address"
+  { value: slugify('Unknown ID Types'),                          readonly: false },  // 3 — LOCKED
+  { value: slugify('Unknown ID Value'),                          readonly: false },  // 4 — LOCKED
+  { value: slugify('Procurement Category'),                      readonly: false },  // 5 — was "Responsible Client Unit"
+  { value: slugify('Unknown LinkedIn Profile'),                  readonly: false },  // 6 — was "Unknown Third Party Type"
+  { value: slugify('Unknown Third Party Type Other details'),    readonly: false },  // 7 — LOCKED
+  { value: slugify('Internal Reference or ID'),                  readonly: false },  // 8 — LOCKED
+  { value: slugify('Contract Owners'),                           readonly: false },  // 9 — was "All Relevant Client Units"
+  { value: slugify('Risk Owner Email'),                          readonly: false },  // 10
+  { value: slugify('Last Audit Date'),                           readonly: false },  // 11
+  { value: '',                                                    readonly: false },  // 12 — LOCKED (empty)
+  { value: slugify('Insurance Status'),                          readonly: false },  // 13
+  { value: slugify('ESG Score'),                                 readonly: false },  // 14
+  { value: slugify('Data Classification'),                       readonly: false },  // 15
+  { value: '',                                                    readonly: false },  // 16
 ];
 
 const NOT_STANDARD_TAB_SLOTS = {
