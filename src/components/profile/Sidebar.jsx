@@ -312,7 +312,6 @@ export default function Sidebar({ profile: profileProp, profileLoading = false, 
                 <span className={styles.navStepperTopRow}>
                   <span className={styles.navStepperLabel}>{step.label}</span>
                   {step.partner && <PartnerIcon partner={step.partner} tooltip={step.tooltip} />}
-                  {showChipOnParent && <span className={styles.navNextChip}>Next</span>}
                   {hasSubSteps && (
                     <span className={`material-icons-outlined ${styles.navStepCaretIcon} ${subExpanded ? styles.navStepCaretIconOpen : ''}`}>expand_more</span>
                   )}
@@ -377,7 +376,6 @@ export default function Sidebar({ profile: profileProp, profileLoading = false, 
                       </span>
                       <span className={styles.navSubStepContent}>
                         <span className={styles.navSubStepLabel}>{sub.label}</span>
-                        {isSubNext && <span className={styles.navNextChip}>Next</span>}
                       </span>
                     </>
                   );
