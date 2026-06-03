@@ -19,6 +19,7 @@ import PropsTable from '../components/catalog/PropsTable';
 import AnatomyTable from '../components/catalog/AnatomyTable';
 import TokenSwatch from '../components/catalog/TokenSwatch';
 import styles from './ComponentCatalog.module.css';
+import profileStyles from '../components/profile/profile.module.css';
 
 /* ── Props data ── */
 const PROPS = {
@@ -290,7 +291,6 @@ const PATTERNS_SECTIONS = [
   { label: 'Cards',              id: 'pattern-cards' },
   { label: 'Navigation',         id: 'pattern-navigation' },
   { label: 'Profile Sidenav',    id: 'pattern-sidenav' },
-  { label: 'Sticky Page Header', id: 'pattern-sticky-header' },
   { label: 'Form Modal',         id: 'pattern-form-modal' },
   { label: 'Alerts & Banners',   id: 'pattern-alerts' },
   { label: 'Accordion',          id: 'pattern-accordion' },
@@ -362,7 +362,6 @@ export default function ComponentCatalog() {
 
   /* interactive demo state — Patterns tab */
   const [patternTab, setPatternTab] = useState('Overview');
-  const [stickyStage, setStickyStage] = useState(1);
   const [formModalOpen, setFormModalOpen] = useState(false);
   const [formModalData, setFormModalData] = useState({ firstName: '', surname: '', email: '', language: '' });
   const [sidenavExpanded, setSidenavExpanded] = useState({ ra: true, dd: false });
@@ -372,6 +371,7 @@ export default function ComponentCatalog() {
   const [selectedType, setSelectedType] = useState('entity');
   const [accordionOpen, setAccordionOpen] = useState({ low: true, medium: false, high: false });
   const [headerRisk, setHeaderRisk] = useState('high');
+  const [headerScrolled, setHeaderScrolled] = useState(false);
   const [panelSize, setPanelSize] = useState(null); // null = closed, else width label
 
   /* color tokens read from CSS */
@@ -925,7 +925,7 @@ export default function ComponentCatalog() {
               <Entry
                 id="profile-header"
                 title="Profile Page Header"
-                description="Top strip of the TP profile page. Background gradient and right-side color bar change per risk level. Contains back link, profile name, verified badge, current status, and risk level badges."
+                description="Top strip of the TP profile page. Background gradient and right-side color bar change per risk level. Collapses to a 64px slim variant once the user scrolls past 10px — the back link tightens, the name shrinks to 16px, and badges absolute-position to the right. The specimen below uses the production CSS classes from profile.module.css."
                 demo={
                   <div className={styles.demoStageColumn}>
                     <div className={styles.demoRow} style={{ marginBottom: 8 }}>
@@ -943,52 +943,68 @@ export default function ComponentCatalog() {
                         >{r}</button>
                       ))}
                     </div>
-                    <div
-                      className={`${styles.tpStrip} ${
-                        headerRisk === 'high' ? styles.tpStripHigh :
-                        headerRisk === 'medium' ? styles.tpStripMedium :
-                        headerRisk === 'low' ? styles.tpStripLow :
-                        styles.tpStripPending
-                      }`}
-                    >
-                      <div className={styles.tpHeader}>
-                        <div className={styles.tpBack}>
-                          <span className="material-icons-outlined" style={{ fontSize: 16 }}>chevron_left</span>
-                          All Third Parties
-                        </div>
-                        <div className={styles.tpTitleRow}>
-                          <div className={styles.tpNameGroup}>
-                            <span className={styles.tpName}>Pied Piper Inc.</span>
-                            <span className={styles.tpVerified}>
-                              <span className="material-icons-outlined" style={{ fontSize: 16, color: 'var(--success-700)' }}>verified</span>
-                              Verified
-                            </span>
-                          </div>
-                          <div className={styles.tpBadges}>
-                            <div className={styles.tpBadgeGroup}>
-                              <span className={styles.tpBadgeLabel}>Current status:</span>
-                              <span className={styles.tpBadge} style={{ background: 'var(--success-100)', color: 'var(--success-900)' }}>
-                                <span className="material-icons-outlined" style={{ fontSize: 14 }}>check_circle</span>
-                                Approved
-                              </span>
-                            </div>
-                            <div className={styles.tpBadgeGroup}>
-                              <span className={styles.tpBadgeLabel}>Risk level:</span>
-                              <span className={styles.tpBadge} style={{
-                                background: headerRisk === 'high' ? 'var(--alert-100)' : headerRisk === 'medium' ? 'var(--warning-100)' : headerRisk === 'low' ? 'var(--success-100)' : 'var(--neutral-50)',
-                                color: headerRisk === 'high' ? 'var(--alert-700)' : headerRisk === 'medium' ? 'var(--warning-900)' : headerRisk === 'low' ? 'var(--success-900)' : 'var(--text-normal)',
-                              }}>
-                                <RiskLevelIcon level={headerRisk === 'pending' ? 'low' : headerRisk} size={14} />
-                                {headerRisk.charAt(0).toUpperCase() + headerRisk.slice(1)}
-                              </span>
-                            </div>
-                          </div>
-                        </div>
-                      </div>
+                    <div className={styles.demoRow} style={{ marginBottom: 12 }}>
+                      <span className={styles.demoGroupLabel}>Scroll state</span>
+                      {[{ k: false, label: 'Expanded' }, { k: true, label: 'Scrolled' }].map(s => (
+                        <button
+                          key={s.label}
+                          onClick={() => setHeaderScrolled(s.k)}
+                          style={{
+                            padding: '3px 10px', borderRadius: 2, fontSize: 11, fontWeight: 600, cursor: 'pointer', textTransform: 'uppercase', letterSpacing: '0.3px',
+                            background: headerScrolled === s.k ? 'var(--primary-500)' : 'var(--neutral-25)',
+                            color: headerScrolled === s.k ? 'var(--neutral-00)' : 'var(--text-light)',
+                            border: headerScrolled === s.k ? 'none' : '1px solid var(--neutral-100)',
+                          }}
+                        >{s.label}</button>
+                      ))}
                     </div>
+                    {(() => {
+                      const riskCls = headerRisk === 'high' ? profileStyles.tpTopStripHigh
+                        : headerRisk === 'medium' ? profileStyles.tpTopStripMedium
+                        : headerRisk === 'low' ? profileStyles.tpTopStripLow
+                        : profileStyles.tpTopStripPending;
+                      const riskBadgeCls = headerRisk === 'high' ? profileStyles.badgeHigh
+                        : headerRisk === 'medium' ? profileStyles.badgeMedium
+                        : headerRisk === 'low' ? profileStyles.badgeLow
+                        : profileStyles.badgePending;
+                      return (
+                        <div className={`${profileStyles.tpTopStrip} ${riskCls} ${headerScrolled ? profileStyles.tpTopStripScrolled : ''}`}>
+                          <div className={profileStyles.tpPageHeader}>
+                            <span className={profileStyles.tpBack}>
+                              <span className="material-icons-outlined">chevron_left</span> Back
+                            </span>
+                            <div className={profileStyles.tpTitleRow}>
+                              <div className={profileStyles.tpNameGroup}>
+                                <h1>Pied Piper Inc.</h1>
+                                <span className={profileStyles.tpVerified}>
+                                  <span className="material-icons-outlined">verified</span>
+                                  Entity Verified
+                                </span>
+                              </div>
+                              <div className={profileStyles.tpBadges}>
+                                <div className={profileStyles.tpBadgeGroup}>
+                                  <div className={profileStyles.tpBadgeLabel}>Current status:</div>
+                                  <div className={`${profileStyles.badge} ${profileStyles.statusApproved} ${profileStyles.badgeBtn}`}>
+                                    Approved
+                                    <span className="material-icons-outlined" style={{ fontSize: 16 }}>check_circle</span>
+                                  </div>
+                                </div>
+                                <div className={profileStyles.tpBadgeGroup}>
+                                  <div className={profileStyles.tpBadgeLabel}>Risk level:</div>
+                                  <div className={`${profileStyles.badge} ${riskBadgeCls} ${profileStyles.badgeBtn}`}>
+                                    {headerRisk === 'pending' ? 'Pending' : headerRisk.charAt(0).toUpperCase() + headerRisk.slice(1)}
+                                    <RiskLevelIcon level={headerRisk === 'pending' ? 'low' : headerRisk} size={14} />
+                                  </div>
+                                </div>
+                              </div>
+                            </div>
+                          </div>
+                        </div>
+                      );
+                    })()}
                   </div>
                 }
-                demoNote="Risk level buttons above toggle the strip variant. The right-side color bar, gradient tint, and badge color all update together."
+                demoNote="Risk level buttons toggle the strip variant. Scroll state toggles between the 100px expanded and 64px collapsed forms — in production this happens automatically once window.scrollY > 10."
               />
 
               <Entry
@@ -1717,132 +1733,143 @@ export default function ComponentCatalog() {
                 </div>
                 <div className={styles.demoShell}>
                   <div className={styles.demoLabel}>Live Demo</div>
-                  <div style={{ padding: 20 }}>
-                    <div className={styles.sidenavTreeSpecimen}>
-                      {/* Risk Assessment — parent in progress, sub-steps expanded */}
-                      <div
-                        className={`${styles.treeRow} ${styles.treeRowParent}`}
-                        onClick={() => setSidenavExpanded(p => ({ ...p, ra: !p.ra }))}
-                      >
-                        <span className={styles.treeGutter}>
-                          <span className={`${styles.treeNode} ${styles.treeNodeAmber}`} />
-                          <span className={`${styles.treeConnector} ${styles.treeConnectorNext}`} />
-                        </span>
-                        <span className={styles.treeContent}>
-                          <span className={styles.treeTopRow}>
-                            <span className={styles.treeLabel}>Risk Assessment</span>
-                            <span className={`material-icons-outlined ${styles.treeCaret} ${sidenavExpanded.ra ? styles.treeCaretOpen : ''}`}>expand_more</span>
+                  <div style={{ padding: '20px 16px' }}>
+                    {/* Specimen reuses the real Sidebar CSS classes from profile.module.css */}
+                    <aside style={{ width: 280, background: 'var(--neutral-00)', border: '1px solid var(--neutral-50)', borderRadius: 4 }}>
+                      <div className={profileStyles.navStepper}>
+                        {/* Risk Assessment — parent amber/next, expanded */}
+                        <div
+                          className={`${profileStyles.navStepperRow} ${profileStyles.navStepperRowNext}`}
+                          style={{ cursor: 'pointer' }}
+                          onClick={() => setSidenavExpanded(p => ({ ...p, ra: !p.ra }))}
+                        >
+                          <span className={profileStyles.navStepperGutter}>
+                            <span className={`${profileStyles.navStepperNode} ${profileStyles.navStepperNode_amber}`} />
+                            <span className={`${profileStyles.navStepperConnector} ${profileStyles.navStepperConnectorNext}`} />
                           </span>
-                          <span className={styles.treeStatusRow}>
-                            <span className={styles.treeStatus}>In Progress</span>
-                            <span className={styles.treeOpenIcon} title="Open module"><span className="material-icons-outlined" style={{ fontSize: 13 }}>open_in_new</span></span>
+                          <span className={profileStyles.navStepperContent}>
+                            <span className={profileStyles.navStepperTopRow}>
+                              <span className={profileStyles.navStepperLabel}>Risk Assessment</span>
+                              <span className={`material-icons-outlined ${profileStyles.navStepCaretIcon} ${sidenavExpanded.ra ? profileStyles.navStepCaretIconOpen : ''}`}>expand_more</span>
+                            </span>
+                            <span className={profileStyles.navStepperStatusRow}>
+                              <span className={profileStyles.navStepperStatus}>In Progress</span>
+                              <span className={profileStyles.navStepOpenPageLink} title="Open module">
+                                <span className="material-icons-outlined" style={{ fontSize: 13 }}>open_in_new</span>
+                              </span>
+                            </span>
                           </span>
-                        </span>
-                      </div>
-                      {sidenavExpanded.ra && (
-                        <div className={`${styles.treeSubSteps} ${styles.treeSubStepsNext}`} style={{ '--next-sub-idx': 1 }}>
-                          <div className={styles.treeSubRow}>
-                            <span className={styles.treeSubGutter}>
-                              <span className={`${styles.treeSubNode} ${styles.treeNodeGreen}`}>
+                        </div>
+                        <div
+                          className={`${profileStyles.navSubSteps} ${sidenavExpanded.ra ? profileStyles.navSubStepsOpen : profileStyles.navSubStepsClosed} ${profileStyles.navSubStepsNext}`}
+                          style={{ '--next-sub-idx': 1 }}
+                        >
+                          <div className={profileStyles.navSubStepRow}>
+                            <span className={profileStyles.navSubStepGutter}>
+                              <span className={`${profileStyles.navSubStepNode} ${profileStyles.navStepperNode_green}`}>
                                 <svg width="8" height="8" viewBox="0 0 10 10" fill="none"><path d="M2 5.2L4.2 7.5L8 3" stroke="white" strokeWidth="1.6" strokeLinecap="round" strokeLinejoin="round"/></svg>
                               </span>
                             </span>
-                            <span className={styles.treeSubContent}>
-                              <span className={styles.treeSubLabel}>Risk Assessment 1</span>
+                            <span className={profileStyles.navSubStepContent}>
+                              <span className={profileStyles.navSubStepLabel}>Risk Assessment 1</span>
                             </span>
                           </div>
-                          <div className={styles.treeSubRow}>
-                            <span className={styles.treeSubGutter}>
-                              <span className={`${styles.treeSubNode} ${styles.treeNodeRed} ${styles.treeNodeNext}`} />
+                          <div className={`${profileStyles.navSubStepRow} ${profileStyles.navSubStepRowNext}`}>
+                            <span className={profileStyles.navSubStepGutter}>
+                              <span className={`${profileStyles.navSubStepNode} ${profileStyles.navStepperNode_red} ${profileStyles.navStepperNodeNext}`} />
                             </span>
-                            <span className={styles.treeSubContent}>
-                              <span className={styles.treeSubLabel}>Risk Assessment 2</span>
-                              <span className={styles.treeNextChip}>Next</span>
+                            <span className={profileStyles.navSubStepContent}>
+                              <span className={profileStyles.navSubStepLabel}>Risk Assessment 2</span>
+                              <span className={profileStyles.navNextChip}>Next</span>
                             </span>
                           </div>
+                          <div className={profileStyles.navSubStepsCloser} aria-hidden="true" />
                         </div>
-                      )}
 
-                      {/* Due Diligence — parent waiting (collapsed) */}
-                      <div
-                        className={`${styles.treeRow} ${styles.treeRowParent}`}
-                        onClick={() => setSidenavExpanded(p => ({ ...p, dd: !p.dd }))}
-                      >
-                        <span className={styles.treeGutter}>
-                          <span className={`${styles.treeNode} ${styles.treeNodeAmber}`} />
-                          <span className={styles.treeConnector} />
-                        </span>
-                        <span className={styles.treeContent}>
-                          <span className={styles.treeTopRow}>
-                            <span className={styles.treeLabel}>Due Diligence</span>
-                            <span className={`material-icons-outlined ${styles.treeCaret} ${sidenavExpanded.dd ? styles.treeCaretOpen : ''}`}>expand_more</span>
+                        {/* Due Diligence — parent amber, collapsed */}
+                        <div
+                          className={profileStyles.navStepperRow}
+                          style={{ cursor: 'pointer' }}
+                          onClick={() => setSidenavExpanded(p => ({ ...p, dd: !p.dd }))}
+                        >
+                          <span className={profileStyles.navStepperGutter}>
+                            <span className={`${profileStyles.navStepperNode} ${profileStyles.navStepperNode_amber}`} />
+                            <span className={profileStyles.navStepperConnector} />
                           </span>
-                          <span className={styles.treeStatusRow}>
-                            <span className={styles.treeStatus}>In Progress</span>
-                            <span className={styles.treeOpenIcon} title="Open module"><span className="material-icons-outlined" style={{ fontSize: 13 }}>open_in_new</span></span>
+                          <span className={profileStyles.navStepperContent}>
+                            <span className={profileStyles.navStepperTopRow}>
+                              <span className={profileStyles.navStepperLabel}>Due Diligence</span>
+                              <span className={`material-icons-outlined ${profileStyles.navStepCaretIcon} ${sidenavExpanded.dd ? profileStyles.navStepCaretIconOpen : ''}`}>expand_more</span>
+                            </span>
+                            <span className={profileStyles.navStepperStatusRow}>
+                              <span className={profileStyles.navStepperStatus}>In Progress</span>
+                              <span className={profileStyles.navStepOpenPageLink} title="Open module">
+                                <span className="material-icons-outlined" style={{ fontSize: 13 }}>open_in_new</span>
+                              </span>
+                            </span>
                           </span>
-                        </span>
-                      </div>
-                      {sidenavExpanded.dd && (
-                        <div className={styles.treeSubSteps}>
-                          <div className={styles.treeSubRow}>
-                            <span className={styles.treeSubGutter}>
-                              <span className={`${styles.treeSubNode} ${styles.treeNodeGreen}`}>
+                        </div>
+                        <div
+                          className={`${profileStyles.navSubSteps} ${sidenavExpanded.dd ? profileStyles.navSubStepsOpen : profileStyles.navSubStepsClosed}`}
+                        >
+                          <div className={profileStyles.navSubStepRow}>
+                            <span className={profileStyles.navSubStepGutter}>
+                              <span className={`${profileStyles.navSubStepNode} ${profileStyles.navStepperNode_green}`}>
                                 <svg width="8" height="8" viewBox="0 0 10 10" fill="none"><path d="M2 5.2L4.2 7.5L8 3" stroke="white" strokeWidth="1.6" strokeLinecap="round" strokeLinejoin="round"/></svg>
                               </span>
                             </span>
-                            <span className={styles.treeSubContent}>
-                              <span className={styles.treeSubLabel}>Internal Due Diligence</span>
+                            <span className={profileStyles.navSubStepContent}>
+                              <span className={profileStyles.navSubStepLabel}>Internal Due Diligence</span>
                             </span>
                           </div>
-                          <div className={styles.treeSubRow}>
-                            <span className={styles.treeSubGutter}>
-                              <span className={`${styles.treeSubNode} ${styles.treeNodeAmber}`} />
+                          <div className={profileStyles.navSubStepRow}>
+                            <span className={profileStyles.navSubStepGutter}>
+                              <span className={`${profileStyles.navSubStepNode} ${profileStyles.navStepperNode_amber}`} />
                             </span>
-                            <span className={styles.treeSubContent}>
-                              <span className={styles.treeSubLabel}>External Due Diligence</span>
+                            <span className={profileStyles.navSubStepContent}>
+                              <span className={profileStyles.navSubStepLabel}>External Due Diligence</span>
                             </span>
                           </div>
+                          <div className={profileStyles.navSubStepsCloser} aria-hidden="true" />
                         </div>
-                      )}
 
-                      {/* Integrity Check — flat, Next */}
-                      <div className={styles.treeRow}>
-                        <span className={styles.treeGutter}>
-                          <span className={`${styles.treeNode} ${styles.treeNodeRed} ${styles.treeNodeNext}`} />
-                          <span className={styles.treeConnector} />
-                        </span>
-                        <span className={styles.treeContent}>
-                          <span className={styles.treeTopRow}>
-                            <span className={styles.treeLabel}>Integrity Check</span>
-                            <span className={styles.sidenavNewTag}>New</span>
-                            <span className={styles.treeNextChip}>Next</span>
+                        {/* Integrity Check — flat, red */}
+                        <div className={profileStyles.navStepperRow}>
+                          <span className={profileStyles.navStepperGutter}>
+                            <span className={`${profileStyles.navStepperNode} ${profileStyles.navStepperNode_red}`} />
+                            <span className={profileStyles.navStepperConnector} />
                           </span>
-                          <span className={styles.treeStatusRow}>
-                            <span className={styles.treeStatus}>Not Started</span>
+                          <span className={profileStyles.navStepperContent}>
+                            <span className={profileStyles.navStepperTopRow}>
+                              <span className={profileStyles.navStepperLabel}>Integrity Check</span>
+                              <span className={profileStyles.navNewTag}>New</span>
+                            </span>
+                            <span className={profileStyles.navStepperStatusRow}>
+                              <span className={profileStyles.navStepperStatus}>Not Started</span>
+                            </span>
                           </span>
-                        </span>
-                      </div>
+                        </div>
 
-                      {/* Approval — flat, awaiting prior steps */}
-                      <div className={styles.treeRow}>
-                        <span className={styles.treeGutter}>
-                          <span className={`${styles.treeNode} ${styles.treeNodeRed}`} />
-                        </span>
-                        <span className={styles.treeContent}>
-                          <span className={styles.treeTopRow}>
-                            <span className={styles.treeLabel}>Approval</span>
+                        {/* Approval — flat, red */}
+                        <div className={profileStyles.navStepperRow}>
+                          <span className={profileStyles.navStepperGutter}>
+                            <span className={`${profileStyles.navStepperNode} ${profileStyles.navStepperNode_red}`} />
                           </span>
-                          <span className={styles.treeStatusRow}>
-                            <span className={styles.treeStatus}>Not Started</span>
+                          <span className={profileStyles.navStepperContent}>
+                            <span className={profileStyles.navStepperTopRow}>
+                              <span className={profileStyles.navStepperLabel}>Approval</span>
+                            </span>
+                            <span className={profileStyles.navStepperStatusRow}>
+                              <span className={profileStyles.navStepperStatus}>Not Started</span>
+                            </span>
                           </span>
-                        </span>
+                        </div>
                       </div>
-                    </div>
+                    </aside>
                   </div>
                 </div>
                 <div style={{ marginTop: 16, padding: '12px 16px', background: 'var(--neutral-25)', borderRadius: 4, fontSize: 12, color: 'var(--text-light)' }}>
-                  Click the parent rows (Risk Assessment, Due Diligence) to expand / collapse the children. The blue trunk line under Risk Assessment routes from the parent down to the first incomplete substep — that's the &quot;Next&quot; route, signalling exactly where the user picks up.
+                  Specimen reuses the real Sidebar CSS classes (<code>navStepper*</code> / <code>navSubSteps*</code> in <code>profile.module.css</code>) so it stays pixel-identical to production. Click the parent rows to expand / collapse — the blue trunk under Risk Assessment routes from the parent through to the first incomplete substep, which carries the <strong>Next</strong> chip.
                 </div>
               </div>
 
@@ -1863,91 +1890,6 @@ export default function ComponentCatalog() {
                   { part: 'New tag',          purpose: 'Highlights recently introduced steps.',                                              notes: 'Pill-shaped, sits inline with the step title in the top row.' },
                   { part: 'Section links',    purpose: 'Profile-scoped pages (Properties, Documents, Audit, etc.).',                        notes: 'Below the second divider. Active state uses primary-500 background.' },
                   { part: 'Divider',          purpose: 'Separates the three regions (Summary / Steps / Sections).',                          notes: '1px neutral-50 horizontal line, full sidebar width.' },
-                ]} />
-              </div>
-            </section>
-
-            {/* ══ Sticky Page Header ══ */}
-            <section id="pattern-sticky-header" className={styles.categorySection} data-catalog-section style={{ scrollMarginTop: 68 }}>
-              <h2 className={styles.categoryTitle}>Sticky Page Header</h2>
-              <div className={styles.entryCard}>
-                <div className={styles.entryHeader}>
-                  <h3 className={styles.entryTitle}>Sticky Form Header</h3>
-                  <p className={styles.entryDesc}>Used by multi-step form pages (Approval Stage, Risk Assessment Questionnaire, Internal Due Diligence). Sticks to the top of the scroll container with a subtle drop-shadow once content scrolls underneath. Stacks four rows: title row, action bar (primary + secondary buttons), step pills (numbered tabs with check-on-complete), and a 3px progress bar tracking the same step count.</p>
-                </div>
-                <div className={styles.demoShell}>
-                  <div className={styles.demoLabel}>Live Demo</div>
-                  <div style={{ padding: 0 }}>
-                    <div className={styles.stickyHeaderSpecimen}>
-                      <div className={styles.stickyTitleRow}>
-                        <div>
-                          <h2 className={styles.stickyTitle}>Approval Stage {stickyStage}</h2>
-                          <p className={styles.stickySubtitle}>Items marked with a <span style={{ color: 'var(--alert-500)' }}>*</span> are required</p>
-                        </div>
-                      </div>
-
-                      <div className={styles.stickyActionBar}>
-                        <div className={styles.stickyActionLeft}>
-                          <Button variant="filled">Approved</Button>
-                          <Button variant="outline" style={{ color: 'var(--alert-500)', borderColor: 'var(--alert-500)' }}>Not Approved</Button>
-                        </div>
-                        <div className={styles.stickyActionRight}>
-                          <Button variant="outline">Notes</Button>
-                          <Button variant="outline">Reassign</Button>
-                          <Button variant="outline">Properties</Button>
-                          <Button variant="outline">Cancel</Button>
-                          <Button variant="outline">Save</Button>
-                        </div>
-                      </div>
-
-                      <div className={styles.stickyStepTabs}>
-                        {[1, 2].map(n => {
-                          const isDone = n < stickyStage;
-                          const isActive = n === stickyStage;
-                          return (
-                            <button
-                              key={n}
-                              className={`${styles.stickyStepTab} ${isActive ? styles.stickyStepTabActive : ''}`}
-                              onClick={() => setStickyStage(n)}
-                            >
-                              <span className={`${styles.stickyStepPill} ${isDone ? styles.stickyStepPillDone : ''}`}>
-                                {isDone
-                                  ? <span className="material-icons-outlined" style={{ fontSize: 13 }}>check</span>
-                                  : n}
-                              </span>
-                              Approval Stage {n}
-                            </button>
-                          );
-                        })}
-                      </div>
-
-                      <div className={styles.stickyProgressBar}>
-                        <div className={styles.stickyProgressFill} style={{ width: `${(stickyStage - 1) * 50 + 50}%` }} />
-                      </div>
-                    </div>
-
-                    <div style={{ padding: '20px 20px 24px', background: 'var(--neutral-25)' }}>
-                      <div style={{ background: 'var(--neutral-00)', border: '1px solid var(--neutral-50)', borderRadius: 4, padding: 20, fontSize: 13, color: 'var(--text-light)' }}>
-                        Form body — section blocks live here. The header above stays pinned while these scroll.
-                      </div>
-                    </div>
-                  </div>
-                </div>
-                <div style={{ marginTop: 16, padding: '12px 16px', background: 'var(--neutral-25)', borderRadius: 4, fontSize: 12, color: 'var(--text-light)' }}>
-                  Click the step pills above to switch stages — the active pill turns blue, completed pills turn green with a check, and the progress bar updates in lockstep.
-                </div>
-              </div>
-
-              <div className={styles.entryCard}>
-                <div className={styles.entryHeader}>
-                  <h3 className={styles.entryTitle}>Anatomy</h3>
-                </div>
-                <AnatomyTable rows={[
-                  { part: 'Container',     purpose: 'Sticky wrapper anchored to the top of the scroll container.',          notes: 'position: sticky; top: 0; z-index: 10. Drops a small shadow once content scrolls under it.' },
-                  { part: 'Title row',     purpose: 'Page title + required-field note.',                                      notes: 'Title is uppercase Simplon Norm 16px / weight 500 / 1.5px tracking. Subtitle 12px text-light.' },
-                  { part: 'Action bar',    purpose: 'Primary + secondary action buttons.',                                    notes: 'Primary actions on the left (Approved / Not Approved), secondary on the right (Notes / Reassign / Properties / Cancel / Save).' },
-                  { part: 'Step pills',    purpose: 'Numbered tab pills, one per stage.',                                      notes: 'Active pill = primary-500 bg; completed pill = success-500 bg with check icon; remaining pills = neutral-100. Bottom border indicator on the active tab.' },
-                  { part: 'Progress bar',  purpose: '3px horizontal bar reflecting completion across the step count.',         notes: 'Stretched edge-to-edge inside the container. Width = (completedSteps / totalSteps) * 100%.' },
                 ]} />
               </div>
             </section>
