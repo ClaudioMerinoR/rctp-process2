@@ -7,14 +7,10 @@
   background-color: var(--neutral-00);
   padding: 0 16px;
   margin: 0 16px 16px;
-  position: sticky;
-  top: var(--nav-height);
-  z-index: 50;
   overflow: hidden;
   height: var(--tp-header-h);
   border-radius: var(--rctp-radius-sm);
   box-shadow: var(--rctp-shadow-xs);
-  transition: box-shadow 0.35s cubic-bezier(0.32, 0.72, 0, 1), height 0.35s cubic-bezier(0.32, 0.72, 0, 1), margin-bottom 0.35s cubic-bezier(0.32, 0.72, 0, 1);
 }
 
 .tpTopStripHigh {
