@@ -1,5 +1,6 @@
-import { useState, useEffect } from 'react';
+import { useState, useEffect, useRef } from 'react';
 import { Link } from 'react-router-dom';
+import confetti from 'canvas-confetti';
 import { patchInitechProfile } from '../../utils/initechFlow';
 import { RiskLevelIcon } from './profileAssets';
 import styles from './profile.module.css';
@@ -19,12 +20,32 @@ export default function ProfilePageHeader({ profile: profileProp }) {
   const { cls, icon } = STATUS_CONFIG[statusLabel] ?? STATUS_CONFIG['Pending Approval'];
 
   const [scrolled, setScrolled] = useState(false);
+  const badgeRef = useRef(null);
+  const firedRef = useRef(false);
 
   useEffect(() => {
     function onScroll() { setScrolled(window.scrollY > 10); }
     window.addEventListener('scroll', onScroll, { passive: true });
     return () => window.removeEventListener('scroll', onScroll);
   }, []);
+
+  useEffect(() => {
+    if (statusLabel !== 'Approved' || firedRef.current) return;
+    firedRef.current = true;
+    const badge = badgeRef.current;
+    if (!badge) return;
+    const rect = badge.getBoundingClientRect();
+    const x = (rect.left + rect.width / 2) / window.innerWidth;
+    const y = (rect.top + rect.height / 2) / window.innerHeight;
+    confetti({
+      particleCount: 140,
+      spread: 90,
+      startVelocity: 50,
+      origin: { x, y },
+      colors: ['#02A3D5', '#028FBB', '#13DF81', '#F0C043', '#ffffff'],
+      zIndex: 9999,
+    });
+  }, [statusLabel]);
 
   const riskLevelCls = profile.riskLevel?.level === 'high'   ? ' ' + styles.tpTopStripHigh
     : profile.riskLevel?.level === 'medium' ? ' ' + styles.tpTopStripMedium
@@ -52,7 +73,7 @@ export default function ProfilePageHeader({ profile: profileProp }) {
           <div className={styles.tpBadges}>
             <div className={styles.tpBadgeGroup}>
               <div className={styles.tpBadgeLabel}>Current status:</div>
-              <div className={`${styles.badge} ${styles[cls]} ${styles.badgeBtn}`}>
+              <div ref={badgeRef} className={`${styles.badge} ${styles[cls]} ${styles.badgeBtn}`}>
                 {statusLabel}
                 <span className="material-icons-outlined" style={{ fontSize: 16 }}>{icon}</span>
               </div>

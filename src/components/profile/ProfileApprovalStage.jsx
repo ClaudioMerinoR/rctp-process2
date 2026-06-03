@@ -1,5 +1,4 @@
 import { useState, useRef } from 'react';
-import confetti from 'canvas-confetti';
 import { useParams, useNavigate } from 'react-router-dom';
 import { motion } from 'motion/react';
 import PageLayout from '../layout/PageLayout';
@@ -19,7 +18,6 @@ export default function ProfileApprovalStage() {
   const [details, setDetails] = useState('');
   const [fileName, setFileName] = useState('');
   const fileRef = useRef(null);
-  const approvedBtnRef = useRef(null);
 
   if (!rawProfile) return null;
 
@@ -38,22 +36,6 @@ export default function ProfileApprovalStage() {
   const completedSteps = (stage1Done ? 1 : 0) + (stage2Done ? 1 : 0);
   const progressPct = totalSteps ? Math.round((completedSteps / totalSteps) * 100) : 0;
 
-  function fireConfetti() {
-    const btn = approvedBtnRef.current;
-    if (!btn) return;
-    const rect = btn.getBoundingClientRect();
-    const x = (rect.left + rect.width / 2) / window.innerWidth;
-    const y = (rect.top + rect.height / 2) / window.innerHeight;
-    confetti({
-      particleCount: 120,
-      spread: 80,
-      startVelocity: 45,
-      origin: { x, y },
-      colors: ['#02A3D5', '#028FBB', '#13DF81', '#F0C043', '#ffffff'],
-      zIndex: 9999,
-    });
-  }
-
   function handleApproved() {
     if (!isReady) return;
     if (isWaystar) {
@@ -61,9 +43,8 @@ export default function ProfileApprovalStage() {
         setWaystarFlow({ approval1Done: true, screeningDone: true });
         navigate(`/profile/${profileId}/approval/2`);
       } else {
-        fireConfetti();
         setWaystarFlow({ approval2Done: true });
-        setTimeout(() => navigate(`/profile/${profileId}`), 1800);
+        navigate(`/profile/${profileId}`);
       }
     }
   }
@@ -108,7 +89,6 @@ export default function ProfileApprovalStage() {
               <div className={s.actionBar}>
                 <div className={s.actionLeft}>
                   <button
-                    ref={approvedBtnRef}
                     className={`${styles.btn} ${styles.btnFilled}`}
                     onClick={handleApproved}
                     disabled={!isReady || currentStageDone}
