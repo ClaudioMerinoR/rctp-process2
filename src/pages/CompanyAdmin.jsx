@@ -368,7 +368,7 @@ const NS_ENTITY_ADDITIONAL = [
   { value: slugify('Insurance Status'),                    readonly: false },  // 13
   { value: slugify('ESG Score'),                           readonly: false },  // 14
   { value: slugify('Data Classification'),                 readonly: false },  // 15
-  { value: '',                                              readonly: false },  // 16
+  { value: slugify('Subcontracting Allowed'),              readonly: false },  // 16
 ];
 
 const NS_PERSON_OVERVIEW = [
@@ -402,7 +402,7 @@ const NS_PERSON_ADDITIONAL = [
   { value: slugify('Risk Owner Email'),                    readonly: false },  // 13
   { value: slugify('Insurance Status'),                    readonly: false },  // 14
   { value: slugify('Data Classification'),                 readonly: false },  // 15
-  { value: '',                                              readonly: false },  // 16
+  { value: slugify('Languages Spoken'),                    readonly: false },  // 16
 ];
 
 const NS_UNKNOWN_OVERVIEW = [
@@ -436,7 +436,7 @@ const NS_UNKNOWN_ADDITIONAL = [
   { value: slugify('Insurance Status'),                          readonly: false },  // 13
   { value: slugify('ESG Score'),                                 readonly: false },  // 14
   { value: slugify('Data Classification'),                       readonly: false },  // 15
-  { value: '',                                                    readonly: false },  // 16
+  { value: slugify('Source of Introduction'),                    readonly: false },  // 16
 ];
 
 const NOT_STANDARD_TAB_SLOTS = {
