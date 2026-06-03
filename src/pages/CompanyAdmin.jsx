@@ -334,6 +334,125 @@ const INITIAL_TAB_SLOTS = {
   unknown: { overview: INITIAL_UNKNOWN_OVERVIEW, additional: INITIAL_UNKNOWN_ADDITIONAL },
 };
 
+/* ── "Not Standard" process slot defaults — same shape, different fields ── */
+const NS_ENTITY_OVERVIEW = [
+  { value: slugify('Entity Third Party Legal Name'),         readonly: false },
+  { value: slugify('Entity Registered Country'),             readonly: false },
+  { value: slugify('Third Party Owner'),                     readonly: true  },
+  { value: slugify('Process Name'),                          readonly: true  },
+  { value: slugify('Entity Industry Sector - onboarding'),   readonly: false },
+  { value: slugify('Business Unit'),                         readonly: true  },
+  { value: slugify('Entity Company Number'),                 readonly: false },
+  { value: slugify('Tags'),                                  readonly: true  },
+  { value: '', readonly: false },
+  { value: '', readonly: false },
+  { value: '', readonly: false },
+  { value: '', readonly: false },
+];
+
+const NS_ENTITY_ADDITIONAL = [
+  { value: slugify('Entity Other Known Name or Alias'), readonly: false },
+  { value: slugify('Entity Registered Address'),        readonly: false },
+  { value: slugify('Entity Website'),                   readonly: false },
+  { value: slugify('Internal Reference or ID'),         readonly: false },
+  { value: '', readonly: false },
+  { value: '', readonly: false },
+  { value: '', readonly: false },
+  { value: '', readonly: false },
+  { value: '', readonly: false },
+  { value: '', readonly: false },
+  { value: '', readonly: false },
+  { value: '', readonly: false },
+  { value: '', readonly: false },
+  { value: '', readonly: false },
+  { value: '', readonly: false },
+  { value: '', readonly: false },
+];
+
+const NS_PERSON_OVERVIEW = [
+  { value: slugify('Person Third Party Legal Name'),     readonly: false },
+  { value: slugify('Person Country of Residence'),       readonly: false },
+  { value: slugify('Third Party Owner'),                 readonly: true  },
+  { value: slugify('Process Name'),                      readonly: true  },
+  { value: slugify('Person Year of Birth'),              readonly: false },
+  { value: slugify('Business Unit'),                     readonly: true  },
+  { value: slugify('Gender'),                            readonly: false },
+  { value: slugify('Tags'),                              readonly: true  },
+  { value: '', readonly: false },
+  { value: '', readonly: false },
+  { value: '', readonly: false },
+  { value: '', readonly: false },
+];
+
+const NS_PERSON_ADDITIONAL = [
+  { value: slugify('Person Other Known Name or Alias'), readonly: false },
+  { value: slugify('Person Business Address'),          readonly: false },
+  { value: slugify('Person ID Type'),                   readonly: false },
+  { value: slugify('Internal Reference or ID'),         readonly: false },
+  { value: '', readonly: false },
+  { value: '', readonly: false },
+  { value: '', readonly: false },
+  { value: '', readonly: false },
+  { value: '', readonly: false },
+  { value: '', readonly: false },
+  { value: '', readonly: false },
+  { value: '', readonly: false },
+  { value: '', readonly: false },
+  { value: '', readonly: false },
+  { value: '', readonly: false },
+  { value: '', readonly: false },
+];
+
+const NS_UNKNOWN_OVERVIEW = [
+  { value: slugify('Unknown Third Party Legal Name'),     readonly: false },
+  { value: slugify('Unknown Registered Country'),         readonly: false },
+  { value: slugify('Third Party Owner'),                  readonly: true  },
+  { value: slugify('Process Name'),                       readonly: true  },
+  { value: slugify('Unknown Third Party Type'),           readonly: false },
+  { value: slugify('Business Unit'),                      readonly: true  },
+  { value: slugify('Tags'),                               readonly: true  },
+  { value: '', readonly: false },
+  { value: '', readonly: false },
+  { value: '', readonly: false },
+  { value: '', readonly: false },
+  { value: '', readonly: false },
+];
+
+const NS_UNKNOWN_ADDITIONAL = [
+  { value: slugify('Unknown Other Known Name or Alias'),         readonly: false },
+  { value: slugify('Unknown Registered Address'),                readonly: false },
+  { value: slugify('Unknown Third Party Type Other details'),    readonly: false },
+  { value: slugify('Internal Reference or ID'),                  readonly: false },
+  { value: '', readonly: false },
+  { value: '', readonly: false },
+  { value: '', readonly: false },
+  { value: '', readonly: false },
+  { value: '', readonly: false },
+  { value: '', readonly: false },
+  { value: '', readonly: false },
+  { value: '', readonly: false },
+  { value: '', readonly: false },
+  { value: '', readonly: false },
+  { value: '', readonly: false },
+  { value: '', readonly: false },
+];
+
+const NOT_STANDARD_TAB_SLOTS = {
+  entity:  { overview: NS_ENTITY_OVERVIEW,  additional: NS_ENTITY_ADDITIONAL  },
+  person:  { overview: NS_PERSON_OVERVIEW,  additional: NS_PERSON_ADDITIONAL  },
+  unknown: { overview: NS_UNKNOWN_OVERVIEW, additional: NS_UNKNOWN_ADDITIONAL },
+};
+
+const PROCESS_INITIAL_SLOTS = {
+  standard:    INITIAL_TAB_SLOTS,
+  'not-standard': NOT_STANDARD_TAB_SLOTS,
+};
+
+const PROCESS_OPTIONS = [
+  { key: 'standard',     label: 'Standard (Default)' },
+  { key: 'not-standard', label: 'Not Standard' },
+];
+
 const DETAIL_TABS = [
   { key: 'entity',  label: 'Entity'  },
   { key: 'person',  label: 'Person'  },
@@ -510,13 +629,16 @@ export default function CompanyAdmin() {
   })();
 
   const [activeDetailsTab, setActiveDetailsTab] = useState('entity');
+  const [activeProcess, setActiveProcess] = useState('standard');
   const [isEditing, setIsEditing] = useState(false);
   const [showAlert, setShowAlert] = useState(false);
   const alertTimerRef = useRef(null);
 
-  /* slot state — working copies + committed originals, keyed by tab */
-  const [tabSlots, setTabSlots] = useState(INITIAL_TAB_SLOTS);
-  const [origTabSlots, setOrigTabSlots] = useState(INITIAL_TAB_SLOTS);
+  /* slot state — working copies + committed originals, keyed by process → tab */
+  const [processSlots, setProcessSlots] = useState(PROCESS_INITIAL_SLOTS);
+  const [origProcessSlots, setOrigProcessSlots] = useState(PROCESS_INITIAL_SLOTS);
+
+  const tabSlots = processSlots[activeProcess];
 
   function handleEdit() {
     setIsEditing(true);
@@ -524,23 +646,38 @@ export default function CompanyAdmin() {
 
   function handleCancel() {
     setIsEditing(false);
-    setTabSlots(prev => ({ ...prev, [activeDetailsTab]: origTabSlots[activeDetailsTab] }));
+    setProcessSlots(prev => ({
+      ...prev,
+      [activeProcess]: {
+        ...prev[activeProcess],
+        [activeDetailsTab]: origProcessSlots[activeProcess][activeDetailsTab],
+      },
+    }));
   }
 
   function handleSave() {
     setIsEditing(false);
-    setOrigTabSlots(prev => ({ ...prev, [activeDetailsTab]: tabSlots[activeDetailsTab] }));
+    setOrigProcessSlots(prev => ({
+      ...prev,
+      [activeProcess]: {
+        ...prev[activeProcess],
+        [activeDetailsTab]: processSlots[activeProcess][activeDetailsTab],
+      },
+    }));
     setShowAlert(true);
     clearTimeout(alertTimerRef.current);
     alertTimerRef.current = setTimeout(() => setShowAlert(false), 5000);
   }
 
   function updateTabSlot(section, index, newValue) {
-    setTabSlots(prev => ({
+    setProcessSlots(prev => ({
       ...prev,
-      [activeDetailsTab]: {
-        ...prev[activeDetailsTab],
-        [section]: prev[activeDetailsTab][section].map((s, i) => i === index ? { ...s, value: newValue } : s),
+      [activeProcess]: {
+        ...prev[activeProcess],
+        [activeDetailsTab]: {
+          ...prev[activeProcess][activeDetailsTab],
+          [section]: prev[activeProcess][activeDetailsTab][section].map((s, i) => i === index ? { ...s, value: newValue } : s),
+        },
       },
     }));
   }
@@ -548,6 +685,11 @@ export default function CompanyAdmin() {
   function handleTabChange(tabKey) {
     if (isEditing) handleCancel();
     setActiveDetailsTab(tabKey);
+  }
+
+  function handleProcessChange(processKey) {
+    if (isEditing) handleCancel();
+    setActiveProcess(processKey);
   }
 
   useEffect(() => {
@@ -619,6 +761,18 @@ export default function CompanyAdmin() {
                       </button>
                     </>
                   )}
+                  <label className={styles.processSelectLabel}>
+                    <span>Process</span>
+                    <select
+                      className={styles.processSelect}
+                      value={activeProcess}
+                      onChange={e => handleProcessChange(e.target.value)}
+                    >
+                      {PROCESS_OPTIONS.map(opt => (
+                        <option key={opt.key} value={opt.key}>{opt.label}</option>
+                      ))}
+                    </select>
+                  </label>
                 </div>
               </div>
 
