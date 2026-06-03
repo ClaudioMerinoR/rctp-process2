@@ -1864,3 +1864,482 @@
   font-size: 13px;
   color: var(--text-normal);
 }
+
+/* ════════════════════════════════════════════════════════════════════════ */
+/* ── New patterns (substep tree, sticky header, form modal, file upload) ── */
+/* ════════════════════════════════════════════════════════════════════════ */
+
+/* ── Substep tree (Profile Sidenav) ── */
+.sidenavTreeSpecimen {
+  width: 280px;
+  background: var(--neutral-00);
+  border: 1px solid var(--neutral-50);
+  border-radius: 4px;
+  padding: 6px 8px;
+  font-family: var(--font-body, Roboto, sans-serif);
+}
+
+.treeRow {
+  display: flex;
+  align-items: stretch;
+  gap: 8px;
+  padding: 6px 8px;
+  border-radius: 4px;
+  position: relative;
+  min-height: 44px;
+}
+.treeRowParent { cursor: pointer; }
+.treeRowParent:hover { background: var(--neutral-25); }
+
+.treeGutter {
+  position: relative;
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  width: 12px;
+  flex-shrink: 0;
+  padding-top: 4px;
+}
+
+.treeNode {
+  width: 12px;
+  height: 12px;
+  border-radius: 50%;
+  flex-shrink: 0;
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+  z-index: 1;
+}
+.treeNodeRed    { background: var(--alert-500); }
+.treeNodeAmber  { background: var(--warning-500); }
+.treeNodeGreen  { background: var(--success-500); }
+.treeNodeBlack  { background: var(--text-normal); }
+.treeNodeGrey   { background: var(--neutral-300); }
+.treeNodeNext   { box-shadow: 0 0 0 3px rgba(2, 163, 213, 0.25); }
+
+.treeConnector {
+  position: absolute;
+  top: 16px;
+  bottom: -6px;
+  width: 2px;
+  background: var(--neutral-100);
+}
+.treeConnectorNext { background: var(--primary-500); }
+
+.treeContent {
+  flex: 1;
+  display: flex;
+  flex-direction: column;
+  gap: 2px;
+  min-width: 0;
+}
+
+.treeTopRow {
+  display: flex;
+  align-items: center;
+  gap: 8px;
+  min-width: 0;
+}
+
+.treeLabel {
+  font-size: 13px;
+  font-weight: 500;
+  color: var(--text-normal);
+  flex: 1;
+  white-space: nowrap;
+  overflow: hidden;
+  text-overflow: ellipsis;
+}
+
+.treeStatusRow {
+  display: flex;
+  align-items: center;
+  gap: 6px;
+}
+
+.treeStatus {
+  font-size: 11px;
+  color: var(--text-light);
+}
+
+.treeOpenIcon {
+  color: var(--text-light);
+  display: inline-flex;
+  align-items: center;
+  margin-left: auto;
+  cursor: pointer;
+}
+.treeOpenIcon:hover { color: var(--primary-500); }
+
+.treeCaret {
+  font-size: 16px;
+  color: var(--text-light);
+  transition: transform 0.18s ease;
+}
+.treeCaretOpen {
+  transform: rotate(180deg);
+}
+
+.treeNextChip {
+  font-size: 9px;
+  font-weight: 700;
+  text-transform: uppercase;
+  letter-spacing: 0.5px;
+  color: var(--neutral-00);
+  background: var(--primary-500);
+  border-radius: 100px;
+  padding: 1px 7px;
+  flex-shrink: 0;
+  line-height: 14px;
+}
+
+/* Substeps container — curved hook + indented trunk line */
+.treeSubSteps {
+  position: relative;
+  margin-left: 16px;
+  padding-left: 16px;
+  border-left: 2px solid var(--neutral-100);
+  display: flex;
+  flex-direction: column;
+  gap: 4px;
+  padding-bottom: 4px;
+}
+
+.treeSubStepsNext {
+  border-left-color: var(--neutral-100);
+}
+.treeSubStepsNext::before {
+  content: '';
+  position: absolute;
+  left: -2px;
+  top: 0;
+  width: 2px;
+  /* Paint blue from top down to the next substep (indexed by --next-sub-idx, ~30px per row) */
+  height: calc((var(--next-sub-idx) + 1) * 30px);
+  background: var(--primary-500);
+}
+
+.treeSubRow {
+  position: relative;
+  display: flex;
+  align-items: center;
+  gap: 8px;
+  padding: 4px 6px 4px 0;
+  border-radius: 4px;
+  min-height: 26px;
+  cursor: pointer;
+}
+.treeSubRow:hover { background: var(--neutral-25); }
+
+.treeSubGutter {
+  position: relative;
+  display: inline-flex;
+  align-items: center;
+  flex-shrink: 0;
+  width: 12px;
+}
+/* Curved hook from trunk to substep node */
+.treeSubGutter::before {
+  content: '';
+  position: absolute;
+  left: -16px;
+  top: 50%;
+  width: 14px;
+  height: 1px;
+  background: transparent;
+  border-bottom: 2px solid var(--neutral-100);
+  border-bottom-left-radius: 6px;
+  border-left: 2px solid var(--neutral-100);
+  height: 12px;
+  top: -6px;
+  width: 16px;
+}
+
+.treeSubNode {
+  width: 10px;
+  height: 10px;
+  border-radius: 50%;
+  flex-shrink: 0;
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+  z-index: 1;
+  background: var(--neutral-00);
+  border: 0;
+  position: relative;
+}
+.treeSubContent {
+  flex: 1;
+  display: flex;
+  align-items: center;
+  gap: 8px;
+  font-size: 12px;
+  color: var(--text-normal);
+}
+.treeSubLabel {
+  flex: 1;
+  font-size: 13px;
+  color: var(--text-normal);
+}
+
+/* ── Sticky page header specimen ── */
+.stickyHeaderSpecimen {
+  background: var(--neutral-00);
+  border-top: 3px solid var(--primary-600);
+  padding: 14px 20px 0;
+  box-shadow: 0 2px 8px rgba(0,0,0,0.06);
+  font-family: var(--font-body, Roboto, sans-serif);
+}
+
+.stickyTitleRow {
+  margin-bottom: 6px;
+}
+
+.stickyTitle {
+  font-size: 16px;
+  font-weight: 500;
+  color: var(--text-normal);
+  margin: 0;
+  text-transform: uppercase;
+  letter-spacing: 1.5px;
+  font-family: 'Simplon Norm', 'Roboto', sans-serif;
+}
+
+.stickySubtitle {
+  font-size: 12px;
+  color: var(--text-light);
+  margin: 2px 0 0;
+}
+
+.stickyActionBar {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  padding: 10px 0 12px;
+  gap: 8px;
+  flex-wrap: wrap;
+}
+
+.stickyActionLeft {
+  display: flex;
+  align-items: center;
+  gap: 6px;
+}
+
+.stickyActionRight {
+  display: flex;
+  align-items: center;
+  gap: 6px;
+  flex-wrap: wrap;
+}
+
+.stickyStepTabs {
+  display: flex;
+  align-items: center;
+  gap: 0;
+  padding: 4px 0 0;
+}
+
+.stickyStepTab {
+  position: relative;
+  display: flex;
+  align-items: center;
+  gap: 8px;
+  padding: 8px 14px 10px;
+  font-size: 13px;
+  font-weight: 500;
+  color: var(--text-light);
+  cursor: pointer;
+  border-bottom: 2px solid transparent;
+  transition: color 0.15s;
+  background: none;
+  border-top: none;
+  border-left: none;
+  border-right: none;
+  font-family: inherit;
+}
+.stickyStepTab:hover { color: var(--text-normal); }
+
+.stickyStepTabActive {
+  color: var(--primary-600);
+  border-bottom-color: var(--primary-600);
+}
+
+.stickyStepPill {
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+  width: 22px;
+  height: 22px;
+  border-radius: 50%;
+  font-size: 12px;
+  font-weight: 600;
+  background: var(--neutral-100);
+  color: var(--text-light);
+  transition: background 0.15s, color 0.15s;
+}
+.stickyStepTabActive .stickyStepPill {
+  background: var(--primary-500);
+  color: #fff;
+}
+.stickyStepPillDone {
+  background: var(--success-500) !important;
+  color: #fff !important;
+}
+
+.stickyProgressBar {
+  height: 3px;
+  background: var(--neutral-50);
+  margin: 0 -20px;
+}
+
+.stickyProgressFill {
+  height: 3px;
+  background: var(--primary-500);
+  transition: width 0.3s ease;
+}
+
+/* ── Form modal specimen ── */
+.formModalOverlay {
+  position: fixed;
+  inset: 0;
+  background: rgba(0, 0, 0, 0.45);
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  z-index: 9000;
+}
+
+.formModalCard {
+  background: var(--neutral-00);
+  width: 460px;
+  max-width: calc(100vw - 32px);
+  border-radius: 6px;
+  overflow: hidden;
+  box-shadow: 0 12px 32px rgba(0,0,0,0.30);
+  display: flex;
+  flex-direction: column;
+  font-family: var(--font-body, Roboto, sans-serif);
+}
+
+.formModalHeader {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  padding: 12px 16px;
+  border-bottom: 1px solid var(--neutral-50);
+}
+
+.formModalTitle {
+  font-size: 16px;
+  font-weight: 500;
+  color: var(--text-normal);
+}
+
+.formModalClose {
+  width: 28px;
+  height: 28px;
+  border-radius: 4px;
+  border: none;
+  background: none;
+  font-size: 22px;
+  line-height: 1;
+  color: var(--text-light);
+  cursor: pointer;
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+}
+.formModalClose:hover {
+  background: var(--neutral-25);
+  color: var(--text-normal);
+}
+
+.formModalBody {
+  padding: 16px;
+  display: flex;
+  flex-direction: column;
+  gap: 12px;
+}
+
+.formModalFooter {
+  display: flex;
+  align-items: center;
+  justify-content: flex-end;
+  gap: 8px;
+  padding: 12px 16px;
+  border-top: 1px solid var(--neutral-50);
+}
+
+/* ── File Upload Row ── */
+.fileUploadRow {
+  display: flex;
+  align-items: center;
+  gap: 0;
+  border: 1px solid var(--neutral-100);
+  border-radius: 4px;
+  overflow: hidden;
+  margin-bottom: 12px;
+  font-family: var(--font-body, Roboto, sans-serif);
+}
+
+.fileUploadLabel {
+  flex: 1;
+  padding: 8px 12px;
+  font-size: 13px;
+  color: var(--text-light);
+  background: var(--neutral-00);
+  white-space: nowrap;
+  overflow: hidden;
+  text-overflow: ellipsis;
+}
+
+.fileUploadBrowse {
+  padding: 8px 14px;
+  background: var(--neutral-50);
+  border: none;
+  border-left: 1px solid var(--neutral-100);
+  font-size: 12px;
+  font-weight: 600;
+  font-family: inherit;
+  color: var(--text-normal);
+  text-transform: uppercase;
+  letter-spacing: 0.5px;
+  cursor: pointer;
+  transition: background 0.15s;
+  white-space: nowrap;
+}
+.fileUploadBrowse:hover { background: var(--neutral-100); }
+
+.fileUploadHint {
+  font-size: 12px;
+  color: var(--text-light);
+  line-height: 1.5;
+  margin: 0 0 12px;
+}
+
+.fileUploadBtn {
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+  padding: 7px 18px;
+  border: 1px solid var(--primary-500);
+  border-radius: 4px;
+  background: none;
+  font-size: 12px;
+  font-weight: 600;
+  font-family: inherit;
+  color: var(--primary-500);
+  text-transform: uppercase;
+  letter-spacing: 0.5px;
+  cursor: pointer;
+  transition: background 0.15s, color 0.15s;
+}
+.fileUploadBtn:disabled {
+  opacity: 0.5;
+  cursor: not-allowed;
+}
+.fileUploadBtn:hover:not(:disabled) {
+  background: var(--primary-08);
+}

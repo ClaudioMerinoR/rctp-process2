@@ -128,6 +128,15 @@ const PROPS = {
     { name: 'direction', type: "'top' | 'bottom' | 'left' | 'right'", default: "'top'", description: 'Which side of the trigger the bubble appears on.' },
     { name: 'width', type: 'number', default: 'undefined', description: 'Fixed pixel width of the bubble (auto-wraps when set).' },
   ],
+  fileUpload: [
+    { name: 'fileName', type: 'string', default: "''", description: 'Currently selected file name; shows "Choose Files" placeholder when empty.' },
+    { name: 'onSelect', type: '(file) => void', default: null, description: 'Called when the user picks a file from the system dialog.' },
+    { name: 'onUpload', type: '() => void', default: null, description: 'Called when the user clicks the Upload button.' },
+    { name: 'accept', type: 'string', default: 'undefined', description: 'Comma-separated list of allowed extensions (e.g. \'.pdf,.docx,.png\').' },
+    { name: 'multiple', type: 'boolean', default: 'false', description: 'Whether to allow multiple file selection.' },
+    { name: 'hint', type: 'ReactNode', default: 'undefined', description: 'Helper text shown below the row (typically lists allowed file types).' },
+    { name: 'disabled', type: 'boolean', default: 'false', description: 'Disables Browse and Upload buttons.' },
+  ],
 };
 
 const STATUS_ENTRIES = [
@@ -162,6 +171,7 @@ const SIDEBAR_SECTIONS = [
       { label: 'NativeSelect', id: 'nativeselect' },
       { label: 'Combobox', id: 'combobox' },
       { label: 'Toggle', id: 'toggle' },
+      { label: 'File Upload Row', id: 'fileupload' },
     ],
   },
   {
@@ -276,13 +286,15 @@ const Z_TOKENS = [
 ];
 
 const PATTERNS_SECTIONS = [
-  { label: 'Tables',           id: 'pattern-tables' },
-  { label: 'Cards',            id: 'pattern-cards' },
-  { label: 'Navigation',       id: 'pattern-navigation' },
-  { label: 'Profile Sidenav',  id: 'pattern-sidenav' },
-  { label: 'Alerts & Banners', id: 'pattern-alerts' },
-  { label: 'Accordion',        id: 'pattern-accordion' },
-  { label: 'Side Panel',       id: 'pattern-sidepanel' },
+  { label: 'Tables',             id: 'pattern-tables' },
+  { label: 'Cards',              id: 'pattern-cards' },
+  { label: 'Navigation',         id: 'pattern-navigation' },
+  { label: 'Profile Sidenav',    id: 'pattern-sidenav' },
+  { label: 'Sticky Page Header', id: 'pattern-sticky-header' },
+  { label: 'Form Modal',         id: 'pattern-form-modal' },
+  { label: 'Alerts & Banners',   id: 'pattern-alerts' },
+  { label: 'Accordion',          id: 'pattern-accordion' },
+  { label: 'Side Panel',         id: 'pattern-sidepanel' },
 ];
 
 const SAMPLE_ROWS = [
@@ -346,9 +358,14 @@ export default function ComponentCatalog() {
   const [toggleOn, setToggleOn] = useState(true);
   const [paginatorPage, setPaginatorPage] = useState(1);
   const [paginatorSize, setPaginatorSize] = useState(20);
+  const [uploadName, setUploadName] = useState('');
 
   /* interactive demo state — Patterns tab */
   const [patternTab, setPatternTab] = useState('Overview');
+  const [stickyStage, setStickyStage] = useState(1);
+  const [formModalOpen, setFormModalOpen] = useState(false);
+  const [formModalData, setFormModalData] = useState({ firstName: '', surname: '', email: '', language: '' });
+  const [sidenavExpanded, setSidenavExpanded] = useState({ ra: true, dd: false });
   const [tableVariant, setTableVariant] = useState('Enterprise');
   const [tableShowEmpty, setTableShowEmpty] = useState(false);
   const [tablePage, setTablePage] = useState(1);
@@ -797,6 +814,35 @@ export default function ComponentCatalog() {
                   </div>
                 }
                 props={PROPS.toggle}
+              />
+
+              <Entry
+                id="fileupload"
+                title="File Upload Row"
+                description="File picker pattern used by Internal Due Diligence, Approval Stage, and the Decline Panel. Three parts joined into one row: a label that shows either 'Choose Files' or the current filename, a Browse button that opens the native file dialog, and a separate Upload button beneath. Hint text under the row lists allowed file types."
+                demo={
+                  <div className={styles.demoStageColumn}>
+                    <div style={{ width: 520 }}>
+                      <div className={styles.fileUploadRow}>
+                        <span className={styles.fileUploadLabel}>{uploadName || 'Choose Files'}</span>
+                        <button
+                          className={styles.fileUploadBrowse}
+                          onClick={() => setUploadName(prev => prev ? '' : 'WaystarRoyco-DD-Report.pdf')}
+                        >
+                          {uploadName ? 'Clear' : 'Browse'}
+                        </button>
+                      </div>
+                      <p className={styles.fileUploadHint}>
+                        Click the 'Choose Files' button to browse for a file and then click the 'Upload'. Uploaded files will appear below.
+                        Allowed file types include: <strong>.docx,.pdf,.jpeg,.jpg,.png</strong><br />
+                        Multiple uploads are permitted
+                      </p>
+                      <button className={styles.fileUploadBtn} disabled={!uploadName}>Upload</button>
+                    </div>
+                  </div>
+                }
+                demoNote="Click Browse to simulate selecting a file. The Upload button is disabled until a file is chosen."
+                props={PROPS.fileUpload}
               />
             </section>
 
@@ -1666,16 +1712,330 @@ export default function ComponentCatalog() {
 
               <div className={styles.entryCard}>
                 <div className={styles.entryHeader}>
+                  <h3 className={styles.entryTitle}>Substep Tree</h3>
+                  <p className={styles.entryDesc}>Workflow steps that contain a deeper task list (Risk Assessment, Due Diligence, Approval) expand into a branch tree. Parent rows show a caret + 'Open module' icon; children attach via a curved hook to a vertical trunk line. Status text replaces the dot tooltip and reads explicitly: 'Completed', 'In Progress', 'Not Started', 'Not Required', 'Pending'. The 'Next' chip marks the active item — when a parent has substeps, the chip moves to the first incomplete substep and the trunk line is painted blue from the parent down to that substep.</p>
+                </div>
+                <div className={styles.demoShell}>
+                  <div className={styles.demoLabel}>Live Demo</div>
+                  <div style={{ padding: 20 }}>
+                    <div className={styles.sidenavTreeSpecimen}>
+                      {/* Risk Assessment — parent in progress, sub-steps expanded */}
+                      <div
+                        className={`${styles.treeRow} ${styles.treeRowParent}`}
+                        onClick={() => setSidenavExpanded(p => ({ ...p, ra: !p.ra }))}
+                      >
+                        <span className={styles.treeGutter}>
+                          <span className={`${styles.treeNode} ${styles.treeNodeAmber}`} />
+                          <span className={`${styles.treeConnector} ${styles.treeConnectorNext}`} />
+                        </span>
+                        <span className={styles.treeContent}>
+                          <span className={styles.treeTopRow}>
+                            <span className={styles.treeLabel}>Risk Assessment</span>
+                            <span className={`material-icons-outlined ${styles.treeCaret} ${sidenavExpanded.ra ? styles.treeCaretOpen : ''}`}>expand_more</span>
+                          </span>
+                          <span className={styles.treeStatusRow}>
+                            <span className={styles.treeStatus}>In Progress</span>
+                            <span className={styles.treeOpenIcon} title="Open module"><span className="material-icons-outlined" style={{ fontSize: 13 }}>open_in_new</span></span>
+                          </span>
+                        </span>
+                      </div>
+                      {sidenavExpanded.ra && (
+                        <div className={`${styles.treeSubSteps} ${styles.treeSubStepsNext}`} style={{ '--next-sub-idx': 1 }}>
+                          <div className={styles.treeSubRow}>
+                            <span className={styles.treeSubGutter}>
+                              <span className={`${styles.treeSubNode} ${styles.treeNodeGreen}`}>
+                                <svg width="8" height="8" viewBox="0 0 10 10" fill="none"><path d="M2 5.2L4.2 7.5L8 3" stroke="white" strokeWidth="1.6" strokeLinecap="round" strokeLinejoin="round"/></svg>
+                              </span>
+                            </span>
+                            <span className={styles.treeSubContent}>
+                              <span className={styles.treeSubLabel}>Risk Assessment 1</span>
+                            </span>
+                          </div>
+                          <div className={styles.treeSubRow}>
+                            <span className={styles.treeSubGutter}>
+                              <span className={`${styles.treeSubNode} ${styles.treeNodeRed} ${styles.treeNodeNext}`} />
+                            </span>
+                            <span className={styles.treeSubContent}>
+                              <span className={styles.treeSubLabel}>Risk Assessment 2</span>
+                              <span className={styles.treeNextChip}>Next</span>
+                            </span>
+                          </div>
+                        </div>
+                      )}
+
+                      {/* Due Diligence — parent waiting (collapsed) */}
+                      <div
+                        className={`${styles.treeRow} ${styles.treeRowParent}`}
+                        onClick={() => setSidenavExpanded(p => ({ ...p, dd: !p.dd }))}
+                      >
+                        <span className={styles.treeGutter}>
+                          <span className={`${styles.treeNode} ${styles.treeNodeAmber}`} />
+                          <span className={styles.treeConnector} />
+                        </span>
+                        <span className={styles.treeContent}>
+                          <span className={styles.treeTopRow}>
+                            <span className={styles.treeLabel}>Due Diligence</span>
+                            <span className={`material-icons-outlined ${styles.treeCaret} ${sidenavExpanded.dd ? styles.treeCaretOpen : ''}`}>expand_more</span>
+                          </span>
+                          <span className={styles.treeStatusRow}>
+                            <span className={styles.treeStatus}>In Progress</span>
+                            <span className={styles.treeOpenIcon} title="Open module"><span className="material-icons-outlined" style={{ fontSize: 13 }}>open_in_new</span></span>
+                          </span>
+                        </span>
+                      </div>
+                      {sidenavExpanded.dd && (
+                        <div className={styles.treeSubSteps}>
+                          <div className={styles.treeSubRow}>
+                            <span className={styles.treeSubGutter}>
+                              <span className={`${styles.treeSubNode} ${styles.treeNodeGreen}`}>
+                                <svg width="8" height="8" viewBox="0 0 10 10" fill="none"><path d="M2 5.2L4.2 7.5L8 3" stroke="white" strokeWidth="1.6" strokeLinecap="round" strokeLinejoin="round"/></svg>
+                              </span>
+                            </span>
+                            <span className={styles.treeSubContent}>
+                              <span className={styles.treeSubLabel}>Internal Due Diligence</span>
+                            </span>
+                          </div>
+                          <div className={styles.treeSubRow}>
+                            <span className={styles.treeSubGutter}>
+                              <span className={`${styles.treeSubNode} ${styles.treeNodeAmber}`} />
+                            </span>
+                            <span className={styles.treeSubContent}>
+                              <span className={styles.treeSubLabel}>External Due Diligence</span>
+                            </span>
+                          </div>
+                        </div>
+                      )}
+
+                      {/* Integrity Check — flat, Next */}
+                      <div className={styles.treeRow}>
+                        <span className={styles.treeGutter}>
+                          <span className={`${styles.treeNode} ${styles.treeNodeRed} ${styles.treeNodeNext}`} />
+                          <span className={styles.treeConnector} />
+                        </span>
+                        <span className={styles.treeContent}>
+                          <span className={styles.treeTopRow}>
+                            <span className={styles.treeLabel}>Integrity Check</span>
+                            <span className={styles.sidenavNewTag}>New</span>
+                            <span className={styles.treeNextChip}>Next</span>
+                          </span>
+                          <span className={styles.treeStatusRow}>
+                            <span className={styles.treeStatus}>Not Started</span>
+                          </span>
+                        </span>
+                      </div>
+
+                      {/* Approval — flat, awaiting prior steps */}
+                      <div className={styles.treeRow}>
+                        <span className={styles.treeGutter}>
+                          <span className={`${styles.treeNode} ${styles.treeNodeRed}`} />
+                        </span>
+                        <span className={styles.treeContent}>
+                          <span className={styles.treeTopRow}>
+                            <span className={styles.treeLabel}>Approval</span>
+                          </span>
+                          <span className={styles.treeStatusRow}>
+                            <span className={styles.treeStatus}>Not Started</span>
+                          </span>
+                        </span>
+                      </div>
+                    </div>
+                  </div>
+                </div>
+                <div style={{ marginTop: 16, padding: '12px 16px', background: 'var(--neutral-25)', borderRadius: 4, fontSize: 12, color: 'var(--text-light)' }}>
+                  Click the parent rows (Risk Assessment, Due Diligence) to expand / collapse the children. The blue trunk line under Risk Assessment routes from the parent down to the first incomplete substep — that's the &quot;Next&quot; route, signalling exactly where the user picks up.
+                </div>
+              </div>
+
+              <div className={styles.entryCard}>
+                <div className={styles.entryHeader}>
                   <h3 className={styles.entryTitle}>Anatomy</h3>
                 </div>
                 <AnatomyTable rows={[
-                  { part: 'Summary link',    purpose: 'Top-level entry point — always present, takes user to the profile overview.', notes: 'Bold when active; sits above the first divider.' },
-                  { part: 'Workflow steps',  purpose: 'Sequenced process steps with status dots (Risk Assessment, Due Diligence, etc.).', notes: 'Dot color signals state: green = complete, amber = in progress, red = required-not-started, grey = not required, neutral-200 = blocked.' },
-                  { part: 'Status dot',      purpose: 'Color-coded dot prefix; hover shows tooltip with the state label.',          notes: '8px circle, left of the label. Tooltip is the small dark Tooltip variant.' },
-                  { part: 'Partner icon',    purpose: 'Trailing badge marking steps powered by an external integration.',           notes: 'Hover shows partner name in a tooltip (e.g. "Powered by Duns & Bradstreet").' },
-                  { part: 'New tag',         purpose: 'Highlights recently introduced steps.',                                       notes: 'Pill-shaped, right-aligned. Removed once the step is no longer new.' },
-                  { part: 'Section links',   purpose: 'Profile-scoped pages (Properties, Documents, Audit, etc.).',                  notes: 'Below the second divider. Active state uses primary-500 background.' },
-                  { part: 'Divider',         purpose: 'Separates the three regions (Summary / Steps / Sections).',                   notes: '1px neutral-50 horizontal line, full sidebar width.' },
+                  { part: 'Summary link',     purpose: 'Top-level entry point — always present, takes user to the profile overview.', notes: 'Bold when active; sits above the first divider.' },
+                  { part: 'Workflow steps',   purpose: 'Sequenced process steps with status dots and explicit status labels.',           notes: 'Dot color: green = complete, amber = in progress, red = not started, grey = not required, neutral-200 = blocked.' },
+                  { part: 'Status dot',       purpose: 'Color-coded circle anchor for the step row and the trunk line.',                  notes: '12px circle. Connector line below segments parent-to-children and step-to-step.' },
+                  { part: 'Status label',     purpose: 'Explicit textual state (Completed / In Progress / Not Started / Pending).',       notes: 'Replaces the dot-only tooltip approach. Sits below the step title.' },
+                  { part: 'Substep tree',     purpose: 'Children attach via a curved hook to a vertical trunk line indented under the parent.', notes: 'Trunk turns blue when the next active item lives inside this group; truncated to the row that holds the Next chip.' },
+                  { part: 'Caret',            purpose: 'Expand / collapse indicator on parents that have substeps.',                       notes: 'Material expand_more icon, rotates 180° when open. Click anywhere on the row to toggle.' },
+                  { part: 'Open-module icon', purpose: 'Quick link to the parent module page even when substeps are expanded.',            notes: 'Material open_in_new icon next to the status label. Only shown on parents with substeps.' },
+                  { part: 'Next chip',        purpose: 'Marks the next actionable step or substep.',                                        notes: 'Single chip per workflow. When the parent has substeps the chip moves to the first incomplete substep.' },
+                  { part: 'Partner icon',     purpose: 'Trailing badge marking steps powered by an external integration.',                  notes: 'Hover shows partner name in a tooltip (e.g. "Powered by Duns & Bradstreet").' },
+                  { part: 'New tag',          purpose: 'Highlights recently introduced steps.',                                              notes: 'Pill-shaped, sits inline with the step title in the top row.' },
+                  { part: 'Section links',    purpose: 'Profile-scoped pages (Properties, Documents, Audit, etc.).',                        notes: 'Below the second divider. Active state uses primary-500 background.' },
+                  { part: 'Divider',          purpose: 'Separates the three regions (Summary / Steps / Sections).',                          notes: '1px neutral-50 horizontal line, full sidebar width.' },
+                ]} />
+              </div>
+            </section>
+
+            {/* ══ Sticky Page Header ══ */}
+            <section id="pattern-sticky-header" className={styles.categorySection} data-catalog-section style={{ scrollMarginTop: 68 }}>
+              <h2 className={styles.categoryTitle}>Sticky Page Header</h2>
+              <div className={styles.entryCard}>
+                <div className={styles.entryHeader}>
+                  <h3 className={styles.entryTitle}>Sticky Form Header</h3>
+                  <p className={styles.entryDesc}>Used by multi-step form pages (Approval Stage, Risk Assessment Questionnaire, Internal Due Diligence). Sticks to the top of the scroll container with a subtle drop-shadow once content scrolls underneath. Stacks four rows: title row, action bar (primary + secondary buttons), step pills (numbered tabs with check-on-complete), and a 3px progress bar tracking the same step count.</p>
+                </div>
+                <div className={styles.demoShell}>
+                  <div className={styles.demoLabel}>Live Demo</div>
+                  <div style={{ padding: 0 }}>
+                    <div className={styles.stickyHeaderSpecimen}>
+                      <div className={styles.stickyTitleRow}>
+                        <div>
+                          <h2 className={styles.stickyTitle}>Approval Stage {stickyStage}</h2>
+                          <p className={styles.stickySubtitle}>Items marked with a <span style={{ color: 'var(--alert-500)' }}>*</span> are required</p>
+                        </div>
+                      </div>
+
+                      <div className={styles.stickyActionBar}>
+                        <div className={styles.stickyActionLeft}>
+                          <Button variant="filled">Approved</Button>
+                          <Button variant="outline" style={{ color: 'var(--alert-500)', borderColor: 'var(--alert-500)' }}>Not Approved</Button>
+                        </div>
+                        <div className={styles.stickyActionRight}>
+                          <Button variant="outline">Notes</Button>
+                          <Button variant="outline">Reassign</Button>
+                          <Button variant="outline">Properties</Button>
+                          <Button variant="outline">Cancel</Button>
+                          <Button variant="outline">Save</Button>
+                        </div>
+                      </div>
+
+                      <div className={styles.stickyStepTabs}>
+                        {[1, 2].map(n => {
+                          const isDone = n < stickyStage;
+                          const isActive = n === stickyStage;
+                          return (
+                            <button
+                              key={n}
+                              className={`${styles.stickyStepTab} ${isActive ? styles.stickyStepTabActive : ''}`}
+                              onClick={() => setStickyStage(n)}
+                            >
+                              <span className={`${styles.stickyStepPill} ${isDone ? styles.stickyStepPillDone : ''}`}>
+                                {isDone
+                                  ? <span className="material-icons-outlined" style={{ fontSize: 13 }}>check</span>
+                                  : n}
+                              </span>
+                              Approval Stage {n}
+                            </button>
+                          );
+                        })}
+                      </div>
+
+                      <div className={styles.stickyProgressBar}>
+                        <div className={styles.stickyProgressFill} style={{ width: `${(stickyStage - 1) * 50 + 50}%` }} />
+                      </div>
+                    </div>
+
+                    <div style={{ padding: '20px 20px 24px', background: 'var(--neutral-25)' }}>
+                      <div style={{ background: 'var(--neutral-00)', border: '1px solid var(--neutral-50)', borderRadius: 4, padding: 20, fontSize: 13, color: 'var(--text-light)' }}>
+                        Form body — section blocks live here. The header above stays pinned while these scroll.
+                      </div>
+                    </div>
+                  </div>
+                </div>
+                <div style={{ marginTop: 16, padding: '12px 16px', background: 'var(--neutral-25)', borderRadius: 4, fontSize: 12, color: 'var(--text-light)' }}>
+                  Click the step pills above to switch stages — the active pill turns blue, completed pills turn green with a check, and the progress bar updates in lockstep.
+                </div>
+              </div>
+
+              <div className={styles.entryCard}>
+                <div className={styles.entryHeader}>
+                  <h3 className={styles.entryTitle}>Anatomy</h3>
+                </div>
+                <AnatomyTable rows={[
+                  { part: 'Container',     purpose: 'Sticky wrapper anchored to the top of the scroll container.',          notes: 'position: sticky; top: 0; z-index: 10. Drops a small shadow once content scrolls under it.' },
+                  { part: 'Title row',     purpose: 'Page title + required-field note.',                                      notes: 'Title is uppercase Simplon Norm 16px / weight 500 / 1.5px tracking. Subtitle 12px text-light.' },
+                  { part: 'Action bar',    purpose: 'Primary + secondary action buttons.',                                    notes: 'Primary actions on the left (Approved / Not Approved), secondary on the right (Notes / Reassign / Properties / Cancel / Save).' },
+                  { part: 'Step pills',    purpose: 'Numbered tab pills, one per stage.',                                      notes: 'Active pill = primary-500 bg; completed pill = success-500 bg with check icon; remaining pills = neutral-100. Bottom border indicator on the active tab.' },
+                  { part: 'Progress bar',  purpose: '3px horizontal bar reflecting completion across the step count.',         notes: 'Stretched edge-to-edge inside the container. Width = (completedSteps / totalSteps) * 100%.' },
+                ]} />
+              </div>
+            </section>
+
+            {/* ══ Form Modal ══ */}
+            <section id="pattern-form-modal" className={styles.categorySection} data-catalog-section style={{ scrollMarginTop: 68 }}>
+              <h2 className={styles.categoryTitle}>Form Modal</h2>
+              <div className={styles.entryCard}>
+                <div className={styles.entryHeader}>
+                  <h3 className={styles.entryTitle}>External Due Diligence — Send Invite</h3>
+                  <p className={styles.entryDesc}>Compact form modal triggered from a sidebar substep. Reuses the destructive-confirmation Modal shell (overlay + centered card) but swaps the message body for a stacked form: First Name / Surname / Email / Language. All fields are required; missing fields paint a red border on submit. Footer has a Close (cancel) and Send Invite (primary) action.</p>
+                </div>
+                <div className={styles.demoShell}>
+                  <div className={styles.demoLabel}>Live Demo</div>
+                  <div style={{ padding: '20px 16px' }}>
+                    <Button variant="filled" onClick={() => setFormModalOpen(true)}>Open form modal</Button>
+
+                    <AnimatePresence>
+                      {formModalOpen && (
+                        <motion.div
+                          key="form-modal-overlay"
+                          className={styles.formModalOverlay}
+                          initial={{ opacity: 0 }} animate={{ opacity: 1 }} exit={{ opacity: 0 }}
+                          transition={{ duration: 0.15 }}
+                          onClick={() => setFormModalOpen(false)}
+                        >
+                          <motion.div
+                            className={styles.formModalCard}
+                            initial={{ opacity: 0, y: -12 }} animate={{ opacity: 1, y: 0 }} exit={{ opacity: 0, y: -12 }}
+                            transition={{ duration: 0.18 }}
+                            onClick={e => e.stopPropagation()}
+                            role="dialog" aria-modal="true"
+                          >
+                            <div className={styles.formModalHeader}>
+                              <span className={styles.formModalTitle}>External Due Diligence — Send Invite</span>
+                              <button className={styles.formModalClose} aria-label="Close" onClick={() => setFormModalOpen(false)}>×</button>
+                            </div>
+                            <div className={styles.formModalBody}>
+                              <TextField
+                                label="First Name *"
+                                value={formModalData.firstName}
+                                onChange={e => setFormModalData(d => ({ ...d, firstName: e.target.value }))}
+                                placeholder="First Name"
+                              />
+                              <TextField
+                                label="Surname *"
+                                value={formModalData.surname}
+                                onChange={e => setFormModalData(d => ({ ...d, surname: e.target.value }))}
+                                placeholder="Surname"
+                              />
+                              <TextField
+                                label="Email *"
+                                type="email"
+                                value={formModalData.email}
+                                onChange={e => setFormModalData(d => ({ ...d, email: e.target.value }))}
+                                placeholder="Email"
+                              />
+                              <NativeSelect
+                                label="Language *"
+                                value={formModalData.language}
+                                onChange={v => setFormModalData(d => ({ ...d, language: v }))}
+                                placeholder="Please select"
+                                options={['English', 'Spanish', 'French', 'German', 'Portuguese', 'Italian', 'Chinese', 'Japanese']}
+                              />
+                            </div>
+                            <div className={styles.formModalFooter}>
+                              <Button variant="outline" onClick={() => setFormModalOpen(false)}>Close</Button>
+                              <Button variant="filled" onClick={() => setFormModalOpen(false)}>Send Invite</Button>
+                            </div>
+                          </motion.div>
+                        </motion.div>
+                      )}
+                    </AnimatePresence>
+                  </div>
+                </div>
+              </div>
+
+              <div className={styles.entryCard}>
+                <div className={styles.entryHeader}>
+                  <h3 className={styles.entryTitle}>Anatomy</h3>
+                </div>
+                <AnatomyTable rows={[
+                  { part: 'Overlay',       purpose: 'Dim backdrop covering the page beneath the dialog.',                                  notes: 'rgba(0,0,0,0.45). Click to close.' },
+                  { part: 'Card',          purpose: 'Centered dialog container.',                                                            notes: '460px wide on desktop. White background, slight elevation. Animates in with opacity + 12px y-offset.' },
+                  { part: 'Header',        purpose: 'Title + close (×) button.',                                                              notes: '16px title, neutral-50 bottom border.' },
+                  { part: 'Body',          purpose: 'Stacked form fields, vertically.',                                                       notes: 'TextField + NativeSelect components. 12px gap. * suffix marks required fields.' },
+                  { part: 'Footer',        purpose: 'Right-aligned action buttons (Cancel / Submit).',                                        notes: 'Outline + Filled button pair. Sticky to the bottom edge of the card.' },
+                  { part: 'Validation',    purpose: 'Per-field red border when missing on submit.',                                            notes: 'Inline only — no error messages below the field. Submit returns until all required fields pass.' },
                 ]} />
               </div>
             </section>
