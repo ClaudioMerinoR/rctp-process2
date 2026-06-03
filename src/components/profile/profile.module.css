@@ -263,11 +263,6 @@
   flex-shrink: 0;
   background: var(--neutral-25);
   padding: 0;
-  position: sticky;
-  top: calc(var(--nav-height) + var(--tp-header-h-collapsed) + 16px);
-  align-self: flex-start;
-  max-height: calc(100vh - var(--nav-height) - var(--tp-header-h-collapsed) - 16px);
-  overflow-y: auto;
 }
 
 .navItemActive {
