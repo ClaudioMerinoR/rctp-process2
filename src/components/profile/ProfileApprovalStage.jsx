@@ -18,21 +18,17 @@ export default function ProfileApprovalStage() {
   const [details, setDetails] = useState('');
   const [fileName, setFileName] = useState('');
   const fileRef = useRef(null);
-  const [submitted, setSubmitted] = useState(false);
 
   if (!rawProfile) return null;
 
   const profile = patchInitechProfile(rawProfile);
   const isWaystar = profileId === 'waystar';
-  const { riskMitigationDone, approval1Done, approval2Done } = isWaystar
-    ? { ...getWaystarFlow(), approval1Done: getWaystarFlow().approval1Done || false, approval2Done: getWaystarFlow().approval2Done || false }
-    : { riskMitigationDone: false, approval1Done: false, approval2Done: false };
-
   const stage = parseInt(stageNum, 10) || 1;
+  const waystarState = isWaystar ? getWaystarFlow() : {};
+  const riskMitigationDone = waystarState.riskMitigationDone || false;
+  const stage1Done = waystarState.approval1Done || false;
+  const stage2Done = waystarState.approval2Done || false;
   const isReady = isWaystar ? riskMitigationDone : false;
-
-  const stage1Done = isWaystar ? (getWaystarFlow().approval1Done || false) : false;
-  const stage2Done = isWaystar ? (getWaystarFlow().approval2Done || false) : false;
   const currentStageDone = stage === 1 ? stage1Done : stage2Done;
 
   const approvalSubSteps = profile.sidebarSteps?.find(s => s.label === 'Approval')?.subSteps || [];
@@ -44,7 +40,7 @@ export default function ProfileApprovalStage() {
     if (!isReady || !details.trim()) return;
     if (isWaystar) {
       if (stage === 1) {
-        setWaystarFlow({ approval1Done: true });
+        setWaystarFlow({ approval1Done: true, screeningDone: true });
         navigate(`/profile/${profileId}/approval/2`);
       } else {
         setWaystarFlow({ approval2Done: true });

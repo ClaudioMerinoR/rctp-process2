@@ -148,6 +148,7 @@ let _waystarState = {
   riskMitigationDone: false,
   approval1Done: false,
   approval2Done: false,
+  screeningDone: false,
 };
 
 export function getWaystarFlow() {
@@ -159,7 +160,7 @@ export function setWaystarFlow(updates) {
 }
 
 function _patchWaystar(profile) {
-  const { ra1Done, ra2Done, internalDDDone, integrityCheckInProgress, enhancedDDDone, riskMitigationDone, approval1Done, approval2Done } = _waystarState;
+  const { ra1Done, ra2Done, internalDDDone, integrityCheckInProgress, enhancedDDDone, riskMitigationDone, approval1Done, approval2Done, screeningDone } = _waystarState;
   const externalDDSent = getExternalDDFlow('waystar').sent;
 
   const steps = profile.sidebarSteps.map(s => {
@@ -201,6 +202,9 @@ function _patchWaystar(profile) {
     if (s.label === 'Risk Mitigation') {
       return { ...s, dot: riskMitigationDone ? 'green' : 'red' };
     }
+    if (s.label === 'Screening & Monitoring') {
+      return { ...s, dot: screeningDone ? 'green' : s.dot };
+    }
     if (s.label === 'Approval') {
       if (!riskMitigationDone) {
         const { subSteps: _, ...rest } = s;
@@ -218,7 +222,11 @@ function _patchWaystar(profile) {
     return s;
   });
 
-  return { ...profile, sidebarSteps: steps };
+  return {
+    ...profile,
+    sidebarSteps: steps,
+    ...(approval2Done ? { currentStatus: { label: 'Approved' } } : {}),
+  };
 }
 
 function _patchExternalDD(profile) {
