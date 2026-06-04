@@ -4,31 +4,31 @@ export default {
   shortName: 'Agence Grateau',
   entityType: 'entity',
   verifiedText: 'Entity Verified',
-  currentStatus: { label: 'Approved' },
-  riskLevel: { label: 'Medium', icon: 'error_outline', level: 'medium' },
+  currentStatus: { label: 'Approved! (Renewal Required)' },
+  riskLevel: { label: 'High', icon: 'error_outline', level: 'high' },
 
   embedded: false,
   deleteModal: true,
   alertBanners: false,
 
   sidebarSteps: [
-    { label: 'Risk Assessment', dot: 'green', path: 'risk-assessment', subSteps: [
-      { label: 'Risk Assessment 1', dot: 'green', path: 'risk-assessment/questionnaire' },
-      { label: 'Risk Assessment 2', dot: 'green', path: 'risk-assessment/questionnaire' },
+    { label: 'Risk Assessment', dot: 'grey', path: 'risk-assessment', subSteps: [
+      { label: 'Risk Assessment 1', dot: 'grey', path: 'risk-assessment/questionnaire' },
+      { label: 'Risk Assessment 2', dot: 'grey', path: 'risk-assessment/questionnaire' },
     ]},
-    { label: 'Due Diligence', dot: 'green', path: 'due-diligence', subSteps: [
-      { label: 'Internal Due Diligence', dot: 'green', path: 'due-diligence/internal' },
-      { label: 'External Due Diligence', dot: 'green' },
+    { label: 'Due Diligence', dot: 'grey', path: 'due-diligence', subSteps: [
+      { label: 'Internal Due Diligence', dot: 'grey', path: 'due-diligence/internal' },
+      { label: 'External Due Diligence', dot: 'grey' },
     ]},
-    { label: 'Integrity Check', dot: 'green', partner: 'integrity', tooltip: 'Powered by Xapiens', newTag: true, path: 'integrity-check' },
+    { label: 'Integrity Check', dot: 'grey', partner: 'integrity', tooltip: 'Powered by Xapiens', newTag: true, path: 'integrity-check' },
     { label: 'Enhanced Due Diligence Reports', dot: 'grey', path: 'enhanced-due-diligence' },
-    { label: 'UBO', dot: 'green', partner: 'ubo', tooltip: 'Powered by Duns & Bradstreet', path: 'ubo' },
-    { label: 'Risk Mitigation', dot: 'green', path: 'risk-mitigation' },
-    { label: 'Approval', dot: 'green', path: 'approval', subSteps: [
-      { label: 'Approval 1', dot: 'green' },
-      { label: 'Approval 2', dot: 'green' },
+    { label: 'UBO', dot: 'amber', partner: 'ubo', tooltip: 'Powered by Duns & Bradstreet', path: 'ubo' },
+    { label: 'Risk Mitigation', dot: 'grey', path: 'risk-mitigation' },
+    { label: 'Approval', dot: 'grey', path: 'approval', subSteps: [
+      { label: 'Approval 1', dot: 'grey' },
+      { label: 'Approval 2', dot: 'grey' },
     ]},
-    { label: 'Screening & Monitoring', dot: 'green', path: 'screening-monitoring' },
+    { label: 'Screening & Monitoring', dot: 'grey', path: 'screening-monitoring' },
   ],
   sidebarSections: [
     { label: 'Properties', path: 'properties' },
