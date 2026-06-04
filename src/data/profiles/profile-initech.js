@@ -4,7 +4,7 @@ export default {
   shortName: 'Initech',
   entityType: 'entity',
   verifiedText: 'Entity Verified',
-  currentStatus: { label: 'Approved' },
+  currentStatus: { label: 'Approved*', tooltip: 'New red flag triggered on approved record. No risk level change' },
   riskLevel: { label: 'Medium', icon: 'error_outline', level: 'medium' },
 
   embedded: false,
@@ -23,10 +23,10 @@ export default {
     { label: 'Integrity Check', dot: 'green', partner: 'integrity', tooltip: 'Powered by Xapiens', newTag: true, path: 'integrity-check'},
     { label: 'Enhanced Due Diligence Reports', dot: 'grey', path: 'enhanced-due-diligence' },
     { label: 'UBO', dot: 'green', partner: 'ubo', tooltip: 'Powered by Duns & Bradstreet' , path: 'ubo'},
-    { label: 'Risk Mitigation', dot: 'green', path: 'risk-mitigation'},
-    { label: 'Approval', dot: 'green', path: 'approval', subSteps: [
-      { label: 'Approval 1', dot: 'green' },
-      { label: 'Approval 2', dot: 'green' },
+    { label: 'Risk Mitigation', dot: 'red' , path: 'risk-mitigation'},
+    { label: 'Approval', dot: 'red', path: 'approval', subSteps: [
+      { label: 'Approval 1', dot: 'red' },
+      { label: 'Approval 2', dot: 'red' },
     ]},
     { label: 'Screening & Monitoring', dot: 'green', path: 'screening-monitoring' },
   ],
