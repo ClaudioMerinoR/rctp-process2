@@ -291,6 +291,12 @@ export default function AddThirdParty() {
     }
   }
 
+  function unapplyVerification() {
+    setOb(prev => ({ ...prev, legalName: tpName, companyNum: '', address: '', country: tpCountry || '' }));
+    setEntityVerified(false);
+    setSelectedVerify(null);
+  }
+
   function handleCreate() {
     const errs = {};
     if (!tpType) errs.type = true;
@@ -555,17 +561,29 @@ export default function AddThirdParty() {
                           <td>{r.country}</td>
                           <td className={styles.uboCell}><span className={`material-icons-outlined ${r.ubo ? styles.uboOk : styles.uboFail}`}>{r.ubo ? 'check_circle' : 'cancel'}</span></td>
                           <td className={styles.verifySelectCell}>
-                            <button
-                              className={styles.verifySelectBtn}
-                              disabled={selectedVerify === r.duns}
-                              onClick={() => {
-                                setSelectedVerify(r.duns);
-                                applyVerification(r.duns);
-                                setTimeout(() => summaryRef.current?.scrollIntoView({ behavior: 'smooth', block: 'start' }), 50);
-                              }}
-                            >
-                              {selectedVerify === r.duns ? 'Selected' : 'Select'}
-                            </button>
+                            {selectedVerify === r.duns ? (
+                              <button
+                                className={`${styles.verifySelectBtn} ${styles.verifyUnselectBtn}`}
+                                onClick={() => {
+                                  unapplyVerification();
+                                  setTimeout(() => summaryRef.current?.scrollIntoView({ behavior: 'smooth', block: 'start' }), 50);
+                                }}
+                              >
+                                Unselect
+                              </button>
+                            ) : (
+                              <button
+                                className={styles.verifySelectBtn}
+                                disabled={selectedVerify !== null}
+                                onClick={() => {
+                                  setSelectedVerify(r.duns);
+                                  applyVerification(r.duns);
+                                  setTimeout(() => summaryRef.current?.scrollIntoView({ behavior: 'smooth', block: 'start' }), 50);
+                                }}
+                              >
+                                Select
+                              </button>
+                            )}
                           </td>
                         </tr>
                       ))}
