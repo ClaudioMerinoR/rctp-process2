@@ -4,7 +4,7 @@ export default {
   shortName: 'Agence Grateau',
   entityType: 'entity',
   verifiedText: 'Entity Verified',
-  currentStatus: { label: 'Approved! (Renewal Required)' },
+  currentStatus: { label: 'Approved(!) Renewal Required' },
   riskLevel: { label: 'High', icon: 'error_outline', level: 'high' },
 
   embedded: false,
@@ -12,23 +12,23 @@ export default {
   alertBanners: false,
 
   sidebarSteps: [
-    { label: 'Risk Assessment', dot: 'grey', path: 'risk-assessment', subSteps: [
-      { label: 'Risk Assessment 1', dot: 'grey', path: 'risk-assessment/questionnaire' },
-      { label: 'Risk Assessment 2', dot: 'grey', path: 'risk-assessment/questionnaire' },
+    { label: 'Risk Assessment', dot: 'red', path: 'risk-assessment', subSteps: [
+      { label: 'Risk Assessment 1', dot: 'red', path: 'risk-assessment/questionnaire' },
+      { label: 'Risk Assessment 2', dot: 'red', path: 'risk-assessment/questionnaire' },
     ]},
-    { label: 'Due Diligence', dot: 'grey', path: 'due-diligence', subSteps: [
-      { label: 'Internal Due Diligence', dot: 'grey', path: 'due-diligence/internal' },
-      { label: 'External Due Diligence', dot: 'grey' },
+    { label: 'Due Diligence', dot: 'red', path: 'due-diligence', subSteps: [
+      { label: 'Internal Due Diligence', dot: 'red', path: 'due-diligence/internal' },
+      { label: 'External Due Diligence', dot: 'red' },
     ]},
-    { label: 'Integrity Check', dot: 'grey', partner: 'integrity', tooltip: 'Powered by Xapiens', newTag: true, path: 'integrity-check' },
-    { label: 'Enhanced Due Diligence Reports', dot: 'grey', path: 'enhanced-due-diligence' },
+    { label: 'Integrity Check', dot: 'red', partner: 'integrity', tooltip: 'Powered by Xapiens', newTag: true, path: 'integrity-check' },
+    { label: 'Enhanced Due Diligence Reports', dot: 'red', path: 'enhanced-due-diligence' },
     { label: 'UBO', dot: 'amber', partner: 'ubo', tooltip: 'Powered by Duns & Bradstreet', path: 'ubo' },
-    { label: 'Risk Mitigation', dot: 'grey', path: 'risk-mitigation' },
-    { label: 'Approval', dot: 'grey', path: 'approval', subSteps: [
-      { label: 'Approval 1', dot: 'grey' },
-      { label: 'Approval 2', dot: 'grey' },
+    { label: 'Risk Mitigation', dot: 'red', path: 'risk-mitigation' },
+    { label: 'Approval', dot: 'red', path: 'approval', subSteps: [
+      { label: 'Approval 1', dot: 'red' },
+      { label: 'Approval 2', dot: 'red' },
     ]},
-    { label: 'Screening & Monitoring', dot: 'grey', path: 'screening-monitoring' },
+    { label: 'Screening & Monitoring', dot: 'red', path: 'screening-monitoring' },
   ],
   sidebarSections: [
     { label: 'Properties', path: 'properties' },
