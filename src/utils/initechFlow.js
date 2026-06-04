@@ -1,5 +1,5 @@
-let _riskMitigated = false;
-let _approved = false;
+let _riskMitigated = true;
+let _approved = true;
 
 export function getFlow() {
   return { riskMitigated: _riskMitigated, approved: _approved };
