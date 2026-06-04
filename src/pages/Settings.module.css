@@ -208,6 +208,9 @@
   background: var(--neutral-900);
   color: var(--neutral-00);
   font-size: 12px;
+  font-weight: 400;
+  letter-spacing: 0;
+  text-transform: none;
   line-height: 1.4;
   white-space: normal;
   width: 220px;
